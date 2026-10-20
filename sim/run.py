@@ -278,6 +278,131 @@ def clock_si_in():
     return checks, fig
 
 
+def rx_mc():
+    """Monte Carlo of the RX amplifier: 200 copies with toleranced parts in one AC run.
+    (LTspice's own mc() + .step misbehaves on this netlist, so the netlist is generated here.)"""
+    import random
+    rnd = random.Random(20261020)
+    tol = {"Rf1": (10e3, 0.01), "Cf1": (33e-12, 0.05), "Rg1": (2e3, 0.01), "Cg1": (100e-9, 0.10),
+           "R1": (2e3, 0.01), "R3": (2e3, 0.01), "C1": (1e-9, 0.01), "C2": (1e-9, 0.01), "R2": (16e3, 0.01),
+           "Rout": (100, 0.01)}
+    n = 200
+    lines = ["* RX amplifier Monte Carlo: 200 copies, written by sim/run.py (do not edit)",
+             "* tolerances (uniform): R 1 %, band-pass C 1 % C0G, Cf1 5 % C0G, Cg1 10 % X7R",
+             ".include models/OPA167x.lib", "Vin lim 0 AC 1", "Vp vp 0 5", "Vn vn 0 -5"]
+    for i in range(n):
+        v = {k: x * (1 + rnd.uniform(-t, t)) for k, (x, t) in tol.items()}
+        s = f"_{i}"
+        lines += [f"XA{s} lim fb1{s} vp vn s1{s} OPA167x", f"Rf1{s} s1{s} fb1{s} {v['Rf1']:.6g}",
+                  f"Cf1{s} s1{s} fb1{s} {v['Cf1']:.6g}", f"Rg1{s} fb1{s} ng{s} {v['Rg1']:.6g}",
+                  f"Cg1{s} ng{s} 0 {v['Cg1']:.6g}", f"R1{s} s1{s} n2{s} {v['R1']:.6g}",
+                  f"R3{s} n2{s} 0 {v['R3']:.6g}", f"C1{s} n2{s} inv2{s} {v['C1']:.6g}",
+                  f"C2{s} n2{s} out2{s} {v['C2']:.6g}", f"R2{s} inv2{s} out2{s} {v['R2']:.6g}",
+                  f"XB{s} 0 inv2{s} vp vn out2{s} OPA167x", f"Ro{s} out2{s} adc{s} {v['Rout']:.6g}",
+                  f"Ra{s} adc{s} 0 1Meg", f".meas AC g{i} FIND V(adc{s}) AT 40k"]
+    lines += [".ac lin 1 40k 40k", ".end"]
+    cir = HERE / "rx_mc.cir"
+    cir.write_text("\n".join(lines) + "\n")
+    m = parse_meas(run_ltspice(cir))
+    vals = [m[f"g{i}"][0] for i in range(n)]
+    gains = [g for g, _ in vals]
+    phases = [p for _, p in vals]
+    mean = lambda x: sum(x) / len(x)  # noqa: E731
+    sd = lambda x: (sum((a - mean(x)) ** 2 for a in x) / (len(x) - 1)) ** 0.5  # noqa: E731
+    checks = [
+        Check("Mean gain at 40 kHz", mean(gains), "dB", 26, 29),
+        Check("Gain spread, standard deviation", sd(gains), "dB", hi=0.5),
+        Check("Gain spread, max - min", max(gains) - min(gains), "dB", hi=2.0,
+              why="removed by per-element calibration; small keeps the dynamic range equal"),
+        Check("Phase spread, standard deviation", sd(phases), "deg", hi=3.0,
+              why="beam pointing error before calibration; 3 deg is about lambda/120"),
+        Check("Phase spread, max - min", max(phases) - min(phases), "deg", hi=12.0,
+              why="per-element calibration removes it; the brief expected a few degrees with 1 % parts"),
+    ]
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4))
+    a1.hist(gains, bins=25)
+    a1.set_xlabel("gain at 40 kHz (dB)")
+    a1.set_ylabel("channels")
+    a2.hist(phases, bins=25, color="tab:orange")
+    a2.set_xlabel("phase at 40 kHz (deg)")
+    for a in (a1, a2):
+        a.grid(True, alpha=0.3)
+    return checks, fig
+
+
+def rx_overload():
+    m = parse_meas(run_ltspice(HERE / "rx_overload.cir", timeout=1200))
+    amps = [0.12, 1, 5]
+    checks = []
+    for k, a in enumerate(amps):
+        lab = f"echo {a} V (open-circuit at the element)"
+        checks.append(Check(f"{lab}: ADC pin peak", m["adc_pk"][k], "V", hi=5.0, why="inside the ADC's +-5 V range"))
+        checks.append(Check(f"{lab}: recovery to < 50 mV after the echo ends", (m["t_rec"][k] - 0.35e-3) * 1e3, "ms",
+                            hi=1.1, why="the next echo (1.5 ms) must be clean"))
+        checks.append(Check(f"{lab}: later 10 mV echo at the ADC", m["late_pk"][k], "V", 0.15, 0.3,
+                            why="linear gain x22 gives about 0.22 V: no lasting distortion"))
+    d = read_raw(HERE / "rx_overload.raw")
+    t = d["time"]
+    fig, a = plt.subplots(figsize=(9, 4.5))
+    for (i0, i1), amp in zip(steps(t), amps):
+        a.plot([x * 1e3 for x in t[i0:i1]], d["V(adc)"][i0:i1], lw=0.6, label=f"echo {amp} V")
+    a.set_xlabel("time (ms)")
+    a.set_ylabel("ADC pin (V)")
+    a.grid(True, alpha=0.3)
+    a.legend(loc="upper right")
+    return checks, fig
+
+
+def tx_cw():
+    m = parse_meas(run_ltspice(HERE / "tx_cw.cir", timeout=1200))
+    v = lambda k: m[k][0]  # noqa: E731
+    i_el = v("i_vdrv")
+    checks = [
+        Check("VDRV current per element (CW, 40 kHz)", i_el * 1e3, "mA", hi=2.0,
+              why="64 elements: power budget assumes about 1.3 mA each (85 mA total)"),
+        Check("VDRV current, all 64 elements in CW", i_el * 64 * 1e3, "mA", hi=900,
+              why="LM2731X boost limit about 0.9 A at 15 V from 12 V"),
+        Check("Power in the 47 R drive resistor", v("p_rdrv") * 1e3, "mW", hi=50, why="0603: 100 mW"),
+        Check("Power in the 4.7 k limiter resistor", v("p_rlim") * 1e3, "mW", hi=50, why="0603: 100 mW"),
+        Check("Power in the 33 k bleed resistor", v("p_bleed") * 1e3, "mW", hi=50),
+        Check("Acoustic power into the element (Rm)", v("p_elem") * 1e3, "mW",
+              why="what actually radiates (model)"),
+        Check("Average clamp diode current", v("i_clamp") * 1e3, "mA", hi=50, why="BAV99 200 mA continuous"),
+        Check("Element voltage, peak to peak", v("xd_pp"), "V", 13, 16),
+    ]
+    d = read_raw(HERE / "tx_cw.raw")
+    t = [x * 1e3 for x in d["time"]]
+    fig, a = plt.subplots(figsize=(9, 4))
+    a.plot(t, d["V(xd)"], lw=0.7, label="element XD")
+    a.plot(t, [x * 100 for x in d["I(Rdrv)"]], lw=0.7, label="drive current x100 (A)")
+    a.set_xlim(9.8, 9.9)
+    a.set_xlabel("time (ms)")
+    a.grid(True, alpha=0.3)
+    a.legend(loc="upper right")
+    return checks, fig
+
+
+def mic_supply():
+    m = parse_meas(run_ltspice(HERE / "mic_supply.cir"))
+    db = lambda k: m[k][0][0]  # noqa: E731
+    checks = [
+        Check("Peaking of the bead + 10 uF resonance", m["h_pk"][0][0], "dB", hi=3.0,
+              why="no noise gain in the mics' ultrasonic band"),
+        Check("Resonance frequency", m["f_pk"][0] / 1e3, "kHz"),
+        Check("Attenuation at the PDM clock (3.072 MHz)", db("h_3m"), "dB", hi=-40),
+        Check("Attenuation at 100 MHz", db("h_100m"), "dB", hi=-40),
+        Check("Transfer at 40 kHz (in-band; the mic's PSRR handles it)", db("h_40k"), "dB"),
+    ]
+    d = read_raw(HERE / "mic_supply.raw")
+    f = [abs(x) for x in d["frequency"]]
+    fig, a = plt.subplots(figsize=(9, 4))
+    a.semilogx(f, [20 * math.log10(abs(x)) for x in d["V(out)"]])
+    a.set_xlabel("frequency (Hz)")
+    a.set_ylabel("+3V3 noise -> 3V3_MIC (dB)")
+    a.grid(True, which="both", alpha=0.3)
+    return checks, fig
+
+
 SIMS = {
     "rx_chain": dict(fn=rx_chain, files=["rx_chain.cir"],
                      title="RX chain: gain, band and ADC filter",
@@ -293,6 +418,23 @@ SIMS = {
                      what="8 cycles at 40 kHz from a 15 V UCC27524 half through 47 Ω and the crossed diodes into the "
                           "element, then the same element listens. Run for element Q = 20 and 40 (the datasheet's "
                           "1.8 ms response time lies between)."),
+    "rx_mc": dict(fn=rx_mc, files=["rx_mc.cir"],
+                  title="RX chain: channel-to-channel spread (Monte Carlo)",
+                  what="200 copies of the amplifier with 1 % resistors, 1 % C0G band-pass caps, 5 % Cf1 and 10 % "
+                       "X7R coupling cap, uniform distribution: gain and phase at 40 kHz. Tells how much per-element "
+                       "calibration has to remove."),
+    "rx_overload": dict(fn=rx_overload, files=["rx_overload.cir"],
+                        title="RX overload: strong near echo, recovery",
+                        what="A 10-cycle echo of 0.12 V (1 m), 1 V and 5 V open-circuit at the element, then a 10 mV "
+                             "echo 1.4 ms later: clamp, saturation, recovery and whether the later echo is clean."),
+    "tx_cw": dict(fn=tx_cw, files=["tx_cw.cir"],
+                  title="TX continuous wave: current and dissipation",
+                  what="One element driven continuously at 40 kHz from 15 V (split mode / Doppler), steady state: "
+                       "supply current per element, power in each resistor and the clamp diodes."),
+    "mic_supply": dict(fn=mic_supply, files=["mic_supply.cir"],
+                       title="3V3_MIC ferrite filter",
+                       what="+3V3 -> 220 R/100 MHz ferrite -> 10 uF + 8 x 100 nF: noise transfer, attenuation at "
+                            "the PDM clock and whether the bead/cap resonance peaks."),
     "clock_si": dict(fn=clock_si, files=["clock_si.cir"],
                      title="Clock fan-out: buffer to 4 loads",
                      what="74LVC2G34 output through the series resistor into a 60 Ω trace with four 5 pF loads every "

@@ -1,0 +1,26 @@
+* 3V3_MIC filter: +3V3 -> FB1 (220 R at 100 MHz, 0603) -> 10 uF + 8 x 100 nF C0G at the mics.
+* Ferrite model (typical 220 R/100 MHz 0603 bead): Rdc 0.25 R in series with (L 0.4 uH || Rp 260 R
+* || Cp 0.6 pF): inductive below about 10 MHz, resistive near 100 MHz.
+* Transfer from noise on +3V3 to 3V3_MIC, and the LC resonance of bead + 10 uF (does it peak?).
+Vn in 0 DC 3.3 AC 1
+Rdc in a 0.25
+Lb a out 0.4u
+Rp a out 260
+Cp a out 0.6p
+* 10 uF X5R 0805 at 3.3 V bias (about 6 uF effective), ESR 5 mR, ESL 0.6 nH
+C10 out c10 6u
+Resr c10 e10 5m
+Lesl e10 0 0.6n
+* 8 x 100 nF C0G with ESL each
+C1 out c1 0.8u
+L1 c1 0 0.15n
+* mic load: 8 x 0.8 mA at 3.3 V
+Rload out 0 515
+.ac dec 100 1k 300Meg
+.meas AC h_40k  FIND V(out) AT 40k
+.meas AC h_100k FIND V(out) AT 100k
+.meas AC h_3M   FIND V(out) AT 3.072Meg
+.meas AC h_100M FIND V(out) AT 100Meg
+.meas AC h_pk   MAX mag(V(out)) FROM 1k TO 1Meg
+.meas AC f_pk   WHEN mag(V(out))=h_pk
+.end

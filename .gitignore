@@ -19,3 +19,4 @@ sim/models/dl/
 kicad/.history/
 *.kicad_sch.bak
 sim/tx_burst_q*.cir
+sim/rx_mc.cir
