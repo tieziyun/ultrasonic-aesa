@@ -1,0 +1,963 @@
+(kicad_sch
+	(version 20260101)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "99900665-fd48-56d4-adc4-afa5f63f78bb")
+	(paper "A3")
+	(title_block
+		(title "Clock buffers: 7 x 74LVC2G34 at the FPGA headers")
+		(date "2026-10-20")
+		(rev "2")
+		(company "Hybrid 8x8 ultrasonic AESA")
+	)
+	(lib_symbols)
+	(text "Clock buffers. Each FPGA clock enters one or two clk_buf cells; every output drives at most 4 loads through 33 R."
+		(exclude_from_sim no)
+		(at 38.10 30.48 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "85be33e4-f5c6-5a69-a023-7ba03a56d360")
+	)
+	(wire
+		(pts
+			(xy 50.80 53.34) (xy 48.26 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9874a394-0034-58e9-80cf-241f3ba288de")
+	)
+	(global_label "TX_SCK"
+		(shape passive)
+		(at 48.26 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cbd0a487-ce1e-517f-8fe2-9977883f6082")
+	)
+	(wire
+		(pts
+			(xy 76.20 53.34) (xy 78.74 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bfd7bb76-94a0-506e-adf8-ae1de448617e")
+	)
+	(global_label "TX_SCK_A"
+		(shape passive)
+		(at 78.74 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7b1d749f-b0c1-5d59-8dfe-5edc6789904d")
+	)
+	(wire
+		(pts
+			(xy 76.20 55.88) (xy 78.74 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4ab70ff-bf95-522c-a292-29fe3abcdc92")
+	)
+	(global_label "TX_SCK_B"
+		(shape passive)
+		(at 78.74 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "184e9235-1861-51d3-b365-7d0ffcb8edd4")
+	)
+	(sheet
+		(at 50.80 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "5230e868-7aea-593a-84d6-00edbc304896")
+		(property "Sheetname" "CLKB1"
+			(at 50.80 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 50.80 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 50.80 53.34 180)
+			(uuid "df28001a-2dbf-573e-bdba-6b0dc7bb717b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 76.20 53.34 0)
+			(uuid "230b1631-3eb5-51fc-ae3b-534fab879a2a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 76.20 55.88 0)
+			(uuid "e664c869-94c4-50d2-b3bb-b20d0e755f71")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "4")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 53.34) (xy 139.70 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7245d7d-5992-5ea4-a072-f095a1daaac9")
+	)
+	(global_label "TX_SCK"
+		(shape passive)
+		(at 139.70 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0340f909-c92f-59cc-b71b-a3bfb4844865")
+	)
+	(wire
+		(pts
+			(xy 167.64 53.34) (xy 170.18 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ccfd2fb-698c-5438-81a9-c104c0c148e4")
+	)
+	(global_label "TX_SCK_C"
+		(shape passive)
+		(at 170.18 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "73196509-5b38-5a88-9f94-f7db7f4f28d4")
+	)
+	(wire
+		(pts
+			(xy 167.64 55.88) (xy 170.18 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a51fb391-67a9-58b3-8ca9-e5aca6a5e600")
+	)
+	(global_label "TX_SCK_D"
+		(shape passive)
+		(at 170.18 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e86bf73b-7b90-5c4b-9d11-10b38a196651")
+	)
+	(sheet
+		(at 142.24 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "cbec3fdd-0e93-5975-8926-76ff9cc40ba5")
+		(property "Sheetname" "CLKB2"
+			(at 142.24 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 142.24 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 142.24 53.34 180)
+			(uuid "f08c6c2e-dcbf-5671-ad82-ccc8ac55161d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 167.64 53.34 0)
+			(uuid "e5f1764b-a7dc-587a-8b37-2df06639a24c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 167.64 55.88 0)
+			(uuid "a61be92f-8f72-5468-8252-c4f3db798ad4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "5")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 53.34) (xy 231.14 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9dd2bf8a-d9cf-57a1-8da1-4bbec177c59c")
+	)
+	(global_label "TX_LATCH"
+		(shape passive)
+		(at 231.14 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a2a28227-c617-55cf-b684-edf0f93406bf")
+	)
+	(wire
+		(pts
+			(xy 259.08 53.34) (xy 261.62 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c1570a2-7fd3-5b86-93fb-4d6e1975ecc5")
+	)
+	(global_label "TX_LATCH_A"
+		(shape passive)
+		(at 261.62 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "742a2496-f7e2-55b6-95f6-514911c4b6eb")
+	)
+	(wire
+		(pts
+			(xy 259.08 55.88) (xy 261.62 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c35a6e00-dac1-5628-bddc-d2ff54e06d44")
+	)
+	(global_label "TX_LATCH_B"
+		(shape passive)
+		(at 261.62 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9e8371f2-fbcd-5e02-b63c-8ab7fd019574")
+	)
+	(sheet
+		(at 233.68 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "fb2e632a-90ec-5e49-82db-68c1edc4934c")
+		(property "Sheetname" "CLKB3"
+			(at 233.68 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 233.68 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 233.68 53.34 180)
+			(uuid "c4ab9807-97cd-5e26-9946-3dde47e8fab1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 259.08 53.34 0)
+			(uuid "c7dcc17e-e1e0-5288-afcc-dfb0c8bfe8a1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 259.08 55.88 0)
+			(uuid "85d7386e-fbc3-56c9-8fb1-3e47b3f66b07")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "6")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 53.34) (xy 322.58 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2dd934f1-12d5-5aee-9544-be0ce4ed548e")
+	)
+	(global_label "TX_LATCH"
+		(shape passive)
+		(at 322.58 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "71670bdd-300c-51a1-a821-b86ccccb55ab")
+	)
+	(wire
+		(pts
+			(xy 350.52 53.34) (xy 353.06 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6398eca4-9e65-55f5-a383-e779266cb1a2")
+	)
+	(global_label "TX_LATCH_C"
+		(shape passive)
+		(at 353.06 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "258a19c3-5e99-5f76-b21a-1009548bbd1b")
+	)
+	(wire
+		(pts
+			(xy 350.52 55.88) (xy 353.06 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "905ff32c-e784-54fa-a364-b94a55a26cdc")
+	)
+	(global_label "TX_LATCH_D"
+		(shape passive)
+		(at 353.06 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "52670be8-16e9-5a3d-a24b-68c32bd14feb")
+	)
+	(sheet
+		(at 325.12 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7475653e-ef9a-503d-a3e3-34cc8d0363ea")
+		(property "Sheetname" "CLKB4"
+			(at 325.12 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 325.12 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 325.12 53.34 180)
+			(uuid "2d792d2c-6dcf-59f2-b271-3e13ce7eb9cb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 350.52 53.34 0)
+			(uuid "48a8ca15-f043-505f-90ed-d7abb05bfa44")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 350.52 55.88 0)
+			(uuid "490d56ac-eb32-5817-b223-19cb71e463e3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "7")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.80 86.36) (xy 48.26 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0ea69d87-9814-5572-a0df-150f1eb6692d")
+	)
+	(global_label "ADC_SCLK"
+		(shape passive)
+		(at 48.26 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "96e0e3db-cdfa-5068-8613-cd2a6c2b66b6")
+	)
+	(wire
+		(pts
+			(xy 76.20 86.36) (xy 78.74 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a68afb6-1a83-58bf-8cc0-6171a30d7538")
+	)
+	(global_label "ADC_SCLK_A"
+		(shape passive)
+		(at 78.74 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6337c33b-88c4-5b40-ac19-c0b7380b288c")
+	)
+	(wire
+		(pts
+			(xy 76.20 88.90) (xy 78.74 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf3230cf-446d-51e7-8302-65c53aff005c")
+	)
+	(global_label "ADC_SCLK_B"
+		(shape passive)
+		(at 78.74 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c91cb755-73d0-55f2-836a-52b94493a27e")
+	)
+	(sheet
+		(at 50.80 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bfb4d23b-326d-5245-98c1-660b7bf93826")
+		(property "Sheetname" "CLKB5"
+			(at 50.80 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 50.80 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 50.80 86.36 180)
+			(uuid "45f4a955-b92f-5bdb-af77-239a712f2fe8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 76.20 86.36 0)
+			(uuid "41d6d334-1fc1-5212-ba9c-552d0225996f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 76.20 88.90 0)
+			(uuid "8fb07a53-f4b0-544f-bb8d-f71ed7d735aa")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "8")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 86.36) (xy 139.70 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4c15bdf-5a1c-5c25-8ba8-429e4f604c94")
+	)
+	(global_label "ADC_CONVST"
+		(shape passive)
+		(at 139.70 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d2987743-623f-509f-afce-f63e721ef841")
+	)
+	(wire
+		(pts
+			(xy 167.64 86.36) (xy 170.18 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e0d8b856-3c07-5e47-8f45-f92af2cccba8")
+	)
+	(global_label "ADC_CONVST_A"
+		(shape passive)
+		(at 170.18 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "47901e7f-44fb-5a33-9cd9-9599e8f2e577")
+	)
+	(wire
+		(pts
+			(xy 167.64 88.90) (xy 170.18 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "926338c9-1189-5acd-b7d5-29e870948562")
+	)
+	(global_label "ADC_CONVST_B"
+		(shape passive)
+		(at 170.18 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ab4baa92-d9a0-5f8b-9aa1-60878b775bda")
+	)
+	(sheet
+		(at 142.24 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "1f58d0ae-9950-5c88-a15e-b4f09c69d262")
+		(property "Sheetname" "CLKB6"
+			(at 142.24 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 142.24 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 142.24 86.36 180)
+			(uuid "9c910343-cb1d-524c-a482-3cad21e13d14")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 167.64 86.36 0)
+			(uuid "07801893-3ff5-5e51-84b7-12902772b3c8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 167.64 88.90 0)
+			(uuid "977d2266-5829-590a-856c-3e40def8613c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "9")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 86.36) (xy 231.14 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ace9793-6dbe-5a7d-83d7-09835588246e")
+	)
+	(global_label "MIC_CLK_IN"
+		(shape passive)
+		(at 231.14 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "29aca97c-1ee6-5a9e-b43d-53e1741abe72")
+	)
+	(wire
+		(pts
+			(xy 259.08 86.36) (xy 261.62 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a585c98-0073-50e1-978b-fb31da41a8b5")
+	)
+	(global_label "MIC_CLK_A"
+		(shape passive)
+		(at 261.62 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "747f6c84-4ba1-5aa3-8cee-2fbc3b2cf77f")
+	)
+	(wire
+		(pts
+			(xy 259.08 88.90) (xy 261.62 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "556e7a7c-80b6-51f7-8186-4d25594df88a")
+	)
+	(global_label "MIC_CLK_B"
+		(shape passive)
+		(at 261.62 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "216a17d1-6bb4-5c10-bfc1-3c61b4d88b65")
+	)
+	(sheet
+		(at 233.68 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "0b759d12-2dad-5a70-92c9-2d6ee50bd478")
+		(property "Sheetname" "CLKB7"
+			(at 233.68 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 233.68 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 233.68 86.36 180)
+			(uuid "ce9450ff-fdfd-59d5-bf3a-d1bc9e3e3cd1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 259.08 86.36 0)
+			(uuid "ca138b3b-4ed6-561a-a2df-f6224679face")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 259.08 88.90 0)
+			(uuid "5a6a57e8-80cc-5a7b-b121-f4e6ac10c32d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "10")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

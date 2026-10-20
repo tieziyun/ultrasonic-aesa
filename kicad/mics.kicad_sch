@@ -1,0 +1,1096 @@
+(kicad_sch
+	(version 20260101)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "f75281b6-6f2b-58f0-809a-fe3852e25b08")
+	(paper "A3")
+	(title_block
+		(title "MEMS microphones: 8 x SPH0641LU4H-1")
+		(date "2026-10-20")
+		(rev "2")
+		(company "Hybrid 8x8 ultrasonic AESA")
+	)
+	(lib_symbols)
+	(text "MEMS mics. Mics 2k-1 and 2k share MIC_DATAk-1 (SEL high on the odd one). MIC_CLK_A feeds mics 1-4, MIC_CLK_B mics 5-8."
+		(exclude_from_sim no)
+		(at 38.10 30.48 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "a94ebb8c-d407-51e5-9b81-cdf81d711e84")
+	)
+	(wire
+		(pts
+			(xy 50.80 53.34) (xy 48.26 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84b0540e-a9e4-5ce1-9fe2-a455fa6a38dc")
+	)
+	(global_label "MIC_CLK_A"
+		(shape passive)
+		(at 48.26 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "da4d2ffe-c2b5-5186-9217-86e0326f4903")
+	)
+	(wire
+		(pts
+			(xy 50.80 55.88) (xy 48.26 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "54614e7e-8f68-5ab1-accf-f247f3330f37")
+	)
+	(global_label "3V3_MIC"
+		(shape passive)
+		(at 48.26 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6e8d8de2-1c1a-5e6c-8565-6f43cccb8b56")
+	)
+	(wire
+		(pts
+			(xy 76.20 53.34) (xy 78.74 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5f6b59c4-b177-560b-bedf-dd5ceba48502")
+	)
+	(global_label "MIC_DATA0"
+		(shape passive)
+		(at 78.74 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6c1a7a8f-dbc8-507a-b209-e6adddad0f44")
+	)
+	(sheet
+		(at 50.80 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "f6a69db3-4d89-5f39-9a7d-c6d7bf9c9882")
+		(property "Sheetname" "MIC1"
+			(at 50.80 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 50.80 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 50.80 53.34 180)
+			(uuid "01de6d29-5178-50c2-9e89-402a239581a7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 50.80 55.88 180)
+			(uuid "6f9324b6-7700-567b-b3c8-eb3cbd83edd8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 76.20 53.34 0)
+			(uuid "bfee7448-c982-588d-bfff-510eea32bbf6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "107")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 53.34) (xy 139.70 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "710f0e01-ad52-58e6-a290-06d19f622e8f")
+	)
+	(global_label "MIC_CLK_A"
+		(shape passive)
+		(at 139.70 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a286f96e-a0e4-54cd-8806-75cbe28f15ee")
+	)
+	(wire
+		(pts
+			(xy 142.24 55.88) (xy 139.70 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70a1dac0-e447-5864-86b4-e2c11b392b81")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 139.70 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "86ef65e0-13ea-5cb5-a72c-12b2358a164c")
+	)
+	(wire
+		(pts
+			(xy 167.64 53.34) (xy 170.18 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad616b41-6ed8-5fb5-8dfc-9f7b5644dcd0")
+	)
+	(global_label "MIC_DATA0"
+		(shape passive)
+		(at 170.18 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f922163a-9b4c-5b52-b836-dc9ac7ec1612")
+	)
+	(sheet
+		(at 142.24 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "395097ca-6302-5dd3-940c-8146b36de14b")
+		(property "Sheetname" "MIC2"
+			(at 142.24 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 142.24 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 142.24 53.34 180)
+			(uuid "cdda1e4e-9200-5c8e-80d1-cb977cd767cf")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 142.24 55.88 180)
+			(uuid "212d3da5-63f0-58b8-9d99-b830b581564e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 167.64 53.34 0)
+			(uuid "44175b2c-4aa4-5f85-bab7-eecb9927f8a5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "108")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 53.34) (xy 231.14 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "039e02f3-14a4-5c8f-bdeb-10bd4c9c05b1")
+	)
+	(global_label "MIC_CLK_A"
+		(shape passive)
+		(at 231.14 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bdcf9c1d-53b4-5312-9b50-6eb59477beed")
+	)
+	(wire
+		(pts
+			(xy 233.68 55.88) (xy 231.14 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11c0a54f-46f2-51a1-aa7f-c022398b4bc2")
+	)
+	(global_label "3V3_MIC"
+		(shape passive)
+		(at 231.14 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "abf08d21-0df7-5001-8213-3d6064ec9bee")
+	)
+	(wire
+		(pts
+			(xy 259.08 53.34) (xy 261.62 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d3af5e7d-2c42-57e8-9c64-29a891193259")
+	)
+	(global_label "MIC_DATA1"
+		(shape passive)
+		(at 261.62 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "88b9cf70-1507-53d9-8552-4d4fa5d82f47")
+	)
+	(sheet
+		(at 233.68 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e73d4880-f754-54ef-8e5c-40dc466baec4")
+		(property "Sheetname" "MIC3"
+			(at 233.68 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 233.68 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 233.68 53.34 180)
+			(uuid "f9b4ad68-4e3a-5f8b-978c-40ac29ef94ad")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 233.68 55.88 180)
+			(uuid "5335dab7-4b00-5a6c-b71c-ccd50e1480a3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 259.08 53.34 0)
+			(uuid "8f8c6098-868d-5937-b95e-df6839dd1015")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "109")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 53.34) (xy 322.58 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "161ed841-6115-5dd9-8cce-2fb38bba279f")
+	)
+	(global_label "MIC_CLK_A"
+		(shape passive)
+		(at 322.58 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6a86f019-3349-529c-bda4-9dd2a445c404")
+	)
+	(wire
+		(pts
+			(xy 325.12 55.88) (xy 322.58 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f5360ae-6254-5b97-8f88-9366a72e89b9")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 322.58 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e1356362-701b-52d9-a777-c6e74721e3c0")
+	)
+	(wire
+		(pts
+			(xy 350.52 53.34) (xy 353.06 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0488f922-e6c4-5331-b1ed-a3ea9619396d")
+	)
+	(global_label "MIC_DATA1"
+		(shape passive)
+		(at 353.06 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "03ff5c35-a211-5e91-85b4-3e05006c37ec")
+	)
+	(sheet
+		(at 325.12 50.80)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c2436e90-62c7-5b8d-9181-441549461080")
+		(property "Sheetname" "MIC4"
+			(at 325.12 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 325.12 59.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 325.12 53.34 180)
+			(uuid "bdc2ffff-98cc-58cb-8d76-4c74c46cdf7d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 325.12 55.88 180)
+			(uuid "db93c477-d7d2-57ce-9127-8e11d6dafcfc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 350.52 53.34 0)
+			(uuid "7ab294b2-8c67-56b9-95b2-05d9b50138b7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "110")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.80 86.36) (xy 48.26 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83d0960d-a092-5dbd-b170-4c46a8783253")
+	)
+	(global_label "MIC_CLK_B"
+		(shape passive)
+		(at 48.26 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "15eb87b1-983e-5b55-96e2-7553fac3c5cf")
+	)
+	(wire
+		(pts
+			(xy 50.80 88.90) (xy 48.26 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f21dce7d-e9d0-5adb-80ce-b41ab9658fdb")
+	)
+	(global_label "3V3_MIC"
+		(shape passive)
+		(at 48.26 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ba704801-e97e-5738-8b03-6a8c5d0d460e")
+	)
+	(wire
+		(pts
+			(xy 76.20 86.36) (xy 78.74 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7af630e2-890f-5eca-ba1e-a4e8b1f6dea5")
+	)
+	(global_label "MIC_DATA2"
+		(shape passive)
+		(at 78.74 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6c9c23f3-220d-525d-aa56-692374e5ed15")
+	)
+	(sheet
+		(at 50.80 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "1d863b58-99cb-567c-9be2-bd168f33101e")
+		(property "Sheetname" "MIC5"
+			(at 50.80 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 50.80 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 50.80 86.36 180)
+			(uuid "8627ba61-866d-544a-a075-00b21b2594cc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 50.80 88.90 180)
+			(uuid "787f6d61-49af-52f5-ba78-21bba2894090")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 76.20 86.36 0)
+			(uuid "09f16e1c-570d-5b70-9791-3dd2b34c053e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "111")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 86.36) (xy 139.70 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2335ec17-a7b8-5c09-b2c1-34061dae2b71")
+	)
+	(global_label "MIC_CLK_B"
+		(shape passive)
+		(at 139.70 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "10c05824-9461-598f-8a48-270f3d41bc14")
+	)
+	(wire
+		(pts
+			(xy 142.24 88.90) (xy 139.70 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f83594d-746a-5d50-9636-0b15ff3d4cce")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 139.70 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8bb2da38-aedf-5157-b19d-31b9765652af")
+	)
+	(wire
+		(pts
+			(xy 167.64 86.36) (xy 170.18 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd886fd5-6a13-5180-83c3-c959aceb2015")
+	)
+	(global_label "MIC_DATA2"
+		(shape passive)
+		(at 170.18 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8c26d8c5-84a9-555a-b2ef-dd7f9572e479")
+	)
+	(sheet
+		(at 142.24 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "64bfbe89-eb48-5a98-976a-08c299b8a797")
+		(property "Sheetname" "MIC6"
+			(at 142.24 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 142.24 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 142.24 86.36 180)
+			(uuid "91cb3501-aca2-542a-b96c-b8d8bccd88d4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 142.24 88.90 180)
+			(uuid "70e20478-ad08-5802-b20b-82bd43246645")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 167.64 86.36 0)
+			(uuid "116a02b6-0d08-5cd4-9b76-a15995a82b91")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "112")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 86.36) (xy 231.14 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b87ede15-381a-5fdf-82bd-c2e2532398c9")
+	)
+	(global_label "MIC_CLK_B"
+		(shape passive)
+		(at 231.14 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6f4cf29d-7c21-5740-8fac-76538739cd6c")
+	)
+	(wire
+		(pts
+			(xy 233.68 88.90) (xy 231.14 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "edd95df9-71f0-5091-96d9-ee24b2da3938")
+	)
+	(global_label "3V3_MIC"
+		(shape passive)
+		(at 231.14 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3e167f0a-fdec-5d56-8e63-f4bd2c078976")
+	)
+	(wire
+		(pts
+			(xy 259.08 86.36) (xy 261.62 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "697a9f80-5244-59ad-ab65-03c6515b5a2b")
+	)
+	(global_label "MIC_DATA3"
+		(shape passive)
+		(at 261.62 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f73bbad9-a3b2-587f-b372-8556fa542aeb")
+	)
+	(sheet
+		(at 233.68 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "1bfdf1e7-8955-509b-88db-9389b4603e90")
+		(property "Sheetname" "MIC7"
+			(at 233.68 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 233.68 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 233.68 86.36 180)
+			(uuid "1a3b7ef8-e745-55cd-ac41-4e7f327f4ee3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 233.68 88.90 180)
+			(uuid "832e3090-7499-537d-80da-8a760ef3baf1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 259.08 86.36 0)
+			(uuid "29939779-87a9-57f9-9d68-6e1d6c387657")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "113")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 86.36) (xy 322.58 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "502c0ee0-032d-5bbd-9605-5667a0c4ece6")
+	)
+	(global_label "MIC_CLK_B"
+		(shape passive)
+		(at 322.58 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c95ad95d-3a61-58ff-bc42-9b16b8239862")
+	)
+	(wire
+		(pts
+			(xy 325.12 88.90) (xy 322.58 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "695d751d-8be0-5e43-b3cb-fa5b893f7c44")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 322.58 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1a38b943-66ff-5a78-9a10-0a9d9d1bf889")
+	)
+	(wire
+		(pts
+			(xy 350.52 86.36) (xy 353.06 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37172c6c-3e5b-5ace-9e8e-196c9deed995")
+	)
+	(global_label "MIC_DATA3"
+		(shape passive)
+		(at 353.06 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fed24442-83dc-556e-b963-4861d1da50e7")
+	)
+	(sheet
+		(at 325.12 83.82)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "b5600e30-6dc5-51ef-b749-a57e8a79ece5")
+		(property "Sheetname" "MIC8"
+			(at 325.12 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mic.kicad_sch"
+			(at 325.12 92.03 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "CLK" input
+			(at 325.12 86.36 180)
+			(uuid "859f4e4a-fab8-5a4a-8201-0b634504c868")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SEL" input
+			(at 325.12 88.90 180)
+			(uuid "cea91302-d6b1-5c3b-aaca-5af1fd223b02")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" output
+			(at 350.52 86.36 0)
+			(uuid "7657eb23-1fd1-5338-8406-d7e6a45115ed")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
+					(page "114")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

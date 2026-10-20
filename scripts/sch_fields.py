@@ -7,6 +7,8 @@ justification change.
 
   python scripts/sch_fields.py kicad/channel.kicad_sch [--vertical] [REF=dx,dy,dx2,dy2 ...]
 
+--only changes just the parts given as overrides (for hand-placed sheets).
+
 --vertical writes the fields of upright two-pin parts as vertical text beside the body
 (reference left, value right), for dense sheets where parts sit about 10 mm apart.
 
@@ -18,6 +20,7 @@ import re
 import sys
 
 VERTICAL = False
+ONLY = False  # --only: move just the parts named in the overrides
 TWO_PIN = ("R", "C", "C_Polarized", "L", "Polyfuse")
 
 
@@ -123,6 +126,8 @@ def main(path, overrides):
         x, y, rot = (float(v) for v in re.search(r"\n\t\t\(at ([\d.\-]+) ([\d.\-]+) ([\d.\-]+)\)", text).groups())
         unit = int(re.search(r"\(unit (\d+)\)", text).group(1))
         ref = re.search(r'\(property "Reference" "([^"]+)"', text).group(1)
+        if ONLY and ref not in overrides:
+            continue  # leave hand-placed fields alone
         ref_rule, val_rule = rule(lib_id, int(rot), unit)
         # Field angles are stored relative to the symbol: undo its rotation so text reads horizontally.
         angle = int(rot) % 180
@@ -145,6 +150,9 @@ if __name__ == "__main__":
     if "--vertical" in sys.argv:
         sys.argv.remove("--vertical")
         VERTICAL = True
+    if "--only" in sys.argv:
+        sys.argv.remove("--only")
+        ONLY = True
     for arg in sys.argv[2:]:
         r, v = arg.split("=")
         ov[r] = tuple(float(t) for t in v.split(","))

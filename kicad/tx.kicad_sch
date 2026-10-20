@@ -1,0 +1,5048 @@
+(kicad_sch
+	(version 20260101)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "6510657f-51cc-5fb5-b6d5-e9a36a7c753c")
+	(paper "A3")
+	(title_block
+		(title "TX drive: 16 shift-register/driver groups, 4 enable buffers")
+		(date "2026-10-20")
+		(rev "2")
+		(company "Hybrid 8x8 ultrasonic AESA")
+	)
+	(lib_symbols)
+	(text "TX drive. The FPGA streams 16 serial lines (TX_SDI0-15) into 16 tx_group cells; each drives 4 elements (DRV). TX_EN_FPGA reaches the drivers through 4 en_buf cells."
+		(exclude_from_sim no)
+		(at 38.10 30.48 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "ce308bb2-bea6-56c6-a4a8-7406cab305ca")
+	)
+	(wire
+		(pts
+			(xy 50.80 53.34) (xy 48.26 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61539ac6-7860-59ce-9000-54874c6d51f0")
+	)
+	(global_label "TX_SDI0"
+		(shape passive)
+		(at 48.26 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b15c8d1e-9aaa-5690-b5da-e14ba68d5107")
+	)
+	(wire
+		(pts
+			(xy 50.80 55.88) (xy 48.26 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6bf621f1-af86-5394-84cf-cacbc8c88bba")
+	)
+	(global_label "TX_SCK_A"
+		(shape passive)
+		(at 48.26 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "47ed1fd0-ea3d-5eeb-9d24-230f3bc57df9")
+	)
+	(wire
+		(pts
+			(xy 50.80 58.42) (xy 48.26 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0ae1e91-748c-5e15-a400-8de62f39d57b")
+	)
+	(global_label "TX_LATCH_A"
+		(shape passive)
+		(at 48.26 58.42 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "88834595-a54e-5f97-b112-100726899196")
+	)
+	(wire
+		(pts
+			(xy 50.80 60.96) (xy 48.26 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "860e5ba3-e81c-5bb1-90c7-98b204f88979")
+	)
+	(global_label "TX_EN1"
+		(shape passive)
+		(at 48.26 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e5dba41e-aa77-55e6-bc60-d386a4888348")
+	)
+	(wire
+		(pts
+			(xy 76.20 53.34) (xy 78.74 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "28339189-198e-5b6e-81c4-e5b2386c2a86")
+	)
+	(global_label "DRV1"
+		(shape passive)
+		(at 78.74 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0539b9e3-fd11-56a1-a46c-65dc0574d858")
+	)
+	(wire
+		(pts
+			(xy 76.20 55.88) (xy 78.74 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4c828bf-ff77-5719-9dca-d2492012e6ef")
+	)
+	(global_label "DRV2"
+		(shape passive)
+		(at 78.74 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7c6d7e36-366d-5221-a8d1-7677c1e13eb7")
+	)
+	(wire
+		(pts
+			(xy 76.20 58.42) (xy 78.74 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3026a993-57a3-5ff4-9fa2-3b6f4351d467")
+	)
+	(global_label "DRV3"
+		(shape passive)
+		(at 78.74 58.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "12026569-3699-57f9-bc65-1dd3ee716e7b")
+	)
+	(wire
+		(pts
+			(xy 76.20 60.96) (xy 78.74 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bd54c27-b704-528f-9f37-9e9c89da7236")
+	)
+	(global_label "DRV4"
+		(shape passive)
+		(at 78.74 60.96 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "abbdbe40-9ca9-5ccc-a08e-8642c7fb5e84")
+	)
+	(sheet
+		(at 50.80 50.80)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "399ce1ef-e71c-50a6-8783-d10bab65c8e7")
+		(property "Sheetname" "TXG01"
+			(at 50.80 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 50.80 64.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 50.80 53.34 180)
+			(uuid "6edc91d0-e8f5-572b-96ec-09a0dddf8fcc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 50.80 55.88 180)
+			(uuid "61d92292-5e08-5144-a898-94787ed209ce")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 50.80 58.42 180)
+			(uuid "fe789928-a057-50a4-be32-2f061bbe8785")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 50.80 60.96 180)
+			(uuid "9bdc29b1-7c50-5a9d-8c3d-da4966dce4fe")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 76.20 53.34 0)
+			(uuid "600f79a2-bbb3-56db-ac29-a23b4419ae9d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 76.20 55.88 0)
+			(uuid "f7a9790e-d387-5751-8545-74dce5af2847")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 76.20 58.42 0)
+			(uuid "c1db7d12-4575-5a21-b4e8-4112b93babe9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 76.20 60.96 0)
+			(uuid "37d3adb4-dde3-5761-9935-1ce419125231")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "12")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 53.34) (xy 139.70 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c51227b-4391-5cec-ba4b-cab5ee03dba2")
+	)
+	(global_label "TX_SDI1"
+		(shape passive)
+		(at 139.70 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "99bd7965-28d9-5b96-8c47-13331a7ecc08")
+	)
+	(wire
+		(pts
+			(xy 142.24 55.88) (xy 139.70 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c21f44f5-15b7-52c2-b257-3a8d1391d861")
+	)
+	(global_label "TX_SCK_A"
+		(shape passive)
+		(at 139.70 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "48533990-593b-520c-af71-b7527de4fd99")
+	)
+	(wire
+		(pts
+			(xy 142.24 58.42) (xy 139.70 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a8ffea6-b437-5b98-ab9b-2319f0a446e7")
+	)
+	(global_label "TX_LATCH_A"
+		(shape passive)
+		(at 139.70 58.42 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "37b7876a-18d6-5d43-8646-db9a91bbcb87")
+	)
+	(wire
+		(pts
+			(xy 142.24 60.96) (xy 139.70 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4d9e992-558c-55a0-93ca-aa28903d68df")
+	)
+	(global_label "TX_EN1"
+		(shape passive)
+		(at 139.70 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d9e4d826-0dbb-5070-8941-962e813daf3d")
+	)
+	(wire
+		(pts
+			(xy 167.64 53.34) (xy 170.18 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2e41b0f8-2ea4-5aed-8e91-27d95521eec3")
+	)
+	(global_label "DRV5"
+		(shape passive)
+		(at 170.18 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4007659e-0d9b-5c64-8e7e-bb41b4d665f4")
+	)
+	(wire
+		(pts
+			(xy 167.64 55.88) (xy 170.18 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "926d8e7a-526c-55e8-b6e4-271267bda0c0")
+	)
+	(global_label "DRV6"
+		(shape passive)
+		(at 170.18 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "35759e1d-94f7-53f9-beea-d24393bb50db")
+	)
+	(wire
+		(pts
+			(xy 167.64 58.42) (xy 170.18 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "697fde8a-6aac-5b8e-a1e9-2492dbc4e871")
+	)
+	(global_label "DRV7"
+		(shape passive)
+		(at 170.18 58.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b3011b48-ca0d-50ed-afb5-97c5177cc7fa")
+	)
+	(wire
+		(pts
+			(xy 167.64 60.96) (xy 170.18 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8f7c857-36b2-59a8-b94e-68c6982f34db")
+	)
+	(global_label "DRV8"
+		(shape passive)
+		(at 170.18 60.96 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "889d255c-238c-59cf-a124-15f469465b45")
+	)
+	(sheet
+		(at 142.24 50.80)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "cea88d8f-575f-5fd3-a539-287633aecbe7")
+		(property "Sheetname" "TXG02"
+			(at 142.24 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 142.24 64.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 142.24 53.34 180)
+			(uuid "91584aed-e0ab-5316-a33b-030049310132")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 142.24 55.88 180)
+			(uuid "92d60496-b3a7-58d4-ab61-6087c22dcfde")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 142.24 58.42 180)
+			(uuid "dd600262-498f-53ae-864f-90415dbde19c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 142.24 60.96 180)
+			(uuid "b88c1995-23f8-5181-b230-a69a3f0b43ec")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 167.64 53.34 0)
+			(uuid "e37bdf00-ba51-57f8-8b6d-24a8ac8c5c6a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 167.64 55.88 0)
+			(uuid "1cb4f4c9-fbb4-5133-aa35-7ee0458be426")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 167.64 58.42 0)
+			(uuid "397c3978-0b0a-580c-93bd-c46417509c36")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 167.64 60.96 0)
+			(uuid "146f0059-aad0-50f1-934a-5ee1125ce757")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "13")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 53.34) (xy 231.14 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c5d5d0d-a828-5477-a4a1-3b418f58490f")
+	)
+	(global_label "TX_SDI2"
+		(shape passive)
+		(at 231.14 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a174f4b7-1971-5205-8f1f-7f8c6503fedb")
+	)
+	(wire
+		(pts
+			(xy 233.68 55.88) (xy 231.14 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4da850c-30f8-5d22-bb1c-4933b98c3379")
+	)
+	(global_label "TX_SCK_A"
+		(shape passive)
+		(at 231.14 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1c3af2b9-33cd-557c-b6f0-41ca5b23b0b9")
+	)
+	(wire
+		(pts
+			(xy 233.68 58.42) (xy 231.14 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d804f912-3437-52d8-90f2-2218af3465af")
+	)
+	(global_label "TX_LATCH_A"
+		(shape passive)
+		(at 231.14 58.42 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ed48db42-9ecb-5650-af9e-787b21febf1f")
+	)
+	(wire
+		(pts
+			(xy 233.68 60.96) (xy 231.14 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "619ade85-ae05-5e41-8db7-ca85a6f66466")
+	)
+	(global_label "TX_EN1"
+		(shape passive)
+		(at 231.14 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a59e8062-8b40-5277-b698-8fc2995a2a02")
+	)
+	(wire
+		(pts
+			(xy 259.08 53.34) (xy 261.62 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49a023d5-89b6-5867-9d74-488195e36a4f")
+	)
+	(global_label "DRV9"
+		(shape passive)
+		(at 261.62 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ace0617d-b37d-5219-ac33-17792ffd4c61")
+	)
+	(wire
+		(pts
+			(xy 259.08 55.88) (xy 261.62 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e568459-d2db-51cf-bf55-d3fd4a72c15f")
+	)
+	(global_label "DRV10"
+		(shape passive)
+		(at 261.62 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8aaab22b-32bd-502a-8630-6affa9cb0f8f")
+	)
+	(wire
+		(pts
+			(xy 259.08 58.42) (xy 261.62 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11582df8-667f-5fef-a9d7-00f1a2039490")
+	)
+	(global_label "DRV11"
+		(shape passive)
+		(at 261.62 58.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4c82fa61-1c3b-5df8-9deb-8e85e336a6bd")
+	)
+	(wire
+		(pts
+			(xy 259.08 60.96) (xy 261.62 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aeb6f6d3-62f9-5e01-b0be-0288c10513d9")
+	)
+	(global_label "DRV12"
+		(shape passive)
+		(at 261.62 60.96 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "05ef0149-51ea-507e-91d0-b808beb44e70")
+	)
+	(sheet
+		(at 233.68 50.80)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c60e4af2-41bd-59fd-aab0-d495d3eb628f")
+		(property "Sheetname" "TXG03"
+			(at 233.68 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 233.68 64.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 233.68 53.34 180)
+			(uuid "adbbdb7f-a892-52f5-9463-1f7e0e9b776b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 233.68 55.88 180)
+			(uuid "296a57d5-6533-5ce5-a712-7ca72daf9aca")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 233.68 58.42 180)
+			(uuid "98b99562-8aa5-5bc0-8cdc-7658613d0045")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 233.68 60.96 180)
+			(uuid "aa377952-9d03-515b-84f7-6d160fc46a28")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 259.08 53.34 0)
+			(uuid "73cb2249-2b27-54f6-be79-0692ccb79545")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 259.08 55.88 0)
+			(uuid "5056a404-50f1-5681-8b7e-e059d7d7a66d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 259.08 58.42 0)
+			(uuid "b450bd7e-5f17-568f-849f-57a3ddf2a9f5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 259.08 60.96 0)
+			(uuid "369c9487-ec54-5d9d-8f6d-0b4835b9efbc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "14")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 53.34) (xy 322.58 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "974c7883-8188-514a-8158-220b9fe58c7b")
+	)
+	(global_label "TX_SDI3"
+		(shape passive)
+		(at 322.58 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cd5dc564-518f-5350-9d59-f956018b7149")
+	)
+	(wire
+		(pts
+			(xy 325.12 55.88) (xy 322.58 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f4f31924-ce25-5eb1-8f0a-c972d057c25a")
+	)
+	(global_label "TX_SCK_A"
+		(shape passive)
+		(at 322.58 55.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "32dd9af0-a19e-50d0-b73e-a67de4e59324")
+	)
+	(wire
+		(pts
+			(xy 325.12 58.42) (xy 322.58 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8af5ddac-ce61-56a6-9b12-14ea40c788b6")
+	)
+	(global_label "TX_LATCH_A"
+		(shape passive)
+		(at 322.58 58.42 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8f59d15a-aa6f-5187-8b0f-f6e909506898")
+	)
+	(wire
+		(pts
+			(xy 325.12 60.96) (xy 322.58 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c2d6749d-0e23-5f6c-9dc6-c2edfd446d5b")
+	)
+	(global_label "TX_EN1"
+		(shape passive)
+		(at 322.58 60.96 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a5d0ef57-7e2c-54b2-958a-98ec951b4db5")
+	)
+	(wire
+		(pts
+			(xy 350.52 53.34) (xy 353.06 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be96d8cc-2d1d-544b-bf41-03715bb4f183")
+	)
+	(global_label "DRV13"
+		(shape passive)
+		(at 353.06 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fd53501b-c6b3-526e-a654-c72f3fa14eec")
+	)
+	(wire
+		(pts
+			(xy 350.52 55.88) (xy 353.06 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f02c1aa5-b0de-56cb-9d23-65655049d8fb")
+	)
+	(global_label "DRV14"
+		(shape passive)
+		(at 353.06 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b4c8a822-3d39-5b1d-b19d-c1932655ff1b")
+	)
+	(wire
+		(pts
+			(xy 350.52 58.42) (xy 353.06 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dffb85ae-eae6-5599-aedb-261dfa4aa32d")
+	)
+	(global_label "DRV15"
+		(shape passive)
+		(at 353.06 58.42 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "02389738-19bd-5cf6-8661-8083499b5dc1")
+	)
+	(wire
+		(pts
+			(xy 350.52 60.96) (xy 353.06 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b359dcf7-68b7-5f69-9db2-a855410a9a7d")
+	)
+	(global_label "DRV16"
+		(shape passive)
+		(at 353.06 60.96 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a8df167c-f5f2-5d7a-ba03-6481cca86bf4")
+	)
+	(sheet
+		(at 325.12 50.80)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "57b93dbe-828e-5afb-9c9b-28f6cc3e50e6")
+		(property "Sheetname" "TXG04"
+			(at 325.12 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 325.12 64.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 325.12 53.34 180)
+			(uuid "8d44e6f1-53b6-5683-a88f-f8f7832f8f1a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 325.12 55.88 180)
+			(uuid "4173acb9-c2f7-554c-8806-a15966a486ad")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 325.12 58.42 180)
+			(uuid "e9414182-a03a-56ed-a99d-b052a4c3d2eb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 325.12 60.96 180)
+			(uuid "25530df1-8e11-5716-a43b-4ad35cbc5c1e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 350.52 53.34 0)
+			(uuid "c827bf31-6f71-5c51-8435-1267f76f1ce2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 350.52 55.88 0)
+			(uuid "73f1acd5-2050-5550-9201-0b2348b862dc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 350.52 58.42 0)
+			(uuid "841c2efe-d266-5cc2-88ee-9c9684435a7b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 350.52 60.96 0)
+			(uuid "b905d30b-cfd1-5cb3-b443-e32e944299fa")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "15")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.80 86.36) (xy 48.26 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "435e6afd-c7d4-53dc-a41b-a5d9ccd97b9a")
+	)
+	(global_label "TX_SDI4"
+		(shape passive)
+		(at 48.26 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ca1af79c-8329-5256-8244-7d3cc70289b6")
+	)
+	(wire
+		(pts
+			(xy 50.80 88.90) (xy 48.26 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56d4a186-743a-5e1e-bcd4-414ee1cd9f2c")
+	)
+	(global_label "TX_SCK_B"
+		(shape passive)
+		(at 48.26 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e12a6dee-e12b-5c67-87a3-f0a19bab98a7")
+	)
+	(wire
+		(pts
+			(xy 50.80 91.44) (xy 48.26 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "399add6e-008a-5d61-b5a7-ea8bbc2a87bc")
+	)
+	(global_label "TX_LATCH_B"
+		(shape passive)
+		(at 48.26 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f6e3e7f7-4e95-5ade-b788-4dc7d97f5651")
+	)
+	(wire
+		(pts
+			(xy 50.80 93.98) (xy 48.26 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "27c5537d-edb1-5801-930e-df9015db1544")
+	)
+	(global_label "TX_EN2"
+		(shape passive)
+		(at 48.26 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f6ba1b01-6768-502f-80ad-9e55efbf7371")
+	)
+	(wire
+		(pts
+			(xy 76.20 86.36) (xy 78.74 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5a697bbc-47b0-515d-bd77-fbd8666f7803")
+	)
+	(global_label "DRV17"
+		(shape passive)
+		(at 78.74 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fbf9ce00-1103-5741-a57f-e520572efc5f")
+	)
+	(wire
+		(pts
+			(xy 76.20 88.90) (xy 78.74 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "049ee783-0b92-5167-82a6-b7dd519481fd")
+	)
+	(global_label "DRV18"
+		(shape passive)
+		(at 78.74 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d7e11fc0-5751-5723-b686-28b8355ba916")
+	)
+	(wire
+		(pts
+			(xy 76.20 91.44) (xy 78.74 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a66ce55d-1d45-5d89-abab-06f655ae8139")
+	)
+	(global_label "DRV19"
+		(shape passive)
+		(at 78.74 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "303251e7-ae1f-59b7-aba7-bcf4be3e19f9")
+	)
+	(wire
+		(pts
+			(xy 76.20 93.98) (xy 78.74 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6417edf8-b908-5db7-8ce4-e7bb77ce3664")
+	)
+	(global_label "DRV20"
+		(shape passive)
+		(at 78.74 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fcbf0f51-3f03-50fb-b244-91726a195bb2")
+	)
+	(sheet
+		(at 50.80 83.82)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "636d584c-8fa7-5d22-bded-1dbc86b281e5")
+		(property "Sheetname" "TXG05"
+			(at 50.80 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 50.80 97.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 50.80 86.36 180)
+			(uuid "a91e14b5-9389-548e-b3f0-cc29469e657a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 50.80 88.90 180)
+			(uuid "5381435f-9938-5651-9f59-2c92633b1bf7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 50.80 91.44 180)
+			(uuid "f3774c28-d9bb-5da4-a3bd-4a385cd10f5f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 50.80 93.98 180)
+			(uuid "7a1d05c2-4f22-5c93-8d84-50b1dae73cb7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 76.20 86.36 0)
+			(uuid "e64abfa3-0d42-5bea-b576-dcee456c32d7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 76.20 88.90 0)
+			(uuid "5c4d5757-f64c-5a31-b8a5-dd3efb640900")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 76.20 91.44 0)
+			(uuid "eab39056-2088-50e0-b5b8-27a8d84f9ea1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 76.20 93.98 0)
+			(uuid "b64deff1-fc80-5f60-bba4-a50c02d4fb88")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "16")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 86.36) (xy 139.70 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff358a9c-95c7-57cf-a505-3a5837e9ca39")
+	)
+	(global_label "TX_SDI5"
+		(shape passive)
+		(at 139.70 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "76f2702f-b38f-5aab-bce7-5a3e43fff0a2")
+	)
+	(wire
+		(pts
+			(xy 142.24 88.90) (xy 139.70 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf82d6ba-ae28-59af-9870-09238d4edf2c")
+	)
+	(global_label "TX_SCK_B"
+		(shape passive)
+		(at 139.70 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7cc6c1c5-1a0a-53a3-a939-7648ecb08004")
+	)
+	(wire
+		(pts
+			(xy 142.24 91.44) (xy 139.70 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a51bd85-29f9-5be4-b300-cdc8a8d295ec")
+	)
+	(global_label "TX_LATCH_B"
+		(shape passive)
+		(at 139.70 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9d889468-1ebc-5285-b353-dce6bf311f98")
+	)
+	(wire
+		(pts
+			(xy 142.24 93.98) (xy 139.70 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "feabd132-bbd2-5acc-96fb-d1e24ca0afff")
+	)
+	(global_label "TX_EN2"
+		(shape passive)
+		(at 139.70 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a5552c9b-f9be-5031-be82-6fc7543199d2")
+	)
+	(wire
+		(pts
+			(xy 167.64 86.36) (xy 170.18 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de28b0e4-eb4f-51e1-b119-0ee988fb5829")
+	)
+	(global_label "DRV21"
+		(shape passive)
+		(at 170.18 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e7a054ec-b0fa-52f3-a33f-692ad1b25b16")
+	)
+	(wire
+		(pts
+			(xy 167.64 88.90) (xy 170.18 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47f3f93f-816c-58ca-b6ea-537b1a643d56")
+	)
+	(global_label "DRV22"
+		(shape passive)
+		(at 170.18 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0274ab70-c03c-5336-a0a2-0ce5fccba830")
+	)
+	(wire
+		(pts
+			(xy 167.64 91.44) (xy 170.18 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca7b3b08-23e4-550f-ab36-ae841ce432c4")
+	)
+	(global_label "DRV23"
+		(shape passive)
+		(at 170.18 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c3d9a13e-7a4c-5079-bc97-549d089daae5")
+	)
+	(wire
+		(pts
+			(xy 167.64 93.98) (xy 170.18 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dcfdbcd3-5fdc-510b-8ad2-9a4525615321")
+	)
+	(global_label "DRV24"
+		(shape passive)
+		(at 170.18 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dab8c33f-13a1-56c3-8aac-d8cf73ef9669")
+	)
+	(sheet
+		(at 142.24 83.82)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "4f6d57f5-3c56-55d5-b5b5-448c9638dd54")
+		(property "Sheetname" "TXG06"
+			(at 142.24 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 142.24 97.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 142.24 86.36 180)
+			(uuid "0b7683c4-f844-5ba7-807e-61b6082a2543")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 142.24 88.90 180)
+			(uuid "0f6d7287-ad85-5f01-a967-70d6f811bc9b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 142.24 91.44 180)
+			(uuid "4274b280-33a0-533c-8db1-3c9d0280a397")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 142.24 93.98 180)
+			(uuid "90b0c68c-ee88-5de9-9804-73b1d7f9b8cc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 167.64 86.36 0)
+			(uuid "0bc39a09-2555-52d4-984b-8e1d92811e60")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 167.64 88.90 0)
+			(uuid "6c5d0d3d-9e68-5893-9a4d-e36bff117ead")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 167.64 91.44 0)
+			(uuid "178e368f-a165-50e4-889b-f0f9eb136c57")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 167.64 93.98 0)
+			(uuid "42c9541e-d00a-5550-b0ce-b46b8a44c1b6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "17")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 86.36) (xy 231.14 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef8c1beb-7613-5e2c-901a-524ce286814a")
+	)
+	(global_label "TX_SDI6"
+		(shape passive)
+		(at 231.14 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2d9671c5-5af6-55d9-994c-82f6541c4942")
+	)
+	(wire
+		(pts
+			(xy 233.68 88.90) (xy 231.14 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "55eaf032-c5e2-514c-a3c2-9a6862458537")
+	)
+	(global_label "TX_SCK_B"
+		(shape passive)
+		(at 231.14 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6684f152-81bd-5a89-938d-d29653a5ecb8")
+	)
+	(wire
+		(pts
+			(xy 233.68 91.44) (xy 231.14 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "350e4575-6935-5e45-a74b-3e6a18824498")
+	)
+	(global_label "TX_LATCH_B"
+		(shape passive)
+		(at 231.14 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8b2c3385-4d9d-5f85-9cb1-603868559ad3")
+	)
+	(wire
+		(pts
+			(xy 233.68 93.98) (xy 231.14 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "828362c2-618b-5bda-b4dc-7fadc82eb198")
+	)
+	(global_label "TX_EN2"
+		(shape passive)
+		(at 231.14 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fa79c082-1f98-5199-9162-aabb0011bb22")
+	)
+	(wire
+		(pts
+			(xy 259.08 86.36) (xy 261.62 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d20c542d-2f6d-5fe0-ab37-4de2817934de")
+	)
+	(global_label "DRV25"
+		(shape passive)
+		(at 261.62 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c14080a9-533e-5951-a2e0-af5904f5ffb2")
+	)
+	(wire
+		(pts
+			(xy 259.08 88.90) (xy 261.62 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26c229f9-7a08-5a00-99ee-76e7672b02ea")
+	)
+	(global_label "DRV26"
+		(shape passive)
+		(at 261.62 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9a847c2a-68f9-580d-a939-ba35511fc7db")
+	)
+	(wire
+		(pts
+			(xy 259.08 91.44) (xy 261.62 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b68db3c8-ed20-52c5-a806-5e1d9b846c5f")
+	)
+	(global_label "DRV27"
+		(shape passive)
+		(at 261.62 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b7a3a0fc-71f6-535e-b2a4-4cfcfde842f6")
+	)
+	(wire
+		(pts
+			(xy 259.08 93.98) (xy 261.62 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "824fa6ea-b3f8-5361-b7b6-034422f9b9fa")
+	)
+	(global_label "DRV28"
+		(shape passive)
+		(at 261.62 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "679f3b43-8349-5a2c-ac07-77c04de30351")
+	)
+	(sheet
+		(at 233.68 83.82)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c76f2413-f5cb-5a7b-8e19-1f86dae9318f")
+		(property "Sheetname" "TXG07"
+			(at 233.68 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 233.68 97.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 233.68 86.36 180)
+			(uuid "12bf6def-9a2c-5b11-a015-0a09f9cf9c53")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 233.68 88.90 180)
+			(uuid "f795a7ab-69d2-5433-a526-5c161394bc83")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 233.68 91.44 180)
+			(uuid "ee29b28a-365c-5a7c-8f34-f4edea9e30ae")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 233.68 93.98 180)
+			(uuid "1bf8893a-c212-5a70-b15f-019339a15f90")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 259.08 86.36 0)
+			(uuid "a8b6e359-471e-5c1a-abe0-8ac97fa80a6a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 259.08 88.90 0)
+			(uuid "4b25b613-9f31-5396-8b0f-57cc73783b4e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 259.08 91.44 0)
+			(uuid "08ba2dba-9b78-516d-abce-2dba8be91f6d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 259.08 93.98 0)
+			(uuid "3930fb29-7c89-524e-9b10-309326745a43")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "18")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 86.36) (xy 322.58 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52432805-fd4c-558d-b591-1f1372ad598d")
+	)
+	(global_label "TX_SDI7"
+		(shape passive)
+		(at 322.58 86.36 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "00aec244-5223-5d2c-859b-ccd36e15470f")
+	)
+	(wire
+		(pts
+			(xy 325.12 88.90) (xy 322.58 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f30ad5ff-758b-5010-84e8-b428b3a9e4b5")
+	)
+	(global_label "TX_SCK_B"
+		(shape passive)
+		(at 322.58 88.90 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e231ab0c-0d98-5138-afd0-a4c3a13c11c5")
+	)
+	(wire
+		(pts
+			(xy 325.12 91.44) (xy 322.58 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6cb4cc99-5293-5bb8-aa28-d42f79546b7e")
+	)
+	(global_label "TX_LATCH_B"
+		(shape passive)
+		(at 322.58 91.44 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "90c96b17-9441-584c-992f-63b398791e69")
+	)
+	(wire
+		(pts
+			(xy 325.12 93.98) (xy 322.58 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "192f7b7d-2d05-5220-8f77-168a9da9fb9a")
+	)
+	(global_label "TX_EN2"
+		(shape passive)
+		(at 322.58 93.98 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0276757d-1a9d-5915-a1da-8630c977255d")
+	)
+	(wire
+		(pts
+			(xy 350.52 86.36) (xy 353.06 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3513ec0e-d591-5360-a1be-ffad8f720c9a")
+	)
+	(global_label "DRV29"
+		(shape passive)
+		(at 353.06 86.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "62dcca83-e34a-5003-be09-dbd5d3d98ad5")
+	)
+	(wire
+		(pts
+			(xy 350.52 88.90) (xy 353.06 88.90)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3ca0e64f-6762-5361-9651-d31ad5623224")
+	)
+	(global_label "DRV30"
+		(shape passive)
+		(at 353.06 88.90 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ccbc90fe-3a0b-5b1b-9cb9-73efa05ce964")
+	)
+	(wire
+		(pts
+			(xy 350.52 91.44) (xy 353.06 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b98c2e7-9302-518a-a36a-0d24eb661700")
+	)
+	(global_label "DRV31"
+		(shape passive)
+		(at 353.06 91.44 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9c6d7dc7-2b42-513a-b4d3-d9a6711effd0")
+	)
+	(wire
+		(pts
+			(xy 350.52 93.98) (xy 353.06 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52b13183-8b6a-5812-a267-2cd7b3541eb7")
+	)
+	(global_label "DRV32"
+		(shape passive)
+		(at 353.06 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0f760a93-231f-5ed6-8893-054ae2224c51")
+	)
+	(sheet
+		(at 325.12 83.82)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "88f8b73e-1418-5c4a-aa99-9772c250b511")
+		(property "Sheetname" "TXG08"
+			(at 325.12 83.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 325.12 97.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 325.12 86.36 180)
+			(uuid "5e732b87-6d7c-53ee-96a6-303e19042d91")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 325.12 88.90 180)
+			(uuid "2b10ff5b-2d10-5fb8-87ff-112821584055")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 325.12 91.44 180)
+			(uuid "7198333f-645e-50af-ab0f-6d67cbce762c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 325.12 93.98 180)
+			(uuid "688aa1f3-fa45-5b2b-ac85-1608aedfafab")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 350.52 86.36 0)
+			(uuid "a7cd0b66-cb9a-5723-b14d-692dcffd250e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 350.52 88.90 0)
+			(uuid "2913dc5a-9438-5b8b-9101-2f0f63bb5f34")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 350.52 91.44 0)
+			(uuid "d1c82171-9ed4-5825-87cd-0dff826efef8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 350.52 93.98 0)
+			(uuid "7eb03167-539e-52a3-a291-28f6ef398d18")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "19")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.80 119.38) (xy 48.26 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84be5e68-f138-54f8-b7ec-c88677f5f6db")
+	)
+	(global_label "TX_SDI8"
+		(shape passive)
+		(at 48.26 119.38 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "82f21dd9-5556-52f0-8964-9d82ad81c3cd")
+	)
+	(wire
+		(pts
+			(xy 50.80 121.92) (xy 48.26 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6babcc00-bb1c-55d4-8229-f4fa1dfde899")
+	)
+	(global_label "TX_SCK_C"
+		(shape passive)
+		(at 48.26 121.92 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "22d09ee9-418b-5078-aa76-69c91e83811c")
+	)
+	(wire
+		(pts
+			(xy 50.80 124.46) (xy 48.26 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1b0c88c-a56d-51c9-b4ed-c9ecfac736c9")
+	)
+	(global_label "TX_LATCH_C"
+		(shape passive)
+		(at 48.26 124.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ffb012a6-9dec-5945-bc1d-fba1416d73c3")
+	)
+	(wire
+		(pts
+			(xy 50.80 127.00) (xy 48.26 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "102772bd-36bc-56ea-9f9c-5dda4e695eac")
+	)
+	(global_label "TX_EN3"
+		(shape passive)
+		(at 48.26 127.00 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "91d29a6d-1d50-5806-a000-72a0bf87f88d")
+	)
+	(wire
+		(pts
+			(xy 76.20 119.38) (xy 78.74 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf463500-dbf4-51d9-81cd-d857caa6346b")
+	)
+	(global_label "DRV33"
+		(shape passive)
+		(at 78.74 119.38 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "01fab61a-cac6-510f-b308-343d12b7b8f7")
+	)
+	(wire
+		(pts
+			(xy 76.20 121.92) (xy 78.74 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf8025f0-14c5-5751-bd7f-e4594f82544f")
+	)
+	(global_label "DRV34"
+		(shape passive)
+		(at 78.74 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2adc91ba-13b9-514d-afcc-b751e2e5849e")
+	)
+	(wire
+		(pts
+			(xy 76.20 124.46) (xy 78.74 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ccb74f32-2cd7-5e34-a231-01f7f5119f46")
+	)
+	(global_label "DRV35"
+		(shape passive)
+		(at 78.74 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d0ae4d08-961c-52f5-a7c2-63271483a24f")
+	)
+	(wire
+		(pts
+			(xy 76.20 127.00) (xy 78.74 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f7c45482-708d-5f1e-b64e-33ccbd28c415")
+	)
+	(global_label "DRV36"
+		(shape passive)
+		(at 78.74 127.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e9ede4cf-42b1-53fb-b75a-37770dd68a57")
+	)
+	(sheet
+		(at 50.80 116.84)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "4fc06863-2559-504c-9cd1-abff24b73ff4")
+		(property "Sheetname" "TXG09"
+			(at 50.80 116.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 50.80 130.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 50.80 119.38 180)
+			(uuid "62e66b01-bfed-5904-9393-b66d6fcfe4cd")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 50.80 121.92 180)
+			(uuid "a32fb6fc-b5d2-5c53-b81c-98a60e87762b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 50.80 124.46 180)
+			(uuid "e957fce8-de8a-5ac7-8549-bc41794ad758")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 50.80 127.00 180)
+			(uuid "9ea5d99e-f3bc-518a-bd66-7adbcb67ca82")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 76.20 119.38 0)
+			(uuid "51cdc80f-045b-5643-9bce-1deaf3caf4f5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 76.20 121.92 0)
+			(uuid "b4d67069-4ec2-544b-9a66-a97e5231b017")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 76.20 124.46 0)
+			(uuid "428d4cba-d525-58ba-9776-9f2b94536ac4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 76.20 127.00 0)
+			(uuid "965a12f4-681e-5c6b-83d2-6e105f034601")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "20")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 119.38) (xy 139.70 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6ccc556-a739-5c64-93ea-ebd5f14c3642")
+	)
+	(global_label "TX_SDI9"
+		(shape passive)
+		(at 139.70 119.38 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6cf5b754-892a-5db5-bc68-f7a7ed07ed8d")
+	)
+	(wire
+		(pts
+			(xy 142.24 121.92) (xy 139.70 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b0629ea-bba2-5167-a9b6-5c1655cf2418")
+	)
+	(global_label "TX_SCK_C"
+		(shape passive)
+		(at 139.70 121.92 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1f13e754-6b28-5a99-acb1-76d3045e2a51")
+	)
+	(wire
+		(pts
+			(xy 142.24 124.46) (xy 139.70 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "43535f75-21c2-5124-949a-6e5bd9731fb9")
+	)
+	(global_label "TX_LATCH_C"
+		(shape passive)
+		(at 139.70 124.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3446f2b4-37f4-53d1-8d26-4fc5364239d9")
+	)
+	(wire
+		(pts
+			(xy 142.24 127.00) (xy 139.70 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9c3c53f1-ac26-5800-851a-266892ea6b2b")
+	)
+	(global_label "TX_EN3"
+		(shape passive)
+		(at 139.70 127.00 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e8ceb1f0-3716-5e48-bcdf-e87a7e3a8c8c")
+	)
+	(wire
+		(pts
+			(xy 167.64 119.38) (xy 170.18 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5f7790e8-9555-5069-b17c-7fd219fea1d8")
+	)
+	(global_label "DRV37"
+		(shape passive)
+		(at 170.18 119.38 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ab0a6e4d-5c0a-5dd1-8fb8-571d4b94af8a")
+	)
+	(wire
+		(pts
+			(xy 167.64 121.92) (xy 170.18 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6454cf04-7a49-5821-8f2b-045bdf81dc74")
+	)
+	(global_label "DRV38"
+		(shape passive)
+		(at 170.18 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b51e9266-90f0-5e7c-9a4b-e86a7995db68")
+	)
+	(wire
+		(pts
+			(xy 167.64 124.46) (xy 170.18 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87745016-4ee5-5b9b-9606-4aa8d5159784")
+	)
+	(global_label "DRV39"
+		(shape passive)
+		(at 170.18 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e08a552e-5938-509d-b830-2c404d732fd6")
+	)
+	(wire
+		(pts
+			(xy 167.64 127.00) (xy 170.18 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "91e58fce-7682-5fc0-a37c-e814ff4f3c91")
+	)
+	(global_label "DRV40"
+		(shape passive)
+		(at 170.18 127.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "85984358-5d0f-5021-ac5c-413a3f98fefa")
+	)
+	(sheet
+		(at 142.24 116.84)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "9096ef1b-a6f0-505e-a19b-c789e671eec1")
+		(property "Sheetname" "TXG10"
+			(at 142.24 116.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 142.24 130.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 142.24 119.38 180)
+			(uuid "ce8e3418-ab7a-53ba-929e-95d098e27559")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 142.24 121.92 180)
+			(uuid "7a8c12d0-076c-5d68-9fa2-1ee5efb51acb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 142.24 124.46 180)
+			(uuid "047ade6d-0033-5dae-9f28-55437ebbcb18")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 142.24 127.00 180)
+			(uuid "7182ecf6-97c0-52eb-bc1a-03b35cc41dea")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 167.64 119.38 0)
+			(uuid "af57371c-fd0d-57fd-851a-d965a2dc4ba2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 167.64 121.92 0)
+			(uuid "39e781f2-e112-58cd-9d20-78d8fdcaa4e6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 167.64 124.46 0)
+			(uuid "1e3e4d02-abf4-5e44-ba74-064f2a1845b5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 167.64 127.00 0)
+			(uuid "66dae4d7-69dc-5357-bee4-0d5b5954d6ca")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "21")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 119.38) (xy 231.14 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5220a0b-2c57-57e9-8177-026818ce131d")
+	)
+	(global_label "TX_SDI10"
+		(shape passive)
+		(at 231.14 119.38 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3c525ff8-31d5-5847-8eb8-669326385f5e")
+	)
+	(wire
+		(pts
+			(xy 233.68 121.92) (xy 231.14 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ee38494-3d4c-5b8f-b53c-f60e2e027bdc")
+	)
+	(global_label "TX_SCK_C"
+		(shape passive)
+		(at 231.14 121.92 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "48da7490-fb09-504b-89d9-0a30a4dec0f5")
+	)
+	(wire
+		(pts
+			(xy 233.68 124.46) (xy 231.14 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef0cf64c-9e1b-52c8-a5ab-46093208f076")
+	)
+	(global_label "TX_LATCH_C"
+		(shape passive)
+		(at 231.14 124.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d5675e19-93c9-5423-bed3-a3d60cdb4a57")
+	)
+	(wire
+		(pts
+			(xy 233.68 127.00) (xy 231.14 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0218f5d7-4196-5391-b434-25fec0cfd6a7")
+	)
+	(global_label "TX_EN3"
+		(shape passive)
+		(at 231.14 127.00 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "161655b9-300f-5a24-9851-fba0c43c8229")
+	)
+	(wire
+		(pts
+			(xy 259.08 119.38) (xy 261.62 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "469db3c5-d43b-5d60-8d77-7aee7fb907d0")
+	)
+	(global_label "DRV41"
+		(shape passive)
+		(at 261.62 119.38 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d438a8e0-05e6-53f3-b512-028a5fc166e9")
+	)
+	(wire
+		(pts
+			(xy 259.08 121.92) (xy 261.62 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bbef360e-b433-5fa9-b1f4-5024aaeb8cd0")
+	)
+	(global_label "DRV42"
+		(shape passive)
+		(at 261.62 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "91dee680-f442-594c-a43a-37e2ba2c14f9")
+	)
+	(wire
+		(pts
+			(xy 259.08 124.46) (xy 261.62 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b74a1dcd-fa27-5e3a-918c-617a91681760")
+	)
+	(global_label "DRV43"
+		(shape passive)
+		(at 261.62 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "029fe774-79d4-591b-841d-65bcca75e19b")
+	)
+	(wire
+		(pts
+			(xy 259.08 127.00) (xy 261.62 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90a50be1-f17d-563a-bf9f-e2efa1a84cdf")
+	)
+	(global_label "DRV44"
+		(shape passive)
+		(at 261.62 127.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f0cf4601-6c89-5eba-9b4a-cdb9ee1669e4")
+	)
+	(sheet
+		(at 233.68 116.84)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7d9f53db-eb12-5d01-8783-430b42bfcf8f")
+		(property "Sheetname" "TXG11"
+			(at 233.68 116.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 233.68 130.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 233.68 119.38 180)
+			(uuid "0d09ce99-6478-577a-acd3-b1cfe9651943")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 233.68 121.92 180)
+			(uuid "8db7df8b-5386-5f86-8639-847b88bb98b0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 233.68 124.46 180)
+			(uuid "e27e07ed-65bb-5b0e-8b2f-5a47dd711c8a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 233.68 127.00 180)
+			(uuid "f777d230-248f-5937-bb32-c513d8d2e71f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 259.08 119.38 0)
+			(uuid "d4ab8e93-261d-5b62-9e24-378741056179")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 259.08 121.92 0)
+			(uuid "08b601bc-362f-5baa-ab02-5d96e1d78913")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 259.08 124.46 0)
+			(uuid "b11a7912-0d51-591d-b437-3a793b4c3152")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 259.08 127.00 0)
+			(uuid "c09408ba-bd46-5db8-8364-214f7b567a42")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "22")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 119.38) (xy 322.58 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1df56ff0-2c63-5e91-8d4d-e43e3f562969")
+	)
+	(global_label "TX_SDI11"
+		(shape passive)
+		(at 322.58 119.38 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "97f26691-b8d6-5840-8f77-51483c905ec4")
+	)
+	(wire
+		(pts
+			(xy 325.12 121.92) (xy 322.58 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78af4514-a0c8-546e-a049-1ef4a4f03b8a")
+	)
+	(global_label "TX_SCK_C"
+		(shape passive)
+		(at 322.58 121.92 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a4f5e130-f54e-5e5b-b5f2-c54ffadf449b")
+	)
+	(wire
+		(pts
+			(xy 325.12 124.46) (xy 322.58 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b01448c-de15-5b2e-8bcf-da26be0f9179")
+	)
+	(global_label "TX_LATCH_C"
+		(shape passive)
+		(at 322.58 124.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "398cd3c5-1df9-5fdf-9e48-0a12187ab99c")
+	)
+	(wire
+		(pts
+			(xy 325.12 127.00) (xy 322.58 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "706c62ce-ae61-5d42-80a3-6920f9d99c07")
+	)
+	(global_label "TX_EN3"
+		(shape passive)
+		(at 322.58 127.00 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3c8c8873-ca50-562d-85aa-9ed3b31bc529")
+	)
+	(wire
+		(pts
+			(xy 350.52 119.38) (xy 353.06 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81f1dd86-6a24-5b75-abe6-538a3d8ee091")
+	)
+	(global_label "DRV45"
+		(shape passive)
+		(at 353.06 119.38 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e6833b4f-7d58-54ae-8ef5-6fa0e9dc569f")
+	)
+	(wire
+		(pts
+			(xy 350.52 121.92) (xy 353.06 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "314f2ea9-da20-58f2-a282-78aef6425680")
+	)
+	(global_label "DRV46"
+		(shape passive)
+		(at 353.06 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9563fa3c-719e-5b98-a4c5-8c6d9030e183")
+	)
+	(wire
+		(pts
+			(xy 350.52 124.46) (xy 353.06 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0dd6e532-a983-53b8-8c2e-5fbd5d2d7f3d")
+	)
+	(global_label "DRV47"
+		(shape passive)
+		(at 353.06 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "90deb1d7-cdb2-5168-b0cf-908eabc2ca03")
+	)
+	(wire
+		(pts
+			(xy 350.52 127.00) (xy 353.06 127.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "794d42da-5b13-5978-b456-f12e2be845a9")
+	)
+	(global_label "DRV48"
+		(shape passive)
+		(at 353.06 127.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d99c0787-a23b-52be-9692-b38f55f12789")
+	)
+	(sheet
+		(at 325.12 116.84)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "10122c96-870c-5a43-b761-1d49f16d9829")
+		(property "Sheetname" "TXG12"
+			(at 325.12 116.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 325.12 130.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 325.12 119.38 180)
+			(uuid "84ffff50-8375-5416-90bd-39174d8d5b5a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 325.12 121.92 180)
+			(uuid "2cb4402a-5c89-5eb6-9e2c-ad66cacdb546")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 325.12 124.46 180)
+			(uuid "2d8e3a87-f0a4-58cf-b64f-ce0118ebc78a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 325.12 127.00 180)
+			(uuid "d69a99fd-da74-54a6-a1b1-42cd7c9171f1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 350.52 119.38 0)
+			(uuid "041494ea-182e-5604-8d1a-b0722778b59b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 350.52 121.92 0)
+			(uuid "4b7c1ebe-cc3d-5f06-ac1f-2dc6f1f2491f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 350.52 124.46 0)
+			(uuid "53b1febc-d986-58ca-a1ab-f94a5710059d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 350.52 127.00 0)
+			(uuid "625230b3-583c-511f-9bfe-9d7615ff8dff")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "23")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.80 152.40) (xy 48.26 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "43b202bd-2a45-56dd-8ae7-d71259896f01")
+	)
+	(global_label "TX_SDI12"
+		(shape passive)
+		(at 48.26 152.40 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f87447b8-fd82-5be9-be05-837812d9d40e")
+	)
+	(wire
+		(pts
+			(xy 50.80 154.94) (xy 48.26 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "40e8ca51-3258-5455-8872-f9aa18645906")
+	)
+	(global_label "TX_SCK_D"
+		(shape passive)
+		(at 48.26 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "586ca8fa-a9b1-58d6-830b-0ed161a72750")
+	)
+	(wire
+		(pts
+			(xy 50.80 157.48) (xy 48.26 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d07c5c8d-13c2-595d-a969-cc0a4a4444b9")
+	)
+	(global_label "TX_LATCH_D"
+		(shape passive)
+		(at 48.26 157.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "77bad235-7af5-5473-860e-c0e46da47f2c")
+	)
+	(wire
+		(pts
+			(xy 50.80 160.02) (xy 48.26 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98a23a50-1b54-5282-8700-21baf917b4cd")
+	)
+	(global_label "TX_EN4"
+		(shape passive)
+		(at 48.26 160.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f1debc13-34e2-5f73-900a-0588b9e03218")
+	)
+	(wire
+		(pts
+			(xy 76.20 152.40) (xy 78.74 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e8d9f728-8821-57bc-a934-1ede4a81cf7b")
+	)
+	(global_label "DRV49"
+		(shape passive)
+		(at 78.74 152.40 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8468532c-11f5-53ab-a501-faaa3c54310a")
+	)
+	(wire
+		(pts
+			(xy 76.20 154.94) (xy 78.74 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ad289a0-883a-50b3-b927-117945bcf389")
+	)
+	(global_label "DRV50"
+		(shape passive)
+		(at 78.74 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cf6905d5-386b-513c-b54c-4b868634e454")
+	)
+	(wire
+		(pts
+			(xy 76.20 157.48) (xy 78.74 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c5b7e3c-e9f9-5df2-81a9-95a494875e0e")
+	)
+	(global_label "DRV51"
+		(shape passive)
+		(at 78.74 157.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "53910d1a-a3c9-598b-bf06-5841eb199a05")
+	)
+	(wire
+		(pts
+			(xy 76.20 160.02) (xy 78.74 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2cf959cc-d4af-548f-8ccb-6cf439f7ed1c")
+	)
+	(global_label "DRV52"
+		(shape passive)
+		(at 78.74 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6df2ffaa-859d-5115-8ab7-21acc416c8b2")
+	)
+	(sheet
+		(at 50.80 149.86)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "5be311f5-7474-5104-93a7-afe0fe041c62")
+		(property "Sheetname" "TXG13"
+			(at 50.80 149.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 50.80 163.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 50.80 152.40 180)
+			(uuid "0654d1aa-bca2-5e99-842b-ce70593bfa76")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 50.80 154.94 180)
+			(uuid "a95a35c3-a7b0-564f-a6af-71782aab9430")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 50.80 157.48 180)
+			(uuid "9aa4cd23-bd75-5c3f-8884-15c3c649ea22")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 50.80 160.02 180)
+			(uuid "36f5b3fa-f723-5f62-ba56-0b24f897976a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 76.20 152.40 0)
+			(uuid "c71e007c-ed5e-543e-b58e-7b0365ae07e1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 76.20 154.94 0)
+			(uuid "08324777-ea95-59b5-a746-37ec1c0cf75f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 76.20 157.48 0)
+			(uuid "c7f9cda7-f0a9-51ed-a387-a2a7fb1bdf27")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 76.20 160.02 0)
+			(uuid "e12a2028-8b91-559f-a2cb-93c489d8e382")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "24")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 152.40) (xy 139.70 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a43756c0-94f9-5ebc-8415-cad9ed92d307")
+	)
+	(global_label "TX_SDI13"
+		(shape passive)
+		(at 139.70 152.40 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7cd578aa-89d6-5900-875a-82d1915f8aad")
+	)
+	(wire
+		(pts
+			(xy 142.24 154.94) (xy 139.70 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ccc5315b-7e24-5c00-a5e4-1ac60445957c")
+	)
+	(global_label "TX_SCK_D"
+		(shape passive)
+		(at 139.70 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8f7d4c9b-c4fd-5c94-bb1e-6ebc88d79b7d")
+	)
+	(wire
+		(pts
+			(xy 142.24 157.48) (xy 139.70 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc63cd5f-9dda-5d64-ac9f-ff2ec114d819")
+	)
+	(global_label "TX_LATCH_D"
+		(shape passive)
+		(at 139.70 157.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ff683b94-1b02-5393-95c3-940e2e321929")
+	)
+	(wire
+		(pts
+			(xy 142.24 160.02) (xy 139.70 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "27fc3bcf-742d-5a7b-9352-1ffc9ac1a283")
+	)
+	(global_label "TX_EN4"
+		(shape passive)
+		(at 139.70 160.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "524eb11e-ff0c-5ff4-8397-77fec0455202")
+	)
+	(wire
+		(pts
+			(xy 167.64 152.40) (xy 170.18 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0958e51f-d2a4-5060-a8c5-badc91c3b0e4")
+	)
+	(global_label "DRV53"
+		(shape passive)
+		(at 170.18 152.40 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7fa9c9b7-38da-5335-b687-1edc1a6a7ce9")
+	)
+	(wire
+		(pts
+			(xy 167.64 154.94) (xy 170.18 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d738e9d1-8c6c-51b4-982d-161bbb3e5822")
+	)
+	(global_label "DRV54"
+		(shape passive)
+		(at 170.18 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "667f4fb9-b8f8-5719-996d-c85ae84ad038")
+	)
+	(wire
+		(pts
+			(xy 167.64 157.48) (xy 170.18 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e33e8d44-1e4c-594d-a729-065514286ad3")
+	)
+	(global_label "DRV55"
+		(shape passive)
+		(at 170.18 157.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ae2faf61-522e-5b1a-822b-b7eee99af2ab")
+	)
+	(wire
+		(pts
+			(xy 167.64 160.02) (xy 170.18 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4166de53-a779-516b-a11b-e19e59254e42")
+	)
+	(global_label "DRV56"
+		(shape passive)
+		(at 170.18 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bc40cf34-028c-5f8b-9ab3-0c4c9c5e7c23")
+	)
+	(sheet
+		(at 142.24 149.86)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7531a148-d20a-566f-98d8-4cfc1b1fcd34")
+		(property "Sheetname" "TXG14"
+			(at 142.24 149.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 142.24 163.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 142.24 152.40 180)
+			(uuid "a359eb2a-465e-5302-8e67-9fdcda295f81")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 142.24 154.94 180)
+			(uuid "f226be3d-346d-5ca3-ad6e-99ba5220ec9a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 142.24 157.48 180)
+			(uuid "abe3368c-217a-56a1-bd6b-3611813c3cab")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 142.24 160.02 180)
+			(uuid "2b3ee0db-93f7-543a-9589-89ab25d40be5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 167.64 152.40 0)
+			(uuid "a57c0e75-1f6a-5814-a86c-653e13798b43")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 167.64 154.94 0)
+			(uuid "862cbe19-a6be-5283-9609-3d104c62fd49")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 167.64 157.48 0)
+			(uuid "b9d8b6a6-b966-5862-9c70-75a50bbe8afe")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 167.64 160.02 0)
+			(uuid "c4bdb93c-594d-5958-aad3-0881fd141c08")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "25")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 152.40) (xy 231.14 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ea12a14f-7fea-5769-b3c5-8da596f451c3")
+	)
+	(global_label "TX_SDI14"
+		(shape passive)
+		(at 231.14 152.40 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2d6e2922-65b4-5442-bea2-01deb174d49b")
+	)
+	(wire
+		(pts
+			(xy 233.68 154.94) (xy 231.14 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9bcf11be-f74f-587a-a688-61ad0cadabfa")
+	)
+	(global_label "TX_SCK_D"
+		(shape passive)
+		(at 231.14 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "478a23a5-504b-578a-9719-188fbbc67147")
+	)
+	(wire
+		(pts
+			(xy 233.68 157.48) (xy 231.14 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c880459-3179-5cf7-955d-882d621d6d8b")
+	)
+	(global_label "TX_LATCH_D"
+		(shape passive)
+		(at 231.14 157.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "067dabc2-517f-5a21-a300-9719a4585eed")
+	)
+	(wire
+		(pts
+			(xy 233.68 160.02) (xy 231.14 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "09fcfdc0-1ef6-54d2-b692-bb90cbc92956")
+	)
+	(global_label "TX_EN4"
+		(shape passive)
+		(at 231.14 160.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c9b582c1-b377-5776-824e-f6d8fcd758b1")
+	)
+	(wire
+		(pts
+			(xy 259.08 152.40) (xy 261.62 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d661ef3-a44f-5c17-a1ac-ec2a462abc78")
+	)
+	(global_label "DRV57"
+		(shape passive)
+		(at 261.62 152.40 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "837f980d-376d-571f-b1d7-209fd98e9c71")
+	)
+	(wire
+		(pts
+			(xy 259.08 154.94) (xy 261.62 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be539d14-5b56-55a7-a25a-a9852e4be8cf")
+	)
+	(global_label "DRV58"
+		(shape passive)
+		(at 261.62 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0399011f-e716-572f-b115-f62b895bc43b")
+	)
+	(wire
+		(pts
+			(xy 259.08 157.48) (xy 261.62 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb6313e0-f96b-508d-a41c-2a9cec95e2ae")
+	)
+	(global_label "DRV59"
+		(shape passive)
+		(at 261.62 157.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7e5773ed-e436-59d8-9234-a6fd0b1d1dd5")
+	)
+	(wire
+		(pts
+			(xy 259.08 160.02) (xy 261.62 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d3984e35-41ac-5a9d-bc7d-0fe8eebd4d49")
+	)
+	(global_label "DRV60"
+		(shape passive)
+		(at 261.62 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cbd9a586-3cd7-53a4-b3e1-7b8b6c1b7330")
+	)
+	(sheet
+		(at 233.68 149.86)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "80aca319-7337-553a-a063-e0ddd7d71296")
+		(property "Sheetname" "TXG15"
+			(at 233.68 149.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 233.68 163.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 233.68 152.40 180)
+			(uuid "cbfabf7d-ad7f-5f82-ae33-8522119ea59e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 233.68 154.94 180)
+			(uuid "27af56b2-b3b3-5f85-926e-5d8505ffe75e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 233.68 157.48 180)
+			(uuid "aac4f76e-74f3-5df6-b4fe-a605627f0d62")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 233.68 160.02 180)
+			(uuid "9a7c680a-3b53-5746-be71-12eded842951")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 259.08 152.40 0)
+			(uuid "d147731c-da3b-547f-8cd2-0335e1701ba3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 259.08 154.94 0)
+			(uuid "37beb4cd-b28f-59c4-814d-630a5b6bee64")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 259.08 157.48 0)
+			(uuid "c64a87f8-84be-5fca-ae8c-3040c2e16eda")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 259.08 160.02 0)
+			(uuid "a6ca51c1-24bc-549a-889c-0813ce2b0953")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "26")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 152.40) (xy 322.58 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a6bdf39-baeb-5e2d-ac01-4e44b98b9de4")
+	)
+	(global_label "TX_SDI15"
+		(shape passive)
+		(at 322.58 152.40 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f083cb61-ea53-5e8e-b5d5-238b95a1541f")
+	)
+	(wire
+		(pts
+			(xy 325.12 154.94) (xy 322.58 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "163fa9bf-71be-54f3-982f-c8c851425fb7")
+	)
+	(global_label "TX_SCK_D"
+		(shape passive)
+		(at 322.58 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5bdc944e-facb-5320-9659-dde8237b8be7")
+	)
+	(wire
+		(pts
+			(xy 325.12 157.48) (xy 322.58 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "975308b4-ef2e-5493-8ad3-971bc984ea2b")
+	)
+	(global_label "TX_LATCH_D"
+		(shape passive)
+		(at 322.58 157.48 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a5960c24-f549-5ca1-b94f-6a509f3d27b8")
+	)
+	(wire
+		(pts
+			(xy 325.12 160.02) (xy 322.58 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f25cbdfd-a249-5822-adc4-900e7a395357")
+	)
+	(global_label "TX_EN4"
+		(shape passive)
+		(at 322.58 160.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a7e9073d-f0e3-5a37-8807-3674b2a3c591")
+	)
+	(wire
+		(pts
+			(xy 350.52 152.40) (xy 353.06 152.40)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec8fc78a-3498-56b5-b821-8ddb8a3b692a")
+	)
+	(global_label "DRV61"
+		(shape passive)
+		(at 353.06 152.40 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b31251a3-4415-5068-8de8-681f1d9ae6d6")
+	)
+	(wire
+		(pts
+			(xy 350.52 154.94) (xy 353.06 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d8a5a7b2-8e7a-5154-8787-9c4fdf4fc14e")
+	)
+	(global_label "DRV62"
+		(shape passive)
+		(at 353.06 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6212b674-6851-5e54-9f95-a22b2d8ee105")
+	)
+	(wire
+		(pts
+			(xy 350.52 157.48) (xy 353.06 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "acc3306a-15e7-5f69-8dcc-0e627ab7456c")
+	)
+	(global_label "DRV63"
+		(shape passive)
+		(at 353.06 157.48 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0e5e936f-a567-5048-8eef-c75a7ae2dcbf")
+	)
+	(wire
+		(pts
+			(xy 350.52 160.02) (xy 353.06 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c0975a2-7bc3-5891-9dee-c7debb0f3096")
+	)
+	(global_label "DRV64"
+		(shape passive)
+		(at 353.06 160.02 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0eadaea1-a433-5431-8f38-e8b1ce4fd2f9")
+	)
+	(sheet
+		(at 325.12 149.86)
+		(size 25.40 12.70)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "f9ad426d-d5a0-5018-bab6-ac7342ca2b87")
+		(property "Sheetname" "TXG16"
+			(at 325.12 149.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "tx_group.kicad_sch"
+			(at 325.12 163.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "SDI" input
+			(at 325.12 152.40 180)
+			(uuid "10d32ec5-028c-5834-a336-3064351623ef")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "SCK" input
+			(at 325.12 154.94 180)
+			(uuid "c8745088-01b2-5b4c-a698-587ed2eae19e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LATCH" input
+			(at 325.12 157.48 180)
+			(uuid "5d940426-c80f-5032-9fdf-841895281f36")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "EN" input
+			(at 325.12 160.02 180)
+			(uuid "171498a8-9c10-53ab-8c13-17763bcb7df0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRV1" output
+			(at 350.52 152.40 0)
+			(uuid "6bac907d-fb2a-534a-aa3b-64c4da14af47")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV2" output
+			(at 350.52 154.94 0)
+			(uuid "cd98ce54-8d3c-598a-9093-71a71e08745f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV3" output
+			(at 350.52 157.48 0)
+			(uuid "617f19bf-806f-5831-becd-b4aa978587e3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DRV4" output
+			(at 350.52 160.02 0)
+			(uuid "6942c72a-b363-59db-879c-709a08f3837d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "27")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.80 198.12) (xy 48.26 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4184af2f-e294-5165-b6ca-54135a9f183e")
+	)
+	(global_label "TX_EN_FPGA"
+		(shape passive)
+		(at 48.26 198.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "570f71b8-3c0e-5289-9017-dc03b50caf5d")
+	)
+	(wire
+		(pts
+			(xy 76.20 198.12) (xy 78.74 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ec20451-4347-5ef4-b34a-5f00458b816d")
+	)
+	(global_label "TX_EN1"
+		(shape passive)
+		(at 78.74 198.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "504faa12-6a42-5b68-9155-3856c670fc15")
+	)
+	(sheet
+		(at 50.80 195.58)
+		(size 25.40 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "dc56e321-6104-5573-be0b-8fc0bd3b5111")
+		(property "Sheetname" "TXEN1"
+			(at 50.80 194.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "en_buf.kicad_sch"
+			(at 50.80 201.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 50.80 198.12 180)
+			(uuid "e576427a-d4e8-519c-a37d-81e30792f640")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT" output
+			(at 76.20 198.12 0)
+			(uuid "5d76f364-74ce-54d5-8203-e2361daa5ab9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "28")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 198.12) (xy 139.70 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c55e3ba9-d299-506c-bc5e-cf1a22cc726f")
+	)
+	(global_label "TX_EN_FPGA"
+		(shape passive)
+		(at 139.70 198.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a54b0fb8-aef5-5167-a844-79d0e445e190")
+	)
+	(wire
+		(pts
+			(xy 167.64 198.12) (xy 170.18 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9215eafd-18c4-56e9-a993-fd8365c03897")
+	)
+	(global_label "TX_EN2"
+		(shape passive)
+		(at 170.18 198.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "42b8028b-256a-5b9b-b8f9-781355e4e096")
+	)
+	(sheet
+		(at 142.24 195.58)
+		(size 25.40 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "3367c5a2-4c76-5295-b3cc-b3030a4af2e5")
+		(property "Sheetname" "TXEN2"
+			(at 142.24 194.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "en_buf.kicad_sch"
+			(at 142.24 201.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 142.24 198.12 180)
+			(uuid "15e05abe-ad28-523f-bc23-6450b6d06836")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT" output
+			(at 167.64 198.12 0)
+			(uuid "3b796a51-a6cb-50eb-81f2-1caa7f5c4752")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "29")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 198.12) (xy 231.14 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0769220b-d266-5047-b5cc-7a2fec800236")
+	)
+	(global_label "TX_EN_FPGA"
+		(shape passive)
+		(at 231.14 198.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "11bd1922-9ba5-5bfd-9f12-79ebd85c2736")
+	)
+	(wire
+		(pts
+			(xy 259.08 198.12) (xy 261.62 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f62cd683-9fdd-5dfe-8c7f-da3396c2b844")
+	)
+	(global_label "TX_EN3"
+		(shape passive)
+		(at 261.62 198.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "48457f93-6d8e-5002-8013-6aa7421aa8f4")
+	)
+	(sheet
+		(at 233.68 195.58)
+		(size 25.40 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7e62d1a1-baf5-5f08-a593-ab117894c091")
+		(property "Sheetname" "TXEN3"
+			(at 233.68 194.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "en_buf.kicad_sch"
+			(at 233.68 201.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 233.68 198.12 180)
+			(uuid "28eddc19-a9ec-5a84-9cba-ed648e329a7e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT" output
+			(at 259.08 198.12 0)
+			(uuid "63747705-fabc-5bd0-bf7d-62499f9b393b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "30")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 325.12 198.12) (xy 322.58 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3c64d67-a9b2-5939-b880-961485c83b8a")
+	)
+	(global_label "TX_EN_FPGA"
+		(shape passive)
+		(at 322.58 198.12 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e6593c83-3b48-5b67-b012-a55e922e97fb")
+	)
+	(wire
+		(pts
+			(xy 350.52 198.12) (xy 353.06 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2e5015c8-0e15-58a8-b381-05caaa858ea5")
+	)
+	(global_label "TX_EN4"
+		(shape passive)
+		(at 353.06 198.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "25508e5e-6fb8-578a-be20-fb904de97692")
+	)
+	(sheet
+		(at 325.12 195.58)
+		(size 25.40 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bb846bc3-d270-5473-a344-c566f7b5a3d6")
+		(property "Sheetname" "TXEN4"
+			(at 325.12 194.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "en_buf.kicad_sch"
+			(at 325.12 201.25 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 325.12 198.12 180)
+			(uuid "98a645a0-5629-53f6-9c78-d9feef756588")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT" output
+			(at 350.52 198.12 0)
+			(uuid "045b5c51-0723-5bf5-8f59-85ad930ce331")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7"
+					(page "31")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

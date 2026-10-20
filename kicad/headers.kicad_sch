@@ -2,8 +2,14 @@
 	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "f58257a4-5aad-4102-8a48-a63057e676a1")
+	(uuid "4f261712-e8e6-4a3e-80a3-9beca8ab8ed5")
 	(paper "A3")
+	(title_block
+		(title "AXU3EGB headers J15/J16, idle pulls")
+		(date "2026-10-20")
+		(rev "2")
+		(company "Hybrid 8x8 ultrasonic AESA")
+	)
 	(lib_symbols
 		(symbol "Connector_Generic:Conn_02x20_Odd_Even"
 			(pin_names
@@ -1815,30 +1821,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "FPGA ribbon outputs: DRIVE 4, SLEW SLOW (near source-matched to the 100-ohm ribbon). DNP fallback: RC end termination 100 R + 47 pF per clock, fit only with DRIVE 8."
-		(exclude_from_sim no)
-		(at 30.48 190.5 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "16bb94d3-12ba-5fb9-bf55-18a3de93930f")
-	)
-	(text "Spare FPGA pins tied to GND must stay inputs in the XDC. FPGA outputs: DRIVE 4, SLEW SLOW."
-		(exclude_from_sim no)
-		(at 30.48 38.1 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "98e99eb0-3ddf-5025-9c7a-b89ef2a82ae1")
-	)
 	(text "Pin 2 (+5V) and 39/40 (+3.3V) of the FPGA board are left open. Clocks sit between GND conductors (pins 31-37)."
 		(exclude_from_sim no)
 		(at 30.48 33.02 0)
@@ -1849,19 +1831,31 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "a7083cda-85a2-576c-a3fb-5251a7cab9c3")
+		(uuid "16bb94d3-12ba-5fb9-bf55-18a3de93930f")
 	)
-	(text "AXU3EGB expansion headers (40-pin IDC, 2.54 mm). J1 = board J15 (TX, mics), J2 = board J16 (ADCs)."
+	(text "FPGA ribbon outputs: DRIVE 4, SLEW SLOW (near source-matched to the 100-ohm ribbon). DNP fallback: RC end termination 100 R + 47 pF per clock, fit only with DRIVE 8."
 		(exclude_from_sim no)
-		(at 30.48 25.4 0)
+		(at 30.48 176.53 0)
 		(effects
 			(font
-				(size 2.5 2.5)
+				(size 1.8 1.8)
 				(bold yes)
 			)
 			(justify left bottom)
 		)
-		(uuid "cfa820a0-5a63-59e4-952f-de91637d4ba0")
+		(uuid "8656e411-1326-582c-adff-a4d52fc491e9")
+	)
+	(text "Spare FPGA pins tied to GND must stay unused (inputs) in the XDC."
+		(exclude_from_sim no)
+		(at 30.48 38.1 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "87fbf7e4-db4e-54c3-b13e-7b3a95979494")
 	)
 	(text "Idle pulls (FPGA unconfigured). TX_SCK, TX_LATCH, ADC_SCLK, ADC_CONVST and MIC_CLK_IN are pulled down in their clk_buf."
 		(exclude_from_sim no)
@@ -1869,6 +1863,18 @@
 		(effects
 			(font
 				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "cea21168-3df0-551f-b3d4-4bf64f374509")
+	)
+	(text "AXU3EGB expansion headers (40-pin IDC, 2.54 mm). J1 = board J15 (TX, mics), J2 = board J16 (ADCs)."
+		(exclude_from_sim no)
+		(at 30.48 25.4 0)
+		(effects
+			(font
+				(size 2.5 2.5)
 				(bold yes)
 			)
 			(justify left bottom)
@@ -2031,7 +2037,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 209.55) (xy 132.08 214.63)
+			(xy 254 260.35) (xy 254 262.89)
 		)
 		(stroke
 			(width 0)
@@ -2441,6 +2447,16 @@
 	)
 	(wire
 		(pts
+			(xy 213.36 209.55) (xy 213.36 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98e99eb0-3ddf-5025-9c7a-b89ef2a82ae1")
+	)
+	(wire
+		(pts
 			(xy 172.72 252.73) (xy 172.72 250.19)
 		)
 		(stroke
@@ -2481,6 +2497,16 @@
 	)
 	(wire
 		(pts
+			(xy 172.72 209.55) (xy 172.72 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7083cda-85a2-576c-a3fb-5251a7cab9c3")
+	)
+	(wire
+		(pts
 			(xy 91.44 222.25) (xy 91.44 224.79)
 		)
 		(stroke
@@ -2491,7 +2517,7 @@
 	)
 	(wire
 		(pts
-			(xy 50.8 209.55) (xy 50.8 214.63)
+			(xy 254 252.73) (xy 254 250.19)
 		)
 		(stroke
 			(width 0)
@@ -2518,16 +2544,6 @@
 			(type default)
 		)
 		(uuid "ad2964d1-701a-56fb-b25d-c2e96dc53d7e")
-	)
-	(wire
-		(pts
-			(xy 91.44 209.55) (xy 91.44 214.63)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b02cff6d-5142-5e57-98e6-54083be8a57d")
 	)
 	(wire
 		(pts
@@ -2691,6 +2707,16 @@
 	)
 	(wire
 		(pts
+			(xy 132.08 209.55) (xy 132.08 214.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cfa820a0-5a63-59e4-952f-de91637d4ba0")
+	)
+	(wire
+		(pts
 			(xy 248.92 127) (xy 246.38 127)
 		)
 		(stroke
@@ -2721,7 +2747,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 209.55) (xy 213.36 214.63)
+			(xy 91.44 209.55) (xy 91.44 214.63)
 		)
 		(stroke
 			(width 0)
@@ -2851,7 +2877,7 @@
 	)
 	(wire
 		(pts
-			(xy 172.72 209.55) (xy 172.72 214.63)
+			(xy 50.8 209.55) (xy 50.8 214.63)
 		)
 		(stroke
 			(width 0)
@@ -3857,6 +3883,28 @@
 			)
 		)
 	)
+	(global_label "ADC_SDI"
+		(shape input)
+		(at 254 250.19 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b02cff6d-5142-5e57-98e6-54083be8a57d")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 254 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
 	(global_label "ADC_SCLK"
 		(shape input)
 		(at 132.08 199.39 90)
@@ -4166,806 +4214,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 213.36 205.74 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp yes)
-		(uuid "03005c9b-b15b-4c70-9a49-58250958abe9")
-		(property "Reference" "R10"
-			(at 215.9 204.47 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100 1% DNP"
-			(at 215.9 207.01 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 211.582 205.74 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 213.36 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 213.36 205.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "da31adb4-ca3c-41a8-957c-b1fa25d0c75c")
-		)
-		(pin "2"
-			(uuid "2bcf5ef5-cdb5-4cb5-89ed-cb624569b8bc")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9910")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 246.38 160.02 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "04881b12-df89-463b-9d23-0d7511ac728d")
-		(property "Reference" "#PWR024"
-			(at 252.73 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 246.38 165.1 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 246.38 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 246.38 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 160.02 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "9e956db7-8a38-4ad8-bd16-db313ca74869")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9924")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 132.08 224.79 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "09368ce8-a1ee-44f0-bfab-f3a942e7c188")
-		(property "Reference" "#PWR029"
-			(at 132.08 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 132.08 229.87 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 132.08 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 132.08 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 132.08 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "e13f3d98-449b-4b19-aefc-56a825b6ca32")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9929")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 172.72 224.79 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "0fd5662b-979c-4aed-89a5-8a4053a5d47c")
-		(property "Reference" "#PWR030"
-			(at 172.72 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 172.72 229.87 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 172.72 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 172.72 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "38b7a5f4-d00c-40c7-b3be-d3b7e225b688")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9930")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 91.44 224.79 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "12e12441-ed77-4ab2-911b-6f7993002646")
-		(property "Reference" "#PWR028"
-			(at 91.44 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 91.44 229.87 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 91.44 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 91.44 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 91.44 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6c50e238-c16a-45cb-8ed5-1508f2fc029a")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9928")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 93.98 119.38 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "1abd623b-2608-472f-bf5a-d4f1bc264f5f")
-		(property "Reference" "#PWR002"
-			(at 100.33 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 124.46 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "76ea8372-1eae-4383-899a-010229a77398")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9902")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 93.98 144.78 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "1e9573f7-4e20-4840-88b9-27389951b347")
-		(property "Reference" "#PWR004"
-			(at 100.33 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 149.86 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d8d7131e-10ec-484f-8fef-b1381cfbc38a")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9904")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 132.08 218.44 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp yes)
-		(uuid "27eed5b2-3c63-4b72-8a42-3bc49054ba97")
-		(property "Reference" "C3"
-			(at 134.62 217.17 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47p 50V C0G DNP"
-			(at 134.62 219.71 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 133.045 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 132.08 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 132.08 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 132.08 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c6372f98-faf5-45c2-bd32-4da2e68ba695")
-		)
-		(pin "2"
-			(uuid "4255357f-69f2-4207-948c-7de35ce85d31")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "C9903")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 172.72 250.19 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2a6dae40-f33f-4272-81f1-5c5bb335af45")
-		(property "Reference" "#PWR035"
-			(at 172.72 246.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 172.72 246.38 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 172.72 250.19 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 250.19 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 172.72 250.19 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "1b9b43a1-c44c-49a5-933a-c92de4ba7fbd")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9935")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 246.38 147.32 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2e3677b6-07bb-434d-9404-828fb15ad764")
-		(property "Reference" "#PWR016"
-			(at 252.73 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 246.38 152.4 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 246.38 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 246.38 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "675417b5-e4f8-4786-b458-5f882100b39a")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9916")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 93.98 152.4 270)
 		(unit 1)
@@ -4975,7 +4223,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "30d41a3f-ccb0-4aea-89ff-032b6dbde8b2")
+		(uuid "01992096-7135-4972-975c-522e628d74a5")
 		(property "Reference" "#PWR006"
 			(at 100.33 152.4 0)
 			(hide yes)
@@ -5032,1275 +4280,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "1568a927-eb11-4544-ba61-f52b4bf32446")
+			(uuid "56450518-8afb-42dc-8720-d96e26b04c76")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "#PWR9906")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 213.36 262.89 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "33705077-81e7-4eea-b681-44290a3cdbfa")
-		(property "Reference" "#PWR036"
-			(at 213.36 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 213.36 267.97 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 213.36 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 213.36 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "05b03ab9-4d66-42b7-8b73-bd21927b2c9a")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9936")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 132.08 205.74 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp yes)
-		(uuid "3d53441e-f574-42be-a044-c8061d55199d")
-		(property "Reference" "R8"
-			(at 134.62 204.47 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100 1% DNP"
-			(at 134.62 207.01 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 130.302 205.74 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 132.08 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 132.08 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 132.08 205.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0fa8f9b9-e2a1-4f91-aeb7-526270e057b5")
-		)
-		(pin "2"
-			(uuid "ac936ec9-d2de-47f1-8c9e-62b8c185b76f")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9908")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 50.8 256.54 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "41e5a526-1d36-4982-a860-d6be1fbb9e16")
-		(property "Reference" "R1"
-			(at 53.34 255.27 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k 1%"
-			(at 53.34 257.81 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 49.022 256.54 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 50.8 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 50.8 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 50.8 256.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "893c0cc7-9d2c-4121-a59c-e77617b421d6")
-		)
-		(pin "2"
-			(uuid "92f3c3f9-350f-4268-a8df-2aba0ad0d12c")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9901")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_02x20_Odd_Even")
-		(at 101.6 139.7 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "4323631e-ea8d-4148-a44c-826d545abbff")
-		(property "Reference" "J1"
-			(at 106.68 111.76 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "EX_IO1 (AXU3EGB J15)"
-			(at 106.68 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical"
-			(at 101.6 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 101.6 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 101.6 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 101.6 139.7 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4863f106-3f3f-41d5-b534-40ed5e541925")
-		)
-		(pin "10"
-			(uuid "4c565196-aa3f-4b90-a6b5-5e720d8f205e")
-		)
-		(pin "11"
-			(uuid "9355e85a-fc23-484d-9a78-80029fbbc8c1")
-		)
-		(pin "12"
-			(uuid "a3513342-101a-405f-9b9e-6afbd6d3645c")
-		)
-		(pin "13"
-			(uuid "0bec64bf-ede5-421d-bed0-269f494a871f")
-		)
-		(pin "14"
-			(uuid "819e75d0-1f4e-4163-996d-6ac177fa8df6")
-		)
-		(pin "15"
-			(uuid "ddd28d99-fe0d-417c-93e4-09c25f0d86a6")
-		)
-		(pin "16"
-			(uuid "a3b4adeb-e752-4144-b3e0-182d5153babd")
-		)
-		(pin "17"
-			(uuid "2e133266-cfb6-47ba-95f3-cd2533b07cb1")
-		)
-		(pin "18"
-			(uuid "a0856ff1-5621-489f-b930-b4336dd2b710")
-		)
-		(pin "19"
-			(uuid "e13bb15b-f356-4c08-a739-d2f856f35baa")
-		)
-		(pin "2"
-			(uuid "e3b629b0-f47e-4def-8a7c-b040a1f9c2ef")
-		)
-		(pin "20"
-			(uuid "8427439a-9dfb-479a-b67b-91605fb95243")
-		)
-		(pin "21"
-			(uuid "1fe81b85-371d-417b-a881-3e3f839daa07")
-		)
-		(pin "22"
-			(uuid "dbc40c61-b5b7-4036-a099-fe8175632b0d")
-		)
-		(pin "23"
-			(uuid "911e51a6-bc83-4901-9832-4d366cbc90d8")
-		)
-		(pin "24"
-			(uuid "4bd69f15-2a52-471d-b977-bda72f01fda9")
-		)
-		(pin "25"
-			(uuid "935e1785-1c40-485b-8de1-221784acdf08")
-		)
-		(pin "26"
-			(uuid "2c6af2b7-5d6f-458b-ab44-3286eceb5da2")
-		)
-		(pin "27"
-			(uuid "8a305edc-3143-47d7-80a8-cf03695408f6")
-		)
-		(pin "28"
-			(uuid "1376e19c-4225-47f5-af13-63d74d635c31")
-		)
-		(pin "29"
-			(uuid "7bdae9a1-9dd1-402a-8760-22436f1e5ab6")
-		)
-		(pin "3"
-			(uuid "ac787675-58d9-4bac-aee7-8911bf625afc")
-		)
-		(pin "30"
-			(uuid "708a6a73-e2a2-4fbb-a04c-94d4537ca70e")
-		)
-		(pin "31"
-			(uuid "5f3871cf-3da3-4f38-b396-52120f930f1d")
-		)
-		(pin "32"
-			(uuid "86b3d673-5007-44d9-bf98-6c84b1d4fb7b")
-		)
-		(pin "33"
-			(uuid "b3721819-8d48-40d0-87b6-e605f3ad6430")
-		)
-		(pin "34"
-			(uuid "24da38b0-e2e0-451c-93aa-70dec6b8e4ba")
-		)
-		(pin "35"
-			(uuid "9ea892fa-33b6-4378-b43d-679194c54d68")
-		)
-		(pin "36"
-			(uuid "c9820a82-fff9-4bc3-8923-e6565e0cf1a6")
-		)
-		(pin "37"
-			(uuid "44baffc4-88b1-4b9d-af80-d69a6df90167")
-		)
-		(pin "38"
-			(uuid "c4f0a80a-1f32-47db-9d00-2a60569432d5")
-		)
-		(pin "39"
-			(uuid "e42c59dc-eab2-4500-9c5b-f093ce9e8e0e")
-		)
-		(pin "4"
-			(uuid "10a4a49f-051d-441c-ac90-0ef05c3bdec3")
-		)
-		(pin "40"
-			(uuid "f0d2ae68-6312-4cb1-8cdb-d6d8519b13ce")
-		)
-		(pin "5"
-			(uuid "dc4fe0e9-44a6-4444-bd62-d811adc70080")
-		)
-		(pin "6"
-			(uuid "448e232a-05d4-433e-bd8f-82456f5d556e")
-		)
-		(pin "7"
-			(uuid "eaf04d22-b9aa-444f-8803-41f0416006e8")
-		)
-		(pin "8"
-			(uuid "463033cd-a3c8-4780-ba1f-bcdaacb8bbd2")
-		)
-		(pin "9"
-			(uuid "21ed948a-8312-4de0-8d4e-b7a1696b68ee")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "J9901")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 264.16 162.56 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "52ca6aab-3c48-4604-8506-05b25d5f75d3")
-		(property "Reference" "#PWR026"
-			(at 257.81 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 264.16 167.64 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 264.16 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 264.16 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 264.16 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "bf545254-1fad-472d-a7c4-83f75b1724a0")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9926")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 132.08 256.54 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "59ab2162-d0c1-4f9e-a147-9794c66ca733")
-		(property "Reference" "R3"
-			(at 134.62 255.27 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k 1%"
-			(at 134.62 257.81 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 130.302 256.54 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 132.08 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 132.08 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 132.08 256.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0fb9f70e-352b-42af-8c1f-3dc933eed2c5")
-		)
-		(pin "2"
-			(uuid "d7b697df-760f-470b-9929-72ca031ca39e")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9903")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 111.76 147.32 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "5dfd8e47-887a-4e21-9790-e73db27b43de")
-		(property "Reference" "#PWR005"
-			(at 105.41 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 111.76 152.4 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 111.76 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 111.76 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 111.76 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "f98daf2e-434d-46b8-925c-bcb4f9c17e1a")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9905")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 93.98 116.84 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "5e87b2e8-8e56-4ec4-b4e8-29fe5f378bd4")
-		(property "Reference" "#PWR001"
-			(at 100.33 116.84 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 121.92 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 116.84 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 116.84 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 116.84 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b1d68c46-8e85-4d3e-94a7-17cdd3808cab")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9901")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+3V3")
-		(at 91.44 250.19 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "5ecbf0e2-288f-4634-9086-f5239377ed78")
-		(property "Reference" "#PWR033"
-			(at 91.44 246.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 91.44 246.38 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 91.44 250.19 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 91.44 250.19 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 91.44 250.19 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "31396cd1-728a-4df8-9c24-872362c53d84")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9933")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 172.72 205.74 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp yes)
-		(uuid "6008e07a-43b2-4a5c-a52d-f5eaf578d61f")
-		(property "Reference" "R9"
-			(at 175.26 204.47 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "100 1% DNP"
-			(at 175.26 207.01 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 170.942 205.74 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 172.72 205.74 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 172.72 205.74 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ee1e4009-3255-43ab-872f-5821c41b5df2")
-		)
-		(pin "2"
-			(uuid "396ba2a9-e717-473c-8172-0107c228b8b3")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9909")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 246.38 152.4 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "681650c4-d7cc-4ab0-a203-991901f934d0")
-		(property "Reference" "#PWR020"
-			(at 252.73 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 246.38 157.48 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 246.38 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 246.38 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 152.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "95b88818-74df-4ca3-9b99-1b08527bddd7")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9920")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 264.16 147.32 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "69e58b39-c65b-48ec-85ce-88a23d04f817")
-		(property "Reference" "#PWR017"
-			(at 257.81 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 264.16 152.4 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 264.16 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 264.16 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 264.16 147.32 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "225f1d22-03c4-4ff4-b6f8-99ffdd9d2ee0")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9917")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 132.08 262.89 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6c4b4b15-da4c-4039-b701-df3b9e9b8b40")
-		(property "Reference" "#PWR034"
-			(at 132.08 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 132.08 267.97 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 132.08 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 132.08 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 132.08 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "b3651fd0-fb65-4290-a6d7-bc2de094a70f")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9934")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 93.98 157.48 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "7966a9c6-0e42-41c5-8142-51da6218606d")
-		(property "Reference" "#PWR008"
-			(at 100.33 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 162.56 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 157.48 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "aaab4e1f-30b4-4920-898e-67cab70bb412")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9908")
 					(unit 1)
 				)
 			)
@@ -6316,7 +4301,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7b569184-2822-4aeb-a746-fb60de81280e")
+		(uuid "0c944273-531d-4711-aadb-e2b611bc7819")
 		(property "Reference" "R5"
 			(at 215.9 255.27 0)
 			(show_name no)
@@ -6382,15 +4367,93 @@
 			)
 		)
 		(pin "1"
-			(uuid "fe1c8a15-0ecf-461c-8853-5f667aee8e32")
+			(uuid "7224e1ad-531e-48c9-bb40-c7d5279bff2f")
 		)
 		(pin "2"
-			(uuid "4d1fd27e-47c9-48ce-8e8e-17bb61f22d55")
+			(uuid "54fcd92b-6799-406a-80af-6a9b1c886ed9")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "R9905")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 111.76 147.32 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "11320c13-b9f6-4447-860a-6b885b2a7c6f")
+		(property "Reference" "#PWR005"
+			(at 105.41 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 111.76 152.4 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 111.76 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 111.76 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8178b9b2-d1b7-4715-badd-aef2dbf46b6b")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9905")
 					(unit 1)
 				)
 			)
@@ -6406,7 +4469,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp yes)
-		(uuid "7f51463c-88f8-4d44-95db-58709452bc59")
+		(uuid "159f3872-c3fb-49ab-8c9e-0142225e53d5")
 		(property "Reference" "R7"
 			(at 93.98 204.47 0)
 			(show_name no)
@@ -6472,14 +4535,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "bea3a733-8695-4854-8d4f-92061a7dd476")
+			(uuid "0ec2445c-cd46-45bf-8a08-351762a6ac63")
 		)
 		(pin "2"
-			(uuid "a52deef8-a393-4f29-a18a-1dd98a0e2168")
+			(uuid "26c0e6de-ae66-4f3a-b139-506258a01b63")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "R9907")
 					(unit 1)
 				)
@@ -6488,7 +4551,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 93.98 160.02 270)
+		(at 93.98 157.48 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6496,9 +4559,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "85c7c911-8b3b-4058-957d-83c9b20d1fd8")
-		(property "Reference" "#PWR009"
-			(at 100.33 160.02 0)
+		(uuid "199aa79c-6a6d-46a4-837c-a300cbdd034a")
+		(property "Reference" "#PWR008"
+			(at 100.33 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6509,7 +4572,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 93.98 165.1 90)
+			(at 93.98 162.56 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6520,7 +4583,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 160.02 0)
+			(at 93.98 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6531,7 +4594,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 160.02 0)
+			(at 93.98 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6542,7 +4605,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 160.02 0)
+			(at 93.98 157.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6553,20 +4616,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "645f74b2-41d6-4b49-9f01-8ace63b43706")
+			(uuid "f51c8483-0432-43e8-98ed-7e8230b89364")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9909")
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9908")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Device:R")
-		(at 172.72 256.54 0)
+		(lib_id "power:GND")
+		(at 213.36 224.79 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6574,31 +4637,30 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "919dfcec-a661-4e06-8c55-5f7e9fb7f023")
-		(property "Reference" "R4"
-			(at 175.26 255.27 0)
+		(uuid "27ed0330-2b4f-4312-bfc8-caf91e15fa35")
+		(property "Reference" "#PWR031"
+			(at 213.36 218.44 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Value" "10k 1%"
-			(at 175.26 257.81 0)
+		(property "Value" "GND"
+			(at 213.36 229.87 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 170.942 256.54 90)
+		(property "Footprint" ""
+			(at 213.36 224.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6609,7 +4671,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 172.72 256.54 0)
+			(at 213.36 224.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6619,8 +4681,8 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
-			(at 172.72 256.54 0)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 213.36 224.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6628,27 +4690,15 @@
 				(font
 					(size 1.27 1.27)
 				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 172.72 256.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
 			)
 		)
 		(pin "1"
-			(uuid "0bbe0e4d-3545-43b6-8381-c246300da8ae")
-		)
-		(pin "2"
-			(uuid "6d397b54-7a30-4e60-9953-19356718c588")
+			(uuid "6971aae9-e6db-4a95-90d9-cbf145c740a8")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9904")
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9931")
 					(unit 1)
 				)
 			)
@@ -6656,7 +4706,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 213.36 218.44 0)
+		(at 132.08 218.44 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6664,9 +4714,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp yes)
-		(uuid "97178f68-eee4-47c7-b169-1e34bcac3978")
-		(property "Reference" "C5"
-			(at 215.9 217.17 0)
+		(uuid "3c575d55-8ea4-43f6-bcb4-024a16d7af67")
+		(property "Reference" "C3"
+			(at 134.62 217.17 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6677,7 +4727,7 @@
 			)
 		)
 		(property "Value" "47p 50V C0G DNP"
-			(at 215.9 219.71 0)
+			(at 134.62 219.71 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6688,7 +4738,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 214.325 214.63 0)
+			(at 133.045 214.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6699,7 +4749,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 213.36 218.44 0)
+			(at 132.08 218.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6710,7 +4760,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor"
-			(at 213.36 218.44 0)
+			(at 132.08 218.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6721,7 +4771,7 @@
 			)
 		)
 		(property "LCSC" "TBD"
-			(at 213.36 218.44 0)
+			(at 132.08 218.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6730,93 +4780,15 @@
 			)
 		)
 		(pin "1"
-			(uuid "0d04ba4f-6d7d-4816-a91d-a9b630be906a")
+			(uuid "fb21314e-9565-4603-9a9f-22db7bf2a602")
 		)
 		(pin "2"
-			(uuid "9f855b1e-8b18-458b-bba0-467c5a0dc081")
+			(uuid "b0133557-3676-4dd1-95b8-1b9a594344ea")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "C9905")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 246.38 154.94 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "9e15ae26-73ac-4fa6-9096-01e4d6093ac4")
-		(property "Reference" "#PWR022"
-			(at 252.73 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 246.38 160.02 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 246.38 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 246.38 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "25eda691-496d-42b0-9050-27606f50f7e0")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9922")
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "C9903")
 					(unit 1)
 				)
 			)
@@ -6832,7 +4804,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "a5652cf5-c7b6-47aa-8127-c96466f822d3")
+		(uuid "3edfe60a-b70e-40e2-8e16-be902f33c761")
 		(property "Reference" "#PWR019"
 			(at 257.81 149.86 0)
 			(hide yes)
@@ -6889,1108 +4861,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "72afc33d-e38f-485e-8a93-d2c9261a5058")
+			(uuid "9393464c-ccf3-448a-b7e4-7c8e705aa9d6")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "#PWR9919")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 213.36 224.79 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "a6e960f5-b58a-4c4f-8a72-0cf43300f320")
-		(property "Reference" "#PWR031"
-			(at 213.36 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 213.36 229.87 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 213.36 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 213.36 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "2c302274-01e8-4574-b092-b6af83d56abc")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9931")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 264.16 121.92 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "ae1ed439-95c1-490e-b5b9-ddb8ed1399d1")
-		(property "Reference" "#PWR015"
-			(at 257.81 121.92 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 264.16 127 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 264.16 121.92 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 264.16 121.92 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 264.16 121.92 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "877ea7b8-4c9d-473d-8b3e-32f8da3aeb7e")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9915")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 91.44 218.44 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp yes)
-		(uuid "ae8ecc39-8370-478f-a3d4-245bb7f1cd9a")
-		(property "Reference" "C2"
-			(at 93.98 217.17 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47p 50V C0G DNP"
-			(at 93.98 219.71 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 92.405 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 91.44 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 91.44 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 91.44 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3bd5b273-a2b5-4268-91d2-8fffd1f356a4")
-		)
-		(pin "2"
-			(uuid "409d4584-c17d-466b-a7cd-4613326b4763")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "C9902")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 111.76 162.56 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b2db7c82-8ea9-4502-ab1a-d7980b897145")
-		(property "Reference" "#PWR011"
-			(at 105.41 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 111.76 167.64 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 111.76 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 111.76 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 111.76 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "9547889b-62c3-47e1-a8e8-bc8c572b9d23")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9911")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_02x20_Odd_Even")
-		(at 254 139.7 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b2ed4b39-6ffc-4076-a50a-65f60c2c32fa")
-		(property "Reference" "J2"
-			(at 259.08 111.76 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "EX_IO2 (AXU3EGB J16)"
-			(at 259.08 114.3 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical"
-			(at 254 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 254 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 254 139.7 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 254 139.7 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "67394677-46e6-440f-82e3-345d1104a01f")
-		)
-		(pin "10"
-			(uuid "39ff85f1-02f1-4bee-b120-b7093ec0150e")
-		)
-		(pin "11"
-			(uuid "65c38fe4-e2a3-4071-8af1-daa180f9514f")
-		)
-		(pin "12"
-			(uuid "b706539d-b98f-44cf-a2f6-712a81fa7b30")
-		)
-		(pin "13"
-			(uuid "e5d00e8a-0582-40fa-8900-6ca274ebf95f")
-		)
-		(pin "14"
-			(uuid "9230ffab-c9c0-4cfc-b566-133e6f671c5c")
-		)
-		(pin "15"
-			(uuid "3195d8b6-d1ba-4685-9f81-f18256ac7b77")
-		)
-		(pin "16"
-			(uuid "2f501483-41e3-4d6d-938b-bc72f6698e7d")
-		)
-		(pin "17"
-			(uuid "f2c197a1-f9bf-445c-96cb-e89c0c2ecf0f")
-		)
-		(pin "18"
-			(uuid "19c78562-6b65-4230-b693-f6f42762f328")
-		)
-		(pin "19"
-			(uuid "f0b3c4a9-6b9f-4c11-9189-a8b08ef595f5")
-		)
-		(pin "2"
-			(uuid "34efcb9e-77e0-4703-8939-89b36f21fb7a")
-		)
-		(pin "20"
-			(uuid "85b5357c-60e9-4ebe-a475-bf5716705753")
-		)
-		(pin "21"
-			(uuid "2c2a2593-ad9f-49c8-ab32-95c3f25dd6c9")
-		)
-		(pin "22"
-			(uuid "36fb2f9e-bbfa-4f0c-b439-b4b9af8e24eb")
-		)
-		(pin "23"
-			(uuid "22d5c4bd-5154-4d10-bafe-23ed53c31ced")
-		)
-		(pin "24"
-			(uuid "2e9010fd-b88f-428d-95a8-1cc2108f2eb4")
-		)
-		(pin "25"
-			(uuid "bc59d296-aad2-4e5d-8c59-e6c6f18202eb")
-		)
-		(pin "26"
-			(uuid "bcbc3e28-c417-46ba-b227-0608507fc525")
-		)
-		(pin "27"
-			(uuid "794120cb-b050-4556-8ae8-79f7b2e934dd")
-		)
-		(pin "28"
-			(uuid "7387b5e8-5be3-4b46-a31a-fbe514f53046")
-		)
-		(pin "29"
-			(uuid "486565c0-0498-4d91-80c0-45c1213674c8")
-		)
-		(pin "3"
-			(uuid "44cf7e34-703c-4cda-bbd2-1953550d0307")
-		)
-		(pin "30"
-			(uuid "6ef98ab9-99a7-44a3-9fd0-a92cb2f18658")
-		)
-		(pin "31"
-			(uuid "25447f63-63f9-4b63-9850-c8ddd4b5a823")
-		)
-		(pin "32"
-			(uuid "1b9171c6-f830-4bb7-b2e6-fa559eff6dff")
-		)
-		(pin "33"
-			(uuid "2091e40e-ddfd-46ee-a8e8-0b66d323c302")
-		)
-		(pin "34"
-			(uuid "0258b101-2d51-49f2-8880-88577d5bf0f5")
-		)
-		(pin "35"
-			(uuid "843d56e3-8930-4205-976a-29c9f5b49931")
-		)
-		(pin "36"
-			(uuid "b5cf8925-9934-4949-909f-8699db324415")
-		)
-		(pin "37"
-			(uuid "fb2d3cec-a0a9-4eb2-a0d8-088e088608ac")
-		)
-		(pin "38"
-			(uuid "dfdb2845-148c-4b15-8f97-3f47cd818fa9")
-		)
-		(pin "39"
-			(uuid "2408e3ab-ed96-4220-8668-7a4672a63071")
-		)
-		(pin "4"
-			(uuid "8298d765-cab8-400b-8035-1396e1f657b4")
-		)
-		(pin "40"
-			(uuid "ea9e8304-aecf-438e-b31a-8945d84dfe8a")
-		)
-		(pin "5"
-			(uuid "91886174-5366-4c52-a29a-5b0361e3adf9")
-		)
-		(pin "6"
-			(uuid "830c99ac-7290-430f-8d0b-40eb6d3fcfd2")
-		)
-		(pin "7"
-			(uuid "46eb4e8e-ea70-4068-af23-76604d977a79")
-		)
-		(pin "8"
-			(uuid "74b1b299-339f-46ec-81f3-4ef00480cbfc")
-		)
-		(pin "9"
-			(uuid "e0b92d2a-1c8e-423a-b3c4-725280b0e3a3")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "J9902")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 50.8 262.89 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b3a42f37-a7f2-40dd-9c1a-12ab418053cf")
-		(property "Reference" "#PWR032"
-			(at 50.8 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 50.8 267.97 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 50.8 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 50.8 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 50.8 262.89 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "d47ae119-2008-48c9-876b-d69f8a0439bc")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9932")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 172.72 218.44 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp yes)
-		(uuid "b808bcad-c4b5-484c-8a90-337293b9f4bf")
-		(property "Reference" "C4"
-			(at 175.26 217.17 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "47p 50V C0G DNP"
-			(at 175.26 219.71 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 173.685 214.63 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 172.72 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 172.72 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 172.72 218.44 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4664fd9f-3516-4a91-87c2-1754a8706496")
-		)
-		(pin "2"
-			(uuid "4c34a589-1087-400c-bb6d-8a856970f446")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "C9904")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 93.98 154.94 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "bbe17b87-7a5b-499d-9f73-ae05b23cd639")
-		(property "Reference" "#PWR007"
-			(at 100.33 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 160.02 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 154.94 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "71281fbc-0848-409f-a831-38c2ec748c74")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9907")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 111.76 119.38 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c15ab85a-79bf-4f5a-93b9-e296ebd3a109")
-		(property "Reference" "#PWR003"
-			(at 105.41 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 111.76 124.46 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 111.76 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 111.76 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 111.76 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "5c72e9b1-75b4-433a-a3a5-18391f276642")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9903")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 91.44 256.54 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c81bc586-3f9c-44de-931e-e581857bfc52")
-		(property "Reference" "R2"
-			(at 93.98 255.27 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10k 1%"
-			(at 93.98 257.81 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 89.662 256.54 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 91.44 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Resistor"
-			(at 91.44 256.54 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 91.44 256.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a748a68e-6f84-4663-b518-8610bcfbdd6d")
-		)
-		(pin "2"
-			(uuid "511b02a4-849e-4c08-b45d-866a308b5fd7")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "R9902")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 246.38 119.38 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "c889f982-c9cb-44fc-bd76-8ab8af57d8ae")
-		(property "Reference" "#PWR013"
-			(at 252.73 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 246.38 124.46 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 246.38 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 246.38 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "a4a80666-b0f8-46ba-a1b9-a9a47fa2ce10")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9913")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 93.98 162.56 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "d267f6f2-681a-49b2-8f69-8351ad739baf")
-		(property "Reference" "#PWR010"
-			(at 100.33 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 93.98 167.64 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 93.98 162.56 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "235f9bd4-0173-4c6f-a0bb-e98970fe44b2")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9910")
 					(unit 1)
 				)
 			)
@@ -8006,7 +4882,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp yes)
-		(uuid "d486263e-0a01-42a1-bdc7-338be507764e")
+		(uuid "42acaa9e-455d-4d37-99bc-67a48ad3a01d")
 		(property "Reference" "R6"
 			(at 53.34 204.47 0)
 			(show_name no)
@@ -8072,15 +4948,261 @@
 			)
 		)
 		(pin "1"
-			(uuid "2dee7259-7165-42b3-853c-bb88f257c694")
+			(uuid "63bcdd86-73fc-4f8c-9b94-f70e7a32e1b8")
 		)
 		(pin "2"
-			(uuid "ab3b45f1-71e6-4d77-9113-e9477d016017")
+			(uuid "15ef4076-d454-4633-9ec6-89433e724088")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "R9906")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 93.98 162.56 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "45a08296-fddc-4cd4-b4c9-4ceb55b17cb6")
+		(property "Reference" "#PWR010"
+			(at 100.33 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 167.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 93.98 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 93.98 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "54d128b0-f4a0-4f84-b9d8-cf3bcf03e863")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9910")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 132.08 205.74 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "48f7fa18-3095-4dff-804a-eeba4475b1cb")
+		(property "Reference" "R8"
+			(at 134.62 204.47 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100 1% DNP"
+			(at 134.62 207.01 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 130.302 205.74 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 132.08 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 132.08 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c240d991-8737-4480-8365-f4c423ee9167")
+		)
+		(pin "2"
+			(uuid "6a212cc9-223f-453e-ba66-6e2bbfdf1892")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9908")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 93.98 116.84 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "4dccf47f-d84b-4d4e-968d-5e7ed1a4a04a")
+		(property "Reference" "#PWR001"
+			(at 100.33 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 121.92 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 93.98 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 93.98 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ed944971-26fc-408c-a167-cd57cd1207cf")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9901")
 					(unit 1)
 				)
 			)
@@ -8096,7 +5218,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "d535fe69-c2f3-42d2-a69c-8aa7454e9dc7")
+		(uuid "4e2b297e-c5c7-41bf-9e36-bc72a954358d")
 		(property "Reference" "#PWR012"
 			(at 252.73 116.84 0)
 			(hide yes)
@@ -8153,11 +5275,11 @@
 			)
 		)
 		(pin "1"
-			(uuid "fc73a10d-f81d-4190-b4e5-c1488a794e48")
+			(uuid "acb2ad5f-3c4d-4c9e-8906-037c0dbc94ac")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "#PWR9912")
 					(unit 1)
 				)
@@ -8165,8 +5287,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 246.38 162.56 270)
+		(lib_id "power:+3V3")
+		(at 91.44 250.19 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8174,9 +5296,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "dad3ec8e-22c5-40c8-be0c-4779e1747564")
-		(property "Reference" "#PWR025"
-			(at 252.73 162.56 0)
+		(uuid "525087ef-e5ab-4028-9c44-cf963c697c8e")
+		(property "Reference" "#PWR033"
+			(at 91.44 246.38 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8186,9 +5308,8 @@
 				)
 			)
 		)
-		(property "Value" "GND"
-			(at 246.38 167.64 90)
-			(hide yes)
+		(property "Value" "+3V3"
+			(at 91.44 246.38 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8198,7 +5319,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 246.38 162.56 0)
+			(at 91.44 250.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8209,7 +5330,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 246.38 162.56 0)
+			(at 91.44 250.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8219,8 +5340,8 @@
 				)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 162.56 0)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 91.44 250.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8231,20 +5352,20 @@
 			)
 		)
 		(pin "1"
-			(uuid "9b435c5a-970c-45fa-b6fa-af6f84736f41")
+			(uuid "345a3ed2-4f88-4ffa-8640-95dcc63b214f")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9925")
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9933")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 246.38 157.48 270)
+		(lib_id "Device:R")
+		(at 50.8 256.54 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8252,31 +5373,31 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "de1d407e-ffee-42af-b52b-219364bc25f0")
-		(property "Reference" "#PWR023"
-			(at 252.73 157.48 0)
-			(hide yes)
+		(uuid "5419f55b-9465-4bbc-bf5b-3a61ed5fa585")
+		(property "Reference" "R1"
+			(at 53.34 255.27 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "GND"
-			(at 246.38 162.56 90)
-			(hide yes)
+		(property "Value" "10k 1%"
+			(at 53.34 257.81 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 246.38 157.48 0)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 49.022 256.54 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8287,7 +5408,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 246.38 157.48 0)
+			(at 50.8 256.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8297,8 +5418,8 @@
 				)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 157.48 0)
+		(property "Description" "Resistor"
+			(at 50.8 256.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8306,15 +5427,27 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 50.8 256.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
-			(uuid "56625cc4-f503-4fbb-9ee8-6bdaddfa1873")
+			(uuid "dc251c37-1dbc-40e8-8cb5-ad474e32fa36")
+		)
+		(pin "2"
+			(uuid "0c5b9818-d58d-4159-919e-cc7bf8e3845e")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9923")
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9901")
 					(unit 1)
 				)
 			)
@@ -8330,7 +5463,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp yes)
-		(uuid "e48d434d-7411-4137-8f95-9a19e9855523")
+		(uuid "5b61fff2-fec8-4bac-b59e-58bd25dc8ac7")
 		(property "Reference" "C1"
 			(at 53.34 217.17 0)
 			(show_name no)
@@ -8396,14 +5529,14 @@
 			)
 		)
 		(pin "1"
-			(uuid "40a9c7bd-2c83-47f3-9409-5bd224b8d72d")
+			(uuid "dd457d38-9759-474c-afc2-33f3c54c3187")
 		)
 		(pin "2"
-			(uuid "ac858541-d84c-43d3-81ea-75a68fe8f481")
+			(uuid "dba1bf49-cc36-4bf0-96cb-26dc94594bf6")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "C9901")
 					(unit 1)
 				)
@@ -8411,8 +5544,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 246.38 149.86 270)
+		(lib_id "Device:R")
+		(at 172.72 256.54 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8420,31 +5553,31 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "efce059b-08fe-4181-a65a-c66916ca39c7")
-		(property "Reference" "#PWR018"
-			(at 252.73 149.86 0)
-			(hide yes)
+		(uuid "6190bea7-e3a6-4cbf-9ef0-399ad7fd5805")
+		(property "Reference" "R4"
+			(at 175.26 255.27 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Value" "GND"
-			(at 246.38 154.94 90)
-			(hide yes)
+		(property "Value" "10k 1%"
+			(at 175.26 257.81 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 246.38 149.86 0)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 170.942 256.54 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8455,7 +5588,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 246.38 149.86 0)
+			(at 172.72 256.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8465,8 +5598,8 @@
 				)
 			)
 		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 246.38 149.86 0)
+		(property "Description" "Resistor"
+			(at 172.72 256.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8474,170 +5607,27 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 172.72 256.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
 			)
 		)
 		(pin "1"
-			(uuid "1d847515-04ce-4313-82de-b0e54f0c686c")
+			(uuid "eb613f29-7cbd-419e-b971-fbc412e91293")
+		)
+		(pin "2"
+			(uuid "9e0064c4-46ab-4777-8a3e-94c55e327709")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9918")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 264.16 119.38 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f096c638-79c0-4f92-acef-7a9af2a91aa7")
-		(property "Reference" "#PWR014"
-			(at 257.81 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 264.16 124.46 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 264.16 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 264.16 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 264.16 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "4168da07-0c8e-4469-a20d-e3e27160a34f")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9914")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 50.8 224.79 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "fa7c079b-dac4-4527-88a0-055e2feab41b")
-		(property "Reference" "#PWR027"
-			(at 50.8 218.44 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 50.8 229.87 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 50.8 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 50.8 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 50.8 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "3049bafc-641c-41e2-af64-0122fbcfaedb")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
-					(reference "#PWR9927")
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9904")
 					(unit 1)
 				)
 			)
@@ -8653,7 +5643,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "fd4c4b46-59bf-4fde-8a12-cf56cdce36f9")
+		(uuid "62fc5245-18e5-43aa-941a-3bbebc7cff6c")
 		(property "Reference" "#PWR021"
 			(at 257.81 152.4 0)
 			(hide yes)
@@ -8710,12 +5700,3237 @@
 			)
 		)
 		(pin "1"
-			(uuid "9b905289-394a-458c-a48c-73166a4c5413")
+			(uuid "21126a17-059a-4fae-844b-0669c10cdc06")
 		)
 		(instances
 			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a1c5bbee-e8bb-5314-bf0b-6df44b3ca4ce"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
 					(reference "#PWR9921")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 154.94 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "67cc814c-d24a-4d5a-be1f-34c929ece022")
+		(property "Reference" "#PWR022"
+			(at 252.73 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 160.02 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "ac64c69c-83ea-44da-a9ae-c06488dfbfed")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9922")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 147.32 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "69a3b96b-6947-4248-be7a-1271a2c90a52")
+		(property "Reference" "#PWR016"
+			(at 252.73 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 152.4 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b1ca27c5-d4dc-4f59-b89f-1b6ea1868a79")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9916")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 111.76 119.38 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "78481d1a-efd1-4672-8666-928ca108dc4f")
+		(property "Reference" "#PWR003"
+			(at 105.41 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 111.76 124.46 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 111.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 111.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4b3f0646-0612-4861-a1a7-530d83600f51")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9903")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 93.98 154.94 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "796a3eec-9290-45f9-9398-e9048f417971")
+		(property "Reference" "#PWR007"
+			(at 100.33 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 160.02 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 93.98 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 93.98 154.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c91cc813-ece8-422a-9e1e-b557b6bee43d")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9907")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 132.08 262.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7a2306e5-90a5-4dfc-ba59-6958eea51e1e")
+		(property "Reference" "#PWR034"
+			(at 132.08 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 132.08 267.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.08 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 132.08 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fd01c41b-7f5d-4f14-8e7c-f43125494a13")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9934")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 264.16 147.32 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7c4d8868-896f-448b-9d7d-36605012053f")
+		(property "Reference" "#PWR017"
+			(at 257.81 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 264.16 152.4 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 264.16 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 264.16 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 264.16 147.32 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e27aba7a-56de-4b94-b179-7a26c0ece10f")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9917")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 172.72 218.44 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "7d755e4e-ea00-4ec6-b356-197b329eb6db")
+		(property "Reference" "C4"
+			(at 175.26 217.17 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47p 50V C0G DNP"
+			(at 175.26 219.71 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 173.685 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 172.72 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 172.72 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4c619d16-18de-4782-8906-e67584dcaf43")
+		)
+		(pin "2"
+			(uuid "6cb9c685-1916-4e68-afb7-0d3232ae41f5")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "C9904")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 119.38 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7dd810fa-d694-47df-aa50-a39356a53e42")
+		(property "Reference" "#PWR013"
+			(at 252.73 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 124.46 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b6521ca6-25e8-4d34-b120-e5c1042825f3")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9913")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 213.36 218.44 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "80fb217a-a501-423f-bcc8-472b5754b8f0")
+		(property "Reference" "C5"
+			(at 215.9 217.17 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47p 50V C0G DNP"
+			(at 215.9 219.71 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 214.325 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 213.36 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 213.36 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 213.36 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bf457b16-757c-4e9f-aa5d-e8ce206dd69a")
+		)
+		(pin "2"
+			(uuid "123445fd-5a09-41ed-ba45-557874f722f0")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "C9905")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 93.98 160.02 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "850d1034-d994-483b-8660-2bdf99f279f6")
+		(property "Reference" "#PWR009"
+			(at 100.33 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 165.1 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 93.98 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 93.98 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bdd2c4a6-4d79-4590-a864-9e057ab013f8")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9909")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 132.08 256.54 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "873f1a2a-9666-486d-b3ba-72d282fcdf69")
+		(property "Reference" "R3"
+			(at 134.62 255.27 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k 1%"
+			(at 134.62 257.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 130.302 256.54 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 132.08 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 132.08 256.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "58c07daa-53ec-47ee-b8de-21a698a1df01")
+		)
+		(pin "2"
+			(uuid "6756a72a-f7cb-49bf-b532-3f6bec8e744c")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9903")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_02x20_Odd_Even")
+		(at 254 139.7 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8df94fc6-2a36-4d0d-815d-0a5fbea8079a")
+		(property "Reference" "J2"
+			(at 259.08 111.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "EX_IO2 (AXU3EGB J16)"
+			(at 259.08 114.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical"
+			(at 254 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 254 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 254 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 254 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ca50531f-0055-41bc-b47c-dae17030b01e")
+		)
+		(pin "10"
+			(uuid "44e7e1fc-1cca-4673-88c5-287448f695db")
+		)
+		(pin "11"
+			(uuid "b68860e1-8b39-44b9-8ae7-d736cd363877")
+		)
+		(pin "12"
+			(uuid "e28cabb2-a70c-443c-8e2d-67e67bf869c8")
+		)
+		(pin "13"
+			(uuid "597be3ac-ec1a-4241-a21f-9a53967ff062")
+		)
+		(pin "14"
+			(uuid "fd3d3394-05aa-45d2-b216-ec61661b38fc")
+		)
+		(pin "15"
+			(uuid "c1b0634e-83cd-4da8-bd0b-7d3a65aba397")
+		)
+		(pin "16"
+			(uuid "ab99047c-dc84-4dd4-9323-76fdda79e6bb")
+		)
+		(pin "17"
+			(uuid "7fb4c8a1-88d5-471c-b3d7-a3582903af1a")
+		)
+		(pin "18"
+			(uuid "02a47753-b0fe-4d2d-bbeb-fb6ce7f7854f")
+		)
+		(pin "19"
+			(uuid "83cc2559-8507-4ecd-b222-a7770ce7f024")
+		)
+		(pin "2"
+			(uuid "effb412b-2bd3-4bbc-b55f-69d04ad3a677")
+		)
+		(pin "20"
+			(uuid "99f91d7a-b5ff-4646-ba00-aafac10f8e68")
+		)
+		(pin "21"
+			(uuid "a3b04350-7e24-405f-b594-c4bff48d5dda")
+		)
+		(pin "22"
+			(uuid "2de5b485-9a72-4871-966e-876603e32799")
+		)
+		(pin "23"
+			(uuid "8694b16f-edd1-42c0-b2d9-6a8e17ec0b83")
+		)
+		(pin "24"
+			(uuid "23629d84-7008-40ca-8d05-3d5d688e1995")
+		)
+		(pin "25"
+			(uuid "9e0a10cf-4b08-4f3d-8d68-56e40887c5d4")
+		)
+		(pin "26"
+			(uuid "2f311355-b3d1-4e13-883c-4a64d61366ee")
+		)
+		(pin "27"
+			(uuid "31b90544-7f10-45ee-b62e-cf1133a637be")
+		)
+		(pin "28"
+			(uuid "0e66d8b1-b2ce-4114-a2d1-5887b98df1ff")
+		)
+		(pin "29"
+			(uuid "bee1a3ea-7ce4-4df9-832b-dff785954d57")
+		)
+		(pin "3"
+			(uuid "805943f5-7e60-41f4-b5ad-2d00ff4d873d")
+		)
+		(pin "30"
+			(uuid "6cf6dfad-64d6-4642-ad6f-bad5b42ab9bc")
+		)
+		(pin "31"
+			(uuid "7dfd8fd6-1a8d-4973-ade1-9c94bbba6432")
+		)
+		(pin "32"
+			(uuid "0b327b60-3de6-47fb-b775-ddfe5cfd4dc9")
+		)
+		(pin "33"
+			(uuid "ee8a3805-bb11-4683-9625-a06b8a59b4b1")
+		)
+		(pin "34"
+			(uuid "47454d1b-e14e-4927-a69c-3895a1b4ef15")
+		)
+		(pin "35"
+			(uuid "863f0d28-ea15-4867-bb24-4deb147d2b48")
+		)
+		(pin "36"
+			(uuid "56dab674-098f-4f63-8955-33a26467686b")
+		)
+		(pin "37"
+			(uuid "66eca14d-9bcb-4692-91d0-58d4a09499c2")
+		)
+		(pin "38"
+			(uuid "7e888e8b-25e9-408f-b2c2-4211bcd42962")
+		)
+		(pin "39"
+			(uuid "6d03b106-006b-411c-9d8f-91dd5bb1595b")
+		)
+		(pin "4"
+			(uuid "6785e74c-6f9f-4b56-8cca-b1e3a2367253")
+		)
+		(pin "40"
+			(uuid "8cae2fd9-4212-4381-923c-38e9bea3f452")
+		)
+		(pin "5"
+			(uuid "2a49fdd8-a14c-4168-aa03-b8dc536fe457")
+		)
+		(pin "6"
+			(uuid "b41e7e49-66bd-49bd-9883-a790ceb60de1")
+		)
+		(pin "7"
+			(uuid "2145ad51-f4e3-4b94-834e-0be7aec1b220")
+		)
+		(pin "8"
+			(uuid "408201c3-7305-4c7d-b115-9786215c7068")
+		)
+		(pin "9"
+			(uuid "084ea5ad-3498-4781-bf4c-2f33a2456d34")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "J9902")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 172.72 250.19 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9131d92a-22e6-450a-b611-efc76d01af50")
+		(property "Reference" "#PWR035"
+			(at 172.72 246.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 172.72 246.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 172.72 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 172.72 250.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f5493e93-daa6-4a3b-93b1-3a2672b05ada")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9935")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 91.44 256.54 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9619c782-2031-43da-952d-732cd18e9fef")
+		(property "Reference" "R2"
+			(at 93.98 255.27 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k 1%"
+			(at 93.98 257.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 89.662 256.54 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 91.44 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 91.44 256.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b31321ec-2f7b-4997-a148-47289b4c82b9")
+		)
+		(pin "2"
+			(uuid "1b27ac70-5362-42ef-a7c7-27a0f48218b7")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9902")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 111.76 162.56 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9b91ce23-00df-4694-b730-aed1456cbfe4")
+		(property "Reference" "#PWR011"
+			(at 105.41 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 111.76 167.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 111.76 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 111.76 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f0c2e505-f24c-4717-a81e-f7814486e53b")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9911")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 172.72 205.74 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "a3f8750d-3f4c-479b-a726-fe5579774829")
+		(property "Reference" "R9"
+			(at 175.26 204.47 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100 1% DNP"
+			(at 175.26 207.01 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 170.942 205.74 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 172.72 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 172.72 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5fb999c8-5fad-4c90-8090-b9fee573b663")
+		)
+		(pin "2"
+			(uuid "b2b91a6f-f2be-4d86-bb0b-a89dbcfcf39f")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9909")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 160.02 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a95f7343-e80d-48a4-b4b2-b7ba6d56f48a")
+		(property "Reference" "#PWR024"
+			(at 252.73 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 165.1 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b9ef5fbf-6e34-4be2-8850-fd583fc42252")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9924")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 93.98 144.78 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "a9f57dd1-29bc-4911-9976-032819c85c7b")
+		(property "Reference" "#PWR004"
+			(at 100.33 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 149.86 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 93.98 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 93.98 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a3e036c7-29eb-4d94-b2bc-479ba765863a")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9904")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 93.98 119.38 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ab6490f2-0fdc-4d05-ac33-07282a632c5b")
+		(property "Reference" "#PWR002"
+			(at 100.33 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 93.98 124.46 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 93.98 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 93.98 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 93.98 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "599d1a4a-86c6-425f-879c-aa7f0b2b8232")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9902")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 254 262.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ab653cc3-8a73-4596-9cb7-07b8a4906694")
+		(property "Reference" "#PWR037"
+			(at 254 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 254 267.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 254 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 254 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 254 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "feff76b2-a499-45c3-b490-614f855b2c70")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9937")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 264.16 119.38 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "b167e6aa-807a-4968-b928-d9b94c3db4e4")
+		(property "Reference" "#PWR014"
+			(at 257.81 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 264.16 124.46 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 264.16 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 264.16 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 264.16 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "548a2aab-787d-403a-a0fc-db2bdcf11275")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9914")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 172.72 224.79 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ba78c97e-58f7-439e-9e4e-992b90403585")
+		(property "Reference" "#PWR030"
+			(at 172.72 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 172.72 229.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 172.72 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 172.72 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 172.72 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "668ccfdc-70cc-47a1-8d0f-f60950a0a8fb")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9930")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 264.16 121.92 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c48e8906-b107-45cb-9d71-359e536073d4")
+		(property "Reference" "#PWR015"
+			(at 257.81 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 264.16 127 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 264.16 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 264.16 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 264.16 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "17ef9c2c-dffd-4793-ad1d-a26e3b546486")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9915")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 50.8 262.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "cd013e3e-9adf-4ef5-9606-60c86ce9135e")
+		(property "Reference" "#PWR032"
+			(at 50.8 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 50.8 267.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 50.8 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 50.8 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "8a674680-f816-4a45-b042-8c270f5e79fe")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9932")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 91.44 224.79 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "cdf0de4e-55b8-46e3-b47d-5349df65f234")
+		(property "Reference" "#PWR028"
+			(at 91.44 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 91.44 229.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 91.44 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 91.44 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "56b6f6bd-fd88-4279-8bbb-fe4ac85b361d")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9928")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 264.16 162.56 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d0a57b5e-d239-40b8-ad66-c76ad4e7a83d")
+		(property "Reference" "#PWR026"
+			(at 257.81 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 264.16 167.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 264.16 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 264.16 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 264.16 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4f153dba-292e-448b-ba8d-2177d304270b")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9926")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 152.4 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d213340d-9505-4082-b2d8-86b791a56ab3")
+		(property "Reference" "#PWR020"
+			(at 252.73 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 157.48 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3bc56a60-f20a-40d8-a23b-19ccf2b5a0f7")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9920")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 157.48 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d548b1cc-89b9-4f67-8dbb-06ae4a57fc19")
+		(property "Reference" "#PWR023"
+			(at 252.73 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 162.56 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 157.48 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a2dba4e5-24d3-429d-b543-40ebb44fbd3b")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9923")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 213.36 262.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "e190904e-732e-4c99-b97f-c4d5accdfe37")
+		(property "Reference" "#PWR036"
+			(at 213.36 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 213.36 267.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 213.36 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 213.36 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 213.36 262.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "07c5cc9c-a3f6-4ac1-b2a6-5c165ab1f79f")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9936")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 162.56 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "e2852f52-9223-493e-a1d1-67fac5550874")
+		(property "Reference" "#PWR025"
+			(at 252.73 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 167.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 162.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "dccb8949-06b3-4638-a3e6-1f5391c27f02")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9925")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_02x20_Odd_Even")
+		(at 101.6 139.7 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ed6578b5-38f4-49e9-bff8-96aaddcf83e5")
+		(property "Reference" "J1"
+			(at 106.68 111.76 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "EX_IO1 (AXU3EGB J15)"
+			(at 106.68 114.3 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical"
+			(at 101.6 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 101.6 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 101.6 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "912ea788-1ecb-437b-b61f-792d6d53cb70")
+		)
+		(pin "10"
+			(uuid "ac471d63-cb03-46d0-95d8-064fbb6e014f")
+		)
+		(pin "11"
+			(uuid "b5c3be33-65f3-48c4-b2fa-20a092ed14a0")
+		)
+		(pin "12"
+			(uuid "a7b18ed1-bda2-4398-a39a-1a79a2ab9031")
+		)
+		(pin "13"
+			(uuid "307f2839-a353-4976-abdc-2ab4b6625e3a")
+		)
+		(pin "14"
+			(uuid "07a83578-a7ae-447b-bcee-895c91ea64a7")
+		)
+		(pin "15"
+			(uuid "8c22a0fc-2369-44cc-922e-c8e6be0a375f")
+		)
+		(pin "16"
+			(uuid "5ffdcb71-63b4-431f-8cd4-ff3c61c00144")
+		)
+		(pin "17"
+			(uuid "da35915a-6740-421a-a08d-0718191328e3")
+		)
+		(pin "18"
+			(uuid "445ce951-bb48-4cb3-9cc2-5049482c1c6e")
+		)
+		(pin "19"
+			(uuid "0d6cc5e9-2a72-4a05-8185-96ad5c8e86cc")
+		)
+		(pin "2"
+			(uuid "89756603-2813-4fe2-b184-53f984c76e41")
+		)
+		(pin "20"
+			(uuid "a71a715d-c72c-4b34-8218-2afb8f7f0a9e")
+		)
+		(pin "21"
+			(uuid "b9c9d6d0-e0c5-4bb3-bde2-6c2f115987a1")
+		)
+		(pin "22"
+			(uuid "1e066a10-0a90-4af1-9601-4d9ea3b71596")
+		)
+		(pin "23"
+			(uuid "b77e1c38-23fd-47fc-be5d-085c52c1e552")
+		)
+		(pin "24"
+			(uuid "16df6dc2-c455-4c66-a21b-d4767ac321ed")
+		)
+		(pin "25"
+			(uuid "55ea0fcd-9a4f-454a-89f9-9bfb0fdbcff9")
+		)
+		(pin "26"
+			(uuid "69913caa-bb5c-4f88-9626-de6657bdad67")
+		)
+		(pin "27"
+			(uuid "90fffeeb-2342-40df-9dec-5ef0cd6f15bc")
+		)
+		(pin "28"
+			(uuid "432f5dbf-5981-496b-843d-6ef43a4aea2c")
+		)
+		(pin "29"
+			(uuid "cccadf16-3e93-4214-9a78-8d3875aaa4a2")
+		)
+		(pin "3"
+			(uuid "7f4d4d1f-c856-4fba-9c57-4d58d3e0b1ea")
+		)
+		(pin "30"
+			(uuid "715cc2c5-8c51-481a-a641-498f721048fb")
+		)
+		(pin "31"
+			(uuid "75b9be91-7795-46bf-aec0-9c070c3ccf8d")
+		)
+		(pin "32"
+			(uuid "893aedba-cd14-43c2-a030-d44f137c2bbb")
+		)
+		(pin "33"
+			(uuid "420fcefd-eb4b-46af-87ea-92c44e8a2fab")
+		)
+		(pin "34"
+			(uuid "ead85081-3832-41a9-a03a-83768877299c")
+		)
+		(pin "35"
+			(uuid "870fa84b-7b86-4bf7-ac32-c4f9b32f4f20")
+		)
+		(pin "36"
+			(uuid "2b6bd713-e47f-47b1-ade4-a98043103208")
+		)
+		(pin "37"
+			(uuid "b70ca829-501b-4294-8b40-bd57d39f3bef")
+		)
+		(pin "38"
+			(uuid "ac784391-a057-4372-b264-d394f99795f5")
+		)
+		(pin "39"
+			(uuid "adbca21e-e5a3-4165-bf49-653afc540c0a")
+		)
+		(pin "4"
+			(uuid "af965944-3b38-4b6c-b2e1-041193e984ea")
+		)
+		(pin "40"
+			(uuid "cecfb07d-3f1b-4fdd-9b4f-ac2e20626e25")
+		)
+		(pin "5"
+			(uuid "6e0de2ea-7c6a-4466-82a6-59b55c45ee4b")
+		)
+		(pin "6"
+			(uuid "2ecd0c2d-9b84-40b3-a772-426d96b42cf5")
+		)
+		(pin "7"
+			(uuid "0e11b9e0-7d01-438e-89eb-40ea5c6a5041")
+		)
+		(pin "8"
+			(uuid "46cd6a97-b4b4-491b-9488-d32bce6405a1")
+		)
+		(pin "9"
+			(uuid "2dcea5cb-fbe9-4692-8a39-a3bf8f56e866")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "J9901")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 254 256.54 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "eeadadfb-1ed3-4f4c-8f5c-b8af45dd5a5d")
+		(property "Reference" "R11"
+			(at 256.54 255.27 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "10k 1%"
+			(at 256.54 257.81 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 252.222 256.54 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 254 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 254 256.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 254 256.54 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "336b5f35-76c5-4856-a9c5-f73a0cc34034")
+		)
+		(pin "2"
+			(uuid "65512668-b2d7-4c0f-9674-8e08c400c2e6")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9911")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 246.38 149.86 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f4a8f440-bd56-4416-93e1-81fb0e0f7d54")
+		(property "Reference" "#PWR018"
+			(at 252.73 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 246.38 154.94 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 246.38 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 246.38 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 246.38 149.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b3526fa7-da83-4834-bcd2-43a7dc3096fc")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9918")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 50.8 224.79 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "f5b51ed3-9992-4f91-bb9e-9fd0bde0aea1")
+		(property "Reference" "#PWR027"
+			(at 50.8 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 50.8 229.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 50.8 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 50.8 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "558d2557-d67a-465d-9cca-a0620e5b365a")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9927")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 132.08 224.79 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "fc090966-1445-4d89-960e-737fe0b723f3")
+		(property "Reference" "#PWR029"
+			(at 132.08 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 132.08 229.87 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 132.08 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 132.08 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 132.08 224.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f0245a48-7a02-426b-a78b-833630bd3a90")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "#PWR9929")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 213.36 205.74 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "fcd2c8ca-56da-44f0-bd7d-c600b4ddb6f8")
+		(property "Reference" "R10"
+			(at 215.9 204.47 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "100 1% DNP"
+			(at 215.9 207.01 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 211.582 205.74 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 213.36 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 213.36 205.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 213.36 205.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a2573819-6e75-45e3-8058-3b9301a326db")
+		)
+		(pin "2"
+			(uuid "66769f8d-34e1-403b-b4b7-52c9e6d17ce2")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "R9910")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 91.44 218.44 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp yes)
+		(uuid "fe46e897-3e97-4934-a2b4-466d4bfa0e3b")
+		(property "Reference" "C2"
+			(at 93.98 217.17 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47p 50V C0G DNP"
+			(at 93.98 219.71 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 92.405 214.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 91.44 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor"
+			(at 91.44 218.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "TBD"
+			(at 91.44 218.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d2bef32e-9667-46ed-9bd4-c6abc964bcec")
+		)
+		(pin "2"
+			(uuid "93313d96-09c1-42b3-9867-0c904aa315dc")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/b0c2e61c-0fdd-5319-9b65-c5d6da5ebd94"
+					(reference "C9902")
 					(unit 1)
 				)
 			)

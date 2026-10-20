@@ -1,0 +1,6560 @@
+(kicad_sch
+	(version 20260101)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "1253a4d7-e996-5945-a465-d19e12cbc0ea")
+	(paper "A2")
+	(title_block
+		(title "Transceivers: 64 channels (8 x 8 grid)")
+		(date "2026-10-20")
+		(rev "2")
+		(company "Hybrid 8x8 ultrasonic AESA")
+	)
+	(lib_symbols)
+	(text "Transceiver array. Channel n = element n of the 8 x 8 grid, row-major. Each channel takes DRVn from the TX drive and returns its amplified echo RXn to the ADCs."
+		(exclude_from_sim no)
+		(at 38.10 30.48 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "c9a89a72-8110-571e-9783-5f75ca12eccb")
+	)
+	(wire
+		(pts
+			(xy 38.10 53.34) (xy 35.56 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48800ad7-351d-5518-a276-3221f487cc0c")
+	)
+	(global_label "DRV1"
+		(shape passive)
+		(at 35.56 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ab43058a-5939-5f83-ac7d-685abbf18ff8")
+	)
+	(wire
+		(pts
+			(xy 60.96 53.34) (xy 63.50 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b2d22e6-3cd4-5415-a80c-f413e3ed0736")
+	)
+	(global_label "RX1"
+		(shape passive)
+		(at 63.50 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e6485134-f129-596c-a16d-9414b1eb532b")
+	)
+	(sheet
+		(at 38.10 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "79da2e28-e240-5ebb-89d7-48d582b950bc")
+		(property "Sheetname" "CH01"
+			(at 38.10 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 53.34 180)
+			(uuid "2d79b404-1b24-5e82-bf03-e8bbff9e148a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 53.34 0)
+			(uuid "893f9e98-8874-55a7-a6aa-bb9caa47a268")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "33")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 53.34) (xy 104.14 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db22b3a3-5b0e-5191-a456-af5b74b31091")
+	)
+	(global_label "DRV2"
+		(shape passive)
+		(at 104.14 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3d3cfcb8-4fd6-51ed-a9c8-2507b16815cf")
+	)
+	(wire
+		(pts
+			(xy 129.54 53.34) (xy 132.08 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0b9a9e3-7b8a-549b-ad72-7618840e4ba4")
+	)
+	(global_label "RX2"
+		(shape passive)
+		(at 132.08 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "37b4d7db-a79d-5a45-a6ca-ef0e968227ec")
+	)
+	(sheet
+		(at 106.68 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "9ca2f719-63d1-5fb2-a6f0-5e10613120fe")
+		(property "Sheetname" "CH02"
+			(at 106.68 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 53.34 180)
+			(uuid "bdb7ecb4-ea6f-53f0-a828-230ec63c5157")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 53.34 0)
+			(uuid "497fa653-56af-5227-bbba-50da51a246c4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "34")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 53.34) (xy 172.72 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "41bb0998-af4a-5da2-8344-21121c2e8739")
+	)
+	(global_label "DRV3"
+		(shape passive)
+		(at 172.72 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2803065c-bd2d-55c0-a0bd-dee257bc1b50")
+	)
+	(wire
+		(pts
+			(xy 198.12 53.34) (xy 200.66 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4f61e24-5227-54d9-a58d-1e2bf32f1f2c")
+	)
+	(global_label "RX3"
+		(shape passive)
+		(at 200.66 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5e3a084f-d6a0-5693-8211-d32330a4dccd")
+	)
+	(sheet
+		(at 175.26 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c638b543-3bcf-5461-816b-8a6bdc3af88d")
+		(property "Sheetname" "CH03"
+			(at 175.26 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 53.34 180)
+			(uuid "9f484076-6b3e-5706-9c94-cf034d390ab7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 53.34 0)
+			(uuid "ccaf9d18-8e4f-50f9-bdf1-07bba040083c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "35")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 53.34) (xy 241.30 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d2b6aebb-e135-5e16-be4a-a26994d0d76c")
+	)
+	(global_label "DRV4"
+		(shape passive)
+		(at 241.30 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "dfcc8535-d051-5f88-b95f-b7c79a1e7363")
+	)
+	(wire
+		(pts
+			(xy 266.70 53.34) (xy 269.24 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a2251e05-281e-5042-8447-4eb041b5112a")
+	)
+	(global_label "RX4"
+		(shape passive)
+		(at 269.24 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1a564900-d96a-5675-9034-6ea9e06a6a95")
+	)
+	(sheet
+		(at 243.84 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "62bd4a1b-82ba-5579-bfaa-59fb5134eb23")
+		(property "Sheetname" "CH04"
+			(at 243.84 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 53.34 180)
+			(uuid "a1d1ae34-6839-5c87-92b2-6c7a7736bb07")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 53.34 0)
+			(uuid "170b0438-1a9c-56db-ade5-20ee6f8a88af")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "36")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 53.34) (xy 309.88 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d609a54-45df-5cd1-b124-0366b5cd3eae")
+	)
+	(global_label "DRV5"
+		(shape passive)
+		(at 309.88 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "71f944a7-412b-5a16-8122-41ba102de33f")
+	)
+	(wire
+		(pts
+			(xy 335.28 53.34) (xy 337.82 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c0a4223e-b5d1-505c-9fa8-d9f183368364")
+	)
+	(global_label "RX5"
+		(shape passive)
+		(at 337.82 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4d0fa174-d410-5e7b-a71e-7a62dc7dc752")
+	)
+	(sheet
+		(at 312.42 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "1f9877e4-aeb7-5995-bba4-555698ebb284")
+		(property "Sheetname" "CH05"
+			(at 312.42 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 53.34 180)
+			(uuid "d75ebb5c-ce5e-5ec5-a7fa-41fe115e9305")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 53.34 0)
+			(uuid "e9de6118-7165-5acc-a7b3-3c64bbdcd611")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "37")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 53.34) (xy 378.46 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33c9e35f-8ce2-5af0-9a41-6d93141db913")
+	)
+	(global_label "DRV6"
+		(shape passive)
+		(at 378.46 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c01f8a8f-1d63-50d9-8e0e-6f53ef8d631f")
+	)
+	(wire
+		(pts
+			(xy 403.86 53.34) (xy 406.40 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b1ef829-c739-520d-b69e-4b7023a42ba3")
+	)
+	(global_label "RX6"
+		(shape passive)
+		(at 406.40 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "57ed3d5e-186a-5261-86d6-b23d1898dd9a")
+	)
+	(sheet
+		(at 381.00 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6064d6e9-d491-5b59-9ebe-f70a3bef79ff")
+		(property "Sheetname" "CH06"
+			(at 381.00 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 53.34 180)
+			(uuid "25661b03-aad0-575e-bdb8-ace0ab3e6a0e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 53.34 0)
+			(uuid "1fae6c5f-f959-5eca-bbdf-3db4089b5f5f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "38")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 53.34) (xy 447.04 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "490e6c12-fcbd-5643-8e51-e893fa0b9d28")
+	)
+	(global_label "DRV7"
+		(shape passive)
+		(at 447.04 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d670b4da-8301-5fa1-afb1-8401e9e04703")
+	)
+	(wire
+		(pts
+			(xy 472.44 53.34) (xy 474.98 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e8c3c1fb-cf7c-5e88-8e1d-5edc2432af33")
+	)
+	(global_label "RX7"
+		(shape passive)
+		(at 474.98 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4740f684-a619-5fe1-b8a9-63f90fc49944")
+	)
+	(sheet
+		(at 449.58 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "5805027c-3cc1-5cef-a110-f7bea2800ce2")
+		(property "Sheetname" "CH07"
+			(at 449.58 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 53.34 180)
+			(uuid "4b7d7ba2-9934-5d2d-94e5-b47c9419cd6f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 53.34 0)
+			(uuid "dab04ddd-7e67-5942-82ac-b66034e7deb5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "39")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 53.34) (xy 515.62 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fc435e9e-3854-5871-a17e-968d85fc3de1")
+	)
+	(global_label "DRV8"
+		(shape passive)
+		(at 515.62 53.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c60560b4-4873-5eda-ab32-07422a39a1c5")
+	)
+	(wire
+		(pts
+			(xy 541.02 53.34) (xy 543.56 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "697cabe1-2ced-5ce3-90f6-aedd0429900e")
+	)
+	(global_label "RX8"
+		(shape passive)
+		(at 543.56 53.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6a93cdda-7907-5995-986c-0a71489320d9")
+	)
+	(sheet
+		(at 518.16 50.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "5498e49f-468e-56d2-8413-30831b9c6afe")
+		(property "Sheetname" "CH08"
+			(at 518.16 50.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 56.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 53.34 180)
+			(uuid "7cc8977c-97e6-5911-9f8d-1518ddcda237")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 53.34 0)
+			(uuid "70b25649-b4c7-51f8-b8fd-03d243c05456")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "40")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 78.74) (xy 35.56 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d45bf43-2456-55ca-8107-8f2161b3a036")
+	)
+	(global_label "DRV9"
+		(shape passive)
+		(at 35.56 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "0acce450-f749-570e-af6a-3506d9babced")
+	)
+	(wire
+		(pts
+			(xy 60.96 78.74) (xy 63.50 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c2e8479f-76b0-597a-bef2-d74020782830")
+	)
+	(global_label "RX9"
+		(shape passive)
+		(at 63.50 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f16c9816-3239-5006-b16d-d399933d8259")
+	)
+	(sheet
+		(at 38.10 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "beb8772e-69da-5726-bd8b-7a59f28b8d3f")
+		(property "Sheetname" "CH09"
+			(at 38.10 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 78.74 180)
+			(uuid "dc7d94e6-333d-5751-b075-99004ecabbfb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 78.74 0)
+			(uuid "b45d76e8-4f9b-5f44-98ff-40365124accb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "41")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 78.74) (xy 104.14 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94b5c35f-27ef-5528-8f5b-c0a06a589420")
+	)
+	(global_label "DRV10"
+		(shape passive)
+		(at 104.14 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ba2061ad-9be5-537f-84bc-2eb9824f1aa9")
+	)
+	(wire
+		(pts
+			(xy 129.54 78.74) (xy 132.08 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ae9dd2a-2638-5203-a854-e1e8d3496912")
+	)
+	(global_label "RX10"
+		(shape passive)
+		(at 132.08 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9df4aa37-50ff-5b14-9015-ffd6143d7f3e")
+	)
+	(sheet
+		(at 106.68 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "86839ba9-dad7-5d54-8c45-8494e10e5888")
+		(property "Sheetname" "CH10"
+			(at 106.68 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 78.74 180)
+			(uuid "e3c876bb-522f-5789-9eae-42241b4bccd2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 78.74 0)
+			(uuid "389b3eae-e8fb-58a7-a921-b5d1770adbc5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "42")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 78.74) (xy 172.72 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ba36c72-05cf-5f17-933c-7c6b5b9b2c66")
+	)
+	(global_label "DRV11"
+		(shape passive)
+		(at 172.72 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8ee7abac-54f6-538f-8916-9c1f9892f43d")
+	)
+	(wire
+		(pts
+			(xy 198.12 78.74) (xy 200.66 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7122e0bd-717f-5245-beae-4ba3b4ce2320")
+	)
+	(global_label "RX11"
+		(shape passive)
+		(at 200.66 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "716c4257-4497-5456-b332-79aa3809952b")
+	)
+	(sheet
+		(at 175.26 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c95403b6-b807-5169-9feb-1759b85e44b9")
+		(property "Sheetname" "CH11"
+			(at 175.26 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 78.74 180)
+			(uuid "729151a6-2076-5d6a-bea7-08b85b1addea")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 78.74 0)
+			(uuid "3b0d68a6-9ad7-5b41-b53e-1489ca688546")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "43")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 78.74) (xy 241.30 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "387f9511-83cd-54ac-a1e5-b16366e14f21")
+	)
+	(global_label "DRV12"
+		(shape passive)
+		(at 241.30 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8de5b98d-f2bb-54b5-a943-3d6a95e95065")
+	)
+	(wire
+		(pts
+			(xy 266.70 78.74) (xy 269.24 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d46800c-dcb1-5592-b350-6ed899cd42a9")
+	)
+	(global_label "RX12"
+		(shape passive)
+		(at 269.24 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1a59db52-2c23-559f-ba17-3ab14c82bfd9")
+	)
+	(sheet
+		(at 243.84 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "d180516d-c5d6-5dc5-8803-d71cdadbb46c")
+		(property "Sheetname" "CH12"
+			(at 243.84 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 78.74 180)
+			(uuid "1ece7a50-2c8d-52a2-aa0a-4baf05f93560")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 78.74 0)
+			(uuid "bfa8e323-91cd-5cd1-b2de-431cd022d06c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "44")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 78.74) (xy 309.88 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c16fde4-f57e-576e-b9f4-e1220be5f15c")
+	)
+	(global_label "DRV13"
+		(shape passive)
+		(at 309.88 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "38275987-a906-58a3-855d-a5e744164e91")
+	)
+	(wire
+		(pts
+			(xy 335.28 78.74) (xy 337.82 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c81ea28-f14a-5bb8-ad30-9bcd43058822")
+	)
+	(global_label "RX13"
+		(shape passive)
+		(at 337.82 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1476170d-8061-5217-a0c4-e7598b1a5e81")
+	)
+	(sheet
+		(at 312.42 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "decddf8b-ee52-5eee-827e-8e5ed8ff81e9")
+		(property "Sheetname" "CH13"
+			(at 312.42 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 78.74 180)
+			(uuid "bc061c1c-4f3f-564d-b5e6-ef35df526de8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 78.74 0)
+			(uuid "a7818acb-8d63-5ef9-9138-37834f9fef9a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "45")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 78.74) (xy 378.46 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63a3de8d-db89-5cea-a65b-c9793c1ae423")
+	)
+	(global_label "DRV14"
+		(shape passive)
+		(at 378.46 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ee401a54-1ac5-5a9a-8d6a-d31b6979bd5d")
+	)
+	(wire
+		(pts
+			(xy 403.86 78.74) (xy 406.40 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5c354119-6cfc-52dc-91f4-ddf448a9505e")
+	)
+	(global_label "RX14"
+		(shape passive)
+		(at 406.40 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b406bcba-c018-5c31-ae97-13df376ebfa7")
+	)
+	(sheet
+		(at 381.00 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "b2139eeb-2fa5-58d5-ac66-ee922cd6e203")
+		(property "Sheetname" "CH14"
+			(at 381.00 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 78.74 180)
+			(uuid "c2d1acab-5285-5ea1-8b04-52da29f15c18")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 78.74 0)
+			(uuid "7f71de45-815c-5b84-a5d8-37f78be349f9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "46")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 78.74) (xy 447.04 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29755d7d-1040-530e-8309-ac88e5720caa")
+	)
+	(global_label "DRV15"
+		(shape passive)
+		(at 447.04 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c49d2851-aaba-53be-8a17-aa077120e142")
+	)
+	(wire
+		(pts
+			(xy 472.44 78.74) (xy 474.98 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90c98f1d-9967-5154-80b4-b4c5e9570790")
+	)
+	(global_label "RX15"
+		(shape passive)
+		(at 474.98 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5d0f999d-961b-5421-b616-ac52c26155d0")
+	)
+	(sheet
+		(at 449.58 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "885306a8-0612-5a89-bbb0-4ab622c57cd6")
+		(property "Sheetname" "CH15"
+			(at 449.58 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 78.74 180)
+			(uuid "45010465-71b5-56d8-b961-23f5304bd147")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 78.74 0)
+			(uuid "a1f88859-321e-5f06-a82a-1626bd3621c8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "47")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 78.74) (xy 515.62 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "92fd1fe7-8986-571d-88ad-5c97482d9b39")
+	)
+	(global_label "DRV16"
+		(shape passive)
+		(at 515.62 78.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "38c4a5b9-ab55-5e44-bdd4-465ccdb9c3fc")
+	)
+	(wire
+		(pts
+			(xy 541.02 78.74) (xy 543.56 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23c7181f-c0e2-5d45-92a6-94274642a4d4")
+	)
+	(global_label "RX16"
+		(shape passive)
+		(at 543.56 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "65231b41-89c6-5120-9162-1e2f465115fc")
+	)
+	(sheet
+		(at 518.16 76.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "1c3804b0-aa06-5b01-a8f6-41e98d8f2ea6")
+		(property "Sheetname" "CH16"
+			(at 518.16 75.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 81.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 78.74 180)
+			(uuid "bdab910f-79c9-5ea3-b195-d97c5ffdccd8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 78.74 0)
+			(uuid "6f04f7a9-0c5c-5e9a-8829-a21d58d69f03")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "48")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 104.14) (xy 35.56 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a6859f7-59c3-587f-ab14-cf93745796cd")
+	)
+	(global_label "DRV17"
+		(shape passive)
+		(at 35.56 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7c52b7c9-b21f-5ac1-b184-57d9e68028f8")
+	)
+	(wire
+		(pts
+			(xy 60.96 104.14) (xy 63.50 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53d0f52a-6dfd-5cdd-bc30-4a9a9de0cd43")
+	)
+	(global_label "RX17"
+		(shape passive)
+		(at 63.50 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a337230b-fe65-55a1-a23e-06ca95ccf481")
+	)
+	(sheet
+		(at 38.10 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e0f01dd8-18c2-550c-9fbb-88918c7fc162")
+		(property "Sheetname" "CH17"
+			(at 38.10 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 104.14 180)
+			(uuid "297fde1c-275c-5c60-850f-81586d464872")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 104.14 0)
+			(uuid "7b2770da-8ba0-581e-aa64-e9214d79fa4d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "49")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 104.14) (xy 104.14 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e15a236a-2f36-5be8-a475-5d7d23a957d4")
+	)
+	(global_label "DRV18"
+		(shape passive)
+		(at 104.14 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ff83f135-55db-557b-8f15-aa062241cd38")
+	)
+	(wire
+		(pts
+			(xy 129.54 104.14) (xy 132.08 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c2200cc1-d01b-512d-921b-e166fd8ce3d1")
+	)
+	(global_label "RX18"
+		(shape passive)
+		(at 132.08 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8a3f14c6-2a9a-59ad-9446-56ab0dbf3c45")
+	)
+	(sheet
+		(at 106.68 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "602da12a-0f6c-5140-9d68-93a157a213f9")
+		(property "Sheetname" "CH18"
+			(at 106.68 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 104.14 180)
+			(uuid "efcaa0ac-2216-5eb0-85c8-b7cd4cb1f72a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 104.14 0)
+			(uuid "fa28d411-b059-504b-a14a-85d5cf486ac8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "50")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 104.14) (xy 172.72 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "42c99a3e-bee2-5e60-9c15-0e74804cbf9c")
+	)
+	(global_label "DRV19"
+		(shape passive)
+		(at 172.72 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7a93bff2-3fea-5542-8cd2-60a8a5d96825")
+	)
+	(wire
+		(pts
+			(xy 198.12 104.14) (xy 200.66 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a9253a3-6f82-5ed3-8df4-8b43f43d5bcf")
+	)
+	(global_label "RX19"
+		(shape passive)
+		(at 200.66 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8be712af-324e-50ad-bbf5-e52602a19370")
+	)
+	(sheet
+		(at 175.26 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "89f3695b-c394-5244-bb9f-e8fb4873b92f")
+		(property "Sheetname" "CH19"
+			(at 175.26 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 104.14 180)
+			(uuid "04369c70-f365-5623-ba2b-067722a5941f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 104.14 0)
+			(uuid "f2e97bc2-2149-5211-8639-ad3eddb0a29a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "51")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 104.14) (xy 241.30 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6eee3bb5-b006-5cec-bbda-a2d6483cdc62")
+	)
+	(global_label "DRV20"
+		(shape passive)
+		(at 241.30 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "149570d9-e2ea-53f7-a249-018688768d89")
+	)
+	(wire
+		(pts
+			(xy 266.70 104.14) (xy 269.24 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2c7ca7d6-36ed-5b26-989d-bcee6d04c79f")
+	)
+	(global_label "RX20"
+		(shape passive)
+		(at 269.24 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1cc066a4-9fe6-5067-99d3-c53b3ed8ed44")
+	)
+	(sheet
+		(at 243.84 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c31f4276-227c-5d2a-bf90-907609f26c73")
+		(property "Sheetname" "CH20"
+			(at 243.84 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 104.14 180)
+			(uuid "1c4a4c21-ddb4-5d1b-9aa0-5496c0c8d11f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 104.14 0)
+			(uuid "c0368b8e-2ecf-5268-8222-28e23318ec84")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "52")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 104.14) (xy 309.88 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d58d358-aacd-517d-9736-e2427a5c3044")
+	)
+	(global_label "DRV21"
+		(shape passive)
+		(at 309.88 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "702c8104-84ee-5f9f-9cc9-084a68c6e8de")
+	)
+	(wire
+		(pts
+			(xy 335.28 104.14) (xy 337.82 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e70133a-cb5b-5592-98af-91b67465bc25")
+	)
+	(global_label "RX21"
+		(shape passive)
+		(at 337.82 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f1c7ee2a-bfc7-5297-a6f3-711ba11289df")
+	)
+	(sheet
+		(at 312.42 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "618ba6cd-2086-5342-96b4-514484210e1c")
+		(property "Sheetname" "CH21"
+			(at 312.42 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 104.14 180)
+			(uuid "bb5afef5-d664-5090-941b-df47adfafa64")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 104.14 0)
+			(uuid "f12220aa-9f58-5d67-9846-51d7267253ee")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "53")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 104.14) (xy 378.46 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "605f27bf-e2e8-59dd-8065-0ee9109b6240")
+	)
+	(global_label "DRV22"
+		(shape passive)
+		(at 378.46 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "36adebab-869b-5daf-90b3-c301d4fbe904")
+	)
+	(wire
+		(pts
+			(xy 403.86 104.14) (xy 406.40 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26961bc2-1498-5b31-b344-82a9912c5b10")
+	)
+	(global_label "RX22"
+		(shape passive)
+		(at 406.40 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a87a733d-f8b0-507d-af9f-1bbf39c91c59")
+	)
+	(sheet
+		(at 381.00 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "a678aaa2-10ae-5cc6-ba9f-68ccced8e931")
+		(property "Sheetname" "CH22"
+			(at 381.00 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 104.14 180)
+			(uuid "6d096ef4-1ca9-5b61-8e60-b4a2c81ee19c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 104.14 0)
+			(uuid "16a7c6e9-26a7-53c9-be00-2c548beeaf7f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "54")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 104.14) (xy 447.04 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d4072176-6cef-5d12-8b22-271a65519295")
+	)
+	(global_label "DRV23"
+		(shape passive)
+		(at 447.04 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ca406b40-1219-59c0-978b-441b66512ce5")
+	)
+	(wire
+		(pts
+			(xy 472.44 104.14) (xy 474.98 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1026edfc-b362-5014-bb45-97152f52ad25")
+	)
+	(global_label "RX23"
+		(shape passive)
+		(at 474.98 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "852567bf-f0da-5404-b2e3-32d561dcae0b")
+	)
+	(sheet
+		(at 449.58 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "638f9bd0-e722-55a9-8e00-22ee82513150")
+		(property "Sheetname" "CH23"
+			(at 449.58 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 104.14 180)
+			(uuid "cd93ab1f-0d8f-5f35-905a-2ae846b444f5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 104.14 0)
+			(uuid "e55b4414-ff3d-5bbc-b9a9-3fe27573e6c8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "55")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 104.14) (xy 515.62 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efb48e33-5e8b-57bb-be92-22e2085a2395")
+	)
+	(global_label "DRV24"
+		(shape passive)
+		(at 515.62 104.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "64238c89-2ab4-5c24-8f30-3986b80d2c12")
+	)
+	(wire
+		(pts
+			(xy 541.02 104.14) (xy 543.56 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "11a72365-6142-568b-8dd2-f76d53b98217")
+	)
+	(global_label "RX24"
+		(shape passive)
+		(at 543.56 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d0fdbb37-61ed-5fc5-be90-bf1e1222e8b5")
+	)
+	(sheet
+		(at 518.16 101.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "19d58890-d207-5009-99f7-631b958c60dc")
+		(property "Sheetname" "CH24"
+			(at 518.16 100.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 107.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 104.14 180)
+			(uuid "6dc780bd-4398-5a40-9f8d-b236d01cd402")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 104.14 0)
+			(uuid "4fcb6f50-15db-59da-929f-a76ffad26332")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "56")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 129.54) (xy 35.56 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5e23a31e-cdf6-5413-a576-ec6f175fe20b")
+	)
+	(global_label "DRV25"
+		(shape passive)
+		(at 35.56 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a0793930-0260-52fa-ad52-6b954cd21378")
+	)
+	(wire
+		(pts
+			(xy 60.96 129.54) (xy 63.50 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d3af545-0c2d-5ad3-a0e2-481ae8b54dc5")
+	)
+	(global_label "RX25"
+		(shape passive)
+		(at 63.50 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "98f49ae7-760c-59c3-b78d-1b89d778f55c")
+	)
+	(sheet
+		(at 38.10 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bd97b177-8c00-52f4-8e2d-040614645a1b")
+		(property "Sheetname" "CH25"
+			(at 38.10 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 129.54 180)
+			(uuid "ad6a0611-31a5-572b-b873-a692eb38d977")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 129.54 0)
+			(uuid "29d1f31b-5236-550a-86de-ed129b016723")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "57")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 129.54) (xy 104.14 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c9aabec-2657-500b-b3a7-9c46de9c59c5")
+	)
+	(global_label "DRV26"
+		(shape passive)
+		(at 104.14 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "7a5052e2-4cea-56fe-b961-e917e4c7a479")
+	)
+	(wire
+		(pts
+			(xy 129.54 129.54) (xy 132.08 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dd478080-611f-5497-80dc-f7836a2e7f80")
+	)
+	(global_label "RX26"
+		(shape passive)
+		(at 132.08 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cc8e985b-0e51-57d5-8241-ed1989cce4a7")
+	)
+	(sheet
+		(at 106.68 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "706f251c-3f50-568f-be47-94d51e7edfd6")
+		(property "Sheetname" "CH26"
+			(at 106.68 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 129.54 180)
+			(uuid "e1262d9f-7738-524b-81a1-3fbca103c8be")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 129.54 0)
+			(uuid "9694eb59-f06e-54e6-a464-af35d4ffdaa6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "58")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 129.54) (xy 172.72 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52e67d84-ecca-5e33-9989-8c24a9e1b700")
+	)
+	(global_label "DRV27"
+		(shape passive)
+		(at 172.72 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "aa85a48b-1e3c-527c-9394-5c1c2deb2e50")
+	)
+	(wire
+		(pts
+			(xy 198.12 129.54) (xy 200.66 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c07c8fbd-77d4-53a5-a8df-9844017ea26a")
+	)
+	(global_label "RX27"
+		(shape passive)
+		(at 200.66 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "825b2dd7-78b0-5cc2-bf5b-ecdefd807bb2")
+	)
+	(sheet
+		(at 175.26 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "f6eed3fd-c76c-5055-ab2f-309675785adb")
+		(property "Sheetname" "CH27"
+			(at 175.26 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 129.54 180)
+			(uuid "2bb5e846-e60b-5b88-ba2e-c46e59015237")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 129.54 0)
+			(uuid "22e7e072-2a5e-5932-849c-c6136f7bf48b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "59")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 129.54) (xy 241.30 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cb30bf33-c5a9-57b1-aa3e-9ea89f5f9acc")
+	)
+	(global_label "DRV28"
+		(shape passive)
+		(at 241.30 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "48eb015c-9fbb-5ad0-a932-37db53b2befc")
+	)
+	(wire
+		(pts
+			(xy 266.70 129.54) (xy 269.24 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "726c2c2e-a88e-5f02-a1c4-7d8538367489")
+	)
+	(global_label "RX28"
+		(shape passive)
+		(at 269.24 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a4b94244-132c-58a8-8710-10bb9d0267ba")
+	)
+	(sheet
+		(at 243.84 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bf63fe51-ee19-528f-b249-3618f23b7bbb")
+		(property "Sheetname" "CH28"
+			(at 243.84 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 129.54 180)
+			(uuid "51230dbc-ea69-5b15-bf57-df07a08a7b83")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 129.54 0)
+			(uuid "ce315bbe-1aa3-5c45-9f0a-86b9b82fc650")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "60")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 129.54) (xy 309.88 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6922ecf4-e1eb-54d3-a05b-1b04e4a49d69")
+	)
+	(global_label "DRV29"
+		(shape passive)
+		(at 309.88 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8164e158-8969-52d2-9ff8-292d5f558b2e")
+	)
+	(wire
+		(pts
+			(xy 335.28 129.54) (xy 337.82 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7021b2f9-b3b8-5983-b108-7bf23bb79103")
+	)
+	(global_label "RX29"
+		(shape passive)
+		(at 337.82 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5f1e333c-cebf-5eb1-85b8-a82338eefb50")
+	)
+	(sheet
+		(at 312.42 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7920db3f-18ff-5ac2-b5ec-fdfd62f8e4da")
+		(property "Sheetname" "CH29"
+			(at 312.42 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 129.54 180)
+			(uuid "77cdd3a4-2842-59c7-948f-b8200dbfab65")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 129.54 0)
+			(uuid "e213f42e-750d-5cad-8934-6d0376564da4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "61")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 129.54) (xy 378.46 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bd27bcb4-17ef-58f7-93a9-573ef1c25cfa")
+	)
+	(global_label "DRV30"
+		(shape passive)
+		(at 378.46 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9a22b1a9-0f62-5785-958b-93a4c144f16a")
+	)
+	(wire
+		(pts
+			(xy 403.86 129.54) (xy 406.40 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7132e545-c569-5c3d-b211-1e14ac0b3e58")
+	)
+	(global_label "RX30"
+		(shape passive)
+		(at 406.40 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "07eb30eb-1a14-5fe3-91e4-e5bdb65d1321")
+	)
+	(sheet
+		(at 381.00 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "3137a5a3-a59e-5b92-931a-a2a77e0ffc8f")
+		(property "Sheetname" "CH30"
+			(at 381.00 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 129.54 180)
+			(uuid "dad5a779-5a06-5a3e-a922-66c1e927c8e3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 129.54 0)
+			(uuid "32ae9e71-7c10-5556-a081-abe9081d29d6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "62")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 129.54) (xy 447.04 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "20f7af9e-e94e-5eb1-a4fe-d7fa903ce8f1")
+	)
+	(global_label "DRV31"
+		(shape passive)
+		(at 447.04 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5e2910f3-90be-58ab-898c-69feb7b9f68f")
+	)
+	(wire
+		(pts
+			(xy 472.44 129.54) (xy 474.98 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "54eade4a-676e-5b13-a927-11f43f3bb2a1")
+	)
+	(global_label "RX31"
+		(shape passive)
+		(at 474.98 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4585e1c0-0c19-544f-bc67-b6088dca7711")
+	)
+	(sheet
+		(at 449.58 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "008ffc73-5dcb-52b4-9903-63a274e1f96c")
+		(property "Sheetname" "CH31"
+			(at 449.58 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 129.54 180)
+			(uuid "205ae559-9a59-5fd3-ab3a-b615722d6709")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 129.54 0)
+			(uuid "bf3657f1-b338-5650-996f-1e6558e35ad7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "63")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 129.54) (xy 515.62 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a3ec24d7-075b-5d2f-8a19-3cc093603c46")
+	)
+	(global_label "DRV32"
+		(shape passive)
+		(at 515.62 129.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5619fec7-9b48-5519-9181-607f0b0b22b1")
+	)
+	(wire
+		(pts
+			(xy 541.02 129.54) (xy 543.56 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29692dc2-8114-5f18-ae83-1b6db8becbbe")
+	)
+	(global_label "RX32"
+		(shape passive)
+		(at 543.56 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7dea7ebc-9720-5d1a-a31e-9797d10009b7")
+	)
+	(sheet
+		(at 518.16 127.00)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bd1e8ab6-804f-525a-8444-933897e82daa")
+		(property "Sheetname" "CH32"
+			(at 518.16 126.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 132.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 129.54 180)
+			(uuid "cc6fc674-bdcd-5044-9b11-2c73fc71edc1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 129.54 0)
+			(uuid "5f04c928-15c3-5a01-bfcd-b3035a6073a5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "64")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 154.94) (xy 35.56 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0eb777f6-38a5-5372-a2a4-c6aa6dc18a16")
+	)
+	(global_label "DRV33"
+		(shape passive)
+		(at 35.56 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "50619bac-e6e9-5321-9019-0318308efd97")
+	)
+	(wire
+		(pts
+			(xy 60.96 154.94) (xy 63.50 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2f7103d6-3a25-55f7-8d93-10fe28aaabb0")
+	)
+	(global_label "RX33"
+		(shape passive)
+		(at 63.50 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "300d9f45-b83a-51e9-98b2-5e9ed91d202f")
+	)
+	(sheet
+		(at 38.10 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "16f2a543-a264-517f-8e4e-9c202bd3c2fb")
+		(property "Sheetname" "CH33"
+			(at 38.10 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 154.94 180)
+			(uuid "69b50d29-ce36-512f-9780-87673d023213")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 154.94 0)
+			(uuid "85e17cbf-f0cc-56b5-9bf8-dd566deb5f01")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "65")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 154.94) (xy 104.14 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33b77b16-9e46-5ea5-bd78-789823419dd7")
+	)
+	(global_label "DRV34"
+		(shape passive)
+		(at 104.14 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ec45ed64-8811-5aed-a3ba-a724dfb76144")
+	)
+	(wire
+		(pts
+			(xy 129.54 154.94) (xy 132.08 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b98af379-46e1-5167-b169-08f792eb2864")
+	)
+	(global_label "RX34"
+		(shape passive)
+		(at 132.08 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d81cfd34-bfd5-5cba-99ea-f130a350ffcd")
+	)
+	(sheet
+		(at 106.68 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e2672273-30ae-5572-a66e-d2b8b1c7d387")
+		(property "Sheetname" "CH34"
+			(at 106.68 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 154.94 180)
+			(uuid "87b74e68-eaf9-5431-a219-2478d7f638bc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 154.94 0)
+			(uuid "f3f6cd4f-6b9c-5cdf-97ab-fb5df111d90d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "66")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 154.94) (xy 172.72 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8fe86599-b89e-5af6-b742-fce1f7f0fbd9")
+	)
+	(global_label "DRV35"
+		(shape passive)
+		(at 172.72 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bb37e383-a441-5f2f-96b7-28d90456c48d")
+	)
+	(wire
+		(pts
+			(xy 198.12 154.94) (xy 200.66 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "935dca4e-2e8b-5f08-97a1-e9be93cc0455")
+	)
+	(global_label "RX35"
+		(shape passive)
+		(at 200.66 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "01372c3a-d825-5cdf-9fd7-dd48b166477a")
+	)
+	(sheet
+		(at 175.26 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "070b8df9-7d3f-5858-8e06-e6f4674f99b3")
+		(property "Sheetname" "CH35"
+			(at 175.26 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 154.94 180)
+			(uuid "e8b469dd-99fd-536d-8fe4-79b0a5278679")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 154.94 0)
+			(uuid "299406f8-df68-5f43-8303-f490596ca2ad")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "67")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 154.94) (xy 241.30 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de61232e-3a78-5e7e-a84c-18d433216aed")
+	)
+	(global_label "DRV36"
+		(shape passive)
+		(at 241.30 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b9172e99-434e-5f36-b5bf-a19d5ff8d265")
+	)
+	(wire
+		(pts
+			(xy 266.70 154.94) (xy 269.24 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b445279-82c3-5222-a1fe-256751f8f7b7")
+	)
+	(global_label "RX36"
+		(shape passive)
+		(at 269.24 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6a4a4d76-81ee-571c-b51c-0b76b70b34c4")
+	)
+	(sheet
+		(at 243.84 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "96ebd303-53b3-51b6-9432-af24a3cf21ae")
+		(property "Sheetname" "CH36"
+			(at 243.84 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 154.94 180)
+			(uuid "73ec7aae-417e-59da-ae4a-f190293ba3eb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 154.94 0)
+			(uuid "27a2f0b7-446e-585d-81a5-d166c7008f54")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "68")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 154.94) (xy 309.88 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aa5d4b9b-3eca-5879-8120-4b3553d994d5")
+	)
+	(global_label "DRV37"
+		(shape passive)
+		(at 309.88 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ae1aec1f-cfbe-5153-a192-1f4f7d059ac3")
+	)
+	(wire
+		(pts
+			(xy 335.28 154.94) (xy 337.82 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9ea54b5-4b44-537f-96e6-3732a9e74d58")
+	)
+	(global_label "RX37"
+		(shape passive)
+		(at 337.82 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e84b64f2-c463-5a11-93b6-7cd92ace5838")
+	)
+	(sheet
+		(at 312.42 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "68cea58a-4b47-50cf-af9c-0a6cdcb9dbc1")
+		(property "Sheetname" "CH37"
+			(at 312.42 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 154.94 180)
+			(uuid "114ee407-7f94-5602-afe2-6d94d81038ed")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 154.94 0)
+			(uuid "f298b566-416d-5cf0-b886-1cb56edf79a0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "69")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 154.94) (xy 378.46 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bb90fce-db94-5489-9aa1-d5472cacfbef")
+	)
+	(global_label "DRV38"
+		(shape passive)
+		(at 378.46 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ac08d82a-26a0-565f-b319-11cbaee27ba0")
+	)
+	(wire
+		(pts
+			(xy 403.86 154.94) (xy 406.40 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "703f40c4-41ca-5374-b37e-b95fa701d031")
+	)
+	(global_label "RX38"
+		(shape passive)
+		(at 406.40 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "182eb73c-f07c-58f9-a40e-bce360e6b3db")
+	)
+	(sheet
+		(at 381.00 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "ae95c497-016c-5103-8b48-1d3777612e96")
+		(property "Sheetname" "CH38"
+			(at 381.00 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 154.94 180)
+			(uuid "ddd8dd5a-c1c6-589f-8635-7045d14f1eb9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 154.94 0)
+			(uuid "a91cf64a-123b-5af4-8649-4435450fbf0d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "70")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 154.94) (xy 447.04 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f148d225-cfad-5075-96f8-1e9bb403978a")
+	)
+	(global_label "DRV39"
+		(shape passive)
+		(at 447.04 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3a9837ad-c01a-5a3d-b46b-6f8d3255a094")
+	)
+	(wire
+		(pts
+			(xy 472.44 154.94) (xy 474.98 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b89a4f7d-2a46-5066-91ab-80baf78ab215")
+	)
+	(global_label "RX39"
+		(shape passive)
+		(at 474.98 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "77d999ab-6b47-5da1-9b7a-1f1724a59e4c")
+	)
+	(sheet
+		(at 449.58 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "60c1c2d9-42cd-55ab-9b88-8a36adda8fe9")
+		(property "Sheetname" "CH39"
+			(at 449.58 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 154.94 180)
+			(uuid "01280107-fe06-5ddb-92e4-4c9b5e8b96ab")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 154.94 0)
+			(uuid "4fc7b525-6b9f-56fb-ad59-579eab7cd341")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "71")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 154.94) (xy 515.62 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9b4c533-b974-5b69-a6a6-e6406c091417")
+	)
+	(global_label "DRV40"
+		(shape passive)
+		(at 515.62 154.94 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "719f8395-d914-5ff4-a916-72b565598d28")
+	)
+	(wire
+		(pts
+			(xy 541.02 154.94) (xy 543.56 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c2c3a33-5454-5156-9108-d1257fc2cf70")
+	)
+	(global_label "RX40"
+		(shape passive)
+		(at 543.56 154.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "da788302-86c5-520b-9572-b533a6c84fc9")
+	)
+	(sheet
+		(at 518.16 152.40)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "75a28581-4f77-5c3c-bb70-c408dc40eb8c")
+		(property "Sheetname" "CH40"
+			(at 518.16 151.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 158.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 154.94 180)
+			(uuid "abccb669-e593-5136-956a-6bea934c7642")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 154.94 0)
+			(uuid "83a34380-9d7e-5861-a57a-d77143489267")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "72")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 180.34) (xy 35.56 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58ccfa98-30f0-52e1-8818-b475fcccbe41")
+	)
+	(global_label "DRV41"
+		(shape passive)
+		(at 35.56 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cb631671-255d-5458-8fe5-229310e78afc")
+	)
+	(wire
+		(pts
+			(xy 60.96 180.34) (xy 63.50 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a83e9c53-57c2-5d39-8287-d6a35c57487e")
+	)
+	(global_label "RX41"
+		(shape passive)
+		(at 63.50 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "18382227-768b-5bad-af25-75bfbfad5083")
+	)
+	(sheet
+		(at 38.10 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "31cd4a35-10cf-5a18-955e-d4c4796acbc6")
+		(property "Sheetname" "CH41"
+			(at 38.10 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 180.34 180)
+			(uuid "21d1fbeb-21be-5a51-9016-a01546bf5f9d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 180.34 0)
+			(uuid "0dadf0ce-057e-5822-8c84-af4dad56156c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "73")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 180.34) (xy 104.14 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c2406ea-115a-5cd1-9fdc-4d593bcf12a5")
+	)
+	(global_label "DRV42"
+		(shape passive)
+		(at 104.14 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f35b8da8-f27a-5a8d-a382-24946835d104")
+	)
+	(wire
+		(pts
+			(xy 129.54 180.34) (xy 132.08 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af42359a-5d25-5566-ba95-80935b39b296")
+	)
+	(global_label "RX42"
+		(shape passive)
+		(at 132.08 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7bab3fda-ddca-5f8e-88fe-b54ae5a32d14")
+	)
+	(sheet
+		(at 106.68 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e67f3213-64dc-55bf-a8e8-ecd4b601c8db")
+		(property "Sheetname" "CH42"
+			(at 106.68 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 180.34 180)
+			(uuid "20d0759b-6771-5eeb-bf3c-e9b4dbf122c7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 180.34 0)
+			(uuid "6a336ec4-eaaa-5062-9726-bc5390b685c2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "74")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 180.34) (xy 172.72 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "413694ba-55df-5279-8d56-8410ec50c196")
+	)
+	(global_label "DRV43"
+		(shape passive)
+		(at 172.72 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ce0f1ac5-8d0e-510a-8324-1b97d2c77458")
+	)
+	(wire
+		(pts
+			(xy 198.12 180.34) (xy 200.66 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "826d7e7f-fc79-57a1-b4d0-1d7b7785cf23")
+	)
+	(global_label "RX43"
+		(shape passive)
+		(at 200.66 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7042fddd-d09b-52ec-9096-4e0239d6e281")
+	)
+	(sheet
+		(at 175.26 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "61917a16-f6a7-56ca-a468-0ca070ba0921")
+		(property "Sheetname" "CH43"
+			(at 175.26 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 180.34 180)
+			(uuid "627e9ab0-0a3d-522b-9444-86f2f3326163")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 180.34 0)
+			(uuid "0155a908-c409-5b0e-963d-4e38ec580d93")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "75")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 180.34) (xy 241.30 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4be8c784-e084-51bb-aac6-89c5f97dcffb")
+	)
+	(global_label "DRV44"
+		(shape passive)
+		(at 241.30 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e1b345ff-bdbf-5011-8ea9-13840efa7afd")
+	)
+	(wire
+		(pts
+			(xy 266.70 180.34) (xy 269.24 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c78d412-f7e6-589b-a6f3-ebf63d048f6f")
+	)
+	(global_label "RX44"
+		(shape passive)
+		(at 269.24 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "266d4048-1613-56b4-86a7-461af928e52c")
+	)
+	(sheet
+		(at 243.84 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "79eaad21-9150-546f-b3df-445656ae663f")
+		(property "Sheetname" "CH44"
+			(at 243.84 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 180.34 180)
+			(uuid "30544534-4145-506d-82a0-74b022c30930")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 180.34 0)
+			(uuid "d05f3df4-7de2-5b52-b1a0-0663c6b105bc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "76")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 180.34) (xy 309.88 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eb71c049-8e92-5dbf-a309-23f0691d2424")
+	)
+	(global_label "DRV45"
+		(shape passive)
+		(at 309.88 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a5c22111-6bcc-5016-acb9-de6915bb3442")
+	)
+	(wire
+		(pts
+			(xy 335.28 180.34) (xy 337.82 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "46c70bda-715e-53fc-9d38-079c0890dd4f")
+	)
+	(global_label "RX45"
+		(shape passive)
+		(at 337.82 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "30e7a6f3-aedf-5195-a62b-01d5b8b3a591")
+	)
+	(sheet
+		(at 312.42 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6f75af6b-722a-5f69-adea-151188a8dd02")
+		(property "Sheetname" "CH45"
+			(at 312.42 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 180.34 180)
+			(uuid "f2d0d16b-d240-5e9f-9af7-4c54952fdf96")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 180.34 0)
+			(uuid "23b30dad-974a-5e7c-9797-63c742916080")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "77")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 180.34) (xy 378.46 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b49c092d-a234-54c5-92d3-68c6378c5706")
+	)
+	(global_label "DRV46"
+		(shape passive)
+		(at 378.46 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a675e566-dae4-55aa-b138-4ec0d3487103")
+	)
+	(wire
+		(pts
+			(xy 403.86 180.34) (xy 406.40 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca6dbeea-b5fd-5821-ba13-e7362d7369f9")
+	)
+	(global_label "RX46"
+		(shape passive)
+		(at 406.40 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1953609c-2573-505c-8b4d-8e42b0ef2fca")
+	)
+	(sheet
+		(at 381.00 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6a825d4c-e82e-5ead-bc68-48d4a870a702")
+		(property "Sheetname" "CH46"
+			(at 381.00 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 180.34 180)
+			(uuid "bf6e016e-2361-5369-93e9-914b2c648abc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 180.34 0)
+			(uuid "446a219c-038e-5553-9952-e571552bc78c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "78")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 180.34) (xy 447.04 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "185cba4d-8b8f-55a9-a12e-b423e89bcdfd")
+	)
+	(global_label "DRV47"
+		(shape passive)
+		(at 447.04 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c6797c49-34c4-534d-b100-d3b239b6a8d2")
+	)
+	(wire
+		(pts
+			(xy 472.44 180.34) (xy 474.98 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1633f9fd-b6a2-50f1-8930-4a35daa44435")
+	)
+	(global_label "RX47"
+		(shape passive)
+		(at 474.98 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c1d7bd31-3599-5f19-878e-184ce55b33a4")
+	)
+	(sheet
+		(at 449.58 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "61306967-2897-55ae-a176-c5d855acc912")
+		(property "Sheetname" "CH47"
+			(at 449.58 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 180.34 180)
+			(uuid "fba43010-1f6a-5d0a-a126-7d667db2a2a1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 180.34 0)
+			(uuid "e99f95dc-59df-5cae-b023-251a06fa1ccc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "79")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 180.34) (xy 515.62 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "753a3e80-a80d-593e-b73a-26512469c674")
+	)
+	(global_label "DRV48"
+		(shape passive)
+		(at 515.62 180.34 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8e5d5b48-4779-5b7f-9b31-755f87cb25c7")
+	)
+	(wire
+		(pts
+			(xy 541.02 180.34) (xy 543.56 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebf8fb39-8335-526a-ad91-da4886e26e86")
+	)
+	(global_label "RX48"
+		(shape passive)
+		(at 543.56 180.34 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "799d6fe2-3752-5779-ba3b-8efa61fcf77a")
+	)
+	(sheet
+		(at 518.16 177.80)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c006f66f-db73-5429-9b5f-32b71551a32d")
+		(property "Sheetname" "CH48"
+			(at 518.16 177.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 183.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 180.34 180)
+			(uuid "876f03cb-17d0-5afb-b611-344e8a1d93d9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 180.34 0)
+			(uuid "12529150-007b-5437-bff1-cc39f1889c30")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "80")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 205.74) (xy 35.56 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "57a45092-bf3a-548b-8c3f-8144ca0bcb32")
+	)
+	(global_label "DRV49"
+		(shape passive)
+		(at 35.56 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "91da3edf-ae55-58a4-a8c1-16ea943e7ca6")
+	)
+	(wire
+		(pts
+			(xy 60.96 205.74) (xy 63.50 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b386be00-d95d-5163-9b07-317498486b42")
+	)
+	(global_label "RX49"
+		(shape passive)
+		(at 63.50 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "96234d35-7297-5374-adcd-df7bdd7baccb")
+	)
+	(sheet
+		(at 38.10 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "74b89d68-2932-56cd-9b39-9b6dae505567")
+		(property "Sheetname" "CH49"
+			(at 38.10 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 205.74 180)
+			(uuid "533e45b7-b281-585e-abbc-06baf2c871e8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 205.74 0)
+			(uuid "29617b16-2daa-5e29-99f8-8b7a04a83809")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "81")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 205.74) (xy 104.14 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4217db05-213f-5ff0-a831-1dce29ef3572")
+	)
+	(global_label "DRV50"
+		(shape passive)
+		(at 104.14 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "29f1abb3-853f-5f3c-be04-2dab601efbd4")
+	)
+	(wire
+		(pts
+			(xy 129.54 205.74) (xy 132.08 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4ef2d493-e966-5aa5-91bb-7ec2c317fba7")
+	)
+	(global_label "RX50"
+		(shape passive)
+		(at 132.08 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "91f8ee49-9ec3-5370-aac9-7383a8d3f2ff")
+	)
+	(sheet
+		(at 106.68 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bc635978-049e-54d1-914a-5c239382c4af")
+		(property "Sheetname" "CH50"
+			(at 106.68 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 205.74 180)
+			(uuid "56099458-c0da-5085-81dc-236876fe181d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 205.74 0)
+			(uuid "e68e73d4-0ea9-58a1-8e92-88a8750e3e5d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "82")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 205.74) (xy 172.72 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "71a9c1a8-0888-5953-b5ea-ebdbe09286e4")
+	)
+	(global_label "DRV51"
+		(shape passive)
+		(at 172.72 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a5b5079c-5ede-5452-94dc-086555066880")
+	)
+	(wire
+		(pts
+			(xy 198.12 205.74) (xy 200.66 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "138b4976-0dad-5c5c-8b66-652660818541")
+	)
+	(global_label "RX51"
+		(shape passive)
+		(at 200.66 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2b3bca33-0aea-5ab5-9ab1-67f54fa36839")
+	)
+	(sheet
+		(at 175.26 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "bdd3be86-2834-5719-9552-086af6532d5c")
+		(property "Sheetname" "CH51"
+			(at 175.26 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 205.74 180)
+			(uuid "abd0f525-10ea-56b4-bbc7-18574c18871e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 205.74 0)
+			(uuid "91393993-cb83-592d-90e3-242ef6a27834")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "83")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 205.74) (xy 241.30 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0aac3b4-485d-5a00-9ea5-0e80e2c7d3be")
+	)
+	(global_label "DRV52"
+		(shape passive)
+		(at 241.30 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fe028ca4-ebbb-5465-bffb-e6e8a48b5a17")
+	)
+	(wire
+		(pts
+			(xy 266.70 205.74) (xy 269.24 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83c2f8d4-3639-56c2-997f-d6987b43637c")
+	)
+	(global_label "RX52"
+		(shape passive)
+		(at 269.24 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "46c7b103-dd5b-5c6d-af26-b43446f5817f")
+	)
+	(sheet
+		(at 243.84 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "81ab96ce-1318-5352-bae2-73c1e6fc4ae2")
+		(property "Sheetname" "CH52"
+			(at 243.84 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 205.74 180)
+			(uuid "0f320b20-7410-50b5-82e5-227f1c97752b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 205.74 0)
+			(uuid "833684a4-7e75-58b9-a50f-3029aa3c36df")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "84")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 205.74) (xy 309.88 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3f290353-d698-5436-8465-3ef313594f4f")
+	)
+	(global_label "DRV53"
+		(shape passive)
+		(at 309.88 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2aeeaa33-c0d7-5453-88a8-09421acbf007")
+	)
+	(wire
+		(pts
+			(xy 335.28 205.74) (xy 337.82 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56710685-a6b1-55d2-ae11-8e40e431f9a7")
+	)
+	(global_label "RX53"
+		(shape passive)
+		(at 337.82 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e95a918c-2cde-5bb5-bd2a-33adc819ecef")
+	)
+	(sheet
+		(at 312.42 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "5b11f744-54aa-5c94-b5be-3e0816c55882")
+		(property "Sheetname" "CH53"
+			(at 312.42 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 205.74 180)
+			(uuid "0ff44ebd-68ef-5b11-bccc-2cd707813be5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 205.74 0)
+			(uuid "78e18519-3052-503e-83e8-bf0f8eec5fa1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "85")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 205.74) (xy 378.46 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9a6b337-00b8-50b5-b60f-bb84f8a8f09c")
+	)
+	(global_label "DRV54"
+		(shape passive)
+		(at 378.46 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fdcd1c93-37cf-5c46-a32d-cb9b23d0a634")
+	)
+	(wire
+		(pts
+			(xy 403.86 205.74) (xy 406.40 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a447817b-cf96-5720-8652-fe1f19b2cd5a")
+	)
+	(global_label "RX54"
+		(shape passive)
+		(at 406.40 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cfd8085a-e4f8-5bfb-8d50-5b6595eb22d5")
+	)
+	(sheet
+		(at 381.00 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "4f4aad45-d257-5ef5-b0d3-01d2dacb5579")
+		(property "Sheetname" "CH54"
+			(at 381.00 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 205.74 180)
+			(uuid "878b7507-e73f-583b-b624-6919bec0e7d1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 205.74 0)
+			(uuid "79e7bd09-dc7f-5c6b-a99b-59d67625ed40")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "86")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 205.74) (xy 447.04 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "67ed189c-56ec-55df-92eb-4a0148464ec8")
+	)
+	(global_label "DRV55"
+		(shape passive)
+		(at 447.04 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "801d873e-cbc1-5605-bc4c-89c0ecf52d99")
+	)
+	(wire
+		(pts
+			(xy 472.44 205.74) (xy 474.98 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "581b4101-2ae1-5c91-9530-65969b46c599")
+	)
+	(global_label "RX55"
+		(shape passive)
+		(at 474.98 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d9343cb9-0a0d-5b2d-babd-7eb7c888bfaa")
+	)
+	(sheet
+		(at 449.58 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6c3e7761-e0c3-5b47-b107-a7ed43eafd29")
+		(property "Sheetname" "CH55"
+			(at 449.58 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 205.74 180)
+			(uuid "33980edb-bb61-50a1-9e3c-18c705fb283f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 205.74 0)
+			(uuid "4191acec-886c-596e-9f25-dd85e5e4158b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "87")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 205.74) (xy 515.62 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba15a390-df35-5058-822d-516421508db0")
+	)
+	(global_label "DRV56"
+		(shape passive)
+		(at 515.62 205.74 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "66945346-3564-5f73-b345-c58ec006ad86")
+	)
+	(wire
+		(pts
+			(xy 541.02 205.74) (xy 543.56 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "073353b1-2963-53c9-bd9c-2fa763ccada4")
+	)
+	(global_label "RX56"
+		(shape passive)
+		(at 543.56 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5ef5c9d2-93d9-5f56-9966-6f357b079783")
+	)
+	(sheet
+		(at 518.16 203.20)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "ae95bdee-4143-53b1-8ce1-955f28411a0c")
+		(property "Sheetname" "CH56"
+			(at 518.16 202.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 208.87 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 205.74 180)
+			(uuid "a72062fd-cf1e-55f4-88ec-9203a0809190")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 205.74 0)
+			(uuid "7b10d05f-f4f5-5abe-8bea-1d06cd4da88a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "88")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 38.10 231.14) (xy 35.56 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "43ecfdd6-bdb9-5f76-87cd-70450867f5fa")
+	)
+	(global_label "DRV57"
+		(shape passive)
+		(at 35.56 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "5fdb24ce-c91a-5b9e-a83d-1b3cf28811b6")
+	)
+	(wire
+		(pts
+			(xy 60.96 231.14) (xy 63.50 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a5df5c7b-e610-55a7-a3e1-fd43d881e7fe")
+	)
+	(global_label "RX57"
+		(shape passive)
+		(at 63.50 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5bbd2f65-9cdb-5508-b8e3-6c36cfac8640")
+	)
+	(sheet
+		(at 38.10 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "f17c773b-7273-572a-9e6e-9a1d990fc7a1")
+		(property "Sheetname" "CH57"
+			(at 38.10 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 38.10 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 38.10 231.14 180)
+			(uuid "58481659-e0b9-5578-aac6-8dfaa16a1edc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 60.96 231.14 0)
+			(uuid "1ccc50c7-5865-59ac-9cf9-f7f8d908a954")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "89")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 106.68 231.14) (xy 104.14 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba5ef65d-75f2-5b87-9d12-05e5ffb6cbfb")
+	)
+	(global_label "DRV58"
+		(shape passive)
+		(at 104.14 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "43c4a8c7-48a9-574a-9cdc-53f3925c78a6")
+	)
+	(wire
+		(pts
+			(xy 129.54 231.14) (xy 132.08 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5721da9b-c565-5686-a313-f74de4e62bc2")
+	)
+	(global_label "RX58"
+		(shape passive)
+		(at 132.08 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f6e9dc86-74ff-53be-aa7b-da67c6aeb9d0")
+	)
+	(sheet
+		(at 106.68 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "6c9e8ef9-4fa2-5b2d-9dc9-a7571fc3c7eb")
+		(property "Sheetname" "CH58"
+			(at 106.68 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 106.68 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 106.68 231.14 180)
+			(uuid "df2ec738-00b2-5392-854f-448731ee38fa")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 129.54 231.14 0)
+			(uuid "3347d8ce-80fc-5f1b-9f8d-ea38c44e2b8c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "90")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 231.14) (xy 172.72 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7d75edaf-5157-5000-836a-9662b9d298dd")
+	)
+	(global_label "DRV59"
+		(shape passive)
+		(at 172.72 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "158a6031-fe17-501e-95b0-415e698b0dca")
+	)
+	(wire
+		(pts
+			(xy 198.12 231.14) (xy 200.66 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3ccdf198-2dd5-55f0-a984-2de1b0c71af7")
+	)
+	(global_label "RX59"
+		(shape passive)
+		(at 200.66 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4abba6c0-55f3-5007-bb6d-6eed181c2856")
+	)
+	(sheet
+		(at 175.26 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "fb51e856-2967-50db-9099-b1653ce31bad")
+		(property "Sheetname" "CH59"
+			(at 175.26 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 175.26 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 175.26 231.14 180)
+			(uuid "9de0580b-fc04-5920-86f7-15dbaa4384e5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 198.12 231.14 0)
+			(uuid "b85779c7-3bda-512a-ba83-2946dcf9ca06")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "91")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 231.14) (xy 241.30 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32b21444-35ca-5f84-be25-807809c225f2")
+	)
+	(global_label "DRV60"
+		(shape passive)
+		(at 241.30 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "12411d0a-0a18-5bec-9bde-c507d5549480")
+	)
+	(wire
+		(pts
+			(xy 266.70 231.14) (xy 269.24 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b8f6211-21e0-5e17-8385-fe45da0ed953")
+	)
+	(global_label "RX60"
+		(shape passive)
+		(at 269.24 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "09d9bd6a-bba3-5071-80e0-a80872e39c5c")
+	)
+	(sheet
+		(at 243.84 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "389ae401-d41d-50ec-9a1a-518c967ff834")
+		(property "Sheetname" "CH60"
+			(at 243.84 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 243.84 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 243.84 231.14 180)
+			(uuid "ff32ab64-6299-51f5-89b4-061f29f8a537")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 266.70 231.14 0)
+			(uuid "736d9537-22f3-54c9-82fd-86b4db49bcc0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "92")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 312.42 231.14) (xy 309.88 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b3f7a6c-e8a8-5751-8f3f-c8a3b6c0bab9")
+	)
+	(global_label "DRV61"
+		(shape passive)
+		(at 309.88 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "af83bc31-03e4-58ff-af44-f19d2a275d1c")
+	)
+	(wire
+		(pts
+			(xy 335.28 231.14) (xy 337.82 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15731f43-5a7a-5870-9339-1c3099671586")
+	)
+	(global_label "RX61"
+		(shape passive)
+		(at 337.82 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "78d7acaf-2831-59d4-a361-0ea9c10d9a66")
+	)
+	(sheet
+		(at 312.42 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "b46858d7-d5d1-5d9c-abe4-df22b6208450")
+		(property "Sheetname" "CH61"
+			(at 312.42 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 312.42 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 312.42 231.14 180)
+			(uuid "9ca36bff-b89c-5c22-a2c5-8877d0190cee")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 335.28 231.14 0)
+			(uuid "c216c519-9ecf-53af-958d-ccbb2171eb6b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "93")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 381.00 231.14) (xy 378.46 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "176d25cd-3991-50d1-a5ba-399b7e93f8dd")
+	)
+	(global_label "DRV62"
+		(shape passive)
+		(at 378.46 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "89d1b465-ebcd-5328-adfa-b75c7bffa111")
+	)
+	(wire
+		(pts
+			(xy 403.86 231.14) (xy 406.40 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d613e839-0d85-54b9-8276-22fbd238f014")
+	)
+	(global_label "RX62"
+		(shape passive)
+		(at 406.40 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d7a3a93d-48f8-5dc8-b2e5-28eed51c1bbc")
+	)
+	(sheet
+		(at 381.00 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "79b32fdf-42e6-5685-8265-10f944506752")
+		(property "Sheetname" "CH62"
+			(at 381.00 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 381.00 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 381.00 231.14 180)
+			(uuid "3497d7c1-2bb5-566d-ac8a-2699d8dcc5a6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 403.86 231.14 0)
+			(uuid "5bfae046-f7e9-50d9-9a4b-2b8b477725d1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "94")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 449.58 231.14) (xy 447.04 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4545a646-12c8-5850-94f1-ed992d4e5e83")
+	)
+	(global_label "DRV63"
+		(shape passive)
+		(at 447.04 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "16e47378-0e75-55ef-8227-bc5eef69ea73")
+	)
+	(wire
+		(pts
+			(xy 472.44 231.14) (xy 474.98 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51360bf8-81c8-5e93-ac55-fac1066bb31b")
+	)
+	(global_label "RX63"
+		(shape passive)
+		(at 474.98 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "908e4181-e441-5d6c-ba88-1e2300a54ef8")
+	)
+	(sheet
+		(at 449.58 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "d71fcb6e-dcf7-5620-ba61-8c9c47367f58")
+		(property "Sheetname" "CH63"
+			(at 449.58 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 449.58 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 449.58 231.14 180)
+			(uuid "6bb4789d-1df7-5a21-9ccc-b4087bac4443")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 472.44 231.14 0)
+			(uuid "ba0c8cf6-a4e0-5532-a779-f87290bd8815")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "95")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 518.16 231.14) (xy 515.62 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96bb0921-6173-55c9-8fb8-b4284b199c6e")
+	)
+	(global_label "DRV64"
+		(shape passive)
+		(at 515.62 231.14 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e8d54771-f49b-55e5-8da3-c1a20cb776c2")
+	)
+	(wire
+		(pts
+			(xy 541.02 231.14) (xy 543.56 231.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6dbb7e86-e9ca-527f-995d-4acc31b71b5f")
+	)
+	(global_label "RX64"
+		(shape passive)
+		(at 543.56 231.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5a4eeb8b-28c9-5bbe-835f-e78ce9b5ad3a")
+	)
+	(sheet
+		(at 518.16 228.60)
+		(size 22.86 5.08)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "de98dd7d-cfca-5cb9-a94c-60e753a494ed")
+		(property "Sheetname" "CH64"
+			(at 518.16 227.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "channel.kicad_sch"
+			(at 518.16 234.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "DRV_OUT" input
+			(at 518.16 231.14 180)
+			(uuid "eee4afe8-0f0b-5951-93c5-fc96d1d6cea2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RX_OUT" output
+			(at 541.02 231.14 0)
+			(uuid "1194b641-fe5b-51b2-9ffe-3bc8c4ee3805")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0"
+					(page "96")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

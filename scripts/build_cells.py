@@ -50,7 +50,9 @@ C0805 = "Capacitor_SMD:C_0805_2012Metric"
 C1206 = "Capacitor_SMD:C_1206_3216Metric"
 
 POWER_SYM = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+5VA": "power:+5VA",
+             "-5VA": "power:-5VA", "+6V5": "power:+6V", "-6V5": "power:-6V", "VIN": "power:+12V",
              "VDRV": "power:+15V", "3V3_MIC": "power:+3V3"}
+DATE, REV = "2026-10-20", "2"
 # Rotation that points a power symbol away from the pin, by outward pin angle.
 GND_ROT = {270: 0, 90: 180, 0: 90, 180: 270}
 RAIL_ROT = {90: 0, 270: 180, 180: 90, 0: 270}
@@ -64,6 +66,13 @@ def mcp(cmd, **params):
     return r
 
 
+def title_block(paper, title):
+    """(paper ...) line followed by a filled title block."""
+    lines = [f'(paper "{paper}")', "\t(title_block", f'\t\t(title "{title}")', f'\t\t(date "{DATE}")',
+             f'\t\t(rev "{REV}")', '\t\t(company "Hybrid 8x8 ultrasonic AESA")', "\t)"]
+    return "\n".join(lines)
+
+
 def upgrade(path):
     subprocess.run([KICAD_CLI, "sch", "upgrade", "--force", str(path)], check=True, capture_output=True)
 
@@ -73,11 +82,13 @@ def f(v):
 
 
 class Sheet:
-    def __init__(self, name, paper="A4"):
-        self.name, self.paper = name, paper
+    def __init__(self, name, paper="A4", title=""):
+        self.name, self.paper, self.title = name, paper, title
         self.path = KDIR / f"{name}.kicad_sch"
         self.parts, self.conns, self.ties, self.wires, self.notes = [], [], [], [], []
         self.dnp = []  # references marked Do Not Populate
+        self.routes = []  # three-segment wires
+        self.field_ov = []  # sch_fields overrides "REF=dx,dy,dx2,dy2"
         self._u = 0
 
     # ---- description ----------------------------------------------------------------
@@ -113,6 +124,10 @@ class Sheet:
     def wire(self, a, b):
         """Direct wire from pin a to pin b (straight, or horizontal then vertical)."""
         self.wires.append((a, b))
+
+    def route(self, a, b, xmid):
+        """Wire from pin a to pin b: horizontal to xmid, vertical, horizontal into b."""
+        self.routes.append((a, b, xmid))
 
     def note(self, text, x, y, size=1.8):
         self.notes.append((text, x, y, size))
@@ -150,7 +165,8 @@ class Sheet:
             shutil.copy(self.path, self.path.with_suffix(".kicad_sch.bak"))
             self.path.unlink()
         mcp("create_schematic", name=self.name, path=str(KDIR))
-        t = self.path.read_text(encoding="utf-8").replace('(paper "A4")', f'(paper "{self.paper}")')
+        tb = title_block(self.paper, self.title or self.name)
+        t = self.path.read_text(encoding="utf-8").replace('(paper "A4")', tb)
         self.path.write_text(t, encoding="utf-8")
         mcp("batch_add_components", schematicPath=str(self.path), components=self.parts,
             auto_position_fields=True)
@@ -171,6 +187,14 @@ class Sheet:
         hidden = set()
 
         def power(net, at, ang, hide=False):
+            # A rail symbol only reads well pointing up: elsewhere use a labelled flag with the
+            # rail name (a global label joins the power net). A sideways or upturned GND keeps
+            # its unmistakable shape but hides the text, which would overprint neighbours.
+            if net != "GND" and ang != 90:
+                out.append(self.s_label("global_label", net, at, ang, "passive"))
+                return
+            if net == "GND" and ang != 270:
+                hide = True
             npwr[0] += 1
             rot = (GND_ROT if net == "GND" else RAIL_ROT)[ang]
             if hide:  # by position: the MCP renumbers power symbols too
@@ -227,6 +251,14 @@ class Sheet:
                 out.append(self.s_wire(pa, mid))
                 out.append(self.s_wire(mid, pb))
 
+        for a, b, xm in self.routes:
+            pa, _ = pin(a)
+            pb, _ = pin(b)
+            pts = [pa, (xm, pa[1]), (xm, pb[1]), pb]
+            for u, v in zip(pts, pts[1:]):
+                if u != v:
+                    out.append(self.s_wire(u, v))
+
         for text, x, y, size in self.notes:
             out.append(self.s_text(text, x, y, size))
 
@@ -241,8 +273,8 @@ class Sheet:
         fix_refs(self.path, self.parts, self.dnp)
         upgrade(self.path)
         fix_power_fields(self.path, hidden)
-        subprocess.run([sys.executable, str(REPO / "scripts" / "sch_fields.py"), str(self.path)], check=True,
-                       capture_output=True)
+        subprocess.run([sys.executable, str(REPO / "scripts" / "sch_fields.py"), str(self.path), *self.field_ov],
+                       check=True, capture_output=True)
         upgrade(self.path)
         print(f"{self.name}: {len(self.parts)} parts, {len(self.conns)} pin connections, "
               f"{len(syms)} power symbols, {self.path.stat().st_size} bytes")
@@ -281,7 +313,14 @@ def fix_power_fields(path, hidden=()):
     lines = path.read_text(encoding="utf-8").split("\n")
     i = 0
     while i < len(lines):
-        if lines[i] == "\t(symbol" and lines[i + 1].startswith('\t\t(lib_id "power:') and "PWR_FLAG" not in lines[i + 1]:
+        if lines[i] == "\t(symbol" and lines[i + 1] == '\t\t(lib_id "power:PWR_FLAG")':
+            j = i + 1  # flags: hide the #FLG reference, as KiCad does
+            while not lines[j].startswith('\t\t(property "Reference"'):
+                j += 1
+            if lines[j + 2].strip() != "(hide yes)":
+                lines.insert(j + 2, "\t\t\t(hide yes)")
+            i = j
+        elif lines[i] == "\t(symbol" and lines[i + 1].startswith('\t\t(lib_id "power:') and "PWR_FLAG" not in lines[i + 1]:
             x, y, rot = (float(v) for v in lines[i + 2].strip()[4:-1].split())
             gnd = "power:GND" in lines[i + 1]
             # outward direction of the symbol body
@@ -340,18 +379,21 @@ def set_pin_types(path, lib_id, types):
 # ADC: AD7606C-16, software mode (OS2..0 high), serial, 2 DOUT lines, internal reference
 # =====================================================================================
 def adc():
-    s = Sheet("adc", "A3")
+    s = Sheet("adc", "A3", "ADC (x8): AD7606C-16, software mode, serial 2 DOUT")
     s.note("ADC: AD7606C-16 (pin-compatible with AD7606B; symbol keeps AD7606 pin names)", 30.48, 25.4, 2.5)
     s.note("Software mode: OS0-OS2 high. FPGA writes registers over SDI (pin 29, DB11/SDI) at boot:", 30.48, 33.02)
     s.note("RANGE_CHx = 0x1 (+-5 V), BANDWIDTH = 0xFF (high bandwidth on all 8 channels), "
            "CONFIG DOUT_FORMAT = 2 lines.", 30.48, 38.1)
     s.note("Pin 10 is WR on the B/C parts (parallel register writes only): held high. "
            "RANGE pin is ignored in software mode.", 30.48, 43.18)
-    s.note("33 R source resistors on DOUTA/DOUTB/BUSY (ribbon to the FPGA).", 30.48, 48.26)
+    s.note("33 R source resistors on DOUTA/DOUTB/BUSY (ribbon to the FPGA); BUSY is used from ADC1 only.",
+           30.48, 48.26)
+    s.note("DB9/DB10 are tied to GND: never set DOUT_FORMAT to 4 lines. After power-up the FPGA pulses "
+           "ADC_RESET (full reset), then writes the registers.", 30.48, 53.34)
     s.part("Analog_ADC:AD7606", "U1", 190.5, 139.7, "AD7606C-16BSTZ", "Package_QFP:LQFP-64_10x10mm_P0.5mm")
     for i in range(8):
         s.hier(f"IN{i + 1}", f"U1.{49 + 2 * i}", shape="input")
-        s.pwr("GND", f"U1.{50 + 2 * i}", sym_dir=270, hide=True)
+        s.pwr("GND", f"U1.{50 + 2 * i}")
     s.tie("+5VA", "U1.1", "U1.37", "U1.38", "U1.48")
     s.pwr("+3V3", "U1.23")
     s.pwr("GND", "U1.2", "U1.43")
@@ -383,8 +425,8 @@ def adc():
             ("C5", "10u 16V X5R", C0805, "+5VA"), ("C6", "100n 16V X7R", C0603, "+3V3"),
             ("C7", "1u 16V X7R", C0603, "REGCAP1"), ("C8", "1u 16V X7R", C0603, "REGCAP2"),
             ("C9", "10u 16V X7R", C1206, "REFCAP"), ("C10", "100n 16V X7R", C0603, "REFIO")]
-    s.note("Decoupling: C1-C4 at the AVCC pins, C5 bulk, C6 at VDRIVE; REGCAP, REFCAP, REFIN/OUT per datasheet",
-           30.48, 205.74)
+    s.note("Decoupling (place at the pins): four 100 nF on the AVCC pins + 10 uF bulk, 100 nF on VDRIVE; "
+           "REGCAP 1 uF x2, REFCAP 10 uF, REFIN/OUT 100 nF per datasheet", 30.48, 205.74)
     for k, (ref, val, fp, net) in enumerate(caps):
         x = 38.1 + 20.32 * k
         s.part("Device:C", ref, x, 228.6, val, fp)
@@ -401,7 +443,7 @@ def adc():
 # TX group: one 74HCT595 (4 of its 8 bits) feeding two UCC27524 -> 4 elements
 # =====================================================================================
 def tx_group():
-    s = Sheet("tx_group")
+    s = Sheet("tx_group", "A4", "TX group (x16): 74HCT595 + 2 x UCC27524, 4 elements")
     s.note("TX group: 4 elements. 74HCT595 QA-QD -> UCC27524 inputs; QE-QH unused (16 data lines, 10 MHz SRCLK)",
            25.4, 25.4)
     s.note("EN from one 74AHCT1G125 per 8 drivers (en_buf). SCK/LATCH from a clk_buf output (<= 4 loads).",
@@ -414,14 +456,13 @@ def tx_group():
     s.glb("TX_OE_N", "U1.13", shape="input")
     s.pwr("+5V", "U1.16")
     s.pwr("GND", "U1.8")
-    for n, pn in zip(range(1, 5), ("15", "1", "2", "3")):
-        s.lbl(f"BIT{n}", f"U1.{pn}")
+    # QA..QD wired straight to the driver inputs (QA->U2 INA, QB->U2 INB, QC->U3 INA, QD->U3 INB)
+    for q, dst, xm in (("15", "U2.2", 139.7), ("1", "U2.4", 142.24), ("2", "U3.2", 142.24), ("3", "U3.4", 139.7)):
+        s.route(f"U1.{q}", dst, xm)
     s.nc("U1.4", "U1.5", "U1.6", "U1.7", "U1.9")
     for ref, y, a, b in (("U2", 76.2, 1, 2), ("U3", 129.54, 3, 4)):
         s.part("Driver_FET:UCC27524D", ref, 172.72, y, "UCC27524DR", "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
         s.hier("EN", f"{ref}.1", f"{ref}.8", shape="input")
-        s.lbl(f"BIT{a}", f"{ref}.2")
-        s.lbl(f"BIT{b}", f"{ref}.4")
         s.hier(f"DRV{a}", f"{ref}.7", shape="output")
         s.hier(f"DRV{b}", f"{ref}.5", shape="output")
         s.pwr("VDRV", f"{ref}.6")
@@ -440,7 +481,8 @@ def tx_group():
 # Enable buffer: TX_EN_FPGA (3.3 V) -> TX_ENn (5 V) for 8 drivers (16 EN pins)
 # =====================================================================================
 def en_buf():
-    s = Sheet("en_buf")
+    s = Sheet("en_buf", "A4", "TX enable buffer (x4): 74AHCT1G125")
+    s.field_ov.append("U1=7.62,-7.62,7.62,-5.08")
     s.note("TX enable buffer: 74AHCT1G125, 3.3 V in (TTL threshold), 5 V out to 8 UCC27524 (16 EN pins)",
            25.4, 25.4)
     s.part("74xGxx:74LVC1G125", "U1", 127.0, 101.6, "74AHCT1G125", "Package_TO_SOT_SMD:SOT-23-5")
@@ -458,7 +500,7 @@ def en_buf():
 # Clock buffer: one input -> two 33 R series-terminated outputs, <= 4 loads each
 # =====================================================================================
 def clk_buf():
-    s = Sheet("clk_buf")
+    s = Sheet("clk_buf", "A4", "Clock buffer (x7): 74LVC2G34, 33 R outputs")
     s.note("Clock fan-out: 74LVC2G34 at the header, both gates on IN, 33 R series termination per output",
            25.4, 25.4)
     s.note("Each output drives at most 4 loads (series termination works for a lumped load at the far end).",
@@ -488,7 +530,7 @@ def clk_buf():
 # MEMS mic: SPH0641LU4H-1, PDM. SEL from the parent (3V3_MIC or GND) picks the clock edge.
 # =====================================================================================
 def mic():
-    s = Sheet("mic")
+    s = Sheet("mic", "A4", "MEMS mic (x8): SPH0641LU4H-1")
     s.note("MEMS mic SPH0641LU4H-1 (PDM). Two mics share DATA: SEL high on one, low on the other.",
            25.4, 25.4)
     s.note("Mounted on the back, sound port through a board hole. 3V3_MIC is the ferrite-filtered rail (power sheet).",
@@ -502,7 +544,7 @@ def mic():
     s.part("Device:R", "R1", 157.48, 104.14, "33 1%", R0603, rot=90)
     s.wire("MK1.1", "R1.1")
     s.hier("DATA", "R1.2", shape="output")
-    s.part("Device:C", "C1", 101.6, 101.6, "100n 16V C0G", C0805)
+    s.part("Device:C", "C1", 101.6, 101.6, "100n 50V C0G", C0805)
     s.pwr("3V3_MIC", "C1.1")
     s.pwr("GND", "C1.2")
     s.build()
@@ -526,13 +568,12 @@ J2_MAP = {1: "GND", 2: None, 3: "GND", 4: "GND", 5: "ADC_RESET", 6: "GND", 7: "A
 
 
 def headers():
-    s = Sheet("headers", "A3")
+    s = Sheet("headers", "A3", "AXU3EGB headers J15/J16, idle pulls")
     s.note("AXU3EGB expansion headers (40-pin IDC, 2.54 mm). J1 = board J15 (TX, mics), "
            "J2 = board J16 (ADCs).", 30.48, 25.4, 2.5)
     s.note("Pin 2 (+5V) and 39/40 (+3.3V) of the FPGA board are left open. Clocks sit between GND "
            "conductors (pins 31-37).", 30.48, 33.02)
-    s.note("Spare FPGA pins tied to GND must stay inputs in the XDC. FPGA outputs: DRIVE 4, SLEW SLOW.",
-           30.48, 38.1)
+    s.note("Spare FPGA pins tied to GND must stay unused (inputs) in the XDC.", 30.48, 38.1)
     for ref, x, val, mp in (("J1", 101.6, "EX_IO1 (AXU3EGB J15)", J1_MAP),
                             ("J2", 254.0, "EX_IO2 (AXU3EGB J16)", J2_MAP)):
         s.part("Connector_Generic:Conn_02x20_Odd_Even", ref, x, 139.7, val,
@@ -549,7 +590,8 @@ def headers():
              ("R2", "TX_OE_N", "+3V3", "595 outputs off"),
              ("R3", "TX_CLR_N", "GND", "595 cleared"),
              ("R4", "ADC_CS_N", "+3V3", "ADCs deselected"),
-             ("R5", "ADC_RESET", "GND", "ADCs not held in reset")]
+             ("R5", "ADC_RESET", "GND", "ADCs idle until the FPGA pulses a full reset"),
+             ("R11", "ADC_SDI", "GND", "register line idle")]
     s.note("Idle pulls (FPGA unconfigured). TX_SCK, TX_LATCH, ADC_SCLK, ADC_CONVST and MIC_CLK_IN are "
            "pulled down in their clk_buf.", 30.48, 236.22)
     # Ribbon end (sim/clock_si_in.cir, clock_si_drive.cir): with the FPGA at DRIVE 8 (~40 ohm)
@@ -559,7 +601,7 @@ def headers():
     terms = ["TX_SCK", "TX_LATCH", "ADC_SCLK", "ADC_CONVST", "MIC_CLK_IN"]
     s.note("FPGA ribbon outputs: DRIVE 4, SLEW SLOW (near source-matched to the 100-ohm ribbon). "
            "DNP fallback: RC end termination 100 R + 47 pF per clock, fit only with DRIVE 8.",
-           30.48, 190.5)
+           30.48, 176.53)
     for k, net in enumerate(terms):
         x = 50.8 + 40.64 * k
         s.part("Device:R", f"R{6 + k}", x, 205.74, "100 1% DNP", R0603)
@@ -580,8 +622,250 @@ def headers():
     s.build()
 
 
+# =====================================================================================
+# Power (one-off). 12 V jack -> +5V buck -> +-6.5 V -> low-noise +-5VA; VDRV boost; +3V3;
+# 3V3_MIC. Every rail: regulator node *_REG -> bridged solder jumper (or J2 shunt for VDRV)
+# -> rail with test point, LED (not on the analog LDO outputs) and PWR_FLAG.
+# =====================================================================================
+R1206 = "Resistor_SMD:R_1206_3216Metric"
+C1210 = "Capacitor_SMD:C_1210_3225Metric"
+LEDFP = "LED_SMD:LED_0603_1608Metric"
+TPFP = "TestPoint:TestPoint_Pad_D1.5mm"
+JPFP = "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm"
+L6045 = "Inductor_SMD:L_Bourns_SRN6045TA"
+L8040 = "Inductor_SMD:L_Bourns_SRN8040TA"
+SMA = "Diode_SMD:D_SMA"
+PITCH = 20.32
+
+
+def power():
+    s = Sheet("power", "A2", "Power: 12 V in, +5V, +-6V5, +-5VA, VDRV, +3V3, 3V3_MIC")
+    s.field_ov.append("--vertical")  # value text beside each upright part: rows stay readable
+    nflag = [0]
+
+    def net(n, pin_):
+        (s.pwr if n in POWER_SYM else s.lbl)(n, pin_)
+
+    def row(x0, y, items):
+        """Lay out items left to right at one pitch. Item kinds:
+        two-pin vertical (C, CP, R, L, FB, F, D, LED): (kind, ref, value, fp, top_net, bottom_net)
+        ("JP", ref, value, fp, a_net, b_net) horizontal; ("TP", ref, net); ("FLG", net)."""
+        x = x0
+        sym = {"C": "Device:C", "CP": "Device:C_Polarized", "R": "Device:R", "L": "Device:L",
+               "FB": "Device:FerriteBead", "F": "Device:Polyfuse", "D": "Device:D_Schottky", "LED": "Device:LED"}
+        for it in items:
+            k = it[0]
+            if k in sym:
+                _, ref, val, fp, top, bot = it
+                rot = 90 if k in ("D", "LED") else 0  # rotated diodes: anode on top
+                s.part(sym[k], ref, x, y, val, fp, rot=rot)
+                if rot:
+                    s.field_ov.append(f"{ref}=3.81,-0.64,3.81,1.91")  # text beside the body
+                a, b = ("2", "1") if k in ("D", "LED") else ("1", "2")
+                net(top, f"{ref}.{a}")
+                net(bot, f"{ref}.{b}")
+                x += PITCH
+            elif k == "JP":
+                _, ref, val, fp, a, b = it
+                x += 5.08
+                s.part("Jumper:SolderJumper_2_Bridged", ref, x, y, val, fp)
+                net(a, f"{ref}.1")
+                net(b, f"{ref}.2")
+                x += PITCH + 5.08
+            elif k == "TP":
+                _, ref, n = it
+                s.part("Connector:TestPoint", ref, x, y - 2.54, f"TP {n}", TPFP)
+                net(n, f"{ref}.1")
+                x += PITCH
+            elif k == "FLG":
+                nflag[0] += 1
+                ref = f"#FLG{nflag[0]:02d}"
+                s.part("power:PWR_FLAG", ref, x, y - 2.54, "PWR_FLAG")
+                net(it[1], f"{ref}.1")
+                x += PITCH
+
+    def rail_out(x0, y, reg, rail, jp, led=None, tp=None, negative=False):
+        """REG node -> jumper -> rail with LED (resistor + LED), test point and flag."""
+        items = [("JP", jp, f"cut to isolate {rail}", JPFP, reg, rail)]
+        if led:
+            rref, dref, rval = led
+            if negative:
+                items += [("R", rref, rval, R0603, rail, f"LED_{rail}"), ("LED", dref, "green", LEDFP, "GND", f"LED_{rail}")]
+            else:
+                items += [("R", rref, rval, R0603, rail, f"LED_{rail}"), ("LED", dref, "green", LEDFP, f"LED_{rail}", "GND")]
+        items += [("TP", tp, rail), ("FLG", rail)]
+        row(x0, y, items)
+
+    # ---- A. 12 V input -------------------------------------------------------------------
+    s.note("A. 12 V INPUT: jack, polyfuse (16 V), SS54 reverse-polarity diode -> VIN", 25.4, 30.48, 2.2)
+    s.note("Use a regulated 12 V adapter only: LM2731 VIN max 14 V. Jack 5.5 x 2.1 mm, >= 1.5 A.", 25.4, 35.56)
+    s.part("Connector:Barrel_Jack", "J1", 35.56, 60.96, "12 V in (5.5x2.1)",
+           "Connector_BarrelJack:BarrelJack_CUI_PJ-063AH_Horizontal")
+    net("VIN_JACK", "J1.1")
+    net("GND", "J1.2")
+    row(66.04, 63.5, [("F", "F1", "1812L200/16DR 2A 16V", "Fuse:Fuse_1812_4532Metric", "VIN_JACK", "VIN_FUSED"),
+                      ("D", "D1", "SS54", "Diode_SMD:D_SMC", "VIN_FUSED", "VIN"),
+                      ("CP", "C1", "100u 25V", "Capacitor_SMD:CP_Elec_8x10", "VIN", "GND"),
+                      ("C", "C2", "100n 50V X7R", C0603, "VIN", "GND"),
+                      ("R", "R1", "10k 1%", R0603, "VIN", "LED_VIN"),
+                      ("LED", "D2", "green", LEDFP, "LED_VIN", "GND"),
+                      ("TP", "TP1", "VIN"), ("FLG", "VIN")])
+
+    # ---- B. +5V: TPS54202 buck -------------------------------------------------------------
+    x0, y0 = 309.88, 30.48
+    s.note("B. +5V: TPS54202 buck (TI reference design), 2 A", x0, y0, 2.2)
+    s.note("Vout = 0.596 V x (1 + 100k/13.3k) = 5.08 V. EN UVLO about 7 V. Load about 1.4 A.", x0, y0 + 5.08)
+    s.part("Regulator_Switching:TPS54202DDC", "U1", x0 + 25.4, y0 + 22.86, "TPS54202DDCR",
+           "Package_TO_SOT_SMD:SOT-23-6")
+    net("VIN", "U1.3")
+    net("EN_5V", "U1.5")
+    net("GND", "U1.1")
+    net("SW_5V", "U1.2")
+    net("BOOT_5V", "U1.6")
+    net("FB_5V", "U1.4")
+    row(x0, y0 + 48.26, [("C", "C3", "10u 50V X7R 1210", C1210, "VIN", "GND"),
+                         ("C", "C4", "100n 50V X7R", C0603, "VIN", "GND"),
+                         ("R", "R2", "511k 1%", R0603, "VIN", "EN_5V"),
+                         ("R", "R3", "105k 1%", R0603, "EN_5V", "GND"),
+                         ("C", "C5", "100n 16V X7R", C0603, "BOOT_5V", "SW_5V"),
+                         ("L", "L1", "15u Isat>=3.5A", L8040, "SW_5V", "5V_REG"),
+                         ("C", "C6", "22u 16V X5R 1206", C1206, "5V_REG", "GND"),
+                         ("C", "C7", "22u 16V X5R 1206", C1206, "5V_REG", "GND"),
+                         ("R", "R4", "100k 1%", R0603, "5V_REG", "FB_5V"),
+                         ("C", "C8", "75p 50V C0G", C0603, "5V_REG", "FB_5V"),
+                         ("R", "R5", "13.3k 1%", R0603, "FB_5V", "GND")])
+    rail_out(x0, y0 + 76.2, "5V_REG", "+5V", "JP1", led=("R6", "D3", "2.2k 1%"), tp="TP2")
+
+    # ---- C. +-6.5 V: TPS65131 ----------------------------------------------------------------
+    x0, y0 = 25.4, 134.62
+    s.note("C. +-6V5: TPS65131RGER boost + inverter from +5V (feeds the analog LDOs only)", x0, y0, 2.2)
+    s.note("Drawn with the pin-identical TPS65130 symbol: order TPS65131RGER (2 A switches). "
+           "PSP/PSN low: fixed-frequency PWM.", x0, y0 + 5.08)
+    s.note("+6V5 = 1.213 V x (1 + 562k/130k) = 6.46 V.   -6V5 = -1.213 V x 649k/121k = -6.51 V.", x0, y0 + 9.4)
+    s.part("Regulator_Switching:TPS65130RGE", "U2", x0 + 50.8, y0 + 35.56, "TPS65131RGER",
+           "Package_DFN_QFN:VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm_ThermalVias")
+    for pn, n in (("1", "SW_P"), ("24", "SW_P"), ("4", "VIN65"), ("5", "+5V"), ("6", "+5V"), ("8", "+5V"),
+                  ("9", "GND"), ("10", "+5V"), ("11", "GND"), ("13", "SW_N"), ("14", "SW_N"), ("15", "-6V5_REG"),
+                  ("16", "FBN"), ("17", "VREF65"), ("18", "CN65"), ("21", "CP65"), ("22", "FBP"), ("23", "6V5_REG")):
+        net(n, f"U2.{pn}")
+    s.nc("U2.7", "U2.12", "U2.20")
+    s.tie("GND", "U2.19", "U2.25", "U2.2")  # AGND, EP, PGND (pin 3 stacked on 2): one ground symbol
+    row(x0, y0 + 71.12, [("C", "C11", "10u 16V X7R 1206", C1206, "+5V", "GND"),
+                         ("C", "C12", "10u 16V X7R 1206", C1206, "+5V", "GND"),
+                         ("R", "R7", "100 1%", R0603, "+5V", "VIN65"),
+                         ("C", "C13", "100n 16V X7R", C0603, "VIN65", "GND"),
+                         ("FLG", "VIN65"),
+                         ("C", "C18", "220n 16V X7R", C0603, "VREF65", "GND"),
+                         ("C", "C19", "10n 16V X7R", C0603, "CP65", "GND"),
+                         ("C", "C20", "4.7n 50V C0G", C0603, "CN65", "GND")])
+    row(x0, y0 + 101.6, [("L", "L2", "4.7u Isat>=2A", L6045, "+5V", "SW_P"),
+                         ("D", "D4", "SS14", SMA, "SW_P", "6V5_REG"),
+                         ("R", "R8", "562k 1%", R0603, "6V5_REG", "FBP"),
+                         ("C", "C14", "6.8p 50V C0G", C0603, "6V5_REG", "FBP"),
+                         ("R", "R9", "130k 1%", R0603, "FBP", "GND"),
+                         ("C", "C15", "10u 25V X7R 1206", C1206, "6V5_REG", "GND"),
+                         ("C", "C16", "10u 25V X7R 1206", C1206, "6V5_REG", "GND")])
+    rail_out(x0 + 7 * PITCH + 5.08, y0 + 101.6, "6V5_REG", "+6V5", "JP5", led=("R10", "D5", "3.3k 1%"), tp="TP3")
+    row(x0, y0 + 132.08, [("L", "L3", "4.7u Isat>=2A", L6045, "SW_N", "GND"),
+                          ("D", "D6", "SS14", SMA, "-6V5_REG", "SW_N"),
+                          ("R", "R11", "649k 1%", R0603, "-6V5_REG", "FBN"),
+                          ("C", "C17", "7.5p 50V C0G", C0603, "-6V5_REG", "FBN"),
+                          ("R", "R12", "121k 1%", R0603, "FBN", "VREF65"),
+                          ("C", "C21", "10u 25V X7R 1206", C1206, "-6V5_REG", "GND"),
+                          ("C", "C22", "10u 25V X7R 1206", C1206, "-6V5_REG", "GND")])
+    rail_out(x0 + 7 * PITCH + 5.08, y0 + 132.08, "-6V5_REG", "-6V5", "JP6", led=("R13", "D7", "3.3k 1%"),
+             tp="TP4", negative=True)
+
+    # ---- D. analog LDOs ------------------------------------------------------------------------
+    x0, y0 = 309.88, 134.62
+    s.note("D. ANALOG RAILS: TPS7A4701 +5VA, TPS7A3301 -5VA (low noise, no LEDs)", x0, y0, 2.2)
+    s.note("+5VA: ANY-OUT 1.4 + 3.2 + 0.4 = 5.0 V.   -5VA = -1.176 V x (1 + 715k/220k) = -5.00 V.", x0, y0 + 5.08)
+    s.note("Load: 64 x OPA1678 (4 mA per channel) + 8 x AD7606C AVCC: about 0.45 A on +5VA, 0.3 A on -5VA.",
+           x0, y0 + 9.4)
+    s.part("Regulator_Linear:TPS7A4701xRGW", "U3", x0 + 25.4, y0 + 38.1, "TPS7A4701RGWR",
+           "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
+    for pn, n in (("15", "+6V5"), ("16", "+6V5"), ("13", "+6V5"), ("6", "GND"), ("10", "GND"),
+                  ("1", "5VA_REG"), ("20", "5VA_REG"), ("3", "5VA_REG"), ("14", "NR_5VA")):
+        net(n, f"U3.{pn}")
+    s.nc(*(f"U3.{n}" for n in ("4", "5", "8", "9", "11", "12")))
+    s.tie("GND", "U3.21", "U3.7")
+    row(x0 + 50.8, y0 + 38.1, [("C", "C23", "10u 25V X7R 1206", C1206, "+6V5", "GND"),
+                                ("C", "C24", "10u 16V X7R 1206", C1206, "5VA_REG", "GND"),
+                                ("C", "C25", "10u 16V X7R 1206", C1206, "5VA_REG", "GND"),
+                                ("C", "C26", "1u 16V X7R", C0603, "NR_5VA", "GND")])
+    rail_out(x0 + 50.8 + 4 * PITCH, y0 + 38.1, "5VA_REG", "+5VA", "JP2", tp="TP5")
+    s.part("Regulator_Linear:TPS7A3301RGW", "U4", x0 + 25.4, y0 + 76.2, "TPS7A3301RGWR",
+           "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
+    for pn, n in (("15", "-6V5"), ("16", "-6V5"), ("13", "-6V5"), ("14", "NR_M5VA"),
+                  ("1", "-5VA_REG"), ("20", "-5VA_REG"), ("3", "FB_M5VA")):
+        net(n, f"U4.{pn}")
+    s.tie("GND", "U4.21", "U4.7")
+    row(x0 + 50.8, y0 + 76.2, [("C", "C27", "10u 25V X7R 1206", C1206, "-6V5", "GND"),
+                               ("C", "C28", "1u 16V X7R", C0603, "NR_M5VA", "GND"),
+                               ("R", "R14", "715k 1%", R0603, "-5VA_REG", "FB_M5VA"),
+                               ("C", "C29", "10n 50V C0G", C0603, "-5VA_REG", "FB_M5VA"),
+                               ("R", "R15", "220k 1%", R0603, "FB_M5VA", "GND"),
+                               ("C", "C30", "22u 16V X7R 1210", C1210, "-5VA_REG", "GND")])
+    rail_out(x0 + 50.8 + 6 * PITCH, y0 + 76.2, "-5VA_REG", "-5VA", "JP3", tp="TP6")
+
+    # ---- E. VDRV --------------------------------------------------------------------------------
+    x0, y0 = 25.4, 289.56
+    s.note("E. VDRV 15 V: LM2731X boost from VIN. Remove the J2 shunt to unpower all TX drivers", x0, y0, 2.2)
+    s.note("1.23 V x (1 + 150k/13.3k) = 15.1 V. Load: 64 elements CW at 40 kHz, CV^2f = 1.3 W, about 0.12 A.",
+           x0, y0 + 5.08)
+    s.part("Regulator_Switching:LM2731XMF", "U5", x0 + 25.4, y0 + 22.86, "LM2731XMF", "Package_TO_SOT_SMD:SOT-23-5")
+    for pn, n in (("5", "VIN"), ("4", "EN_VDRV"), ("2", "GND"), ("1", "SW_VDRV"), ("3", "FB_VDRV")):
+        net(n, f"U5.{pn}")
+    row(x0, y0 + 48.26, [("C", "C31", "10u 50V X7R 1210", C1210, "VIN", "GND"),
+                         ("R", "R16", "51k 1%", R0603, "VIN", "EN_VDRV"),
+                         ("L", "L4", "10u Isat>=2A", L6045, "VIN", "SW_VDRV"),
+                         ("D", "D8", "SS14", SMA, "SW_VDRV", "VDRV_REG"),
+                         ("R", "R17", "150k 1%", R0603, "VDRV_REG", "FB_VDRV"),
+                         ("C", "C32", "180p 50V C0G", C0603, "VDRV_REG", "FB_VDRV"),
+                         ("R", "R18", "13.3k 1%", R0603, "FB_VDRV", "GND"),
+                         ("C", "C33", "10u 50V X7R 1210", C1210, "VDRV_REG", "GND"),
+                         ("C", "C34", "10u 50V X7R 1210", C1210, "VDRV_REG", "GND")])
+    s.part("Connector_Generic:Conn_01x02", "J2", x0 + 12.7, y0 + 76.2, "TX power (shunt)",
+           "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+    net("VDRV_REG", "J2.1")
+    net("VDRV", "J2.2")
+    row(x0 + 30.48, y0 + 76.2, [("CP", "C35", "47u 35V", "Capacitor_SMD:CP_Elec_6.3x7.7", "VDRV", "GND"),
+                                ("R", "R19", "15k 1%", R0603, "VDRV", "LED_VDRV"),
+                                ("LED", "D9", "green", LEDFP, "LED_VDRV", "GND"),
+                                ("TP", "TP7", "VDRV"), ("FLG", "VDRV")])
+
+    # ---- F. +3V3 ----------------------------------------------------------------------------------
+    x0, y0 = 309.88, 289.56
+    s.note("F. +3V3: TLV75733P LDO from +5V (1 A, stable with ceramic caps)", x0, y0, 2.2)
+    s.note("Load < 0.15 A: ADC VDRIVE, clock buffers, logic, mics.", x0, y0 + 5.08)
+    s.part("Regulator_Linear:TLV75733PDBV", "U6", x0 + 25.4, y0 + 20.32, "TLV75733PDBVR",
+           "Package_TO_SOT_SMD:SOT-23-5")
+    for pn, n in (("1", "+5V"), ("3", "+5V"), ("2", "GND"), ("5", "3V3_REG")):
+        net(n, f"U6.{pn}")
+    s.nc("U6.4")
+    row(x0 + 50.8, y0 + 20.32, [("C", "C36", "10u 16V X5R", C0805, "+5V", "GND"),
+                                ("C", "C37", "10u 16V X7R", C0805, "3V3_REG", "GND")])
+    rail_out(x0, y0 + 45.72, "3V3_REG", "+3V3", "JP4", led=("R20", "D10", "1k 1%"), tp="TP8")
+
+    # ---- H. 3V3_MIC --------------------------------------------------------------------------------
+    x0, y0 = 309.88, 355.6
+    s.note("H. 3V3_MIC: ferrite-filtered supply for the 8 MEMS mics (remove FB1 to isolate)", x0, y0, 2.2)
+    row(x0, y0 + 17.78, [("FB", "FB1", "220R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric", "+3V3", "3V3_MIC"),
+                         ("C", "C38", "10u 16V X5R", C0805, "3V3_MIC", "GND"),
+                         ("R", "R21", "1k 1%", R0603, "3V3_MIC", "LED_3V3_MIC"),
+                         ("LED", "D11", "green", LEDFP, "LED_3V3_MIC", "GND"),
+                         ("TP", "TP11", "3V3_MIC"), ("FLG", "3V3_MIC")])
+
+    # ---- G. ground -----------------------------------------------------------------------------------
+    x0, y0 = 213.36, 350.52
+    s.note("G. GROUND: one GND net and plane", x0, y0, 2.2)
+    s.note("Test points for scope grounds.", x0, y0 + 5.08)
+    row(x0, y0 + 22.86, [("TP", "TP9", "GND"), ("TP", "TP10", "GND"), ("FLG", "GND")])
+    s.build()
+
+
 SHEETS = {"adc": adc, "tx_group": tx_group, "en_buf": en_buf, "clk_buf": clk_buf, "mic": mic,
-          "headers": headers}
+          "headers": headers, "power": power}
 
 if __name__ == "__main__":
     for name in (sys.argv[1:] or SHEETS):

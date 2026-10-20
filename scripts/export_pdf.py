@@ -19,7 +19,8 @@ REPO = Path(__file__).resolve().parent.parent
 CLI = r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe"
 BUILD = REPO / "build"
 DOCS = REPO / "docs" / "schematics"
-ORDER = ["aesa", "channel", "adc", "tx_group", "en_buf", "clk_buf", "mic", "headers", "power"]
+ORDER = ["aesa", "headers", "clocks", "clk_buf", "tx", "tx_group", "en_buf", "array", "channel", "adcs", "adc",
+         "mics", "mic", "power"]
 
 
 def main():
