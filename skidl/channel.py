@@ -21,7 +21,7 @@ MEMS mic pair (array panel edge): two SPH0641LU4H-1 PDM mics share one DATA line
 one with SELECT = VDD (data valid on the rising clock edge), one with SELECT = GND
 (falling edge). 4 pairs = 8 mics on 4 DATA lines and 1 clock, fanned out by a buffer.
 
-Ground: one GND net and one continuous plane (docs/review-full-1.md item 1, TI SLYT512).
+Ground: one GND net and one continuous plane (TI SLYT512).
 Analog, drive and logic sections are kept apart by placement, not by split grounds; each
 DRVn/XDn returns over unbroken plane to its own driver.
 

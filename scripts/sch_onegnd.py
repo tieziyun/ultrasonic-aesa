@@ -1,4 +1,4 @@
-"""Merge AGND, PGND and DGND into one GND net on the given sheets (review-full-1 item 1).
+"""Merge AGND, PGND and DGND into one GND net on the given sheets.
 
 * global labels AGND/PGND/DGND -> GND
 * power symbols power:GNDA / GNDPWR / GNDD -> power:GND with value GND (pin positions are

@@ -53,7 +53,7 @@ JPFP = "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm"
 IND = "Inductor_SMD:L_Bourns_SRN6045TA"
 SMA = "Diode_SMD:D_SMA"
 
-# One ground net (review-full-1 item 1): every former AGND/PGND/DGND reference is GND.
+# One ground net: every former AGND/PGND/DGND reference is GND.
 POWER_SYM = {"GND": "power:GND", "PGND": "power:GND", "AGND": "power:GND", "DGND": "power:GND",
              "VIN": "power:+12V", "+5V": "power:+5V", "+6V5": "power:+6V", "-6V5": "power:-6V",
              "+5VA": "power:+5VA", "-5VA": "power:-5VA", "+3V3": "power:+3V3", "VDRV": "power:+15V",
