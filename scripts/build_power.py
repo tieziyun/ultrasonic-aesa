@@ -56,7 +56,8 @@ SMA = "Diode_SMD:D_SMA"
 # One ground net (review-full-1 item 1): every former AGND/PGND/DGND reference is GND.
 POWER_SYM = {"GND": "power:GND", "PGND": "power:GND", "AGND": "power:GND", "DGND": "power:GND",
              "VIN": "power:+12V", "+5V": "power:+5V", "+6V5": "power:+6V", "-6V5": "power:-6V",
-             "+5VA": "power:+5VA", "-5VA": "power:-5VA", "+3V3": "power:+3V3", "VDRV": "power:+15V"}
+             "+5VA": "power:+5VA", "-5VA": "power:-5VA", "+3V3": "power:+3V3", "VDRV": "power:+15V",
+             "3V3_MIC": "power:+3V3"}
 GROUNDS = ("PGND", "AGND", "DGND")
 
 parts = []      # components for the first batch
@@ -372,6 +373,20 @@ for k, x_ in enumerate((360.68, 373.38)):
     psym("GND", x_, 50.8)
 flag(386.08, 50.8)
 psym("GND", 386.08, 50.8)
+
+# =================================================================================
+# H. 3V3_MIC: +3V3 -> ferrite -> 10 uF, for the 8 MEMS mics (remove FB1 to isolate)
+# =================================================================================
+text("3V3_MIC  ferrite filter for the MEMS mics", 297.18, 63.5)
+psym("+3V3", 297.18, 76.2)
+part("Device:FerriteBead", "FB1", 306.07, 76.2, "220R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric", 90)
+w((297.18, 76.2), (302.26, 76.2))
+rail(76.2, [309.88, 317.5, 327.66, 337.82, 345.44, 353.06])
+drop("Device:C", "C38", 317.5, 76.2, "10u 16V X5R", C0805, "GND")
+led_drop("R21", "D11", 327.66, 76.2, "1k 1%", "GND")
+tp("TP11", 337.82, 76.2, "3V3_MIC")
+flag(345.44, 76.2)
+psym("3V3_MIC", 353.06, 76.2)
 
 
 def build():

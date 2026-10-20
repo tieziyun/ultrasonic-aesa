@@ -82,18 +82,50 @@ def build_sheets():
         s = Sheet(f"CH{n:02d}", "channel.kicad_sch", n, 38.1 + 68.58 * c, 30.48 + 20.32 * r, 22.86, 5.08)
         s.pins = [("DRV_OUT", "input", "left", f"DRV{n}"), ("RX_OUT", "output", "right", f"RX{n}")]
         sheets.append(s)
+    ab = "AB"
     for k in range(1, 9):
         s = Sheet(f"ADC{k}", "adc.kicad_sch", 70 + k, 38.1 + 68.58 * (k - 1), 205.74, 22.86, 25.4)
         s.pins = [(f"IN{i}", "input", "left", f"RX{8 * (k - 1) + i}") for i in range(1, 9)]
-        s.pins += [("DOUTA", "output", "right", f"ADC_DOUTA{k}"), ("DOUTB", "output", "right", f"ADC_DOUTB{k}"),
+        s.pins += [("SCLK", "input", "right", f"ADC_SCLK_{ab[(k - 1) // 4]}"),
+                   ("CONVST", "input", "right", f"ADC_CONVST_{ab[(k - 1) // 4]}"),
+                   ("DOUTA", "output", "right", f"ADC_DOUTA{k}"), ("DOUTB", "output", "right", f"ADC_DOUTB{k}"),
                    ("BUSY", "output", "right", "ADC_BUSY" if k == 1 else None)]
         sheets.append(s)
-    for i, (name, file, sid) in enumerate((("TX shift registers", "tx_shift.kicad_sch", 80),
-                                           ("TX gate drivers", "tx_drivers.kicad_sch", 81),
-                                           ("MEMS mics", "mems.kicad_sch", 90),
-                                           ("Power", "power.kicad_sch", 95),
+    # TX: 16 groups of 4 elements (one 595 + two UCC27524 each)
+    abcd = "ABCD"
+    for k in range(1, 17):
+        r, c = divmod(k - 1, 8)
+        s = Sheet(f"TXG{k:02d}", "tx_group.kicad_sch", 100 + k, 38.1 + 68.58 * c, 248.92 + 22.86 * r, 22.86, 12.7)
+        s.pins = [("SDI", "input", "left", f"TX_SDI{k - 1}"),
+                  ("SCK", "input", "left", f"TX_SCK_{abcd[(k - 1) // 4]}"),
+                  ("LATCH", "input", "left", f"TX_LATCH_{abcd[(k - 1) // 4]}"),
+                  ("EN", "input", "left", f"TX_EN{(k - 1) // 4 + 1}")]
+        s.pins += [(f"DRV{i}", "output", "right", f"DRV{4 * (k - 1) + i}") for i in range(1, 5)]
+        sheets.append(s)
+    # One TX-enable buffer per 4 groups (8 drivers, 16 EN pins)
+    for j in range(1, 5):
+        s = Sheet(f"TXEN{j}", "en_buf.kicad_sch", 120 + j, 38.1 + 68.58 * (j - 1), 299.72, 22.86, 5.08)
+        s.pins = [("IN", "input", "left", "TX_EN_FPGA"), ("OUT", "output", "right", f"TX_EN{j}")]
+        sheets.append(s)
+    # Clock fan-out at the headers: each output drives <= 4 loads
+    clocks = [("TX_SCK", "TX_SCK_A", "TX_SCK_B"), ("TX_SCK", "TX_SCK_C", "TX_SCK_D"),
+              ("TX_LATCH", "TX_LATCH_A", "TX_LATCH_B"), ("TX_LATCH", "TX_LATCH_C", "TX_LATCH_D"),
+              ("ADC_SCLK", "ADC_SCLK_A", "ADC_SCLK_B"), ("ADC_CONVST", "ADC_CONVST_A", "ADC_CONVST_B"),
+              ("MIC_CLK_IN", "MIC_CLK_A", "MIC_CLK_B")]
+    for j, (src, o1, o2) in enumerate(clocks, start=1):
+        s = Sheet(f"CLKB{j}", "clk_buf.kicad_sch", 130 + j, 38.1 + 68.58 * ((j - 1) % 8), 320.04, 22.86, 7.62)
+        s.pins = [("IN", "input", "left", src), ("OUT1", "output", "right", o1), ("OUT2", "output", "right", o2)]
+        sheets.append(s)
+    # MEMS mics: pairs share DATA (SEL high / low); MIC_CLK_A feeds mics 1-4, MIC_CLK_B 5-8
+    for m in range(1, 9):
+        s = Sheet(f"MIC{m}", "mic.kicad_sch", 140 + m, 38.1 + 68.58 * (m - 1), 345.44, 22.86, 7.62)
+        s.pins = [("CLK", "input", "left", "MIC_CLK_A" if m <= 4 else "MIC_CLK_B"),
+                  ("SEL", "input", "left", "3V3_MIC" if m % 2 else "GND"),
+                  ("DATA", "output", "right", f"MIC_DATA{(m - 1) // 2}")]
+        sheets.append(s)
+    for i, (name, file, sid) in enumerate((("Power", "power.kicad_sch", 95),
                                            ("AXU3EGB headers", "headers.kicad_sch", 99))):
-        sheets.append(Sheet(name, file, sid, 38.1 + 101.6 * i, 266.7, 63.5, 25.4))
+        sheets.append(Sheet(name, file, sid, 38.1 + 101.6 * i, 370.84, 63.5, 25.4))
     return sheets
 
 
@@ -144,19 +176,28 @@ def write_instances(sheets):
                 blk = "\n".join(lines[i:j + 1])
                 ref = re.search(r'\(property "Reference" "([^"]+)"', blk).group(1)
                 unit = re.search(r"\n\t\t\(unit (\d+)\)", blk).group(1)
-                s0 = blk.index("\n\t\t(instances")
-                depth, e = 0, s0 + 1
-                while True:
-                    ch = blk[e]
-                    depth += (ch == "(") - (ch == ")")
-                    e += 1
-                    if depth == 0:
-                        break
+                # Remove every (instances ...) block: the MCP server can add a second one
+                # with its own numbering, and KiCad then uses the stray references.
+                s0 = None
+                while "(instances" in blk:
+                    start = blk.index("(instances")
+                    k = start  # strip only whitespace before it: the MCP writes ")(instances"
+                    while k > 0 and blk[k - 1] in " \t\n":
+                        k -= 1
+                    depth, e = 0, start
+                    while True:
+                        ch = blk[e]
+                        depth += (ch == "(") - (ch == ")")
+                        e += 1
+                        if depth == 0:
+                            break
+                    blk = blk[:k] + blk[e:]
+                    s0 = k if s0 is None else min(s0, k)
                 paths = "".join(
                     f'\n\t\t\t\t(path "/{ROOT_UUID}/{s.uuid}"\n\t\t\t\t\t(reference "{renumber(ref, s.sid)}")'
                     f'\n\t\t\t\t\t(unit {unit})\n\t\t\t\t)' for s in insts)
                 new_inst = f'\n\t\t(instances\n\t\t\t(project "{PROJECT}"{paths}\n\t\t\t)\n\t\t)'
-                blk = blk[:s0] + new_inst + blk[e:]
+                blk = blk[:s0] + new_inst + blk[s0:]
                 out[-1:] = blk.split("\n")
                 count += 1
                 i = j + 1

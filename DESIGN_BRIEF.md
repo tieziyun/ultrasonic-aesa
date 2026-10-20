@@ -2,7 +2,7 @@
 
 An acoustic "AESA": a 40 kHz in-air phased array in which every element can transmit and receive under per-element FPGA control, plus a few wideband MEMS microphones. It feeds an ALINX AXU3EGB (Zynq UltraScale+ ZU3EG) board, which does the beamforming.
 
-Status (2026-10-19): front end and TX drive **approved** (section 4a, with 74AHCT595 and 16 TX data lines); ADC AD7606B (section 4). **The full schematic is drawn in KiCad** (`kicad/aesa.kicad_pro`, section 4b; it is now the source of truth, `skidl/channel.py` is the reference spec): 64 channels, 8 MEMS mics, 8 ADCs, TX, power and AXU3EGB headers, 1,503 parts, kicad-cli ERC 0 violations. Read it in `build/aesa_schematic_summary.pdf`. Review `docs/review-channel-1.md`: B1, B2, F1–F6 applied; N1–N7 open. Full-schematic review done: `docs/review-full-1.md` (power sheet excluded; power redesigned afterwards and still needs its review). Next: apply the review items, LCSC numbers for the TBD parts, then board split and placement.
+Status (2026-10-20): front end and TX drive **approved** (section 4a, with 74HCT595 and 16 TX data lines); ADC **AD7606C-16** in software mode (section 4); one 4-layer board (section 2); every repeated block is its own reused sheet (section 4b). **The full schematic is drawn in KiCad** (`kicad/aesa.kicad_pro`, section 4b; it is now the source of truth, `skidl/channel.py` is the reference spec): 64 channels, 8 MEMS mics, 8 ADCs, TX, power and AXU3EGB headers, 1,701 parts, kicad-cli ERC 0 violations. Read it in `build/aesa_schematic_summary.pdf`. Review `docs/review-channel-1.md`: B1, B2, F1–F6 applied; N1–N7 open. Full-schematic review done: `docs/review-full-1.md` (power sheet excluded; power redesigned afterwards and still needs its review). Review-full-1 group 1 applied 2026-10-19 (one GND, 74HCT595D, 4 enable buffers, ADC idle pulls, REFCAP, bleed 33 k, RF caps, mic supply filter). 2026-10-20: ADC → AD7606C-16, one board, clock buffering and ground pins, every repeated block its own sheet, 1,701 parts, ERC 0; simulations in `docs/simulation-1.md`. Next: power-sheet review, LCSC numbers for the TBD parts (parts-sourcer, including the AD7606C-16 price at DigiKey/Mouser), then placement.
 
 ## 1. Goals (applications the board must support)
 
@@ -23,9 +23,31 @@ Out of scope: outdoor long range, underwater, anything near people's ears at hig
 - **Front waveguide** (3D-printed tubes) to bring the effective element spacing down to λ/2 = 4.3 mm, so beamforming has no grating lobes. This follows the TU Darmstadt design (reference 1 below).
 - Optional: active damping (a brief anti-phase drive after each pulse) to shorten ringing.
 
-### Proposed board split (default; can be changed)
-1. **Array panel** (about 130 × 130 mm, 2-layer): 64 transceivers, 8 MEMS mics, waveguide mounting holes, board-to-board connectors.
-2. **Front-end / ADC board** behind it (about 150 × 150 mm, 4-layer): 64 channel front ends, ADCs, transmit control, power, header to the AXU3EGB.
+### Board split (decided 2026-10-20): one board
+**One 4-layer board, about 200 × 170 mm.**
+- **Front:** the 64 transducers (hand-soldered through-hole) and the waveguide.
+- **Back:** every SMT part, so assembly is single-sided. Each channel's front end sits directly behind its element.
+- **Mics:** the 8 bottom-port MEMS mics mount on the back, with port holes through the board.
+- **Clean side:** ADCs, logic and the AXU3EGB ribbon headers go along one edge; power and the 15 V drivers go along the opposite edge, all over one continuous GND plane.
+
+Why:
+- **Cost:** one PCB instead of two, one SMT setup ($25 instead of 2 × $25 at [JLCPCB](https://jlcpcb.com/help/article/pcb-assembly-price)), and no board-to-board connectors carrying 64 analog lines plus grounds.
+- **Noise:** the high-impedance element node (XD, 3 kΩ source) stays a few mm long instead of crossing a connector, so there's less pickup and no connector crosstalk between neighbouring elements.
+- **Industry practice:** flat ultrasonic arrays commonly put transducers and drivers on one PCB ([FPGA levitation array, arXiv 1901.07317](https://arxiv.org/pdf/1901.07317); [SonicSurface build](https://z.jpralves.net/post/2021/08/05/sonicsurface-phased-array-for-levitation-mid-air-tactile-feedback-and-target-directional-speakers.html)), and transducer-front, electronics-back is a standard arrangement ([US10315224](https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/10315224)).
+
+Rejected:
+- **Two-board stack** (2-layer panel plus 4-layer front end): most expensive, and puts the sensitive XD lines through a connector.
+- **Hybrid** (front ends on the panel, ADC/digital on a second board): middle cost, still two boards and two assemblies.
+
+This removes review-full-1 item 3 (no panel connector). The only cable is the ribbon to the AXU3EGB.
+
+### Clock and data lines to the AXU3EGB (decided 2026-10-20)
+Single-ended 3.3 V LVCMOS. At 10–20 MHz over a short ribbon that is the standard choice, and the AXU3EGB's 3.3 V HD banks can't drive LVDS anyway ([Xilinx XAPP230](https://www.hep.ucl.ac.uk/~mp/FPGA/Xilinx-Appl-Note-230_LVDS-Standards.pdf); [CTS termination note](https://www.CTSCorp.com/Files/Product-Marketing-Documents/Passive-Components/Frequency-Control-Products/CTS-Passive-Components-Frequency-Control-Oscillators-Termination-Techniques-Layout-Considerations-Application-Note.pdf)).
+- **FPGA outputs** (all ribbon outputs, clocks and data): **DRIVE = 4 mA**, SLEW = SLOW in the XDC (changed from 8 mA after simulation, `sim/clock_si_drive.cir`): about 80 Ω output impedance nearly source-matches the ~100 Ω ribbon, so edges at our buffer inputs reach 3.32 V / −0.02 V instead of 3.7 V / −0.4 V at DRIVE 8. Fallback: DNP RC end terminations (100 Ω + 47 pF) on the five clock lines at the header, to be fitted only with DRIVE 8 (with DRIVE 4 they halve the initial step to ~1.8 V, too close to the 1.65 V threshold).
+- **Ground conductors:** a GND pin on each side of every clock in the ribbon. Spare header pins become GND, and the FPGA leaves those pins as inputs.
+- **Clock fan-out on our board:** a 74LVC2G34 buffer at the header. Each output drives at most 4 loads through its own 33 Ω series resistor, because a series-terminated line can't drive multiple loads.
+- **Data back to the FPGA:** a 33 Ω series resistor at each ADC's DOUTA/DOUTB/BUSY output.
+- **Cable:** keep the ribbon short, about 15 cm.
 
 ## 3. Key numbers
 
@@ -49,7 +71,7 @@ Out of scope: outdoor long range, underwater, anything near people's ears at hig
 | Transceiver (alternative) | Generic open-type T40-16 / R40-16 (HC-SR04 type) or 10 mm levitation type (Manorshi MSO-P1040H07T) | Cheaper and more sensitive, not sealed, large unit-to-unit phase spread: buy about 30% spares and calibrate per element | — |
 | Edge MEMS mics | **Knowles/Syntiant SPH0641LU4H-1** | PDM, 100 Hz–80 kHz, about €2.7 (DigiKey). Same mic as the eRTIS research sonar. Datasheet checked 2026-10-19: ultrasonic mode needs a 3.072–4.8 MHz clock, and the mic must not power up or wake from sleep in that mode (start at 1.024–2.475 MHz, then raise it). VDD 1.62–3.6 V; we use 3.3 V to match the FPGA I/O. **Bottom port, Ø0.325 mm**: mics go on the rear of the panel with a hole through the PCB. Pairs share a DATA line (SELECT = VDD and SELECT = GND). Bypass capacitors must be C0G (no Class 2 dielectric). No LCSC number checked yet (marked consigned) | [DigiKey](https://www.digikey.ie/en/products/detail/syntiant/SPH0641LU4H-1/5332438) |
 | Analog alternative mic | Knowles SPU0410LR5H-QB | Analog, 100 Hz–80 kHz. Must be the "-QB" suffix | — |
-| ADCs | **AD7606B** (AD7606BBSTZ-RL, LCSC C651284, 1,635 in stock, about $22.49 each / $180 for 8, JLCPCB Extended; LQFP-64, AVCC 5 V, VDRIVE 3.3 V). Chosen over the AD7606 (C398827, $17.69) for its faster serial port: 60 MHz SCLK, 1/2/4 DOUT lines, 0.85 µs conversion, so 200 kSPS is easy (the AD7606 is marginal at 200 kSPS in serial mode). **Caveat:** both parts have a fixed 2nd-order Butterworth input filter with no bypass; on the AD7606B it is −3 dB at 22.5 kHz (±10 V), 13.5 kHz (±5 V), 11.5 kHz (±2.5 V). At 40 kHz on ±10 V that is about −10 dB and about 130° lag, with 240 ns (about 3.5°) channel-to-channel phase-delay matching that per-element calibration must remove. The ±10 V range also wastes about 6 dB of range with the ±5 V OPA1678 output. Net about 16 dB of SNR lost against an ADC without the filter. Alternative if that proves too much: AD7761 (sigma-delta, Darmstadt's choice). Source: parts-sourcer, 2026-10-19 | Serial mode, 2 DOUT lines per ADC (hardware mode), shared SCLK/CS/CONVST/RESET, one BUSY | [LCSC](https://www.lcsc.com/product-detail/C651284.html), [datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606b.pdf) |
+| ADCs | **AD7606C-16** (AD7606C-16BSTZ, decided 2026-10-20). Pin-compatible with the AD7606B; per-channel analog bandwidth 25 kHz or 220 kHz, selectable only in software mode (BANDWIDTH register 0x07). With 220 kHz and the ±5 V range (RANGE_CHx code 0x1) it recovers the ~10 dB filter loss and ~6 dB range loss of the AD7606B (fixed 22.5 kHz Butterworth, ±10 V). Software mode: OS0–OS2 high; registers written over DB11/SDI (16-bit frame: bit 14 = read, bits 13:8 address, 7:0 data; CONFIG 0x02 DOUT_FORMAT bits 4:3, RANGE 0x03–0x06, OVERSAMPLING 0x08), all 8 ADCs share SDI/CS so one write configures all. **Not stocked by LCSC/JLCPCB: buy from DigiKey/Mouser and consign** (price and stock to be checked by parts-sourcer). Fallback: AD7606B (LCSC C651284) in the same footprint. Exact BANDWIDTH bit polarity to be confirmed in the datasheet before writing the FPGA code (ADI site unreachable on 2026-10-20; register addresses from ADI's no-OS driver and the Linux ad7606 driver) | Serial, 2 DOUT lines per ADC, shared SCLK/CS/CONVST/RESET/SDI, one BUSY | [ADI product page](https://www.analog.com/en/products/ad7606c-16.html), [datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/ad7606c-16.pdf), [no-OS driver](https://github.com/analogdevicesinc/no-OS/blob/main/drivers/adc/ad7606/ad7606.h) |
 | Per-channel TX + RX front end | **Discrete (approved 2026-10-19)**, see section 4a. TUSS4470 rejected: its VOUT is a log-amp envelope (no phase) | Must allow per-element mode switching (see section 2) | — |
 
 ### 4a. Front end and TX drive (approved 2026-10-19)
@@ -58,20 +80,20 @@ Reference design: Darmstadt (reference 1) uses, per 8 elements, one HV7355 pulse
 
 **Per channel** (`skidl/channel.py`):
 - TX: half of a **UCC27524** dual gate driver (LCSC C465729), VDRV = 15 V nominal (18 V max) → about 14 Vpp at the element. 47 Ω series resistor, then a **BAV99 crossed-diode pair**. While the driver output is at GND the diodes are off, so the element is isolated from the driver and listens. Ringing above about 0.6 V is damped through the diodes.
-- Element: CUSA-TR65, 2200 pF, 3 kΩ at resonance. 100 kΩ bleed to AGND. Footprint `aesa:CUSA-TR65` (`kicad/aesa.pretty`): 5 mm pitch, 1.0 mm drills; pin 2 is the ground/can lead. The datasheet doesn't say which lead is the can, so check it with a meter.
-- RX protection: 4.7 kΩ series + BAV99 clamp to AGND (±0.77 V, 3 mA during transmit). 1 kΩ would dissipate 94 mW in CW mode.
+- Element: CUSA-TR65, 2200 pF, 3 kΩ at resonance. 33 kΩ bleed to GND (73 µs recovery after transmit). Footprint `aesa:CUSA-TR65` (`kicad/aesa.pretty`): 5 mm pitch, 1.0 mm drills; pin 2 is the ground/can lead. The datasheet doesn't say which lead is the can, so check it with a meter.
+- RX protection: 4.7 kΩ series + BAV99 clamp to GND (±0.77 V, 3 mA during transmit; 1 kΩ would dissipate 94 mW in CW mode), then 100 pF to GND (RF filter, 340 kHz). Stage 1 has 33 pF across its 10 k feedback resistor (roll-off near 480 kHz).
 - Filter parts: 1 % resistors, 1 nF C0G 1 % capacitors (5 % parts would give up to ±11° phase spread between channels).
-- Grounds: AGND (analog, element returns, ADC), PGND (drivers, VDRV decoupling), DGND (logic, mics), joined at one point by net-ties (2 mm tie for PGND).
+- Ground: **one GND net and one continuous plane** (review-full-1 item 1; TI SLYT512, ADI layout guidance). Drive, analog and logic sections are separated by placement; each DRVn/XDn returns over unbroken plane to its own driver. No net-ties.
 - RX gain: **OPA1678** dual (LCSC C192421) on ±5 V. Stage 1 non-inverting ×6, AC-coupled at 800 Hz. Stage 2 multiple-feedback band-pass, f0 = 39.8 kHz, Q = 2, gain −4. Total −24 (27.6 dB), output single-ended through 100 Ω to the ADC. Digital TGC in the FPGA instead of Darmstadt's analog VGA.
 - About 16 parts per channel.
 
 **MEMS mics** (fixed requirement, hybrid panel): 4 pairs (`mems_mic_pair`) along the grid edge, 4 DATA lines + 1 clock. Each mic has a 33 Ω series resistor on DATA and a 100 nF C0G bypass. The clock is fanned out on the panel by 2× 74LVC2G34, one output per pair through 33 Ω, with a 100 k pull-down on the input so the mics see no clock while the FPGA configures.
 
 **Transmit lines** (shift-register frame streaming):
-- **16 data lines**, one **74AHCT595** (5 V, TTL inputs, fmax about 170 MHz; no LCSC listing found yet) per 4 elements on QA–QD (QE–QH unused), plus shared SRCLK, RCLK (latch), /OE and /SRCLR. The user chose 16 lines × 4 bits over 8 × 8 to halve the shift clock; it costs 8 more 595s (16 in total) and 8 more FPGA pins.
+- **16 data lines**, one **74HCT595D** (Nexperia, LCSC C282339, 5 V, TTL inputs, fmax 57 MHz) per 4 elements on QA–QD (QE–QH unused), plus shared SRCLK, RCLK (latch), /OE and /SRCLR. The user chose 16 lines × 4 bits over 8 × 8 to halve the shift clock; it costs 8 more 595s (16 in total) and 8 more FPGA pins.
 - The FPGA shifts a 64-bit frame (4 bits per line) and latches it at 2.5 MHz (**SRCLK 10 MHz**). All 64 outputs update on the same RCLK edge, so each element's waveform is any 1-bit pattern with 0.4 µs resolution (1/62 of a 40 kHz period, about 6°).
 - Per-element mode falls out of the bit stream: transmit = toggle the bit, listen = hold 0. This supports split mode and continuous wave with no extra mode lines.
-- Safety (`tx_control`, once per board): the UCC27524 EN pins have 200 kΩ internal pull-ups to VDRV (datasheet), so they must never connect to an FPGA pin. A 74AHCT1G125 on +5 V drives them; its input has a 10 k pull-down to DGND. /OE has a 10 k pull-up to 3.3 V (595 outputs high-Z, driver inputs pulled low) and /SRCLR a 10 k pull-down. The drivers stay off until the FPGA enables them.
+- Safety (`tx_control`, once per board): the UCC27524 EN pins have 200 kΩ internal pull-ups to VDRV (datasheet), so they must never connect to an FPGA pin. Four 74AHCT1G125 on +5 V drive them, one per row of 8 drivers (TX_EN1–4), all fed from TX_EN_FPGA with one 10 k pull-down to GND. /OE has a 10 k pull-up to 3.3 V (595 outputs high-Z, driver inputs pulled low) and /SRCLR a 10 k pull-down. The drivers stay off until the FPGA enables them.
 - VDRV: 47 µF bulk capacitance; size the supply for ≥ 0.25 A.
 - Upgrade path if more range is needed: HV7355 (LCSC C633698, up to 150 V, needs ±5 V and VPP) in the same position; it also has its own per-channel serial enable latch.
 
@@ -80,10 +102,10 @@ Reference design: Darmstadt (reference 1) uses, per 8 elements, one HV7355 pulse
 | Function | Pins |
 |---|---|
 | TX: 16 serial data + SRCLK + RCLK + /OE + /SRCLR + TX_EN | 21 |
-| ADC: 8 × AD7606B, 2 DOUT each (16) + SCLK + CS + CONVST + RESET + BUSY. 64 bits per line per sample at 200 kSPS = 12.8 Mbit/s, so SCLK about 20 MHz. (1 DOUT per ADC would save 8 pins but needs software mode and SCLK ≥ 26 MHz over the headers.) | 21 |
+| ADC: 8 × AD7606C-16, 2 DOUT each (16) + SCLK + CS + CONVST + RESET + BUSY + SDI (shared register-write line, software mode). 64 bits per line per sample at 200 kSPS = 12.8 Mbit/s, so SCLK about 20 MHz. | 22 |
 | MEMS mics: 4 PDM data + 1 clock | 5 |
 | I²C (config, power monitor) | 2 |
-| **Total** | **about 49** |
+| **Total** | **about 50** (plus 27 header pins tied to GND as clock returns) |
 
 ### 4b. KiCad schematic (2026-10-19)
 
@@ -91,13 +113,16 @@ Project `kicad/aesa.kicad_pro`, top sheet `aesa.kicad_sch` (generated by `script
 
 | Sheet | Instances | Contents |
 |---|---|---|
-| `channel.kicad_sch` | 64 (CH01–CH64) | One transceiver channel, wired: 47 Ω + BAV99 crossed diodes, CUSA-TR65 element, 100 k bleed, 4.7 k + BAV99 clamp, OPA1678 ×6 stage and 40 kHz MFB band-pass, 100 Ω out. Ports DRV_OUT (from the driver) and RX_OUT (to the ADC). The transducer is in this sheet for now; it moves to the array panel when the boards are split. |
-| `adc.kicad_sch` | 8 (ADC1–ADC8) | AD7606B, hardware mode, serial 2 DOUT, ±10 V (RANGE high), internal reference, no oversampling; decoupling per datasheet. ADC k takes RX 8(k−1)+1 … 8k. BUSY used from ADC1 only. |
-| `tx_shift.kicad_sch` | 1 | `tx_control` (74AHCT1G125 enable buffer, /OE pull-up, /SRCLR pull-down) and 16 × 74AHCT595 (QA–QD → TX_BIT1–64). |
-| `tx_drivers.kicad_sch` | 1 | 32 × UCC27524 (TX_BIT → DRV1–64), 1 µF + 100 nF each, VDRV/PGND. |
-| `mems.kicad_sch` | 1 | 2 × 74LVC2G34 clock fan-out (100 k pull-down, 33 Ω per pair), 8 × SPH0641LU4H-1 in 4 pairs (SEL to VDD/GND, 33 Ω on DATA, 100 nF C0G). |
+| `channel.kicad_sch` | 64 (CH01–CH64) | One transceiver channel, wired: 47 Ω + BAV99 crossed diodes, CUSA-TR65 element, 33 k bleed, 4.7 k + BAV99 clamp, OPA1678 ×6 stage and 40 kHz MFB band-pass, 100 Ω out. Ports DRV_OUT (from the driver) and RX_OUT (to the ADC). The transducer stays in this sheet (one board). |
+| `adc.kicad_sch` | 8 (ADC1–ADC8) | AD7606C-16, **software mode** (OS0–OS2 high), serial, 2 DOUT, internal reference; pin 10 (WR) held high; DB11/SDI (pin 29) on global ADC_SDI; 33 Ω source resistors on DOUTA/DOUTB/BUSY; decoupling per datasheet. Ports IN1–8, SCLK, CONVST, DOUTA, DOUTB, BUSY. ADC k takes RX 8(k−1)+1 … 8k; ADC1–4 on ADC_SCLK_A/ADC_CONVST_A, ADC5–8 on _B. BUSY used from ADC1 only. |
+| `tx_group.kicad_sch` | 16 (TXG01–TXG16) | One 74HCT595D (QA–QD) + two UCC27524 (1 µF + 100 nF each): drives DRV 4(k−1)+1 … 4k. Ports SDI (TX_SDIk−1), SCK, LATCH (TX_SCK_A–D / TX_LATCH_A–D, 4 groups per buffered clock), EN (TX_EN1–4, 4 groups each), DRV1–4. TX_OE_N, TX_CLR_N global. |
+| `en_buf.kicad_sch` | 4 (TXEN1–4) | 74AHCT1G125, TX_EN_FPGA → TX_ENj (8 drivers, 16 EN pins each). |
+| `clk_buf.kicad_sch` | 7 (CLKB1–7) | 74LVC2G34 with both gates on IN, 33 Ω per output, 100 k pull-down on IN. TX_SCK → A/B, C/D; TX_LATCH → A/B, C/D; ADC_SCLK → A/B; ADC_CONVST → A/B; MIC_CLK_IN → MIC_CLK_A (mics 1–4) / B (5–8). Each output ≤ 4 loads. |
+| `mic.kicad_sch` | 8 (MIC1–8) | SPH0641LU4H-1, 100 nF C0G, 33 Ω on DATA. SEL from the top sheet: odd mics 3V3_MIC, even mics GND; mics 2k−1 and 2k share MIC_DATAk−1. |
 | `power.kicad_sch` | 1 | See below. |
-| `headers.kicad_sch` | 1 | J1 = AXU3EGB EX_IO1 (J15), J2 = EX_IO2 (J16), 2×20 IDC box headers for ribbon cables. |
+| `headers.kicad_sch` | 1 | J1 = AXU3EGB EX_IO1 (J15), J2 = EX_IO2 (J16), 2×20 IDC box headers for ribbon cables; idle pulls R1–R5. |
+
+**Rule (user, 2026-10-20): every block that repeats has its own sheet, instantiated N times, so there is one sheet to change.** `channel` is drawn with the MCP server; `adc`, `tx_group`, `en_buf`, `clk_buf`, `mic` and `headers` are generated by `scripts/build_cells.py`, `power` by `scripts/build_power.py`, the top sheet and references by `scripts/gen_top.py`. Reference numbering: CH n → R n01…, ADC k → U7k01…, TXG k → U1(00+k)01…, TXEN j → U12j01, CLKB j → U13j01, MIC m → MK14m01, power 95xx, headers 99xx.
 
 **Power tree (redesigned 2026-10-19, `scripts/build_power.py`; all TI parts with downloadable datasheets, in production):** one 12 V barrel jack (5.5×2.1 mm, ≥1.5 A) powers everything.
 - Input: jack → 2 A polyfuse → SS54 reverse-polarity Schottky → VIN (LED, test point).
@@ -108,15 +133,17 @@ Project `kicad/aesa.kicad_pro`, top sheet `aesa.kicad_sch` (generated by `script
 - VDRV: LM2731X boost from VIN to 15.1 V (150k/13.3k, Cf 180 pF), 10 µH, SS14, then **J2, a 2-pin shunt header in series: remove the shunt to unpower all TX drivers** (a boost cannot switch its output off by itself), 47 µF bulk.
 - +3V3: TLV1117-33 from +5V.
 - Testability: every regulator output passes a bridged solder jumper (JP1 +5V, JP2 +5VA, JP3 −5VA, JP4 +3V3; cut to isolate a rail), has a test point (also on +6V5, −6V5, VIN, PGND, AGND, DGND), and an LED on VIN, +5V, ±6V5, VDRV, +3V3 (none on the analog LDO outputs).
-- Grounds: switchers on PGND, analog LDOs on AGND; AGND–PGND (2 mm) and AGND–DGND (0.5 mm) net-ties. See review-full-1 finding 1 on where the ties go in layout.
+- Ground: one GND for everything; the old AGND/PGND/DGND net-ties are removed (review-full-1 item 1).
 - Replaced: MT3608 (no datasheet available), second TPS54202 and the paralleled LM2776 charge pumps. kicad-cli ERC on the full hierarchy: 0 violations.
 
-**AXU3EGB header pinout** (verified 2026-10-19 against the ALINX AXU3EGB user manual REV1.0, pp. 41–42, and the schematic page "EXTEND IO"; J15 = banks 43/44, J16 = banks 45/46, same layout): pin 1, 37, 38 GND; pin 2 +5V; pins 39, 40 +3.3V; pins 3–36 = 17 P/N pairs (N odd, P even). Our board connects GND to DGND and leaves the +5V/+3.3V pins unconnected (own supplies).
-- J1 (EX_IO1): TX_SCK 4, TX_LATCH 3, TX_SDI0–15 on 5–20 (P = even SDI), TX_OE_N 22, TX_CLR_N 21, TX_EN_FPGA 24, MIC_CLK_IN 26, MIC_DATA0 25, MIC_DATA1 28, MIC_DATA2 27, MIC_DATA3 30; spare 23, 29, 31–36.
-- J2 (EX_IO2): ADC_SCLK 4, ADC_CS_N 3, ADC_CONVST 6, ADC_RESET 5, ADC_BUSY 8, ADC_DOUTAk on 10, 12 … 24 and ADC_DOUTBk on 9, 11 … 23; spare 7, 25–36.
-- Only 4 ground pins per header: the fast clocks (TX_SCK 10 MHz, ADC_SCLK ~20 MHz, MIC clock 4.8 MHz) need a ribbon with good return paths; consider shortening the cable or adding series terminations at the FPGA.
+**ADC and mic additions (group 1, 2026-10-19; updated 2026-10-20):** ADC_CS_N 10 k pull-up to +3V3 and ADC_RESET 10 k pull-down (headers sheet); ADC_CONVST and all other clocks are held low by the 100 k in their clk_buf. ADC REFCAP is 10 µF 16 V X7R 1206 (DC-bias derating). The 8 mics run from 3V3_MIC: +3V3 → 220 Ω@100 MHz ferrite → 10 µF, with LED, test point and flag (power sheet section H; remove FB1 to isolate).
 
-**Local deviations from the KiCad libraries:** AD7606 pins DB0–DB6, DB9–DB15 set to passive in `adc.kicad_sch` (tied to AGND in serial mode per datasheet; the library marks them as outputs).
+**AXU3EGB header pinout** (verified 2026-10-19 against the ALINX AXU3EGB user manual REV1.0, pp. 41–42, and the schematic page "EXTEND IO"; J15 = banks 43/44, J16 = banks 45/46, same layout): pin 1, 37, 38 GND; pin 2 +5V; pins 39, 40 +3.3V; pins 3–36 = 17 P/N pairs (N odd, P even). Our board connects GND to DGND and leaves the +5V/+3.3V pins unconnected (own supplies).
+- J1 (EX_IO1, updated 2026-10-20): TX_SDI0–15 on 5–20 (P = even SDI), TX_CLR_N 21, TX_OE_N 22, TX_EN_FPGA 24, MIC_DATA0 25, MIC_DATA2 27, MIC_DATA1 28, MIC_DATA3 30, **TX_SCK 32, MIC_CLK_IN 34, TX_LATCH 36**; GND 1, 3, 4, 23, 26, 29, 31, 33, 35, 37, 38; open 2, 39, 40.
+- J2 (EX_IO2, updated 2026-10-20): ADC_RESET 5, ADC_SDI 7, ADC_BUSY 8, ADC_DOUTBk on 9, 11 … 23, ADC_DOUTAk on 10, 12 … 24, **ADC_SCLK 32, ADC_CONVST 34, ADC_CS_N 36**; GND 1, 3, 4, 6, 25–31, 33, 35, 37, 38; open 2, 39, 40.
+- On a flat ribbon each clock conductor (32, 34, 36) has GND on both neighbours (31/33, 33/35, 35/37). The FPGA pins wired to GND must be left unused (inputs) in the XDC.
+
+**Local deviations from the KiCad libraries:** `adc.kicad_sch` uses the AD7606 symbol (same LQFP-64 pinout as the AD7606C-16; pin names are the AD7606's: pin 10 "CONVST_B" is WR, pin 29 "DB11" is DB11/SDI). DB0–DB6, DB9, DB10, DB12–DB15 set to passive (tied to GND), DB11 set to input (SDI). 74HCT595D and 74AHCT1G125 are placed from their base symbols 74HC595 / 74LVC1G125 (identical pinout) because the MCP loader breaks on `extends`.
 
 Rejected: Murata MA40H1S-R (end of life), Murata MA40S4S/R (not recommended for new designs), HC-SR04 modules as modules (onboard MCU adds microseconds of jitter and only outputs an echo pulse).
 
@@ -133,10 +160,10 @@ Rejected: Murata MA40H1S-R (end of life), Murata MA40S4S/R (not recommended for 
 
 1. Transducer: CUSA-TR65 (default) or open-type T40/R40-16.
 2. Per-channel front-end topology: **decided**, discrete (section 4a).
-3. ADC: **decided**, 8 × AD7606B, serial, 2 DOUT lines each (section 4, pin budget in 4a). Watch the input-filter loss at 40 kHz.
-4. How to drive 64 transmit lines: **decided**, 16 × 74AHCT595 frame streaming at SRCLK 10 MHz (section 4a).
+3. ADC: **decided 2026-10-20 (user chose option B)**: 8 × AD7606C-16 in software mode, serial, 2 DOUT lines each, ±5 V range and high (220 kHz) bandwidth set by register writes at boot. Recovers about 16 dB of SNR at 40 kHz against the AD7606B (fixed 22 kHz filter, ±10 V). Pin-compatible, so the AD7606B (LCSC C651284) remains a drop-in fallback in hardware mode only if OS pins are re-strapped. Not on LCSC: buy from DigiKey/Mouser and consign to JLCPCB.
+4. How to drive 64 transmit lines: **decided**, 16 × 74HCT595D frame streaming at SRCLK 10 MHz (section 4a).
 5. Waveguide geometry (tube length and outlet pitch). Take it from reference 1.
-6. Board split and the board-to-board connector.
+6. Board split: **decided 2026-10-20**, one 4-layer board (section 2).
 
 ## 7. References
 

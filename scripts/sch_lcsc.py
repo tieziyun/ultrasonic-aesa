@@ -16,6 +16,8 @@ KNOWN = {
     "OPA1678IDR": "C192421",
     "BAV99": "C68983",
     "AD7606BBSTZ-RL": "C651284",
+    "AD7606C-16BSTZ": "consigned (DigiKey/Mouser, not on LCSC)",
+    "74HCT595D": "C282339",
     "SPH0641LU4H-1": "consigned",
     "CUSA-TR65-065-2200-TH68": "hand-solder",
     "NetTie AGND-PGND": "none (copper)",

@@ -1,0 +1,65 @@
+* RX chain of one channel (kicad/channel.kicad_sch, skidl/channel.py tx_rx_channel)
+* Transducer EMF -> CUSA-TR65 (BVD model) -> 4.7k/BAV99/100p limiter -> OPA1678 x6 stage
+* -> 40 kHz MFB band-pass (x-4) -> 100R -> ADC input (AD7606C-16: 1 Mohm, analog filter)
+* Noise: output noise density at the ADC pin (integrate with sim/analyse.py)
+*
+* Transducer: Butterworth-Van Dyke. C0 = 2.2 nF (datasheet), Rm = 3 k (datasheet
+* "impedance at resonance"), Q = 20 (about 2 kHz bandwidth). Assumed values: change here.
+.param fs=40k C0=2.2n Rm=3k Qm=20
+.param Lm={Qm*Rm/(2*pi*fs)} Cm={1/((2*pi*fs)**2*Lm)}
+.include models/OPA167x.lib
+.model DSW D(Is=2.52n Rs=.568 N=1.752 Cjo=1.5p M=.4 tt=4n Bv=100)  ; BAV99 = 1N4148 die, Cj 1.5 pF
+
+* ---- loaded element (the channel) -----------------------------------------------------
+Vemf vs 0 AC 1
+Rm1 vs m1 {Rm}
+Lm1 m1 m2 {Lm}
+Cm1 m2 xd {Cm}
+C01 xd 0 {C0}
+* crossed diodes to the driver, driver low (0.4 ohm) through 47 R
+D1 drvn xd DSW
+D2 xd drvn DSW
+Rdrv drvn drvo 47
+Ron drvo 0 0.4
+Rbleed xd 0 33k
+Rlim xd lim 4.7k
+D3 lim 0 DSW
+D4 0 lim DSW
+Clim lim 0 100p
+* stage 1: non-inverting x6, AC-coupled gain leg
+XU1A lim fb1 vp vn s1 OPA167x
+Rf1 s1 fb1 10k
+Cf1 s1 fb1 33p
+Rg1 fb1 ng 2k
+Cg1 ng 0 100n
+* stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4
+R1 s1 n2 2k
+R3 n2 0 2k
+C1 n2 inv2 1n
+C2 n2 out2 1n
+R2 inv2 out2 16k
+XU1B 0 inv2 vp vn out2 OPA167x
+Rout out2 adc 100
+* ADC input: 1 Mohm, 5 pF
+Radc adc 0 1Meg
+Cadc adc 0 5p
+Vp vp 0 5
+Vn vn 0 -5
+Cvp vp 0 100n
+Cvn vn 0 100n
+* ADC internal 2nd-order analog filters (Butterworth): AD7606C-16 high-BW mode (220 kHz)
+* vs AD7606B (22.5 kHz on +-10 V, fixed), as behavioural Laplace stages
+.param wc={2*pi*220k} wb={2*pi*22.5k}
+*Ec adcC 0 adc 0 Laplace = wc**2/(s**2 + 1.4142*wc*s + wc**2)
+*Eb adcB 0 adc 0 Laplace = wb**2/(s**2 + 1.4142*wb*s + wb**2)
+
+* ---- open-circuit element (reference: what the transducer gives into no load) ------
+Vemf2 vs2 0 AC 1
+Rm2 vs2 q1 {Rm}
+Lm2 q1 q2 {Lm}
+Cm2 q2 xdo {Cm}
+C02 xdo 0 {C0}
+
+* output noise at the ADC pin, referred to the element EMF source
+.noise V(adc) Vemf dec 200 1k 1Meg
+.end

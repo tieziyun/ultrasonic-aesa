@@ -37,6 +37,15 @@ Date: 2026-10-19. Reviewer: schematic-reviewer subagent, against `kicad/aesa.kic
 11. **Still open from review 1:** N1, N2, N6.
 12. **Power-up order:** fine as is, because TX_EN's pull-down keeps the drivers off.
 
-## Status
-- Power sheet: being redesigned (2026-10-19), review separately.
-- All other items: open.
+## Status (2026-10-19)
+- **Applied:**
+  - 1 (one GND, net-ties removed);
+  - 2, partly: 74HCT595D C282339, other TBDs still open;
+  - 7 (4 × 74AHCT1G125, one per driver row);
+  - 9 (ADC idle pulls);
+  - 10 (REFCAP 16 V 1206 X7R);
+  - review-1 N1 (33 k bleed), N2 (100 pF LIM, 33 pF across R_F1) and N6 (mic ferrite + 10 µF).
+- **Verified, no change:** 4 (the AD7606B wiring is already correct per AN-1559; pins keep the AD7606 names to avoid a library-mismatch ERC); 6 (header pinout checked against the AXU3EGB user manual).
+- **Applied 2026-10-20:** 3 (one board, no connector: DESIGN_BRIEF section 2); 5 (clk_buf x7 with 33 Ω outputs, GND conductors around every clock on J1/J2, 33 Ω on DOUTA/DOUTB/BUSY, FPGA DRIVE 4 SLEW SLOW after simulation, DNP RC terminations as fallback); 8 (ADC changed to AD7606C-16 in software mode, ±5 V, 220 kHz bandwidth: docs/simulation-1.md).
+- **Open:** the power-sheet review; the remaining LCSC numbers (parts-sourcer).
+- Standard references for each item: `docs/research-review-items.md`.

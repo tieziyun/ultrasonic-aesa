@@ -1,0 +1,41 @@
+* Clock signal integrity: FPGA -> 15 cm ribbon -> clk_buf (74LVC2G34 + 33 R) -> 4 loads
+* Behavioural models (no IBIS): values are typical datasheet / rule-of-thumb figures.
+*   FPGA HD bank LVCMOS33, DRIVE 8, SLEW SLOW: 3.3 V swing, ~40 ohm, 3 ns edges
+*   AXU3EGB trace FPGA -> header: 50 ohm, 0.4 ns (about 6 cm)
+*   Ribbon, signal between two GND conductors: 100 ohm, 0.7 ns (15 cm at 0.7 c)
+*   74LVC2G34: Cin 4 pF, output ~20 ohm, 1 ns edges, switches at VCC/2
+*   PCB trace to the loads: 60 ohm, 6.5 ns/m; loads every 30 mm from 60 mm out, 5 pF each
+*     (74HCT595 SRCLK ~3.5 pF + pad/via; AD7606C SCLK ~5 pF)
+* Rs = series resistor at the buffer output (design value 33 R, compared with 0)
+.param F=20Meg Rs=33
+.step param Rs list 0 33
+Vfpga src 0 PULSE(0 3.3 20n 3n 3n {0.5/F-3n} {1/F} 6)
+Rfp src a 40
+T0 a 0 b 0 Z0=50 Td=0.4n
+T1 b 0 hin 0 Z0=100 Td=0.7n
+Cin hin 0 4p
+Rpd hin 0 100k
+* buffer: ideal switch at 1.65 V, 1 ns edge, 20 ohm output
+Bth bx 0 V=3.3*(1+tanh((V(hin)-1.65)*30))/2
+Rsh bx by 300
+Csh by 0 3p
+Ebuf bz 0 by 0 1
+Ro bz y 20
+Rser y t0 {Rs+1m}
+T2 t0 0 l1 0 Z0=60 Td=0.39n
+Cl1 l1 0 5p
+T3 l1 0 l2 0 Z0=60 Td=0.2n
+Cl2 l2 0 5p
+T4 l2 0 l3 0 Z0=60 Td=0.2n
+Cl3 l3 0 5p
+T5 l3 0 l4 0 Z0=60 Td=0.2n
+Cl4 l4 0 5p
+.tran 0 300n 0 10p
+.save V(hin) V(l1) V(l4) V(y)
+.meas TRAN hin_max MAX V(hin) FROM 100n TO 300n
+.meas TRAN hin_min MIN V(hin) FROM 100n TO 300n
+.meas TRAN l1_max MAX V(l1) FROM 100n TO 300n
+.meas TRAN l1_min MIN V(l1) FROM 100n TO 300n
+.meas TRAN l4_max MAX V(l4) FROM 100n TO 300n
+.meas TRAN l4_min MIN V(l4) FROM 100n TO 300n
+.end

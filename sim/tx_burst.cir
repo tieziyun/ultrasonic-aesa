@@ -1,0 +1,63 @@
+* TX burst on one channel, then listen on the same element (blind time / recovery)
+* UCC27524 half (behavioural: 15 V push-pull, 5 ohm pull-up / 0.4 ohm pull-down, 10 ns
+* edges) -> 47 R -> BAV99 crossed diodes -> CUSA-TR65 (BVD) with the full RX chain.
+* 8 cycles at 40 kHz from t = 0.1 ms, then the driver holds low.
+.param fs=40k C0=2.2n Rm=3k Qm=20 VDRV=15 NCYC=8
+.param Lm={Qm*Rm/(2*pi*fs)} Cm={1/((2*pi*fs)**2*Lm)}
+.include models/OPA167x.lib
+.model DSW D(Is=2.52n Rs=.568 N=1.752 Cjo=1.5p M=.4 tt=4n Bv=100)
+
+* driver: logic pulse train -> two switches to VDRV / GND
+Vlog lg 0 PULSE(0 1 0.1m 10n 10n {0.5/fs-10n} {1/fs} {NCYC})
+Vdd vdd 0 {VDRV}
+S1 vdd drvo lg 0 SWH
+.model SWH SW(Ron=5 Roff=1G Vt=0.5 Vh=0.01)
+.model SWL2 SW(Ron=0.4 Roff=1G Vt=0.5 Vh=0.01)
+* pull-down closes when lg < 0.5: switch driven by (1 - lg)
+Binv lgn 0 V=1-V(lg)
+S2b drvo 0 lgn 0 SWL2
+Rdrv drvo drvn 47
+D1 drvn xd DSW
+D2 xd drvn DSW
+* element (no acoustic input: this is the drive and ring-down only)
+Rm1 xd m1 {Rm}
+Lm1 m1 m2 {Lm}
+Cm1 m2 0 {Cm}
+C01 xd 0 {C0}
+Rbleed xd 0 33k
+Rlim xd lim 4.7k
+D3 lim 0 DSW
+D4 0 lim DSW
+Clim lim 0 100p
+XU1A lim fb1 vp vn s1 OPA167x
+Rf1 s1 fb1 10k
+Cf1 s1 fb1 33p
+Rg1 fb1 ng 2k
+Cg1 ng 0 100n
+R1 s1 n2 2k
+R3 n2 0 2k
+C1 n2 inv2 1n
+C2 n2 out2 1n
+R2 inv2 out2 16k
+XU1B 0 inv2 vp vn out2 OPA167x
+Rout out2 adc 100
+Radc adc 0 1Meg
+Cadc adc 0 5p
+Vp vp 0 5
+Vn vn 0 -5
+
+.tran 0 3m 0 20n
+.meas TRAN xd_pk MAX V(xd) FROM 0.1m TO 0.35m
+.meas TRAN xd_min MIN V(xd) FROM 0.1m TO 0.35m
+.meas TRAN i_pk MAX I(Rdrv) FROM 0.1m TO 0.35m
+.meas TRAN i_rms RMS I(Rdrv) FROM 0.1m TO 0.3m
+.meas TRAN lim_pk MAX V(lim) FROM 0.1m TO 0.35m
+.meas TRAN lim_min MIN V(lim) FROM 0.1m TO 0.35m
+.meas TRAN p_rlim AVG V(xd,lim)*I(Rlim) FROM 0.1m TO 0.3m
+.meas TRAN p_rdrv AVG V(drvo,drvn)*I(Rdrv) FROM 0.1m TO 0.3m
+.meas TRAN adc_pk MAX V(adc) FROM 0.1m TO 0.35m
+* recovery: last time the ADC input exceeds 1 V, 0.1 V and 10 mV after the burst
+.meas TRAN t_1V    WHEN abs(V(adc))=1    FALL=last
+.meas TRAN t_100mV WHEN abs(V(adc))=0.1  FALL=last
+.meas TRAN t_10mV  WHEN abs(V(adc))=0.01 FALL=last
+.end
