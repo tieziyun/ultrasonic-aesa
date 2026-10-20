@@ -39,6 +39,10 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
 4. Check every iteration with kicad-cli ERC/DRC, and render PNGs and look at them (layout-reviewer).
 5. Fabrication outputs to `fab/` (Gerbers, drill, BOM and positions with LCSC numbers) for JLCPCB.
 
+## Simulation
+- **Run every simulation through `sim/run.py`** (user rule, 2026-10-20): it runs LTspice, checks the results against limits and writes `sim/reports/<name>.md` + plot and the index `sim/reports/README.md`. Never report a simulation result that has no report. New testbench: add `sim/<name>.cir` and an entry in `SIMS` in `sim/run.py` with its checks.
+- Models: TI OPA167x macro-model in `sim/models/`; transducer = Butterworth–Van Dyke (C0 2.2 nF, Rm 3 kΩ, Q assumed 20–40).
+
 ## Design rules (JLCPCB defaults unless the brief says otherwise)
 - 2-layer array panel, 4-layer front-end board, 1.6 mm, HASL lead-free or ENIG.
 - Minimum track/space 0.127 mm (5 mil), aim for 0.2 mm or more on general signals. Minimum via 0.3 mm drill / 0.6 mm pad.
@@ -46,4 +50,4 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
 - Keep the TX high-voltage rail and drive traces away from RX inputs; continuous ground under the analog sections.
 
 ## Folder layout (create as needed)
-- `sim/` LTspice testbenches (run `LTspice.exe -b file.cir`; LTspice is in `%LOCALAPPDATA%/Programs/ADI/LTspice`), models in `sim/models/`, plots via `sim/plots.py`, results in `docs/simulation-1.md` · - `kicad/` KiCad project and schematic (source of truth) · `skidl/` reference spec of the blocks (`channel.py`) and the SKiDL test build · `scripts/` placement and helper scripts · `build/` generated renders and reports (git-ignored) · `fab/` outputs for ordering · `docs/` datasheets and notes
+- `sim/` LTspice testbenches and models, `sim/reports/` the generated reports · `kicad/` KiCad project and schematic (source of truth) · `skidl/` reference spec of the blocks (`channel.py`) and the SKiDL test build · `scripts/` placement and helper scripts · `build/` generated renders and reports (git-ignored) · `fab/` outputs for ordering · `docs/` datasheets and notes

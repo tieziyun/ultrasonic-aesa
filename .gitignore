@@ -18,3 +18,4 @@ sim/models/dl/
 # KiCad local history and script backups
 kicad/.history/
 *.kicad_sch.bak
+sim/tx_burst_q*.cir

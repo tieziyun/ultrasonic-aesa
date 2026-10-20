@@ -30,7 +30,7 @@ PDFs in [docs/schematics/](docs/schematics/), regenerated from KiCad on every ch
 |---|---|
 | Elements | 64 × Same Sky CUSA-TR65 (40 kHz, sealed transceiver) + 8 × SPH0641LU4H-1 MEMS mics |
 | TX drive | 0–15 V square wave per element, 16 serial data lines at 10 MHz, per-element per-sample control |
-| RX chain | Gain ×22 (+27 dB) from element to ADC, 31–51 kHz pass band, 26 nV/√Hz referred to the element |
+| RX chain | Gain ×22 (+27 dB) from element to ADC, 31–51 kHz pass band, 26 nV/√Hz referred to the element ([simulated](sim/reports/README.md)) |
 | ADC | 8 × AD7606C-16, 16-bit, 200 kSPS per channel, ±5 V, 220 kHz input bandwidth |
 | Power | One 12 V barrel jack (≥ 1.5 A); every rail has a test point, an isolation jumper and (except the analog LDOs) an LED |
 | Board | One 4-layer board, about 200 × 170 mm: transducers on the front, all SMT parts on the back |
@@ -44,7 +44,7 @@ PDFs in [docs/schematics/](docs/schematics/), regenerated from KiCad on every ch
 | `kicad/` | KiCad 10 project `aesa.kicad_pro`, the source of truth |
 | `scripts/` | Generators: `build_cells.py` (the reused cell sheets, ADC, headers), `build_power.py` (power sheet), `gen_top.py` (top sheet and references), `export_pdf.py` (PDFs), plus field and LCSC helpers |
 | `skidl/` | Reference spec of each block in SKiDL (values, nets, LCSC numbers) |
-| `sim/` | LTspice testbenches and models; results in [docs/simulation-1.md](docs/simulation-1.md) |
+| `sim/` | LTspice testbenches and models; `sim/run.py` runs them and writes [sim/reports/](sim/reports/README.md) |
 | `docs/schematics/` | Schematic PDFs |
 | [CLAUDE.md](CLAUDE.md) | Working rules for the AI assistant on this project |
 
@@ -61,6 +61,7 @@ set KCLI=%LOCALAPPDATA%\Programs\KiCad\10.0\bin\kicad-cli.exe
 %KPY% scripts\sch_lcsc.py kicad\adc.kicad_sch kicad\tx_group.kicad_sch kicad\en_buf.kicad_sch kicad\clk_buf.kicad_sch kicad\mic.kicad_sch kicad\headers.kicad_sch kicad\power.kicad_sch
 %KCLI% sch erc kicad\aesa.kicad_sch
 %KPY% scripts\export_pdf.py
+%KPY% sim\run.py
 ```
 
 `build_power.py` takes about 10 minutes, because the MCP server rewrites the file once per wire. The `channel` sheet is drawn by hand (with the KiCad MCP server) and is not regenerated.
