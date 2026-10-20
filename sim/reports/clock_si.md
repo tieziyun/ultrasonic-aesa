@@ -1,6 +1,6 @@
 # Clock fan-out: buffer to 4 loads
 
-Run 2026-10-20 10:40 with LTspice (`sim/run.py clock_si`). Netlist: [`sim/clock_si.cir`](../clock_si.cir).
+Run 2026-10-20 13:57 with LTspice (`sim/run.py clock_si`). Netlist: [`sim/clock_si.cir`](../clock_si.cir).
 
 74LVC2G34 output through the series resistor into a 60 Ω trace with four 5 pF loads every 30 mm, 20 MHz. Compares 0 Ω and 33 Ω.
 

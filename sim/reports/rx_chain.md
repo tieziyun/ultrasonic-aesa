@@ -1,6 +1,6 @@
 # RX chain: gain, band and ADC filter
 
-Run 2026-10-20 10:40 with LTspice (`sim/run.py rx_chain`). Netlist: [`sim/rx_chain.cir`](../rx_chain.cir).
+Run 2026-10-20 13:56 with LTspice (`sim/run.py rx_chain`). Netlist: [`sim/rx_chain.cir`](../rx_chain.cir).
 
 AC response from the transducer's open-circuit voltage through the limiter, the OPA1678 ×6 stage and the 40 kHz band-pass to the ADC pin, and through the AD7606C-16 (220 kHz) and AD7606B (22.5 kHz) input filters.
 

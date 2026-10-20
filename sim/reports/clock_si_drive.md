@@ -1,6 +1,6 @@
 # Ribbon end: FPGA drive strength
 
-Run 2026-10-20 10:40 with LTspice (`sim/run.py clock_si_drive`). Netlist: [`sim/clock_si_drive.cir`](../clock_si_drive.cir).
+Run 2026-10-20 13:57 with LTspice (`sim/run.py clock_si_drive`). Netlist: [`sim/clock_si_drive.cir`](../clock_si_drive.cir).
 
 FPGA output through 6 cm of board trace and a 15 cm, 100 Ω ribbon to the clk_buf input, no termination, for FPGA output impedances 40/60/80 Ω (DRIVE 8 … 4).
 

@@ -546,7 +546,7 @@ def check_power_budget(R, d):
             ("+5V", "74HCT595 (static ~0.1 mA, dynamic at 10 MHz ~2 mA)", 16, 2.0, 4.0),
             ("+5V", "TPS65131 input for +-6V5 (0.45 A + 0.3 A loads, 85 %)", 1, 1150.0, 1350.0),
             ("+5V", "TLV75733P input (+3V3 load)", 1, 60.0, 100.0),
-            ("VDRV", "64 elements CW at 40 kHz: C V^2 f / V = 2.2n x 15 x 40k x 64", 1, 85.0, 85.0),
+            ("VDRV", "64 elements CW at 40 kHz, 3.73 mA each (sim/reports/tx_cw.md: C V^2 f, 47 R, 4.7 k limiter, element)", 64, 3.73, 4.0),
             ("VDRV", "UCC27524 quiescent", 32, 1.0, 1.5)]
     tot = defaultdict(lambda: [0.0, 0.0])
     lines = ["| Rail | Load | Qty | Typ mA | Max mA |", "|---|---|---|---|---|"]
@@ -562,7 +562,7 @@ def check_power_budget(R, d):
         if m > 0.85 * cap[rail]:
             errs.append(rail)
     lines.append("\nVIN (12 V): +5V buck input about 5 V x 1.6 A / 0.9 / 12 V = 0.75 A, plus VDRV boost 15 V x 0.12 A "
-                 "/ 0.85 / 12 V = 0.18 A: about 0.95 A of the 1.5 A adapter, under the 2 A polyfuse hold current.")
+                 "/ 0.85 / 12 V = 0.35 A (all 64 elements in CW): about 1.1 A of the 1.5 A adapter, under the 2 A polyfuse hold current.")
     R.add("Power budget (estimates from datasheet currents)", not errs, lines, warn=False)
 
 

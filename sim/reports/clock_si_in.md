@@ -1,6 +1,6 @@
 # Ribbon end: termination options at DRIVE 8
 
-Run 2026-10-20 10:40 with LTspice (`sim/run.py clock_si_in`). Netlist: [`sim/clock_si_in.cir`](../clock_si_in.cir).
+Run 2026-10-20 13:57 with LTspice (`sim/run.py clock_si_in`). Netlist: [`sim/clock_si_in.cir`](../clock_si_in.cir).
 
 Same path with the FPGA at DRIVE 8, comparing no termination, a series resistor and RC end terminations at the buffer input.
 

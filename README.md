@@ -49,7 +49,7 @@ PDFs in [docs/schematics/](docs/schematics/), regenerated from KiCad on every ch
 | `kicad/` | KiCad 10 project `aesa.kicad_pro`, the source of truth |
 | `scripts/` | Generators: `build_cells.py` (every cell sheet except `channel`: ADC, TX, buffers, mic, headers, power), `gen_top.py` (block diagram, group sheets, references), `sch_annotate.py` (channel title and notes), `export_pdf.py` (PDFs), plus field and LCSC helpers |
 | `skidl/` | Reference spec of each block in SKiDL (values, nets, LCSC numbers) |
-| `sim/` | LTspice testbenches and models; `sim/run.py` runs them and writes [sim/reports/](sim/reports/README.md) |
+| `sim/` | LTspice testbenches and models. `sim/run.py` exports the channel circuit from the KiCad schematic, runs every testbench and writes [sim/reports/](sim/reports/README.md) |
 | `docs/schematics/` | Schematic PDFs |
 | [CLAUDE.md](CLAUDE.md) | Working rules for the AI assistant on this project |
 

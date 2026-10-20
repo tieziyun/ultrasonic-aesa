@@ -1,79 +1,36 @@
-* RX chain of one channel (kicad/channel.kicad_sch, skidl/channel.py tx_rx_channel)
-* Transducer EMF -> CUSA-TR65 (BVD model) -> 4.7k/BAV99/100p limiter -> OPA1678 x6 stage
-* -> 40 kHz MFB band-pass (x-4) -> 100R -> ADC input (AD7606C-16: 1 Mohm, analog filter)
-* Run: LTspice -b rx_chain.cir   (AC gain/phase, then noise in rx_noise.cir)
-*
-* Transducer: Butterworth-Van Dyke. C0 = 2.2 nF (datasheet), Rm = 3 k (datasheet
-* "impedance at resonance"), Q = 20 (about 2 kHz bandwidth). Assumed values: change here.
-.param fs=40k C0=2.2n Rm=3k Qm=20
-.param Lm={Qm*Rm/(2*pi*fs)} Cm={1/((2*pi*fs)**2*Lm)}
-.include models/OPA167x.lib
-.model DSW D(Is=2.52n Rs=.568 N=1.752 Cjo=1.5p M=.4 tt=4n Bv=100)  ; BAV99 = 1N4148 die, Cj 1.5 pF
-
-* ---- loaded element (the channel) -----------------------------------------------------
-Vemf vs 0 AC 1
-Rm1 vs m1 {Rm}
-Lm1 m1 m2 {Lm}
-Cm1 m2 xd {Cm}
-C01 xd 0 {C0}
-* crossed diodes to the driver, driver low (0.4 ohm) through 47 R
-D1 drvn xd DSW
-D2 xd drvn DSW
-Rdrv drvn drvo 47
-Ron drvo 0 0.4
-Rbleed xd 0 33k
-Rlim xd lim 4.7k
-D3 lim 0 DSW
-D4 0 lim DSW
-Clim lim 0 100p
-* stage 1: non-inverting x6, AC-coupled gain leg
-XU1A lim fb1 vp vn s1 OPA167x
-Rf1 s1 fb1 10k
-Cf1 s1 fb1 33p
-Rg1 fb1 ng 2k
-Cg1 ng 0 100n
-* stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4
-R1 s1 n2 2k
-R3 n2 0 2k
-C1 n2 inv2 1n
-C2 n2 out2 1n
-R2 inv2 out2 16k
-XU1B 0 inv2 vp vn out2 OPA167x
-Rout out2 adc 100
-* ADC input: 1 Mohm, 5 pF
-Radc adc 0 1Meg
-Cadc adc 0 5p
-Vp vp 0 5
-Vn vn 0 -5
-Cvp vp 0 100n
-Cvn vn 0 100n
-* ADC internal 2nd-order analog filters (Butterworth): AD7606C-16 high-BW mode (220 kHz)
-* vs AD7606B (22.5 kHz on +-10 V, fixed), as behavioural Laplace stages
+* RX chain of one channel: AC gain/phase from the element's echo to the ADC pin.
+* The channel circuit is exported from kicad/channel.kicad_sch by sim/run.py (gen/channel.cir):
+* driver (held low) -> R101 47R -> D101 crossed diodes -> XD (element LS101, R102 bleed)
+* -> R103 4.7k / D102 clamp / C106 -> OPA1678 stage 1 -> MFB band-pass -> R109 -> RX_OUT.
+.include gen/channel.cir
+.param ECHO_AC=1 QM=20
+.func echo(t)=0
+VP VP5A 0 5
+VN VN5A 0 -5
+Rdrv_on DRV_OUT 0 0.4
+* AD7606C-16 input: 1 Mohm, 5 pF
+Radc RX_OUT 0 1Meg
+Cadc RX_OUT 0 5p
+* reference: the same element, open circuit (what the transducer gives into no load)
+XREF xdo 0 CUSA_TR65
+* ADC internal 2nd-order analog filters (Butterworth): AD7606C-16 high-bandwidth (220 kHz)
+* vs AD7606B (22.5 kHz on +-10 V, fixed)
 .param wc={2*pi*220k} wb={2*pi*22.5k}
-Ec adcC 0 adc 0 Laplace = wc**2/(s**2 + 1.4142*wc*s + wc**2)
-Eb adcB 0 adc 0 Laplace = wb**2/(s**2 + 1.4142*wb*s + wb**2)
-
-* ---- open-circuit element (reference: what the transducer gives into no load) ------
-Vemf2 vs2 0 AC 1
-Rm2 vs2 q1 {Rm}
-Lm2 q1 q2 {Lm}
-Cm2 q2 xdo {Cm}
-C02 xdo 0 {C0}
-
+Ec adcC 0 RX_OUT 0 Laplace = wc**2/(s**2 + 1.4142*wc*s + wc**2)
+Eb adcB 0 RX_OUT 0 Laplace = wb**2/(s**2 + 1.4142*wb*s + wb**2)
 .ac dec 400 1k 1Meg
-* complex ratios: LTspice prints (gain dB, phase deg)
-.meas AC r_xd   FIND V(xd)/V(xdo)   AT 40k
-.meas AC r_adc  FIND V(adc)/V(xdo)  AT 40k
-.meas AC r_adcC FIND V(adcC)/V(xdo) AT 40k
-.meas AC r_adcB FIND V(adcB)/V(xdo) AT 40k
-.meas AC r_amp  FIND V(adc)/V(lim)  AT 40k
-.meas AC r_amp39 FIND V(adc)/V(lim) AT 39k
-.meas AC r_amp41 FIND V(adc)/V(lim) AT 41k
-.meas AC r_C39 FIND V(adcC)/V(adc) AT 39k
-.meas AC r_C41 FIND V(adcC)/V(adc) AT 41k
-.meas AC r_B39 FIND V(adcB)/V(adc) AT 39k
-.meas AC r_B41 FIND V(adcB)/V(adc) AT 41k
-.meas AC f_peak MAX mag(V(adc)/V(lim))
-.meas AC f_lo WHEN mag(V(adc)/V(lim))=0.7071*f_peak RISE=1
-.meas AC f_hi WHEN mag(V(adc)/V(lim))=0.7071*f_peak FALL=last
+.meas AC r_xd   FIND V(XD)/V(xdo)     AT 40k
+.meas AC r_adc  FIND V(RX_OUT)/V(xdo) AT 40k
+.meas AC r_adcC FIND V(adcC)/V(xdo)   AT 40k
+.meas AC r_adcB FIND V(adcB)/V(xdo)   AT 40k
+.meas AC r_amp  FIND V(RX_OUT)/V(LIM) AT 40k
+.meas AC r_amp39 FIND V(RX_OUT)/V(LIM) AT 39k
+.meas AC r_amp41 FIND V(RX_OUT)/V(LIM) AT 41k
+.meas AC r_C39 FIND V(adcC)/V(RX_OUT) AT 39k
+.meas AC r_C41 FIND V(adcC)/V(RX_OUT) AT 41k
+.meas AC r_B39 FIND V(adcB)/V(RX_OUT) AT 39k
+.meas AC r_B41 FIND V(adcB)/V(RX_OUT) AT 41k
+.meas AC f_peak MAX mag(V(RX_OUT)/V(LIM))
+.meas AC f_lo WHEN mag(V(RX_OUT)/V(LIM))=0.7071*f_peak RISE=1
+.meas AC f_hi WHEN mag(V(RX_OUT)/V(LIM))=0.7071*f_peak FALL=last
 .end

@@ -1,0 +1,31 @@
+* SPICE models attached to the KiCad parts (Sim.* fields set by scripts/sch_sim.py), so the circuit
+* simulated is exported from the schematic itself (kicad-cli sch export netlist --format spice).
+
+.include OPA167x.lib
+
+* OPA1678 dual in SOIC-8: 1 OUTA, 2 -INA, 3 +INA, 4 V-, 5 +INB, 6 -INB, 7 OUTB, 8 V+
+.subckt OPA1678_DUAL 1 2 3 4 5 6 7 8
+XA 3 2 8 4 1 OPA167x
+XB 5 6 8 4 7 OPA167x
+.ends
+
+* BAV99 series pair: pin 1 anode of D1, pin 2 cathode of D2, pin 3 = D1 cathode / D2 anode.
+* 1N4148 die (the BAV99 is the same junction), Cj 1.5 pF.
+.model DSW D(Is=2.52n Rs=.568 N=1.752 Cjo=1.5p M=.4 tt=4n Bv=100)
+.subckt BAV99 1 2 3
+D1 1 3 DSW
+D2 3 2 DSW
+.ends
+
+* CUSA-TR65 transceiver, Butterworth-Van Dyke: C0 2.2 nF and Rm 3 k (datasheet), Q assumed.
+* The echo is a voltage in the motional branch, set by global parameters:
+*   ECHO_AC  (AC magnitude, for .ac / .noise) and ECHO_V(time) through B-source expression ECHO_EXPR.
+* Every testbench defines: .param ECHO_AC=<AC volts> QM=<mechanical Q> and .func echo(t)=<volts>.
+.subckt CUSA_TR65 1 2
+C0 1 2 2.2n
+Bemf vs 2 V=echo(time)
+Vac va vs AC {ECHO_AC}
+Rm va m1 3k
+Lm m1 m2 {QM*3k/(2*pi*40k)}
+Cm m2 1 {1/((2*pi*40k)**2*(QM*3k/(2*pi*40k)))}
+.ends

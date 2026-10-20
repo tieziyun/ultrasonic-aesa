@@ -1,6 +1,6 @@
 # 3V3_MIC ferrite filter
 
-Run 2026-10-20 12:27 with LTspice (`sim/run.py mic_supply`). Netlist: [`sim/mic_supply.cir`](../mic_supply.cir).
+Run 2026-10-20 13:57 with LTspice (`sim/run.py mic_supply`). Netlist: [`sim/mic_supply.cir`](../mic_supply.cir).
 
 +3V3 -> 220 R/100 MHz ferrite -> 10 uF + 8 x 100 nF: noise transfer, attenuation at the PDM clock and whether the bead/cap resonance peaks.
 

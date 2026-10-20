@@ -26,11 +26,51 @@ import matplotlib  # noqa: E402
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
-from ltraw import integrate, read_raw  # noqa: E402
+from ltraw import integrate, read_raw as _read_raw  # noqa: E402
+
+
+class _CI(dict):
+    """LTspice keeps the case of node names: look them up case-insensitively."""
+    def __getitem__(self, k):
+        if dict.__contains__(self, k):
+            return dict.__getitem__(self, k)
+        for kk in self:
+            if kk.lower() == k.lower():
+                return dict.__getitem__(self, kk)
+        raise KeyError(k)
+
+
+def read_raw(path):
+    return _CI(_read_raw(path))
 
 HERE = Path(__file__).resolve().parent
 REPORTS = HERE / "reports"
 LTSPICE = Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "ADI" / "LTspice" / "LTspice.exe"
+KICAD_CLI = Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "KiCad" / "10.0" / "bin" / "kicad-cli.exe"
+GEN = HERE / "gen"
+NODE_MAP = {"GND": "0", "+5VA": "VP5A", "-5VA": "VN5A"}
+
+
+def export_channel():
+    """Channel circuit straight from kicad/channel.kicad_sch (parts carry Sim.* fields set by
+    scripts/sch_sim.py), as sim/gen/channel.cir with LTspice-friendly node names:
+    /XD -> XD, GND -> 0, +5VA -> VP5A, -5VA -> VN5A."""
+    GEN.mkdir(exist_ok=True)
+    raw = GEN / "channel_kicad.cir"
+    subprocess.run([str(KICAD_CLI), "sch", "export", "netlist", "--format", "spice", "-o", str(raw),
+                    str(HERE.parent / "kicad" / "channel.kicad_sch")], check=True, capture_output=True)
+    out = ["* Channel exported from kicad/channel.kicad_sch by sim/run.py: do not edit"]
+    for line in raw.read_text(encoding="utf-8").splitlines():
+        if line.startswith((".title", ".end")) or not line.strip():
+            continue
+        if line.startswith(".include"):
+            out.append(line)
+            continue
+        tok = line.split()
+        tok = [tok[0]] + [NODE_MAP.get(x, x.lstrip("/")) for x in tok[1:]]
+        out.append(" ".join(tok))
+    (GEN / "channel.cir").write_text("\n".join(out) + "\n", encoding="utf-8")
+    return out
 
 
 # ---- running and parsing ------------------------------------------------------------------
@@ -131,7 +171,7 @@ def rx_chain():
     f = [abs(x) for x in d["frequency"]]
     ref = d["V(xdo)"]
     fig, (a1, a2) = plt.subplots(2, 1, figsize=(9, 7), sharex=True)
-    for name, lab in (("V(adc)", "ADC pin"), ("V(adcc)", "after AD7606C-16 filter (220 kHz)"),
+    for name, lab in (("V(rx_out)", "ADC pin"), ("V(adcc)", "after AD7606C-16 filter (220 kHz)"),
                       ("V(adcb)", "after AD7606B filter (22.5 kHz)")):
         h = [v / r for v, r in zip(d[name], ref)]
         a1.semilogx(f, [20 * math.log10(abs(x)) for x in h], label=lab)
@@ -152,7 +192,14 @@ def rx_noise():
     d = read_raw(HERE / "rx_noise.raw")
     f = [abs(x) for x in d["frequency"]]
     on = [abs(x) for x in d["V(onoise)"]]
-    inn = [abs(x) for x in d["V(inoise)"]]
+    g = read_raw(HERE / "rx_chain.raw")  # gain element -> ADC pin, from the rx_chain run
+    gf = [abs(x) for x in g["frequency"]]
+    gh = [abs(a / b) for a, b in zip(g["V(rx_out)"], g["V(xdo)"])]
+
+    def gain_at(fx):
+        j = min(range(len(gf)), key=lambda i: abs(gf[i] - fx))
+        return gh[j]
+    inn = [o / gain_at(fx) for o, fx in zip(on, f)]
     k = min(range(len(f)), key=lambda i: abs(f[i] - 40e3))
     band = integrate(f, [x * x for x in on], 30e3, 50e3) ** 0.5
     wide = integrate(f, [x * x for x in on], 1e3, 1e6) ** 0.5
@@ -184,9 +231,7 @@ def tx_burst():
     burst_end = 0.1e-3 + 8 / 40e3
     for q in (20, 40):
         cir = HERE / f"tx_burst_q{q}.cir"
-        cir.write_text(re.sub(r"Qm=\d+", f"Qm={q}", template, count=1)
-                       .replace(".tran 0 3m 0 20n",
-                                ".save V(adc) V(xd) V(lim) V(drvo) V(drvn) I(Rdrv) I(Rlim)\n.tran 0 4m 0 20n"))
+        cir.write_text(re.sub(r"QM=\d+", f"QM={q}", template, count=1))
         m = parse_meas(run_ltspice(cir))
         v = lambda k: m[k][0]  # noqa: E731
         if q == 20:
@@ -205,7 +250,7 @@ def tx_burst():
                             why="element ringing; 2 ms ≈ 0.34 m blind range"))
         d = read_raw(cir.with_suffix(".raw"))
         t = [x * 1e3 for x in d["time"]]
-        for a, n in zip(axs, ("V(xd)", "V(lim)", "V(adc)")):
+        for a, n in zip(axs, ("V(xd)", "V(lim)", "V(rx_out)")):
             a.plot(t, d[n], lw=0.6, label=f"{n}, Q={q}")
     for a in axs:
         a.set_ylabel("V")
@@ -279,31 +324,56 @@ def clock_si_in():
 
 
 def rx_mc():
-    """Monte Carlo of the RX amplifier: 200 copies with toleranced parts in one AC run.
-    (LTspice's own mc() + .step misbehaves on this netlist, so the netlist is generated here.)"""
+    """Monte Carlo of the whole channel, built from the KiCad export: 200 copies of gen/channel.cir,
+    each R and C at a random value inside the tolerance its schematic Value states (1 % if given;
+    C0G 5 %, X5R/X7R 10 % otherwise; resistors 1 %). Element and op-amp nominal.
+    (LTspice's own mc() + .step misbehaves here, so the copies are generated.)"""
     import random
     rnd = random.Random(20261020)
-    tol = {"Rf1": (10e3, 0.01), "Cf1": (33e-12, 0.05), "Rg1": (2e3, 0.01), "Cg1": (100e-9, 0.10),
-           "R1": (2e3, 0.01), "R3": (2e3, 0.01), "C1": (1e-9, 0.01), "C2": (1e-9, 0.01), "R2": (16e3, 0.01),
-           "Rout": (100, 0.01)}
-    n = 200
-    lines = ["* RX amplifier Monte Carlo: 200 copies, written by sim/run.py (do not edit)",
-             "* tolerances (uniform): R 1 %, band-pass C 1 % C0G, Cf1 5 % C0G, Cg1 10 % X7R",
-             ".include models/OPA167x.lib", "Vin lim 0 AC 1", "Vp vp 0 5", "Vn vn 0 -5"]
+    sheet = (HERE.parent / "kicad" / "channel.kicad_sch").read_text(encoding="utf-8")
+    tol = {}
+    for blk in sheet.split("\n\t(symbol\n")[1:]:
+        ref = re.search(r'\(property "Reference" "([^"]+)"', blk)
+        val = re.search(r'\(property "Value" "([^"]*)"', blk)
+        if ref and val:
+            v = val.group(1)
+            pct = re.search(r"([\d.]+)\s*%", v)
+            tol[ref.group(1)] = (float(pct.group(1)) / 100 if pct else 0.10 if re.search("X[57]R", v)
+                                 else 0.05 if "C0G" in v else 0.01)
+    chan = [l for l in (GEN / "channel.cir").read_text().splitlines() if l and not l.startswith("*")]
+    include = [l for l in chan if l.startswith(".include")]
+    parts = [l for l in chan if not l.startswith(".")]
+    keep = {"0", "VP5A", "VN5A"}
+    mult = {"p": 1e-12, "n": 1e-9, "u": 1e-6, "m": 1e-3, "k": 1e3, "Meg": 1e6}
+
+    def num(s):
+        m_ = re.match(r"([\d.]+)(Meg|[pnumk])?$", s)
+        return float(m_.group(1)) * mult.get(m_.group(2) or "", 1)
+
+    n, batch = 200, 10  # 10 copies per netlist: LTspice stalls on one netlist with 400 op-amp models
+    head = ["* Channel Monte Carlo, written by sim/run.py from gen/channel.cir (do not edit)", *include,
+            ".param ECHO_AC=1 QM=20", ".func echo(t)=0", "VP VP5A 0 5", "VN VN5A 0 -5", "XREF xdo 0 CUSA_TR65"]
+    lines, m = list(head), {}
     for i in range(n):
-        v = {k: x * (1 + rnd.uniform(-t, t)) for k, (x, t) in tol.items()}
         s = f"_{i}"
-        lines += [f"XA{s} lim fb1{s} vp vn s1{s} OPA167x", f"Rf1{s} s1{s} fb1{s} {v['Rf1']:.6g}",
-                  f"Cf1{s} s1{s} fb1{s} {v['Cf1']:.6g}", f"Rg1{s} fb1{s} ng{s} {v['Rg1']:.6g}",
-                  f"Cg1{s} ng{s} 0 {v['Cg1']:.6g}", f"R1{s} s1{s} n2{s} {v['R1']:.6g}",
-                  f"R3{s} n2{s} 0 {v['R3']:.6g}", f"C1{s} n2{s} inv2{s} {v['C1']:.6g}",
-                  f"C2{s} n2{s} out2{s} {v['C2']:.6g}", f"R2{s} inv2{s} out2{s} {v['R2']:.6g}",
-                  f"XB{s} 0 inv2{s} vp vn out2{s} OPA167x", f"Ro{s} out2{s} adc{s} {v['Rout']:.6g}",
-                  f"Ra{s} adc{s} 0 1Meg", f".meas AC g{i} FIND V(adc{s}) AT 40k"]
-    lines += [".ac lin 1 40k 40k", ".end"]
-    cir = HERE / "rx_mc.cir"
-    cir.write_text("\n".join(lines) + "\n")
-    m = parse_meas(run_ltspice(cir))
+        for l in parts:
+            tok = l.split()
+            ref = tok[0]
+            if ref[0] in "RC":
+                nodes, val = tok[1:3], num(tok[3])
+                val *= 1 + rnd.uniform(-tol.get(ref, 0.01), tol.get(ref, 0.01))
+                tok = [ref + s] + [x if x in keep else x + s for x in nodes] + [f"{val:.6g}"]
+            else:  # subcircuit: X<ref> nodes... MODEL
+                tok = [ref + s] + [x if x in keep else x + s for x in tok[1:-1]] + [tok[-1]]
+            lines.append(" ".join(tok))
+        lines += [f"Rdrv_on DRV_OUT{s} 0 0.4", f"Radc RX_OUT{s} 0 1Meg".replace("Radc", f"Radc{s}"),
+                  f".meas AC g{i} FIND V(RX_OUT{s})/V(xdo) AT 40k"]
+        lines[-3] = lines[-3].replace("Rdrv_on", f"Rdrv_on{s}")
+        if (i + 1) % batch == 0:
+            cir = HERE / "rx_mc.cir"
+            cir.write_text("\n".join(lines + [".ac lin 1 40k 40k", ".end"]) + "\n")
+            m.update(parse_meas(run_ltspice(cir, timeout=120)))
+            lines = list(head)
     vals = [m[f"g{i}"][0] for i in range(n)]
     gains = [g for g, _ in vals]
     phases = [p for _, p in vals]
@@ -331,21 +401,30 @@ def rx_mc():
 
 
 def rx_overload():
-    m = parse_meas(run_ltspice(HERE / "rx_overload.cir", timeout=1200))
+    # One run per amplitude (LTspice's .step is very slow here, and parameters are not visible in
+    # the echo function inside the transducer subcircuit): AMPL is replaced by a literal value.
+    template = (HERE / "rx_overload.cir").read_text()
     amps = [0.12, 1, 5]
-    checks = []
-    for k, a in enumerate(amps):
-        lab = f"echo {a} V (open-circuit at the element)"
-        checks.append(Check(f"{lab}: ADC pin peak", m["adc_pk"][k], "V", hi=5.0, why="inside the ADC's +-5 V range"))
-        checks.append(Check(f"{lab}: recovery to < 50 mV after the echo ends", (m["t_rec"][k] - 0.35e-3) * 1e3, "ms",
-                            hi=1.1, why="the next echo (1.5 ms) must be clean"))
-        checks.append(Check(f"{lab}: later 10 mV echo at the ADC", m["late_pk"][k], "V", 0.15, 0.3,
-                            why="linear gain x22 gives about 0.22 V: no lasting distortion"))
-    d = read_raw(HERE / "rx_overload.raw")
-    t = d["time"]
+    checks, ref_late = [], None
     fig, a = plt.subplots(figsize=(9, 4.5))
-    for (i0, i1), amp in zip(steps(t), amps):
-        a.plot([x * 1e3 for x in t[i0:i1]], d["V(adc)"][i0:i1], lw=0.6, label=f"echo {amp} V")
+    for a_ in amps:
+        cir = GEN / f"rx_overload_{a_:g}V.cir"
+        cir.write_text(template.replace("AMPL", f"{a_ * 1.05:g}").replace(".include gen/", ".include "))
+        m = parse_meas(run_ltspice(cir, timeout=600))
+        d = read_raw(cir.with_suffix(".raw"))
+        t = d["time"]
+        late = [x for x, v in zip(t, d["V(rx_out)"]) if 0.35e-3 < x < 1.45e-3 and abs(v) > 0.05]
+        rec = (max(late) - 0.35e-3) * 1e3 if late else 0.0
+        lab = f"echo {a_} V (open-circuit at the element)"
+        checks.append(Check(f"{lab}: ADC pin peak", m["adc_pk"][0], "V", hi=5.0, why="inside the ADC's +-5 V range"))
+        checks.append(Check(f"{lab}: recovery to < 50 mV after the echo ends", rec, "ms",
+                            hi=1.1, why="the next echo (1.5 ms) must be clean"))
+        ref_late = ref_late if a_ != amps[0] else m["late_pk"][0]
+        checks.append(Check(f"{lab}: later 10 mV echo at the ADC", m["late_pk"][0], "V"))
+        if a_ != amps[0]:
+            checks.append(Check(f"{lab}: later echo vs after a weak echo", 100 * (m["late_pk"][0] / ref_late - 1), "%",
+                                -5, 5, why="the strong echo leaves no lasting distortion or gain change"))
+        a.plot([x * 1e3 for x in t], d["V(rx_out)"], lw=0.6, label=f"echo {a_} V")
     a.set_xlabel("time (ms)")
     a.set_ylabel("ADC pin (V)")
     a.grid(True, alpha=0.3)
@@ -358,8 +437,8 @@ def tx_cw():
     v = lambda k: m[k][0]  # noqa: E731
     i_el = v("i_vdrv")
     checks = [
-        Check("VDRV current per element (CW, 40 kHz)", i_el * 1e3, "mA", hi=2.0,
-              why="64 elements: power budget assumes about 1.3 mA each (85 mA total)"),
+        Check("VDRV current per element (CW, 40 kHz)", i_el * 1e3, "mA", hi=5.0,
+              why="C V^2 f alone is 1.3 mA; the RX limiter's 4.7 k takes 19 mW of its own element's drive"),
         Check("VDRV current, all 64 elements in CW", i_el * 64 * 1e3, "mA", hi=900,
               why="LM2731X boost limit about 0.9 A at 15 V from 12 V"),
         Check("Power in the 47 R drive resistor", v("p_rdrv") * 1e3, "mW", hi=50, why="0603: 100 mW"),
@@ -367,15 +446,15 @@ def tx_cw():
         Check("Power in the 33 k bleed resistor", v("p_bleed") * 1e3, "mW", hi=50),
         Check("Acoustic power into the element (Rm)", v("p_elem") * 1e3, "mW",
               why="what actually radiates (model)"),
-        Check("Average clamp diode current", v("i_clamp") * 1e3, "mA", hi=50, why="BAV99 200 mA continuous"),
+        Check("Average limiter/clamp current", v("i_clamp") * 1e3, "mA", hi=50, why="BAV99 200 mA continuous"),
         Check("Element voltage, peak to peak", v("xd_pp"), "V", 13, 16),
     ]
     d = read_raw(HERE / "tx_cw.raw")
     t = [x * 1e3 for x in d["time"]]
     fig, a = plt.subplots(figsize=(9, 4))
     a.plot(t, d["V(xd)"], lw=0.7, label="element XD")
-    a.plot(t, [x * 100 for x in d["I(Rdrv)"]], lw=0.7, label="drive current x100 (A)")
-    a.set_xlim(9.8, 9.9)
+    a.plot(t, [x * 100 for x in d["I(R101)"]], lw=0.7, label="drive current x100 (A)")
+    a.set_xlim(5.8, 5.9)
     a.set_xlabel("time (ms)")
     a.grid(True, alpha=0.3)
     a.legend(loc="upper right")
@@ -500,6 +579,8 @@ def write_index():
 def main(names):
     if not LTSPICE.exists():
         raise SystemExit(f"LTspice not found at {LTSPICE}")
+    export_channel()
+    print("channel exported from KiCad -> sim/gen/channel.cir")
     for name in names or SIMS:
         spec = SIMS[name]
         try:

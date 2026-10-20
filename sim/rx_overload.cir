@@ -1,48 +1,18 @@
-* RX overload: a strong echo from a near target saturates the amplifier; how fast does it recover?
-* Element open-circuit echo: 10 cycles at 40 kHz from t = 0.1 ms, amplitude A (step), then a
-* small 10 mV echo at t = 1.5 ms that must come through undistorted.
-* Element model as rx_chain.cir (BVD, Q = 20). The EMF drives the motional branch.
-.param fs=40k C0=2.2n Rm=3k Qm=20 A=1
-.param Lm={Qm*Rm/(2*pi*fs)} Cm={1/((2*pi*fs)**2*Lm)}
-.step param A list 0.12 1 5
-.include models/OPA167x.lib
-.model DSW D(Is=2.52n Rs=.568 N=1.752 Cjo=1.5p M=.4 tt=4n Bv=100)
-* open-circuit EMF scaled so the element's terminal voltage is about A at resonance (unloaded)
-Bemf vs 0 V={A*1.05*(if(time>0.1m & time<0.1m+10/fs, sin(2*pi*fs*(time-0.1m)), 0) + 0.01*if(time>1.5m & time<1.5m+10/fs, sin(2*pi*fs*(time-1.5m)), 0))}
-Rm1 vs m1 {Rm}
-Lm1 m1 m2 {Lm}
-Cm1 m2 xd {Cm}
-C01 xd 0 {C0}
-D1 drvn xd DSW
-D2 xd drvn DSW
-Rdrv drvn 0 47.4
-Rbleed xd 0 33k
-Rlim xd lim 4.7k
-D3 lim 0 DSW
-D4 0 lim DSW
-Clim lim 0 100p
-XU1A lim fb1 vp vn s1 OPA167x
-Rf1 s1 fb1 10k
-Cf1 s1 fb1 33p
-Rg1 fb1 ng 2k
-Cg1 ng 0 100n
-R1 s1 n2 2k
-R3 n2 0 2k
-C1 n2 inv2 1n
-C2 n2 out2 1n
-R2 inv2 out2 16k
-XU1B 0 inv2 vp vn out2 OPA167x
-Rout out2 adc 100
-Radc adc 0 1Meg
-Cadc adc 0 5p
-Vp vp 0 5
-Vn vn 0 -5
-.save V(xd) V(lim) V(adc)
+* RX overload: a strong near echo saturates the amplifier; how fast does it recover?
+* Channel exported from kicad/channel.kicad_sch. Echo (open-circuit EMF in the element):
+* 10 cycles at 40 kHz with a Hann envelope from 0.1 ms with amplitude A (one run per amplitude, set by sim/run.py), then a 10 mV echo at 1.5 ms.
+.include gen/channel.cir
+.param ECHO_AC=0 QM=20
+.func echo(t)=AMPL*if(t>0.1m & t<0.35m, sin(251327.4*(t-0.1m))*sin(12566.4*(t-0.1m))**2, 0) + 0.0105*if(t>1.5m & t<1.75m, sin(251327.4*(t-1.5m))*sin(12566.4*(t-1.5m))**2, 0)
+VP VP5A 0 5
+VN VN5A 0 -5
+Rdrv_on DRV_OUT 0 0.4
+Radc RX_OUT 0 1Meg
+Cadc RX_OUT 0 5p
+.save V(XD) V(LIM) V(RX_OUT)
 .tran 0 2.2m 0 100n
-.meas TRAN xd_pk MAX V(xd) FROM 0.1m TO 0.4m
-.meas TRAN adc_pk MAX V(adc) FROM 0.1m TO 0.6m
-.meas TRAN adc_min MIN V(adc) FROM 0.1m TO 0.6m
-* the late small echo: its peak at the ADC (linear gain x22 gives about 0.22 V for 10 mV)
-.meas TRAN late_pk MAX V(adc) FROM 1.6m TO 1.8m
-.meas TRAN t_rec WHEN abs(V(adc))=0.05 FALL=last FROM 0.35m TO 1.45m
+.meas TRAN xd_pk MAX V(XD) FROM 0.1m TO 0.4m
+.meas TRAN adc_pk MAX V(RX_OUT) FROM 0.1m TO 0.6m
+.meas TRAN adc_min MIN V(RX_OUT) FROM 0.1m TO 0.6m
+.meas TRAN late_pk MAX V(RX_OUT) FROM 1.6m TO 1.8m
 .end

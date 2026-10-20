@@ -91,6 +91,7 @@ class Sheet:
         self.routes = []  # three-segment wires
         self.polys = []  # wired polylines through pins and points
         self.at_syms = []  # power symbols placed exactly on a pin or point
+        self.at_labels = []  # net-name labels placed on a wire point or pin
         self._segs, self._conn_pts = [], []
         self.field_ov = []  # sch_fields overrides "REF=dx,dy,dx2,dy2"
         self._u = 0
@@ -136,6 +137,10 @@ class Sheet:
     def poly(self, *pts):
         """Wire through pins ("U1.3") and points ((x, y); None takes the previous point's value)."""
         self.polys.append(pts)
+
+    def netname(self, net, pt, ang=0):
+        """Name a wired net: a small local label on one of its wire points or pins."""
+        self.at_labels.append((net, pt, ang))
 
     def sym(self, net, *pts):
         """Power symbol right on a pin or point: GND pointing down, rails pointing up."""
@@ -306,6 +311,9 @@ class Sheet:
                 if prev is not None and q != prev:
                     out.append(self.s_wire(prev, q))
                 prev = q
+
+        for net, p, ang in self.at_labels:
+            out.append(self.s_label("label", net, resolve(p, None), ang, None))
 
         for net, p in self.at_syms:
             q = resolve(p, None)
@@ -730,9 +738,10 @@ def power():
         s.part("Jumper:SolderJumper_2_Bridged", ref, xa + 5.08, y, "cut to isolate", JPFP)
         return f"{ref}.1", f"{ref}.2"
 
-    def led(rref, dref, x, y, rval, negative=False):
+    def led(rref, dref, x, y, rval, rail, negative=False):
         """Rail indicator hanging from a rail point (x, y): resistor, then LED to GND."""
         rt, rb = v("R", rref, x, y, rval, R0603)
+        s.netname(f"LED_{rail}", rb, 180)
         dt, db = v("LED", dref, x, y + 7.62, "green", LEDFP, k_top=negative)
         s.sym("GND", db)
         return rt
@@ -756,9 +765,11 @@ def power():
     da, dk = h("D", "D1", ox + 43.18, ry, "SS54", "Diode_SMD:D_SMC")
     caps_to_gnd(("CP", "C1", ox + 60.96, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
                 ("C", "C2", ox + 73.66, ry, "100n 50V X7R", C0603))
-    r1 = led("R1", "D2", ox + 86.36, ry, "10k 1%")
+    r1 = led("R1", "D2", ox + 86.36, ry, "10k 1%", "VIN")
     s.poly("J1.1", f1)
     s.poly(f2, da)
+    s.netname("VIN_JACK", f1, 180)
+    s.netname("VIN_FUSED", da)
     s.poly(dk, "C1.1", "C2.1", r1, tp("TP1", ox + 106.68, ry, "VIN"), flag(ox + 119.38, ry), (ox + 132.08, ry))
     s.sym("VIN", (ox + 132.08, ry))
 
@@ -778,12 +789,15 @@ def power():
     s.sym("VIN", (ox + 5.08, ry))
     s.poly((ox + 5.08, ry), "C3.1", "C4.1", r2t, "U1.3")
     s.poly(r2b, (ox + 40.64, None), (None, ry + 5.08), "U1.5")                  # EN
+    s.netname("EN_5V", (ox + 40.64, ry + 5.08))
     s.sym("GND", "U1.1")
     c5t, c5b = v("C", "C5", ox + 76.2, ry - 7.62, "100n 16V X7R", C0603)       # BOOT
     s.poly("U1.6", (ox + 71.12, None), (None, ry - 7.62), c5t)
     s.poly(c5b, (None, ry + 2.54))
     l1a, l1b = h("L", "L1", ox + 81.28, ry + 2.54, "15u Isat>=3.5A", L8040)
     s.poly("U1.2", (ox + 76.2, ry + 2.54), l1a)                                 # SW
+    s.netname("SW_5V", l1a, 180)
+    s.netname("BOOT_5V", (ox + 71.12, ry - 7.62))
     yo = ry + 2.54
     r4t, r4b = v("R", "R4", ox + 96.52, yo, "100k 1%", R0603)
     c8t, c8b = v("C", "C8", ox + 109.22, yo, "75p 50V C0G", C0603)
@@ -795,7 +809,9 @@ def power():
     s.poly(l1b, r4t, c8t, "C6.1", "C7.1", ja)
     s.poly(c8b, r4b)
     s.poly(r4b, (ox + 73.66, None), (None, ry + 5.08), "U1.4")                  # FB
-    r6 = led("R6", "D3", ox + 165.1, yo, "2.2k 1%")
+    s.netname("FB_5V", (ox + 73.66, yo + 7.62))
+    s.netname("5V_REG", l1b)
+    r6 = led("R6", "D3", ox + 165.1, yo, "2.2k 1%", "+5V")
     s.poly(jb, r6, tp("TP2", ox + 185.42, yo, "+5V"), flag(ox + 198.12, yo), (ox + 210.82, yo))
     s.sym("+5V", (ox + 210.82, yo))
 
@@ -819,10 +835,12 @@ def power():
     s.poly((ox + 5.08, yi), "C11.1", "C12.1", (cx - 33.02, yi), (cx - 22.86, yi), l2a)
     s.poly((cx - 33.02, yi), r7t)
     s.poly(r7b, (None, cy - 2.54), c13t)
-    s.poly(flag(cx - 43.18, cy - 2.54), (cx - 33.02, cy - 2.54), "U2.4")                             # VIN65 filter
+    s.poly(flag(cx - 43.18, cy - 2.54), (cx - 33.02, cy - 2.54), "U2.4")
+    s.netname("VIN65", (cx - 33.02, cy - 2.54))                             # VIN65 filter
     s.poly(l2b, (cx - 12.7, cy - 15.24), "U2.1")                                  # SW_P
     d4a, d4k = h("D", "D4", cx + 15.24, cy - 20.32, "SS14", SMA)
     s.poly((cx - 12.7, cy - 15.24), (None, cy - 20.32), d4a)
+    s.netname("SW_P", (cx - 12.7, cy - 20.32))
     s.pwr("+5V", "U2.5", "U2.8", "U2.10")                                         # INN, ENP, ENN
     s.pwr("GND", "U2.9", "U2.11")                                                 # PSP, PSN low
     s.nc("U2.7", "U2.12", "U2.20")
@@ -838,9 +856,11 @@ def power():
     j5a, j5b = jp("JP5", cx + 139.7, cy - 20.32, "+6V5")
     s.poly(d4k, (cx + 25.4, cy - 20.32), r8t, c14t, "C15.1", "C16.1", j5a)
     s.poly("U2.23", (cx + 25.4, None), (None, cy - 20.32))                        # VPOS sense
+    s.netname("6V5_REG", (cx + 25.4, cy - 20.32))
+    s.netname("FBP", r8b)
     s.poly("U2.22", r8b)                                                          # FBP
     s.poly(c14b, r8b)
-    r10 = led("R10", "D5", cx + 160.02, cy - 20.32, "3.3k 1%")
+    r10 = led("R10", "D5", cx + 160.02, cy - 20.32, "3.3k 1%", "+6V5")
     s.poly(j5b, r10, tp("TP3", cx + 180.34, cy - 20.32, "+6V5"), flag(cx + 193.04, cy - 20.32), (cx + 205.74, cy - 20.32))
     s.sym("+6V5", (cx + 205.74, cy - 20.32))
     # VREF, FBN divider (-6V5 -> FBN -> VREF), VNEG sense
@@ -849,25 +869,31 @@ def power():
     s.field_ov += ["R12=2.54,-1.27,2.54,1.27", "R11=2.54,-1.27,2.54,1.27"]
     s.sym("GND", c18b)
     s.poly("U2.17", r12t, c18t)                                                   # VREF
+    s.netname("VREF65", r12t, 180)
     r11t, r11b = v("R", "R11", cx + 58.42, cy - 2.54, "649k 1%", R0603)
     c17t, c17b = v("C", "C17", cx + 71.12, cy - 2.54, "7.5p 50V C0G", C0603)
-    s.poly("U2.16", (cx + 55.88, None), (None, cy - 2.54), r12b, c17t)          # FBN
+    s.poly("U2.16", (cx + 55.88, None), (None, cy - 2.54), r12b, c17t)
+    s.netname("FBN", (cx + 55.88, cy - 5.08), 180)          # FBN
     s.poly("U2.15", (cx + 50.8, None), (None, cy + 5.08))                        # VNEG sense
     # inverter: OUTN -> L3 to GND, D6 to -6V5
     l3t, l3b = v("L", "L3", cx + 30.48, cy + 5.08, "4.7u Isat>=2A", L6045)
     s.sym("GND", l3b)
     d6k, d6a = h("D", "D6", cx + 36.83, cy + 5.08, "SS14", SMA, k_left=True)
     s.poly("U2.13", l3t, d6k)
+    s.netname("SW_N", l3t)
     caps_to_gnd(("C", "C21", cx + 116.84, cy + 5.08, "10u 25V X7R 1206", C1206),
                 ("C", "C22", cx + 129.54, cy + 5.08, "10u 25V X7R 1206", C1206))
     j6a, j6b = jp("JP6", cx + 139.7, cy + 5.08, "-6V5")
     s.poly(d6a, (cx + 50.8, cy + 5.08), r11b, c17b, "C21.1", "C22.1", j6a)
+    s.netname("-6V5_REG", "C22.1")
     c20t, c20b = v("C", "C20", cx + 22.86, cy + 7.62, "4.7n 50V C0G", C0603)    # CN
     c19t, c19b = v("C", "C19", cx + 15.24, cy + 12.7, "10n 16V X7R", C0603)     # CP
     s.sym("GND", c20b, c19b)
     s.poly("U2.18", c20t)
     s.poly("U2.21", c19t)
-    r13 = led("R13", "D7", cx + 160.02, cy + 5.08, "3.3k 1%", negative=True)
+    s.netname("CN65", c20t)
+    s.netname("CP65", c19t)
+    r13 = led("R13", "D7", cx + 160.02, cy + 5.08, "3.3k 1%", "-6V5", negative=True)
     s.poly(j6b, r13, tp("TP4", cx + 180.34, cy + 5.08, "-6V5"), flag(cx + 193.04, cy + 5.08), (cx + 205.74, cy + 5.08))
     s.sym("-6V5", (cx + 205.74, cy + 5.08))
 
@@ -892,9 +918,11 @@ def power():
     j2a, j2b = jp("JP2", cx + 45.72, ry, "+5VA")
     s.poly("U3.1", (cx + 15.24, ry), "C24.1", "C25.1", j2a)
     s.poly("U3.3", (cx + 15.24, None), (None, ry))                               # SENSE to OUT
+    s.netname("5VA_REG", "C25.1")
     c26t, c26b = v("C", "C26", cx + 17.78, cy + 10.16, "1u 16V X7R", C0603)      # NR
     s.sym("GND", c26b)
     s.poly("U3.14", c26t)
+    s.netname("NR_5VA", c26t)
     s.poly(j2b, tp("TP5", cx + 71.12, ry, "+5VA"), flag(cx + 83.82, ry), (cx + 96.52, ry))
     s.sym("+5VA", (cx + 96.52, ry))
     cx, cy = ox + 40.64, oy + 86.36
@@ -908,6 +936,7 @@ def power():
     c28t, c28b = v("C", "C28", cx - 17.78, cy + 2.54, "1u 16V X7R", C0603)       # NR/SS
     s.sym("GND", c28b)
     s.poly("U4.14", c28t)
+    s.netname("NR_M5VA", c28t, 180)
     s.tie("GND", "U4.21", "U4.7")
     r14t, r14b = v("R", "R14", cx + 20.32, ry, "715k 1%", R0603)
     c29t, c29b = v("C", "C29", cx + 33.02, ry, "10n 50V C0G", C0603)
@@ -918,13 +947,15 @@ def power():
     j3a, j3b = jp("JP3", cx + 55.88, ry, "-5VA")
     s.poly("U4.1", r14t, c29t, "C30.1", j3a)
     s.poly("U4.3", r14b, c29b)                                                   # FB
+    s.netname("FB_M5VA", r14b, 180)
+    s.netname("-5VA_REG", "C30.1")
     s.poly(j3b, tp("TP6", cx + 81.28, ry, "-5VA"), flag(cx + 93.98, ry), (cx + 106.68, ry))
     s.sym("-5VA", (cx + 106.68, ry))
 
     # ---- E. VDRV ----------------------------------------------------------------------------------
     ox, oy = 20.32, 233.68
     s.note("E. VDRV 15 V: LM2731X boost from VIN. Remove the J2 shunt to unpower all TX drivers", ox, oy, 2.2)
-    s.note("1.23 V x (1 + 150k/13.3k) = 15.1 V. Load: 64 elements CW at 40 kHz, CV^2f = 1.3 W, about 0.12 A.",
+    s.note("1.23 V x (1 + 150k/13.3k) = 15.1 V. Load, all 64 elements in CW at 40 kHz: about 0.24 A (sim/reports/tx_cw.md).",
            ox, oy + 5.08)
     cx, cy = ox + 45.72, oy + 33.02
     ry = cy - 12.7
@@ -937,10 +968,12 @@ def power():
     s.poly((ox + 5.08, ry), "C31.1", r16t, (cx - 12.7, ry), l4a)
     s.poly((cx - 12.7, ry), (None, cy - 2.54), "U5.5")                           # VIN
     s.poly(r16b, (None, cy + 2.54), "U5.4")                                       # EN
+    s.netname("EN_VDRV", (cx - 20.32, cy + 2.54))
     s.sym("GND", "U5.2")
     s.poly(l4b, (None, cy - 2.54))                                                # SW: L4 down to the SW pin
     d8a, d8k = h("D", "D8", cx + 12.7, cy - 2.54, "SS14", SMA)
     s.poly("U5.1", d8a)
+    s.netname("SW_VDRV", d8a, 180)
     r17t, r17b = v("R", "R17", cx + 27.94, cy - 2.54, "150k 1%", R0603)
     c32t, c32b = v("C", "C32", cx + 40.64, cy - 2.54, "180p 50V C0G", C0603)
     r18t, r18b = v("R", "R18", cx + 27.94, cy + 10.16, "13.3k 1%", R0603)
@@ -952,8 +985,10 @@ def power():
            "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
     s.poly(d8k, r17t, c32t, "C33.1", "C34.1", "J2.1")
     s.poly("U5.3", (cx + 22.86, None), (None, cy + 5.08), r17b, c32b)          # FB
+    s.netname("FB_VDRV", (cx + 22.86, cy + 5.08), 180)
+    s.netname("VDRV_REG", "C34.1")
     caps_to_gnd(("CP", "C35", cx + 86.36, cy + 10.16, "47u 35V", "Capacitor_SMD:CP_Elec_6.3x7.7"))
-    r19 = led("R19", "D9", cx + 99.06, cy + 10.16, "15k 1%")
+    r19 = led("R19", "D9", cx + 99.06, cy + 10.16, "15k 1%", "VDRV")
     s.poly("J2.2", (cx + 73.66, None), (None, cy + 10.16), "C35.1", r19, tp("TP7", cx + 119.38, cy + 10.16, "VDRV"),
            flag(cx + 132.08, cy + 10.16), (cx + 144.78, cy + 10.16))
     s.sym("VDRV", (cx + 144.78, cy + 10.16))
@@ -981,7 +1016,8 @@ def power():
     caps_to_gnd(("C", "C37", cx + 15.24, ry, "10u 16V X7R", C0805))
     j4a, j4b = jp("JP4", cx + 25.4, ry, "+3V3")
     s.poly("U6.5", "C37.1", j4a)
-    r20 = led("R20", "D10", cx + 45.72, ry, "1k 1%")
+    s.netname("3V3_REG", "C37.1")
+    r20 = led("R20", "D10", cx + 45.72, ry, "1k 1%", "+3V3")
     s.poly(j4b, r20, tp("TP8", cx + 66.04, ry, "+3V3"), flag(cx + 78.74, ry), (cx + 91.44, ry))
     s.sym("+3V3", (cx + 91.44, ry))
 
@@ -991,7 +1027,7 @@ def power():
     s.note("H. 3V3_MIC: ferrite-filtered supply for the 8 MEMS mics (remove FB1 to isolate)", ox, oy, 2.2)
     fa, fb_ = h("FB", "FB1", ox + 10.16, ry, "220R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric")
     caps_to_gnd(("C", "C38", ox + 27.94, ry, "10u 16V X5R", C0805))
-    r21 = led("R21", "D11", ox + 40.64, ry, "1k 1%")
+    r21 = led("R21", "D11", ox + 40.64, ry, "1k 1%", "3V3_MIC")
     s.sym("+3V3", (ox + 5.08, ry))
     s.poly((ox + 5.08, ry), fa)
     s.poly(fb_, "C38.1", r21, tp("TP11", ox + 60.96, ry, "3V3_MIC"), flag(ox + 73.66, ry), (ox + 86.36, ry))

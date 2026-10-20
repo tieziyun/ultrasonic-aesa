@@ -1,42 +1,27 @@
 * Continuous-wave transmit (split mode / Doppler): one element driven at 40 kHz without stop.
-* Steady-state supply current per element and dissipation in each part, averaged over the last
-* 2 ms of 10 ms. Driver as tx_burst.cir (15 V, 5 / 0.4 ohm), element BVD with Q = 20.
-.param fs=40k C0=2.2n Rm=3k Qm=20 VDRV=15
-.param Lm={Qm*Rm/(2*pi*fs)} Cm={1/((2*pi*fs)**2*Lm)}
-.include models/OPA167x.lib
-.model DSW D(Is=2.52n Rs=.568 N=1.752 Cjo=1.5p M=.4 tt=4n Bv=100)
-.model SWH SW(Ron=5 Roff=1G Vt=0.5 Vh=0.01)
-.model SWL SW(Ron=0.4 Roff=1G Vt=0.5 Vh=0.01)
-Vlog lg 0 PULSE(0 1 0 10n 10n {0.5/fs-10n} {1/fs})
+* Channel exported from kicad/channel.kicad_sch. Steady state averaged over 4.1-5.9 ms (the element settles within about 1 ms).
+* Element current = I(R101) - I(R102) - I(R103) (drive in, minus bleed and limiter).
+.include gen/channel.cir
+.param ECHO_AC=0 QM=20 fs=40k VDRV=15
+.func echo(t)=0
+VP VP5A 0 5
+VN VN5A 0 -5
+Vlog lg 0 PULSE(0 1 10u 10n 10n {0.5/fs-10n} {1/fs})
 Binv lgn 0 V=1-V(lg)
 Vdd vdd 0 {VDRV}
-S1 vdd drvo lg 0 SWH
-S2 drvo 0 lgn 0 SWL
-Rdrv drvo drvn 47
-D1 drvn xd DSW
-D2 xd drvn DSW
-Rm1 xd m1 {Rm}
-Lm1 m1 m2 {Lm}
-Cm1 m2 0 {Cm}
-C01 xd 0 {C0}
-Rbleed xd 0 33k
-Rlim xd lim 4.7k
-D3 lim 0 DSW
-D4 0 lim DSW
-Clim lim 0 100p
-XU1A lim fb1 vp vn s1 OPA167x
-Rf1 s1 fb1 10k
-Rg1 fb1 ng 2k
-Cg1 ng 0 100n
-Vp vp 0 5
-Vn vn 0 -5
-.save V(xd) V(lim) V(drvo) V(drvn) I(Vdd) I(Rdrv) I(Rlim) I(Rbleed) I(Rm1) I(D3) I(D4)
-.tran 0 10m 8m 50n
-.meas TRAN i_vdrv AVG -I(Vdd) FROM 8.1m TO 9.9m
-.meas TRAN p_rdrv AVG V(drvo,drvn)*I(Rdrv) FROM 8.1m TO 9.9m
-.meas TRAN p_rlim AVG V(xd,lim)*I(Rlim) FROM 8.1m TO 9.9m
-.meas TRAN p_bleed AVG V(xd)*I(Rbleed) FROM 8.1m TO 9.9m
-.meas TRAN p_elem AVG V(xd)*I(Rm1) FROM 8.1m TO 9.9m
-.meas TRAN i_clamp AVG abs(I(D3))+abs(I(D4)) FROM 8.1m TO 9.9m
-.meas TRAN xd_pp PP V(xd) FROM 8.1m TO 9.9m
+S1 vdd DRV_OUT lg 0 SWH
+S2 DRV_OUT 0 lgn 0 SWL
+.model SWH SW(Ron=5 Roff=1G Vt=0.5 Vh=0.01)
+.model SWL SW(Ron=0.4 Roff=1G Vt=0.5 Vh=0.01)
+Radc RX_OUT 0 1Meg
+Cadc RX_OUT 0 5p
+.save V(XD) V(LIM) V(DRV_OUT) V(DRV) I(Vdd) I(R101) I(R102) I(R103)
+.tran 0 6m 0 20n
+.meas TRAN i_vdrv AVG -I(Vdd) FROM 4.1m TO 5.9m
+.meas TRAN p_rdrv AVG V(DRV_OUT,DRV)*I(R101) FROM 4.1m TO 5.9m
+.meas TRAN p_rlim AVG V(XD,LIM)*I(R103) FROM 4.1m TO 5.9m
+.meas TRAN p_bleed AVG V(XD)*I(R102) FROM 4.1m TO 5.9m
+.meas TRAN p_elem AVG V(XD)*(I(R101)-I(R102)-I(R103)) FROM 4.1m TO 5.9m
+.meas TRAN i_clamp AVG abs(I(R103)) FROM 4.1m TO 5.9m
+.meas TRAN xd_pp PP V(XD) FROM 4.1m TO 5.9m
 .end

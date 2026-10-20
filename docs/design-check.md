@@ -1,6 +1,6 @@
 # Design check
 
-Run 2026-10-20 11:33 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **16 pass, 1 warn, 0 fail.**
+Run 2026-10-20 13:57 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **16 pass, 1 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
@@ -30,7 +30,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 <a id="2"></a>
 ## 2. Part counts and references: PASS
 
-1704 parts, 94 distinct values.
+1704 parts, 89 distinct values.
 | Part | Count |
 |---|---|
 | OPA1678IDR | 64 |
@@ -59,9 +59,9 @@ Duplicate references: 0.
 <a id="4"></a>
 ## 4. LCSC numbers: WARN
 
-Parts with an LCSC number: 240; consigned/hand-solder: 80; **TBD: 1384** (87 distinct values); no field: 0.
+Parts with an LCSC number: 240; consigned/hand-solder: 80; **TBD: 1384** (82 distinct values); no field: 0.
 
-TBD values (count): 100n 16V X7R (269), 2k 1% (192), 1n 50V C0G 1% (128), 10k 1% (71), 100 1% (65), 100p 50V C0G (64), 33p 50V C0G (64), 47 1% (64), 33k 1% (64), 4.7k 1% (64), 16k 1% (64), 33 1% (46), 100n 50V X7R (34), 1u 50V X7R (32), 1u 16V X7R (18), 10u 16V X5R (10), 10u 16V X7R (9), 100k 1% (8), 100n 50V C0G (8), 74LVC2G34 (7), green (7), 10u 25V X7R 1206 (6), 47p 50V C0G DNP (5), 100 1% DNP (5), 74AHCT1G125 (4), 10u 50V X7R 1210 (4), 10u 16V X7R 1206 (4), SS14 (3), 22u 16V X5R 1206 (2), 4.7u Isat>=2A (2), 13.3k 1% (2), 3.3k 1% (2), 1k 1% (2), TP GND (2), EX_IO1 (AXU3EGB J15) (1), EX_IO2 (AXU3EGB J16) (1), 100u 25V (1), 75p 50V C0G (1), 6.8p 50V C0G (1), 7.5p 50V C0G (1), 220n 16V X7R (1), 10n 16V X7R (1), 4.7n 50V C0G (1), 10n 50V C0G (1), 22u 16V X7R 1210 (1), 180p 50V C0G (1), 47u 35V (1), SS54 (1), 1812L200/16DR 2A 16V (1), 220R@100MHz 0603 (1), 12 V in (5.5x2.1) (1), TX power (shunt) (1), cut to isolate +5V (1), cut to isolate +5VA (1), cut to isolate -5VA (1), cut to isolate +3V3 (1), cut to isolate +6V5 (1), cut to isolate -6V5 (1), 15u Isat>=3.5A (1), 10u Isat>=2A (1), 511k 1% (1), 105k 1% (1), 2.2k 1% (1), 562k 1% (1), 130k 1% (1), 649k 1% (1), 121k 1% (1), 715k 1% (1), 220k 1% (1), 51k 1% (1), 150k 1% (1), 15k 1% (1), TP VIN (1), TP +5V (1), TP +6V5 (1), TP -6V5 (1), TP +5VA (1), TP -5VA (1), TP VDRV (1), TP +3V3 (1), TP 3V3_MIC (1), TPS54202DDCR (1), TPS65131RGER (1), TPS7A4701RGWR (1), TPS7A3301RGWR (1), LM2731XMF (1), TLV75733PDBVR (1)
+TBD values (count): 100n 16V X7R (269), 2k 1% (192), 1n 50V C0G 1% (128), 10k 1% (71), 100 1% (65), 100p 50V C0G (64), 33p 50V C0G (64), 47 1% (64), 33k 1% (64), 4.7k 1% (64), 16k 1% (64), 33 1% (46), 100n 50V X7R (34), 1u 50V X7R (32), 1u 16V X7R (18), 10u 16V X5R (10), 10u 16V X7R (9), 100k 1% (8), 100n 50V C0G (8), 74LVC2G34 (7), green (7), 10u 25V X7R 1206 (6), cut to isolate (6), 47p 50V C0G DNP (5), 100 1% DNP (5), 74AHCT1G125 (4), 10u 50V X7R 1210 (4), 10u 16V X7R 1206 (4), SS14 (3), 22u 16V X5R 1206 (2), 4.7u Isat>=2A (2), 13.3k 1% (2), 3.3k 1% (2), 1k 1% (2), TP GND (2), EX_IO1 (AXU3EGB J15) (1), EX_IO2 (AXU3EGB J16) (1), 100u 25V (1), 75p 50V C0G (1), 6.8p 50V C0G (1), 7.5p 50V C0G (1), 220n 16V X7R (1), 10n 16V X7R (1), 4.7n 50V C0G (1), 10n 50V C0G (1), 22u 16V X7R 1210 (1), 180p 50V C0G (1), 47u 35V (1), SS54 (1), 1812L200/16DR (1), 220R@100MHz 0603 (1), 12 V in (5.5x2.1) (1), TX power (shunt) (1), 15u Isat>=3.5A (1), 10u Isat>=2A (1), 511k 1% (1), 105k 1% (1), 2.2k 1% (1), 562k 1% (1), 130k 1% (1), 649k 1% (1), 121k 1% (1), 715k 1% (1), 220k 1% (1), 51k 1% (1), 150k 1% (1), 15k 1% (1), TP VIN (1), TP +5V (1), TP +6V5 (1), TP -6V5 (1), TP +5VA (1), TP -5VA (1), TP VDRV (1), TP +3V3 (1), TP 3V3_MIC (1), TPS54202DDCR (1), TPS65131RGER (1), TPS7A4701RGWR (1), TPS7A3301RGWR (1), LM2731XMF (1), TLV75733PDBVR (1)
 
 <a id="5"></a>
 ## 5. TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel): PASS
@@ -217,7 +217,7 @@ Intentionally unconnected pins (no-connect flags): 104: QE x16, QF x16, QG x16, 
 | +5V | 74HCT595 (static ~0.1 mA, dynamic at 10 MHz ~2 mA) | 16 | 32 | 64 |
 | +5V | TPS65131 input for +-6V5 (0.45 A + 0.3 A loads, 85 %) | 1 | 1150 | 1350 |
 | +5V | TLV75733P input (+3V3 load) | 1 | 60 | 100 |
-| VDRV | 64 elements CW at 40 kHz: C V^2 f / V = 2.2n x 15 x 40k x 64 | 1 | 85 | 85 |
+| VDRV | 64 elements CW at 40 kHz, 3.73 mA each (sim/reports/tx_cw.md: C V^2 f, 47 R, 4.7 k limiter, element) | 64 | 239 | 256 |
 | VDRV | UCC27524 quiescent | 32 | 32 | 48 |
 
 | Rail | Total typ | Total max | Regulator limit | Margin |
@@ -226,6 +226,6 @@ Intentionally unconnected pins (no-connect flags): 104: QE x16, QF x16, QG x16, 
 | -5VA | 256 mA | 320 mA | 1000 mA | 68 % |
 | +3V3 | 60 mA | 100 mA | 1000 mA | 90 % |
 | +5V | 1242 mA | 1514 mA | 2000 mA | 24 % |
-| VDRV | 117 mA | 133 mA | 900 mA | 85 % |
+| VDRV | 271 mA | 304 mA | 900 mA | 66 % |
 
-VIN (12 V): +5V buck input about 5 V x 1.6 A / 0.9 / 12 V = 0.75 A, plus VDRV boost 15 V x 0.12 A / 0.85 / 12 V = 0.18 A: about 0.95 A of the 1.5 A adapter, under the 2 A polyfuse hold current.
+VIN (12 V): +5V buck input about 5 V x 1.6 A / 0.9 / 12 V = 0.75 A, plus VDRV boost 15 V x 0.12 A / 0.85 / 12 V = 0.35 A (all 64 elements in CW): about 1.1 A of the 1.5 A adapter, under the 2 A polyfuse hold current.

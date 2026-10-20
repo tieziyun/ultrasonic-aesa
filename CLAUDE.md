@@ -41,7 +41,8 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
 
 ## Simulation
 - **Run every simulation through `sim/run.py`** (user rule, 2026-10-20): it runs LTspice, checks the results against limits and writes `sim/reports/<name>.md` + plot and the index `sim/reports/README.md`. Never report a simulation result that has no report. New testbench: add `sim/<name>.cir` and an entry in `SIMS` in `sim/run.py` with its checks.
-- Models: TI OPA167x macro-model in `sim/models/`; transducer = Butterworth–Van Dyke (C0 2.2 nF, Rm 3 kΩ, Q assumed 20–40).
+- **The simulated channel comes from the schematic**: `scripts/sch_sim.py kicad/channel.kicad_sch` attaches SPICE models (KiCad Sim.* fields; models in `sim/models/aesa_parts.lib`), and `sim/run.py` exports the sheet with `kicad-cli sch export netlist --format spice` into `sim/gen/channel.cir` before every run. Testbenches hold only stimulus, loads and measurements. Re-run `sch_sim.py` after changing the channel sheet. The same fields let the channel be probed in KiCad's own simulator (ngspice).
+- Solver: LTspice 24 in batch mode (`LTspice.exe -b`). Models: TI OPA167x macro-model; BAV99 = 1N4148 die; transducer = Butterworth-Van Dyke (C0 2.2 nF, Rm 3 kΩ, Q 20-40 via `.param QM`).
 
 ## Design rules (JLCPCB defaults unless the brief says otherwise)
 - 2-layer array panel, 4-layer front-end board, 1.6 mm, HASL lead-free or ENIG.
