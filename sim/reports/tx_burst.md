@@ -1,23 +1,45 @@
-# TX burst and listen-after-transmit
+# Transmitter: sending a ping, and listening again
 
-Run 2026-10-20 13:56 with LTspice (`sim/run.py tx_burst`). Netlist: [`sim/tx_burst.cir`](../tx_burst.cir).
+**Question:** When an element sends a ping, is the drive safe for every part, and how soon after can the same element hear an echo?
 
-8 cycles at 40 kHz from a 15 V UCC27524 half through 47 Ω and the crossed diodes into the element, then the same element listens. Run for element Q = 20 and 40 (the datasheet's 1.8 ms response time lies between).
+**Answer (PASS):** Yes. The transducer gets **14.2 V** pulses, the driver peaks at 0.29 A (rated 5 A) and the clamp keeps the amplifier input within **+0.63 / -0.45 V**. After the ping the transducer keeps ringing for a while, and its own receiver hears that: it can hear echoes again **1.0–1.9 ms** after the ping, so it misses objects closer than about **0.21–0.36 m**. (The two numbers bracket the transducer's unknown Q.) In split mode other elements listen, which avoids this blind zone.
 
-Models: OPA1678 = TI OPA167x macro-model (`sim/models/OPA167x.lib`); BAV99 = 1N4148 die model, Cj 1.5 pF; CUSA-TR65 = Butterworth–Van Dyke, C0 2.2 nF and Rm 3 kΩ from the datasheet, Q assumed; drivers, buffers and the FPGA are behavioural (values in each netlist header).
+## Why it matters
 
-## Result: **PASS** (9 pass, 0 fail, 0 info)
+The 15 V drive must never reach the sensitive amplifier input. And the element can only hear echoes once its own ringing has died down, which sets the closest object it can see.
 
-| Quantity | Value | Unit | Limit | Status | Note |
+## What is simulated
+
+The gate driver (modelled as a 15 V switch) sends 8 cycles at 40 kHz through the channel from the schematic, then holds low while the element listens. The transducer's sharpness (Q) is not in its datasheet, so the test runs with Q = 20 and Q = 40, which bracket its 1.8 ms ring-down time.
+
+## How to read the plot
+
+Top: the 0–14 V ping on the transducer (grey band). Middle: the amplifier input, held within ±0.6 V by the clamp diodes during the ping. Bottom: the ADC pin. The receiver is overloaded during the ping and then hears the transducer ringing down; once the trace stays inside the green band, echoes can be heard. The dashed lines mark that moment and the matching closest distance.
+
+![Transmitter: sending a ping, and listening again](tx_burst.png)
+
+## The numbers
+
+9 checks pass, 0 fail; 0 rows are for information.
+
+| What | Value | Unit | Limit | OK? | What it means |
 |---|---|---|---|---|---|
-| Element peak voltage | 14.2 | V | 13 … 15.5 | pass | VDRV 15 V minus one diode |
-| Driver peak current | 0.287 | A | ≤ 1 | pass | UCC27524 rated 5 A peak |
-| Limiter node, positive peak | 0.634 | V | ≤ 0.9 | pass | OPA1678 input protection |
-| Limiter node, negative peak | -0.451 | V | ≥ -0.9 | pass |  |
-| Average power in the 47 Ω drive resistor | 15.7 | mW | ≤ 50 | pass | 0603 rating 100 mW, keep 2× margin; CW is similar |
-| Average power in the 4.7 kΩ limiter resistor | 19.2 | mW | ≤ 50 | pass |  |
-| ADC pin peak during TX | 4.2 | V | ≤ 5 | pass | inside the ±5 V ADC range |
-| Recovery to < 100 mV after the burst, element Q = 20 | 1 | ms | ≤ 2.5 | pass | element ringing; 2 ms ≈ 0.34 m blind range |
-| Recovery to < 100 mV after the burst, element Q = 40 | 1.88 | ms | ≤ 2.5 | pass | element ringing; 2 ms ≈ 0.34 m blind range |
+| Voltage on the transducer during the ping | 14.2 | V | 13 … 15.5 | yes | 15 V supply minus one diode drop |
+| Peak current from the gate driver | 0.287 | A | ≤ 1 | yes | UCC27524 is rated 5 A |
+| Amplifier input during the ping, positive peak | 0.634 | V | ≤ 0.9 | yes | the clamp diodes keep the 15 V away from the op-amp |
+| Amplifier input during the ping, negative peak | -0.451 | V | ≥ -0.9 | yes |  |
+| Heat in the 47 Ω drive resistor (during the ping) | 15.7 | mW | ≤ 50 | yes | rated 100 mW |
+| Heat in the 4.7 kΩ protection resistor (during the ping) | 19.2 | mW | ≤ 50 | yes | rated 100 mW |
+| Highest voltage at the ADC during the ping | 4.2 | V | ≤ 5 | yes | ADC range ±5 V |
+| Time until the element can listen again (Q = 20) | 1 | ms | ≤ 2.5 | yes | echoes from closer than 0.21 m arrive while it is still ringing |
+| Time until the element can listen again (Q = 40) | 1.88 | ms | ≤ 2.5 | yes | echoes from closer than 0.36 m arrive while it is still ringing |
 
-![TX burst and listen-after-transmit](tx_burst.png)
+## Assumptions
+
+- Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.
+- Diodes (BAV99): 1N4148 junction model, the same die.
+- Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
+- Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
+- The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
+
+Run 2026-10-21 12:05 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.

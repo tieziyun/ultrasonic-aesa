@@ -1,22 +1,43 @@
-# RX chain: gain, band and ADC filter
+# Receiver: how much does an echo get amplified?
 
-Run 2026-10-20 13:56 with LTspice (`sim/run.py rx_chain`). Netlist: [`sim/rx_chain.cir`](../rx_chain.cir).
+**Question:** When an echo arrives, how big is the signal that reaches the ADC, and does the ADC's own input filter weaken it?
 
-AC response from the transducer's open-circuit voltage through the limiter, the OPA1678 ×6 stage and the 40 kHz band-pass to the ADC pin, and through the AD7606C-16 (220 kHz) and AD7606B (22.5 kHz) input filters.
+**Answer (PASS):** A 1 m echo (0.12 V at the transducer) reaches the ADC as about **2.7 V peak**: the receiver amplifies ×22 (27.0 dB) at 40 kHz and passes 31–51 kHz. The chosen ADC (AD7606C-16) loses only 0.00 dB at 40 kHz; the AD7606B would have lost 10 dB.
 
-Models: OPA1678 = TI OPA167x macro-model (`sim/models/OPA167x.lib`); BAV99 = 1N4148 die model, Cj 1.5 pF; CUSA-TR65 = Butterworth–Van Dyke, C0 2.2 nF and Rm 3 kΩ from the datasheet, Q assumed; drivers, buffers and the FPGA are behavioural (values in each netlist header).
+## Why it matters
 
-## Result: **PASS** (7 pass, 0 fail, 1 info)
+The ADC must see the echo well above its own noise but below its ±5 V limit. The transducer datasheet gives about 0.12 V for an echo from an object 1 m away.
 
-| Quantity | Value | Unit | Limit | Status | Note |
+## What is simulated
+
+One transceiver channel, exported from the schematic: the transducer (electrical model), the protection resistor and clamp diodes, the ×6 amplifier stage and the 40 kHz band-pass filter, into the ADC input. A small sine wave is swept from 1 kHz to 1 MHz.
+
+## How to read the plot
+
+Left to right: frequency. Up: how much bigger the signal at the ADC is than the echo voltage at the transducer, in dB (+20 dB = ×10, +27 dB = ×22). The response peaks at 40 kHz, the transducers' frequency, and falls off on both sides, which keeps noise out. The green curve (chosen ADC) lies on the blue one; the dashed red curve shows what the old ADC would have let through.
+
+![Receiver: how much does an echo get amplified?](rx_chain.png)
+
+## The numbers
+
+6 checks pass, 0 fail; 1 rows are for information.
+
+| What | Value | Unit | Limit | OK? | What it means |
 |---|---|---|---|---|---|
-| Element loading by the front end at 40 kHz | -0.529 | dB | ≥ -1 | pass | the front end must not load the 2.2 nF element |
-| Gain, open-circuit element voltage → ADC pin, 40 kHz | 27 | dB | 25 … 30 | pass | design value +27.6 dB amplifier; 1 m echo 120 mV → ~2.7 V at the ADC |
-| Amplifier pass band, low −3 dB | 3.09e+04 | Hz | 25000 … 35000 | pass |  |
-| Amplifier pass band, high −3 dB | 5.06e+04 | Hz | 45000 … 60000 | pass |  |
-| Amplifier phase change 39 → 41 kHz | 11.8 | ° | ≤ 20 | pass | per-element calibration removes it; small keeps element-to-element spread small |
-| AD7606C-16 filter (220 kHz) loss at 39 kHz | -0.00428 | dB | ≥ -0.1 | pass |  |
-| AD7606C-16 filter (220 kHz) loss at 41 kHz | -0.00523 | dB | ≥ -0.1 | pass |  |
-| AD7606B filter (22.5 kHz) loss at 40 kHz, for comparison | -10.4 | dB | — | info | why the AD7606B was replaced |
+| Gain from the element's echo voltage to the ADC pin, 40 kHz | 27 | dB | 25 … 30 | yes | ×22.3: a 1 m echo (0.12 V) arrives as 2.7 V, inside the ±5 V ADC range |
+| Signal lost because the receiver loads the transducer | -0.529 | dB | ≥ -1 | yes | the 2.2 nF transducer is a weak source; the receiver must not load it |
+| Pass band, lower edge (−3 dB) | 30.9 | kHz | 25 … 35 | yes | rejects low-frequency noise |
+| Pass band, upper edge (−3 dB) | 50.6 | kHz | 45 … 60 | yes | wide enough for short pings (range resolution) |
+| Phase change from 39 to 41 kHz | 11.8 | ° | ≤ 20 | yes | fixed per channel, removed by calibration |
+| Loss in the AD7606C-16 input filter at 40 kHz | -0.00476 | dB | ≥ -0.1 | yes | the chosen ADC |
+| Loss the old AD7606B filter would have caused | -10.4 | dB | — | — | why the ADC was changed |
 
-![RX chain: gain, band and ADC filter](rx_chain.png)
+## Assumptions
+
+- Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.
+- Diodes (BAV99): 1N4148 junction model, the same die.
+- Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
+- Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
+- The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
+
+Run 2026-10-21 12:05 with LTspice by `sim/run.py rx_chain`. Testbench: `sim/rx_chain.cir`.

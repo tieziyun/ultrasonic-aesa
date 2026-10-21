@@ -1,19 +1,42 @@
-# RX chain: noise
+# Receiver: how much noise does it add?
 
-Run 2026-10-20 13:56 with LTspice (`sim/run.py rx_noise`). Netlist: [`sim/rx_noise.cir`](../rx_noise.cir).
+**Question:** How quiet is the receiver compared with the echoes it has to hear, and compared with the ADC?
 
-Noise at the ADC pin and referred to the element, including the element's own Rm, the limiter resistor and the OPA1678 noise model.
+**Answer (PASS):** In the band that matters (30–50 kHz) the receiver adds **33 µV rms** of noise at the ADC, about the same as the ADC itself (~50 µV). A 1 m echo is **90 dB** above the total. An echo is still clearly detectable (10 dB above noise) down to about 12 µV at the transducer, 9945× weaker than a 1 m echo.
 
-Models: OPA1678 = TI OPA167x macro-model (`sim/models/OPA167x.lib`); BAV99 = 1N4148 die model, Cj 1.5 pF; CUSA-TR65 = Butterworth–Van Dyke, C0 2.2 nF and Rm 3 kΩ from the datasheet, Q assumed; drivers, buffers and the FPGA are behavioural (values in each netlist header).
+## Why it matters
 
-## Result: **PASS** (5 pass, 0 fail, 0 info)
+Noise sets the weakest echo that can be detected, so it sets the maximum range.
 
-| Quantity | Value | Unit | Limit | Status | Note |
+## What is simulated
+
+The same channel, with LTspice's noise analysis: the thermal noise of every resistor, the op-amp's noise and the transducer's own internal loss.
+
+## How to read the plot
+
+Blue: noise at the ADC pin. Orange: the same noise expressed as an echo voltage at the transducer (how big an echo would be just as large as the noise). Red dashed: the ADC's own noise. Only the shaded 30–50 kHz band matters, because the FPGA filters everything else away.
+
+![Receiver: how much noise does it add?](rx_noise.png)
+
+## The numbers
+
+4 checks pass, 0 fail; 2 rows are for information.
+
+| What | Value | Unit | Limit | OK? | What it means |
 |---|---|---|---|---|---|
-| Output noise density at 40 kHz (ADC pin) | 275 | nV/√Hz | ≤ 500 | pass |  |
-| Input-referred noise at 40 kHz (element EMF) | 12.2 | nV/√Hz | ≤ 50 | pass | dominated by the element's Rm and the 4.7 k limiter, not the op-amp |
-| Output noise, 30–50 kHz | 33.3 | µV rms | ≤ 60 | pass | AD7606C-16 noise in the same band is estimated at ~50 µV rms (±5 V range) |
-| Output noise, 1 kHz–1 MHz | 45.4 | µV rms | ≤ 100 | pass |  |
-| SNR of a 1 m echo (2.7 V peak) in 30–50 kHz | 95.2 | dB | ≥ 60 | pass |  |
+| Receiver noise at the ADC pin, 30–50 kHz | 33.3 | µV rms | ≤ 60 | yes | the FPGA's digital filter keeps only this band |
+| ADC's own noise in the same band (estimate, not simulated) | 50 | µV rms | — | — | AD7606C-16 SNR on the ±5 V range |
+| Noise density at 40 kHz, at the ADC pin | 275 | nV/√Hz | ≤ 500 | yes |  |
+| Same, referred back to the transducer | 12.2 | nV/√Hz | ≤ 50 | yes | mostly the transducer's own loss resistance and the 4.7 kΩ protection resistor |
+| 1 m echo above the total noise (receiver + ADC) | 90 | dB | ≥ 60 | yes |  |
+| Weakest echo that is still 10 dB above the noise | 12.1 | µV | — | — | 9945× weaker than a 1 m echo |
 
-![RX chain: noise](rx_noise.png)
+## Assumptions
+
+- Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.
+- Diodes (BAV99): 1N4148 junction model, the same die.
+- Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
+- Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
+- The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
+
+Run 2026-10-21 12:05 with LTspice by `sim/run.py rx_noise`. Testbench: `sim/rx_noise.cir`.

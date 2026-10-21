@@ -1,18 +1,27 @@
-* RX overload: a strong near echo saturates the amplifier; how fast does it recover?
-* Channel exported from kicad/channel.kicad_sch. Echo (open-circuit EMF in the element):
-* 10 cycles at 40 kHz with a Hann envelope from 0.1 ms with amplitude A (one run per amplitude, set by sim/run.py), then a 10 mV echo at 1.5 ms.
+* RX overload: a strong echo from a near object saturates the amplifier; how fast does it recover?
+* Channel exported from kicad/channel.kicad_sch (gen/channel.cir).
+* Echo: 10 cycles at 40 kHz with a smooth (Hann) envelope from 0.1 ms, then a weak echo at 1.5 ms.
+* AMPL and LATE are written by sim/run.py so that the echo PEAK VOLTAGE AT THE ELEMENT TERMINALS
+* (open circuit, element XREF below) is the stated value: the same definition as rx_chain uses.
 .include gen/channel.cir
 .param ECHO_AC=0 QM=20
-.func echo(t)=AMPL*if(t>0.1m & t<0.35m, sin(251327.4*(t-0.1m))*sin(12566.4*(t-0.1m))**2, 0) + 0.0105*if(t>1.5m & t<1.75m, sin(251327.4*(t-1.5m))*sin(12566.4*(t-1.5m))**2, 0)
+.func echo(t)=AMPL*if(t>0.1m & t<0.35m, sin(251327.4*(t-0.1m))*sin(12566.4*(t-0.1m))**2, 0) + LATE*if(t>1.5m & t<1.75m, sin(251327.4*(t-1.5m))*sin(12566.4*(t-1.5m))**2, 0)
 VP VP5A 0 5
 VN VN5A 0 -5
 Rdrv_on DRV_OUT 0 0.4
 Radc RX_OUT 0 1Meg
 Cadc RX_OUT 0 5p
-.save V(XD) V(LIM) V(RX_OUT)
-.tran 0 2.2m 0 100n
+* reference: an identical element with nothing connected, to read the echo amplitude
+XREF xdo 0 CUSA_TR65
+.save V(XD) V(LIM) V(RX_OUT) V(xdo)
+* Gear integration: the default (trapezoidal) crawls when the clamp diodes and the saturated
+* op-amp switch hard; Gear runs in seconds and gives the same waveform.
+.options method=gear
+.tran 0 2.2m 0 200n
+.meas TRAN echo_pk MAX V(xdo) FROM 0.1m TO 0.6m
+.meas TRAN late_ref MAX V(xdo) FROM 1.5m TO 1.95m
 .meas TRAN xd_pk MAX V(XD) FROM 0.1m TO 0.4m
 .meas TRAN adc_pk MAX V(RX_OUT) FROM 0.1m TO 0.6m
 .meas TRAN adc_min MIN V(RX_OUT) FROM 0.1m TO 0.6m
-.meas TRAN late_pk MAX V(RX_OUT) FROM 1.6m TO 1.8m
+.meas TRAN late_pk MAX V(RX_OUT) FROM 1.5m TO 2.0m
 .end
