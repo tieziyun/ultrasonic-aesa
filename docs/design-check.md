@@ -1,13 +1,13 @@
 # Design check
 
-Run 2026-10-20 13:57 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **16 pass, 1 warn, 0 fail.**
+Run 2026-10-22 21:33 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **17 pass, 0 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
 | 1 | [ERC](#1) | **PASS** |
 | 2 | [Part counts and references](#2) | **PASS** |
 | 3 | [Footprints exist and match the symbol pins](#3) | **PASS** |
-| 4 | [LCSC numbers](#4) | **WARN** |
+| 4 | [LCSC numbers](#4) | **PASS** |
 | 5 | [TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel)](#5) | **PASS** |
 | 6 | [RX chain (channel -> RXn -> ADC input) and ADC wiring to J2](#6) | **PASS** |
 | 7 | [Clocks: buffered, <= 4 loads per output, traced to the right header pin](#7) | **PASS** |
@@ -30,7 +30,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 <a id="2"></a>
 ## 2. Part counts and references: PASS
 
-1704 parts, 89 distinct values.
+1704 parts, 88 distinct values.
 | Part | Count |
 |---|---|
 | OPA1678IDR | 64 |
@@ -44,7 +44,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 | SPH0641LU4H-1 | 8 |
 | TPS54202DDCR | 1 |
 | TPS65131RGER | 1 |
-| TPS7A4701RGWR | 1 |
+| TPS7A4700RGWT | 1 |
 | TPS7A3301RGWR | 1 |
 | LM2731XMF | 1 |
 | TLV75733PDBVR | 1 |
@@ -54,14 +54,14 @@ Duplicate references: 0.
 <a id="3"></a>
 ## 3. Footprints exist and match the symbol pins: PASS
 
-30 distinct footprints, all checked for existence and pad numbers.
+29 distinct footprints, all checked for existence and pad numbers.
 
 <a id="4"></a>
-## 4. LCSC numbers: WARN
+## 4. LCSC numbers: PASS
 
-Parts with an LCSC number: 240; consigned/hand-solder: 80; **TBD: 1384** (82 distinct values); no field: 0.
+Parts with an LCSC number: 1613; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
 
-TBD values (count): 100n 16V X7R (269), 2k 1% (192), 1n 50V C0G 1% (128), 10k 1% (71), 100 1% (65), 100p 50V C0G (64), 33p 50V C0G (64), 47 1% (64), 33k 1% (64), 4.7k 1% (64), 16k 1% (64), 33 1% (46), 100n 50V X7R (34), 1u 50V X7R (32), 1u 16V X7R (18), 10u 16V X5R (10), 10u 16V X7R (9), 100k 1% (8), 100n 50V C0G (8), 74LVC2G34 (7), green (7), 10u 25V X7R 1206 (6), cut to isolate (6), 47p 50V C0G DNP (5), 100 1% DNP (5), 74AHCT1G125 (4), 10u 50V X7R 1210 (4), 10u 16V X7R 1206 (4), SS14 (3), 22u 16V X5R 1206 (2), 4.7u Isat>=2A (2), 13.3k 1% (2), 3.3k 1% (2), 1k 1% (2), TP GND (2), EX_IO1 (AXU3EGB J15) (1), EX_IO2 (AXU3EGB J16) (1), 100u 25V (1), 75p 50V C0G (1), 6.8p 50V C0G (1), 7.5p 50V C0G (1), 220n 16V X7R (1), 10n 16V X7R (1), 4.7n 50V C0G (1), 10n 50V C0G (1), 22u 16V X7R 1210 (1), 180p 50V C0G (1), 47u 35V (1), SS54 (1), 1812L200/16DR (1), 220R@100MHz 0603 (1), 12 V in (5.5x2.1) (1), TX power (shunt) (1), 15u Isat>=3.5A (1), 10u Isat>=2A (1), 511k 1% (1), 105k 1% (1), 2.2k 1% (1), 562k 1% (1), 130k 1% (1), 649k 1% (1), 121k 1% (1), 715k 1% (1), 220k 1% (1), 51k 1% (1), 150k 1% (1), 15k 1% (1), TP VIN (1), TP +5V (1), TP +6V5 (1), TP -6V5 (1), TP +5VA (1), TP -5VA (1), TP VDRV (1), TP +3V3 (1), TP 3V3_MIC (1), TPS54202DDCR (1), TPS65131RGER (1), TPS7A4701RGWR (1), TPS7A3301RGWR (1), LM2731XMF (1), TLV75733PDBVR (1)
+TBD values (count): 
 
 <a id="5"></a>
 ## 5. TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel): PASS
@@ -174,14 +174,14 @@ Errors: 0.
 
 | Rail | From the netlist | Target | Error |
 |---|---|---|---|
-| +5V TPS54202 | 5.077 V | 5.0 V | +1.5 % |
+| +5V TPS54202 | 5.066 V | 5.0 V | +1.3 % |
 | +6V5 TPS65131 boost | 6.457 V | 6.5 V | -0.7 % |
 | -6V5 TPS65131 inverter (to VREF) | -6.506 V | -6.5 V | -0.1 % |
-| VDRV LM2731X | 15.102 V | 15.0 V | +0.7 % |
+| VDRV LM2731X | 15.422 V | 15.0 V | +2.8 % |
 | -5VA TPS7A3301 | -4.998 V | -5.0 V | +0.0 % |
-| +5VA TPS7A4701 ANY-OUT | 5.000 V | 5.0 V | +0.0 % |
+| +5VA TPS7A4700 ANY-OUT | 5.000 V | 5.0 V | +0.0 % |
 
-TPS54202 EN UVLO start-up threshold: 7.10 V (needs < 11.5 V at the jack after the diode: ok).
+TPS54202 EN UVLO start-up threshold: 7.38 V (needs < 11.5 V at the jack after the diode: ok).
 
 <a id="15"></a>
 ## 15. Testability rule: every rail has a test point, isolation and an LED (not the analog LDOs): PASS

@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "eeschema")
 	(generator_version "10.0")
-	(uuid "f07f7dcf-1a9f-436e-92f5-3bd539b220bd")
+	(uuid "eeaf8bca-0485-4b44-be0f-2a6e15311264")
 	(paper "A4")
 	(title_block
 		(title "TX enable buffer (x4): 74AHCT1G125")
@@ -724,8 +724,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "36eddf42-b1a0-498f-b269-5aa913679332")
-		(property "Reference" "#PWR0629"
+		(uuid "0dab3f85-6d01-4bb6-baef-5b09cceecb15")
+		(property "Reference" "#PWR0627"
 			(at 157.48 101.6 0)
 			(hide yes)
 			(show_name no)
@@ -780,135 +780,24 @@
 			)
 		)
 		(pin "1"
-			(uuid "759fbc2e-5137-46c8-9db0-31de4951e63f")
+			(uuid "5074ad4c-8743-40cd-b643-de76922c2734")
 		)
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
-					(reference "#PWR121629")
+					(reference "#PWR121627")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
-					(reference "#PWR122629")
+					(reference "#PWR122627")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
-					(reference "#PWR123629")
+					(reference "#PWR123627")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
-					(reference "#PWR124629")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "74xGxx:74LVC1G125")
-		(at 127 101.6 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "5010dbac-0251-4a37-922d-247c46dea0a6")
-		(property "Reference" "U1"
-			(at 134.62 93.98 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "74AHCT1G125"
-			(at 134.62 96.52 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
-			(at 127 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74lvc1g125.pdf"
-			(at 127 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Single Buffer Gate Tri-State, Low-Voltage CMOS"
-			(at 127 101.6 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "TBD"
-			(at 127 101.6 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "73fe9039-401b-4a50-9bb3-54f972241632")
-		)
-		(pin "2"
-			(uuid "e21770c5-cc9a-4a5a-bc13-809f2da305da")
-		)
-		(pin "3"
-			(uuid "333b885f-efc4-46d6-9872-41eca5c67bfd")
-		)
-		(pin "4"
-			(uuid "aeb5d35e-c7a0-4592-8d4b-0a91e477fe1a")
-		)
-		(pin "5"
-			(uuid "77d023b9-798b-483c-9eec-7ca438382a7e")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
-					(reference "U12101")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
-					(reference "U12201")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
-					(reference "U12301")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
-					(reference "U12401")
+					(reference "#PWR124627")
 					(unit 1)
 				)
 			)
@@ -924,8 +813,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "61feff0a-f7f1-45bc-b28f-744e74092257")
-		(property "Reference" "#PWR0617"
+		(uuid "3fc9529b-494a-44f8-86af-3860f6177616")
+		(property "Reference" "#PWR0615"
 			(at 127 95.25 0)
 			(hide yes)
 			(show_name no)
@@ -981,24 +870,313 @@
 			)
 		)
 		(pin "1"
-			(uuid "8698b487-6502-40bf-8653-e643915c981b")
+			(uuid "d5a8c5d4-63ac-43ac-9070-868de1b16628")
 		)
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
-					(reference "#PWR121617")
+					(reference "#PWR121615")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
-					(reference "#PWR122617")
+					(reference "#PWR122615")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
-					(reference "#PWR123617")
+					(reference "#PWR123615")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
-					(reference "#PWR124617")
+					(reference "#PWR124615")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+5V")
+		(at 121.92 88.9 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "44650bb3-1b67-4b54-8dfd-3a351cbcfebf")
+		(property "Reference" "#PWR0621"
+			(at 121.92 85.09 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+5V"
+			(at 121.92 85.09 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 121.92 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+5V\""
+			(at 121.92 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d3e376be-325b-4a68-8502-e74a4fbd9534")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
+					(reference "#PWR121621")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
+					(reference "#PWR122621")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
+					(reference "#PWR123621")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
+					(reference "#PWR124621")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "74xGxx:74LVC1G125")
+		(at 127 101.6 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "46228c5a-536a-40b9-86aa-d3d7b1f3df3f")
+		(property "Reference" "U1"
+			(at 134.62 93.98 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "74AHCT1G125"
+			(at 134.62 96.52 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+			(at 127 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/sn74lvc1g125.pdf"
+			(at 127 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Single Buffer Gate Tri-State, Low-Voltage CMOS"
+			(at 127 101.6 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C7484"
+			(at 127 101.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8a5daaf0-28d3-47b7-9490-86ebb9576dd1")
+		)
+		(pin "2"
+			(uuid "623b5d4b-ed3b-46c7-a876-cbcd687f102e")
+		)
+		(pin "3"
+			(uuid "657b6b5a-796c-4de4-8e30-07e83efee7b8")
+		)
+		(pin "4"
+			(uuid "ea2db997-3fa4-419b-b195-354cbf23ceba")
+		)
+		(pin "5"
+			(uuid "6052d9b7-4b0d-4219-a3a3-edca90e9b427")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
+					(reference "U12101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
+					(reference "U12201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
+					(reference "U12301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
+					(reference "U12401")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 121.92 114.3 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "599eeeab-501e-496c-abf8-124a9bc2489a")
+		(property "Reference" "#PWR0618"
+			(at 121.92 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 121.92 119.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 121.92 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 121.92 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "e2db1158-c072-46d1-994b-8851dfb517cc")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
+					(reference "#PWR121618")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
+					(reference "#PWR122618")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
+					(reference "#PWR123618")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
+					(reference "#PWR124618")
 					(unit 1)
 				)
 			)
@@ -1014,8 +1192,8 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "693c449f-18cc-44a2-9dde-84f8363087de")
-		(property "Reference" "#PWR0626"
+		(uuid "66be56ee-64a7-4535-a488-09d80faf67e1")
+		(property "Reference" "#PWR0624"
 			(at 157.48 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -1070,24 +1248,24 @@
 			)
 		)
 		(pin "1"
-			(uuid "c7e6cce0-fe8c-4b19-818d-e9b8d5ec75b3")
+			(uuid "8595b7fb-14f5-4ead-978f-8fca99473681")
 		)
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
-					(reference "#PWR121626")
+					(reference "#PWR121624")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
-					(reference "#PWR122626")
+					(reference "#PWR122624")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
-					(reference "#PWR123626")
+					(reference "#PWR123624")
 					(unit 1)
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
-					(reference "#PWR124626")
+					(reference "#PWR124624")
 					(unit 1)
 				)
 			)
@@ -1103,7 +1281,7 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "8a2eee35-6a54-4818-b761-8e52cb3a3cbd")
+		(uuid "d9d3d9c1-6333-4c4f-9f23-a84a6ef83d2f")
 		(property "Reference" "C1"
 			(at 160.02 100.33 0)
 			(show_name no)
@@ -1159,7 +1337,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C14663"
 			(at 157.48 101.6 0)
 			(effects
 				(font
@@ -1169,10 +1347,10 @@
 			)
 		)
 		(pin "1"
-			(uuid "44084433-5f4b-487f-b849-41032aadec7b")
+			(uuid "0fa8020c-0e01-47fa-91c6-727477e0acf8")
 		)
 		(pin "2"
-			(uuid "e4786263-3d5b-4042-8a77-ebc216b8932d")
+			(uuid "8fa5c66a-ed43-474a-8191-50b383ba4956")
 		)
 		(instances
 			(project "aesa"
@@ -1190,184 +1368,6 @@
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
 					(reference "C12401")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 121.92 114.3 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "d8f8e60c-19ed-4083-9728-56056b19cd79")
-		(property "Reference" "#PWR0620"
-			(at 121.92 107.95 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 121.92 119.38 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 121.92 114.3 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 121.92 114.3 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 121.92 114.3 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "64bc677a-d96e-4f38-95b2-d3d96e83322e")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
-					(reference "#PWR121620")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
-					(reference "#PWR122620")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
-					(reference "#PWR123620")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
-					(reference "#PWR124620")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 121.92 88.9 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f7488f30-79db-4d18-972c-74f5b85e456f")
-		(property "Reference" "#PWR0623"
-			(at 121.92 85.09 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+5V"
-			(at 121.92 85.09 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 121.92 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 121.92 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 121.92 88.9 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "ae672f8e-8f46-47dc-b480-9c39e3447fd9")
-		)
-		(instances
-			(project "aesa"
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/dc56e321-6104-5573-be0b-8fc0bd3b5111"
-					(reference "#PWR121623")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/3367c5a2-4c76-5295-b3cc-b3030a4af2e5"
-					(reference "#PWR122623")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/7e62d1a1-baf5-5f08-a593-ab117894c091"
-					(reference "#PWR123623")
-					(unit 1)
-				)
-				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/4ea82ecc-eb2b-5628-8d16-04d3d4a8ffc7/bb846bc3-d270-5473-a344-c566f7b5a3d6"
-					(reference "#PWR124623")
 					(unit 1)
 				)
 			)

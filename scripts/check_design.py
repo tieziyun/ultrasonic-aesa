@@ -30,8 +30,8 @@ OUT = REPO / "docs" / "design-check.md"
 
 RAIL_V = {"VIN": 12.0, "VIN_JACK": 12.0, "VIN_FUSED": 12.0, "VIN65": 5.0, "+5V": 5.0, "5V_REG": 5.08,
           "+6V5": 6.46, "6V5_REG": 6.46, "-6V5": -6.51, "-6V5_REG": -6.51, "+5VA": 5.0, "5VA_REG": 5.0,
-          "-5VA": -5.0, "-5VA_REG": -5.0, "VDRV": 15.1, "VDRV_REG": 15.1, "+3V3": 3.3, "3V3_REG": 3.3,
-          "3V3_MIC": 3.3, "SW_5V": 12.0, "SW_P": 7.0, "SW_N": -7.0, "SW_VDRV": 15.6, "BOOT_5V": 17.0}
+          "-5VA": -5.0, "-5VA_REG": -5.0, "VDRV": 15.4, "VDRV_REG": 15.4, "+3V3": 3.3, "3V3_REG": 3.3,
+          "3V3_MIC": 3.3, "SW_5V": 12.0, "SW_P": 7.0, "SW_N": -7.0, "SW_VDRV": 15.9, "BOOT_5V": 17.0}
 
 
 # ---- results ------------------------------------------------------------------------------
@@ -129,7 +129,7 @@ def check_erc(R):
 def check_counts(R, d):
     expect = {"OPA1678IDR": 64, "CUSA-TR65-065-2200-TH68": 64, "BAV99": 128, "UCC27524DR": 32, "74HCT595D": 16,
               "74AHCT1G125": 4, "74LVC2G34": 7, "AD7606C-16BSTZ": 8, "SPH0641LU4H-1": 8, "TPS54202DDCR": 1,
-              "TPS65131RGER": 1, "TPS7A4701RGWR": 1, "TPS7A3301RGWR": 1, "LM2731XMF": 1, "TLV75733PDBVR": 1}
+              "TPS65131RGER": 1, "TPS7A4700RGWT": 1, "TPS7A3301RGWR": 1, "LM2731XMF": 1, "TLV75733PDBVR": 1}
     vals = Counter(c["value"] for c in d.comps.values())
     bad = [f"- {v}: {vals.get(v, 0)} (expected {n})" for v, n in expect.items() if vals.get(v, 0) != n]
     lines = [f"{len(d.comps)} parts, {len(vals)} distinct values."]
@@ -482,10 +482,10 @@ def check_regulators(R, d):
     rows.append(("VDRV LM2731X", 1.23 * (1 + t / b), 15.0))
     t, (b, _) = divider(d, fb["FB_M5VA"], "-5VA_REG")
     rows.append(("-5VA TPS7A3301", -1.176 * (1 + t / b), -5.0))
-    u3 = d.refs_by_value("TPS7A4701RGWR")[0]
+    u3 = d.refs_by_value("TPS7A4700RGWT")[0]
     anyout = {"4": 6.4, "5": 6.4, "6": 3.2, "8": 1.6, "9": 0.8, "10": 0.4, "11": 0.2, "12": 0.1}
     v = 1.4 + sum(x for p, x in anyout.items() if d.base(d.net(u3, p)) == "GND")
-    rows.append(("+5VA TPS7A4701 ANY-OUT", v, 5.0))
+    rows.append(("+5VA TPS7A4700 ANY-OUT", v, 5.0))
     # EN UVLO of the TPS54202: 1.21 V rising threshold (datasheet), divider R2/R3
     en = next(n for n in d.nets if d.base(n) == "EN_5V")
     t, (b, _) = divider(d, en, "VIN")

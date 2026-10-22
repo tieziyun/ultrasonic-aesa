@@ -3667,7 +3667,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C68983"
+		(property "LCSC" "C2500"
 			(at 101.6 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -5035,7 +5035,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C22775"
 			(at 193.04 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -5397,7 +5397,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C14858"
 			(at 111.76 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -5757,7 +5757,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C23182"
 			(at 38.1 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -6448,7 +6448,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C4216"
 			(at 55.88 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -6810,7 +6810,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C25804"
 			(at 124.46 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -7172,7 +7172,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C14663"
 			(at 157.48 113.03 0)
 			(hide yes)
 			(show_name no)
@@ -7534,7 +7534,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C22975"
 			(at 114.3 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -8952,7 +8952,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C14663"
 			(at 114.3 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -9314,7 +9314,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C68983"
+		(property "LCSC" "C2500"
 			(at 55.88 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -9695,7 +9695,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C309468"
 			(at 167.64 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -10713,7 +10713,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C23162"
 			(at 88.9 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -11075,7 +11075,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C1663"
 			(at 124.46 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -11766,7 +11766,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C14663"
 			(at 134.62 104.14 0)
 			(hide yes)
 			(show_name no)
@@ -12126,7 +12126,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C4210"
 			(at 175.26 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -13215,7 +13215,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C22975"
 			(at 152.4 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -13906,7 +13906,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C309468"
 			(at 158.75 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -14595,7 +14595,7 @@
 				)
 			)
 		)
-		(property "LCSC" "TBD"
+		(property "LCSC" "C22975"
 			(at 142.24 66.04 0)
 			(hide yes)
 			(show_name no)

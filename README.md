@@ -71,8 +71,17 @@ set KCLI=%LOCALAPPDATA%\Programs\KiCad\10.0\bin\kicad-cli.exe
 
 The `channel` sheet is drawn by hand (with the KiCad MCP server) and is not regenerated; everything else is.
 
+BOM (needs internet: it queries JLCPCB for parts, stock and prices, and takes a few minutes):
+
+```
+%KPY% scripts\bom.py
+%KPY% scripts\sch_lcsc.py --force kicad\channel.kicad_sch kicad\adc.kicad_sch kicad\tx_group.kicad_sch kicad\en_buf.kicad_sch kicad\clk_buf.kicad_sch kicad\mic.kicad_sch kicad\headers.kicad_sch kicad\power.kicad_sch
+%KPY% scripts\gen_top.py
+```
+
+`bom.py` writes the costed BOM `docs/bom.md`, the JLCPCB upload file `fab/bom_jlcpcb.csv` and `scripts/parts.json`, from which `sch_lcsc.py` fills every part's LCSC field.
+
 ## Next
 
-1. LCSC part numbers for the parts still marked TBD. The AD7606C-16 isn't stocked by LCSC, so it will be bought from DigiKey or Mouser and supplied to JLCPCB.
-2. Placement on the 4-layer board, then routing, then fabrication outputs for JLCPCB.
-3. Waveguide design and FPGA firmware (XDC constraints, ADC register setup, TX bit streaming).
+1. Placement on the 4-layer board, then routing, then fabrication outputs for JLCPCB.
+2. Waveguide design and FPGA firmware (XDC constraints, ADC register setup, TX bit streaming).

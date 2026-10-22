@@ -281,7 +281,7 @@ def tx_control(en_fpga, en_drv, oe_n, clr_n, v5, v3, gnd):
 def mic_supply_filter(v3, vmic, gnd):
     """Quiet supply for the 8 mics: +3V3 -> ferrite bead -> 10 uF -> vmic (3V3_MIC)."""
     fb = lcsc(Part("Device", "FerriteBead", footprint="Inductor_SMD:L_0603_1608Metric",
-                   value="220R@100MHz 0603", tag="fb_mic"), "TBD")
+                   value="600R@100MHz 0603", tag="fb_mic"), "TBD")
     fb[1] += v3
     fb[2] += vmic
     vmic & C("10u", "c_mic_bulk", "16V X5R", footprint=FP_C0805) & gnd
@@ -309,8 +309,8 @@ def mems_mic_pair(data, clk, vdd, gnd):
         m["CLOCK"] += clk
         # Series resistor at each mic output damps the shared, tri-stated line.
         m["DATA"] & R("33", f"r_data_{side}") & data
-        # Datasheet: no Class 2 dielectrics near the mic, so C0G (0805 for 100 nF).
-        vdd & C("100n", f"c_mic_{side}", "16V C0G", footprint=FP_C0805) & gnd
+        # Datasheet: no Class 2 dielectrics near the mic, so C0G (1206: no 100 nF C0G 0805 in stock at JLCPCB).
+        vdd & C("100n", f"c_mic_{side}", "50V C0G", footprint="Capacitor_SMD:C_1206_3216Metric") & gnd
 
 
 @subcircuit

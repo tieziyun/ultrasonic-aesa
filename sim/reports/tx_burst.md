@@ -42,4 +42,4 @@ Top: the 0–14 V ping on the transducer (grey band). Middle: the amplifier inpu
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-21 12:05 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.
+Run 2026-10-22 20:50 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.

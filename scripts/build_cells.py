@@ -607,7 +607,7 @@ def mic():
     s.part("Device:R", "R1", 157.48, 104.14, "33 1%", R0603, rot=90)
     s.wire("MK1.1", "R1.1")
     s.hier("DATA", "R1.2", shape="output")
-    s.part("Device:C", "C1", 101.6, 101.6, "100n 50V C0G", C0805)
+    s.part("Device:C", "C1", 101.6, 101.6, "100n 50V C0G 1206", C1206)
     s.pwr("3V3_MIC", "C1.1")
     s.pwr("GND", "C1.2")
     s.build()
@@ -686,7 +686,7 @@ C1210 = "Capacitor_SMD:C_1210_3225Metric"
 LEDFP = "LED_SMD:LED_0603_1608Metric"
 TPFP = "TestPoint:TestPoint_Pad_D1.5mm"
 JPFP = "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm"
-L6045 = "Inductor_SMD:L_Bourns_SRN6045TA"
+L6045 = "Inductor_SMD:L_Sunlord_SWPA6045S"
 L8040 = "Inductor_SMD:L_Bourns_SRN8040TA"
 SMA = "Diode_SMD:D_SMA"
 PITCH = 20.32
@@ -761,8 +761,8 @@ def power():
            "Connector_BarrelJack:BarrelJack_CUI_PJ-063AH_Horizontal")
     s.poly("J1.2", (ox + 20.32, ry + 5.08))
     s.sym("GND", (ox + 20.32, ry + 5.08))
-    f1, f2 = h("F", "F1", ox + 22.86, ry, "1812L200/16DR", "Fuse:Fuse_1812_4532Metric")
-    da, dk = h("D", "D1", ox + 43.18, ry, "SS54", "Diode_SMD:D_SMC")
+    f1, f2 = h("F", "F1", ox + 22.86, ry, "SMD1812P200TF16", "Fuse:Fuse_1812_4532Metric")
+    da, dk = h("D", "D1", ox + 43.18, ry, "SS54", SMA)
     caps_to_gnd(("CP", "C1", ox + 60.96, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
                 ("C", "C2", ox + 73.66, ry, "100n 50V X7R", C0603))
     r1 = led("R1", "D2", ox + 86.36, ry, "10k 1%", "VIN")
@@ -777,13 +777,13 @@ def power():
     ox, oy = 309.88, 30.48
     ry = oy + 30.48
     s.note("B. +5V: TPS54202 buck (TI reference design), 2 A", ox, oy, 2.2)
-    s.note("Vout = 0.596 V x (1 + 100k/13.3k) = 5.08 V. EN UVLO about 7 V. Load about 1.4 A.", ox, oy + 5.08)
+    s.note("Vout = 0.596 V x (1 + 75k/10k) = 5.07 V. EN UVLO about 7.3 V. Load about 1.4 A.", ox, oy + 5.08)
     s.field_ov.append("U1=-10.16,-10.16,-10.16,-7.62")
     s.part("Regulator_Switching:TPS54202DDC", "U1", ox + 58.42, ry + 2.54, "TPS54202DDCR",
            "Package_TO_SOT_SMD:SOT-23-6")
     caps_to_gnd(("C", "C3", ox + 12.7, ry, "10u 50V X7R 1210", C1210), ("C", "C4", ox + 22.86, ry, "100n 50V X7R", C0603))
-    r2t, r2b = v("R", "R2", ox + 33.02, ry, "511k 1%", R0603)
-    r3t, r3b = v("R", "R3", ox + 33.02, ry + 12.7, "105k 1%", R0603)
+    r2t, r2b = v("R", "R2", ox + 33.02, ry, "510k 1%", R0603)
+    r3t, r3b = v("R", "R3", ox + 33.02, ry + 12.7, "100k 1%", R0603)
     s.poly(r2b, r3t)
     s.sym("GND", r3b)
     s.sym("VIN", (ox + 5.08, ry))
@@ -799,9 +799,9 @@ def power():
     s.netname("SW_5V", l1a, 180)
     s.netname("BOOT_5V", (ox + 71.12, ry - 7.62))
     yo = ry + 2.54
-    r4t, r4b = v("R", "R4", ox + 96.52, yo, "100k 1%", R0603)
-    c8t, c8b = v("C", "C8", ox + 109.22, yo, "75p 50V C0G", C0603)
-    r5t, r5b = v("R", "R5", ox + 96.52, yo + 12.7, "13.3k 1%", R0603)
+    r4t, r4b = v("R", "R4", ox + 96.52, yo, "75k 1%", R0603)
+    c8t, c8b = v("C", "C8", ox + 109.22, yo, "100p 50V C0G", C0603)
+    r5t, r5b = v("R", "R5", ox + 96.52, yo + 12.7, "10k 1%", R0603)
     s.poly(r4b, r5t)
     s.sym("GND", r5b)
     caps_to_gnd(("C", "C6", ox + 121.92, yo, "22u 16V X5R 1206", C1206), ("C", "C7", ox + 134.62, yo, "22u 16V X5R 1206", C1206))
@@ -899,13 +899,13 @@ def power():
 
     # ---- D. analog LDOs ------------------------------------------------------------------------
     ox, oy = 309.88, 124.46
-    s.note("D. ANALOG RAILS: TPS7A4701 +5VA, TPS7A3301 -5VA (low noise, no LEDs)", ox, oy, 2.2)
+    s.note("D. ANALOG RAILS: TPS7A4700 +5VA, TPS7A3301 -5VA (low noise, no LEDs)", ox, oy, 2.2)
     s.note("+5VA: ANY-OUT 1.4 + 3.2 + 0.4 = 5.0 V.   -5VA = -1.176 V x (1 + 715k/220k) = -5.00 V.", ox, oy + 5.08)
     s.note("Load: 64 x OPA1678 (4 mA per channel) + 8 x AD7606C AVCC: about 0.45 A on +5VA, 0.3 A on -5VA.",
            ox, oy + 9.4)
     cx, cy = ox + 40.64, oy + 40.64
     ry = cy - 15.24
-    s.part("Regulator_Linear:TPS7A4701xRGW", "U3", cx, cy, "TPS7A4701RGWR",
+    s.part("Regulator_Linear:TPS7A4701xRGW", "U3", cx, cy, "TPS7A4700RGWT",
            "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
     caps_to_gnd(("C", "C23", ox + 12.7, ry, "10u 25V X7R 1206", C1206))
     s.sym("+6V5", (ox + 5.08, ry))
@@ -976,7 +976,7 @@ def power():
     s.netname("SW_VDRV", d8a, 180)
     r17t, r17b = v("R", "R17", cx + 27.94, cy - 2.54, "150k 1%", R0603)
     c32t, c32b = v("C", "C32", cx + 40.64, cy - 2.54, "180p 50V C0G", C0603)
-    r18t, r18b = v("R", "R18", cx + 27.94, cy + 10.16, "13.3k 1%", R0603)
+    r18t, r18b = v("R", "R18", cx + 27.94, cy + 10.16, "13k 1%", R0603)
     s.poly(r17b, r18t)
     s.sym("GND", r18b)
     caps_to_gnd(("C", "C33", cx + 53.34, cy - 2.54, "10u 50V X7R 1210", C1210),
@@ -1013,7 +1013,7 @@ def power():
     s.poly("U6.3", (cx - 10.16, None), (None, ry))                               # EN to IN
     s.nc("U6.4")
     s.sym("GND", "U6.2")
-    caps_to_gnd(("C", "C37", cx + 15.24, ry, "10u 16V X7R", C0805))
+    caps_to_gnd(("C", "C37", cx + 15.24, ry, "10u 16V X7R 1206", C1206))
     j4a, j4b = jp("JP4", cx + 25.4, ry, "+3V3")
     s.poly("U6.5", "C37.1", j4a)
     s.netname("3V3_REG", "C37.1")
@@ -1025,7 +1025,7 @@ def power():
     ox, oy = 309.88, 294.64
     ry = oy + 20.32
     s.note("H. 3V3_MIC: ferrite-filtered supply for the 8 MEMS mics (remove FB1 to isolate)", ox, oy, 2.2)
-    fa, fb_ = h("FB", "FB1", ox + 10.16, ry, "220R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric")
+    fa, fb_ = h("FB", "FB1", ox + 10.16, ry, "600R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric")
     caps_to_gnd(("C", "C38", ox + 27.94, ry, "10u 16V X5R", C0805))
     r21 = led("R21", "D11", ox + 40.64, ry, "1k 1%", "3V3_MIC")
     s.sym("+3V3", (ox + 5.08, ry))
