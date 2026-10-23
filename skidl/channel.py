@@ -37,9 +37,9 @@ KiCad sheet for each block (every repeated block is one sheet, instantiated N ti
   tx_rx_channel                         channel.kicad_sch   x64
   tx_shift_register + 2 x gate_driver   tx_group.kicad_sch  x16
   tx_control buffers (one each)         en_buf.kicad_sch    x4  (pulls on headers.kicad_sch)
-  clock_buffer                          clk_buf.kicad_sch   x7
+  clock_buffer                          clk_buf.kicad_sch   x9
   one mic of mems_mic_pair              mic.kicad_sch       x8  (SEL set by the top sheet)
-  AD7606C-16 (not modelled here)        adc.kicad_sch       x8
+  TLV320ADC5140 + input divider (not modelled here) adc.kicad_sch x16
   mic_supply_filter                     power.kicad_sch (section H)
 """
 
@@ -186,7 +186,8 @@ def tx_rx_channel(drv_in, drv_out, tx_bit, xd, rx_out, v_pos, v_neg, gnd):
     ub[7] += out2  # unit B output pin
 
     # Total mid-band gain about -24 (27.6 dB). A 1 m echo of about 120 mV gives
-    # about 2.9 V peak at the ADC. Change the 2k in stage 1 to adjust it.
+    # about 2.7 V peak at RX_OUT; the ADC cell's 2k/1k divider scales that to 0.81 V
+    # (ADC full scale 1.41 V peak). Change the 2k in stage 1 to adjust it.
     out2 & R("100", "r_out") & rx_out
 
 
@@ -315,13 +316,13 @@ def mems_mic_pair(data, clk, vdd, gnd):
 
 @subcircuit
 def clock_buffer(clk_in, out1, out2, vdd, gnd):
-    """One clock fan-out cell (KiCad sheet clk_buf.kicad_sch, used 7 times).
+    """One clock fan-out cell (KiCad sheet clk_buf.kicad_sch, used 9 times).
 
     74LVC2G34 at the FPGA header, both gates driven by clk_in, a 33 ohm series
     termination on each output. Each output drives at most 4 loads: a series-terminated
     line only works with the loads lumped at its far end. The 100 k pull-down keeps the
     clock low while the FPGA configures (for the mics: never an ultrasonic-mode clock
-    at power-up). Uses: TX_SCK x2, TX_LATCH x2, ADC_SCLK, ADC_CONVST, MIC_CLK_IN.
+    at power-up). Uses: TX_SCK x2, TX_LATCH x2, ADC_BCLK x2, ADC_FSYNC x2, MIC_CLK_IN.
     """
     clk_in & R("100k", "r_clk_pd") & gnd
     b = lcsc(Part("74xGxx", "74LVC2G34", footprint=FP_SC70_6, value="74LVC2G34",

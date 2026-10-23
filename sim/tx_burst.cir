@@ -13,9 +13,10 @@ S1 vdd DRV_OUT lg 0 SWH
 S2 DRV_OUT 0 lgn 0 SWL
 .model SWH SW(Ron=5 Roff=1G Vt=0.5 Vh=0.01)
 .model SWL SW(Ron=0.4 Roff=1G Vt=0.5 Vh=0.01)
-Radc RX_OUT 0 1Meg
-Cadc RX_OUT 0 5p
-.save V(XD) V(LIM) V(RX_OUT) V(DRV_OUT) V(DRV) I(R101) I(R103)
+* ADC input network (2k/1k divider, 100 nF, 10 k ADC input): sim/models/adc_in.lib
+.include models/adc_in.lib
+XADC RX_OUT ADC ADC_IN
+.save V(XD) V(LIM) V(RX_OUT) V(ADC) V(DRV_OUT) V(DRV) I(R101) I(R103)
 .tran 0 4m 0 20n
 .meas TRAN xd_pk MAX V(XD) FROM 0.1m TO 0.35m
 .meas TRAN xd_min MIN V(XD) FROM 0.1m TO 0.35m
@@ -24,7 +25,7 @@ Cadc RX_OUT 0 5p
 .meas TRAN lim_min MIN V(LIM) FROM 0.1m TO 0.35m
 .meas TRAN p_rlim AVG V(XD,LIM)*I(R103) FROM 0.1m TO 0.3m
 .meas TRAN p_rdrv AVG V(DRV_OUT,DRV)*I(R101) FROM 0.1m TO 0.3m
-.meas TRAN adc_pk MAX V(RX_OUT) FROM 0.1m TO 0.35m
+.meas TRAN adc_pk MAX V(ADC) FROM 0.1m TO 0.35m
 .meas TRAN t_1v    WHEN abs(V(RX_OUT))=1    FALL=last
 .meas TRAN t_100mv WHEN abs(V(RX_OUT))=0.1  FALL=last
 .meas TRAN t_10mv  WHEN abs(V(RX_OUT))=0.01 FALL=last

@@ -1,0 +1,4 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "aesa")(type "KiCad")(uri "${KIPRJMOD}/aesa.kicad_sym")(options "")(descr "Project symbols"))
+)

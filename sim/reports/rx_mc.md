@@ -2,7 +2,7 @@
 
 **Question:** Real resistors and capacitors are never exactly their value. How different will the 64 receive channels be in gain and phase?
 
-**Answer (PASS):** With real part tolerances the 64 channels differ by **0.10 dB in gain** and **1.3° in phase** (standard deviation; 6.4° from best to worst of 200). 1.3° is like the echo arriving 0.03 mm early or late, small next to the 8.6 mm wavelength, and fixed for each channel, so a one-time calibration in the FPGA removes it.
+**Answer (PASS):** With real part tolerances the 64 channels differ by **0.13 dB in gain** and **1.3° in phase** (standard deviation; 5.9° from best to worst of 200). 1.3° is like the echo arriving 0.03 mm early or late, small next to the 8.6 mm wavelength, and fixed for each channel, so a one-time calibration in the FPGA removes it.
 
 ## Why it matters
 
@@ -10,7 +10,7 @@ Beamforming adds the 64 channels together with precise delays. If channels diffe
 
 ## What is simulated
 
-200 simulated channels. In each one, every resistor and capacitor gets a random value inside the tolerance written on its schematic value (1 %, or 5 % for C0G and 10 % for X7R capacitors).
+200 simulated channels. In each one, every resistor and capacitor gets a random value inside the tolerance written on its schematic value (1 %, or 5 % for C0G and 10 % for X7R capacitors), plus the ADC input divider (1 %), its coupling capacitor (10 %) and the ADC's 10 kΩ input (assumed ±20 %).
 
 ## How to read the plot
 
@@ -24,11 +24,11 @@ Two histograms: how many of the 200 channels have a given gain (left) and phase 
 
 | What | Value | Unit | Limit | OK? | What it means |
 |---|---|---|---|---|---|
-| Average gain at 40 kHz | 27 | dB | 26 … 29 | yes |  |
-| Gain spread between channels (standard deviation) | 0.103 | dB | ≤ 0.5 | yes |  |
-| Gain spread, best to worst channel | 0.581 | dB | ≤ 2 | yes |  |
-| Phase spread between channels (standard deviation) | 1.31 | ° | ≤ 3 | yes | = the wave arriving 0.03 mm early or late; calibration removes it |
-| Phase spread, best to worst channel | 6.35 | ° | ≤ 12 | yes |  |
+| Average gain at 40 kHz, element to ADC input pin | 16.6 | dB | 15 … 18.5 | yes | 27 dB amplifier, then the 2k/1k divider (−10 dB) |
+| Gain spread between channels (standard deviation) | 0.128 | dB | ≤ 0.5 | yes |  |
+| Gain spread, best to worst channel | 0.707 | dB | ≤ 2 | yes |  |
+| Phase spread between channels (standard deviation) | 1.26 | ° | ≤ 3 | yes | = the wave arriving 0.03 mm early or late; calibration removes it |
+| Phase spread, best to worst channel | 5.89 | ° | ≤ 12 | yes |  |
 
 ## Assumptions
 
@@ -38,4 +38,4 @@ Two histograms: how many of the 200 channels have a given gain (left) and phase 
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-21 12:05 with LTspice by `sim/run.py rx_mc`. Testbench: `sim/rx_mc.cir (generated)`.
+Run 2026-10-23 13:41 with LTspice by `sim/run.py rx_mc`. Testbench: `sim/rx_mc.cir (generated)`.

@@ -2175,7 +2175,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp no)
+		(dnp yes)
 		(uuid "0257b62c-431d-419c-8d31-48a58e9f93cb")
 		(property "Reference" "LS101"
 			(at 76.2 68.58 0)

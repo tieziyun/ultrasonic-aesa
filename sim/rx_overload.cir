@@ -9,11 +9,12 @@
 VP VP5A 0 5
 VN VN5A 0 -5
 Rdrv_on DRV_OUT 0 0.4
-Radc RX_OUT 0 1Meg
-Cadc RX_OUT 0 5p
+* ADC input network (2k/1k divider, 100 nF, 10 k ADC input): sim/models/adc_in.lib
+.include models/adc_in.lib
+XADC RX_OUT ADC ADC_IN
 * reference: an identical element with nothing connected, to read the echo amplitude
 XREF xdo 0 CUSA_TR65
-.save V(XD) V(LIM) V(RX_OUT) V(xdo)
+.save V(XD) V(LIM) V(RX_OUT) V(ADC) V(xdo)
 * Gear integration: the default (trapezoidal) crawls when the clamp diodes and the saturated
 * op-amp switch hard; Gear runs in seconds and gives the same waveform.
 .options method=gear
@@ -21,7 +22,7 @@ XREF xdo 0 CUSA_TR65
 .meas TRAN echo_pk MAX V(xdo) FROM 0.1m TO 0.6m
 .meas TRAN late_ref MAX V(xdo) FROM 1.5m TO 1.95m
 .meas TRAN xd_pk MAX V(XD) FROM 0.1m TO 0.4m
-.meas TRAN adc_pk MAX V(RX_OUT) FROM 0.1m TO 0.6m
-.meas TRAN adc_min MIN V(RX_OUT) FROM 0.1m TO 0.6m
-.meas TRAN late_pk MAX V(RX_OUT) FROM 1.5m TO 2.0m
+.meas TRAN adc_pk MAX V(ADC) FROM 0.1m TO 0.6m
+.meas TRAN adc_min MIN V(ADC) FROM 0.1m TO 0.6m
+.meas TRAN late_pk MAX V(ADC) FROM 1.5m TO 2.0m
 .end

@@ -1,0 +1,12 @@
+* Input of one TLV320ADC5140 channel as drawn in kicad/adc.kicad_sch:
+* RX_OUT -> 2k -> (1k to GND) -> 100 nF -> INxP; the ADC input is 10 kohm (CHx_IMP = 01) to its
+* internal common-mode bias (an AC ground). INxM is AC-grounded through 100 nF (single-ended).
+* Full scale at the pin: 1 Vrms single-ended = +-1.414 V peak. The ADC's decimation filter is
+* digital and flat to about 0.45 x 192 kHz = 86 kHz, so nothing else is modelled.
+.subckt ADC_IN rx adc
+Rtop rx div 2k
+Rbot div 0 1k
+Cc div adc 100n
+Rin adc 0 10k
+Cin adc 0 10p
+.ends ADC_IN

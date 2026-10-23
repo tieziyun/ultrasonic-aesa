@@ -36,6 +36,8 @@ KICAD_CLI = Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "KiCad" / "1
 NODE_MAP = {"GND": "0", "+5VA": "VP5A", "-5VA": "VN5A"}
 SOUND = 343.0          # m/s in air
 WAVELEN = SOUND / 40e3  # 8.6 mm at 40 kHz
+ADC_FS = 1.414         # TLV320ADC5140 single-ended full scale, V peak (1 Vrms)
+ADC_DIV = 909 / (2000 + 909)  # 2k / (1k || 10 k ADC input): RX_OUT -> ADC pin
 ECHO_1M = 0.12         # V at the element terminals for a target at 1 m (CUSA-TR65 datasheet)
 RED, GREEN, GREY = "#d62728", "#2ca02c", "#7f7f7f"
 
@@ -165,11 +167,18 @@ def rx_chain():
     deg = lambda k: m[k][0][1]  # noqa: E731
     g = db("r_adc")
     lin = db2lin(g)
-    old = (db("r_b39") + db("r_b41")) / 2
-    new = (db("r_c39") + db("r_c41")) / 2
+    pk = ECHO_1M * lin
+    dbfs = 20 * math.log10(pk / ADC_FS)
     checks = [
-        Check("Gain from the element's echo voltage to the ADC pin, 40 kHz", g, "dB", 25, 30,
-              why=f"×{lin:.1f}: a 1 m echo (0.12 V) arrives as {ECHO_1M * lin:.1f} V, inside the ±5 V ADC range"),
+        Check("Gain from the element's echo voltage to the ADC input pin, 40 kHz", g, "dB", 14, 19,
+              why=f"×{lin:.1f}: a 1 m echo (0.12 V) arrives as {pk:.2f} V peak"),
+        Check("1 m echo relative to the ADC full scale (±1.41 V)", dbfs, "dBFS", -12, -3,
+              why="room above it for closer, stronger echoes; the receiver itself clips at ±4.2 V = ±1.27 V here"),
+        Check("Gain of the amplifier (element side of the divider), 40 kHz", db("r_out"), "dB", 25, 30),
+        Check("ADC input divider at 40 kHz (2k/1k, 100 nF, 10 k input)", db("r_div"), "dB", -11.5, -9.5,
+              why=f"×{db2lin(db('r_div')):.2f}"),
+        Check("Phase shift of the 100 nF coupling at 40 kHz", abs(deg("r_div")), "°", hi=1.0,
+              why="its 150 Hz corner is far below the band; any spread between channels is calibrated out"),
         Check("Signal lost because the receiver loads the transducer", db("r_xd"), "dB", lo=-1.0,
               why="the 2.2 nF transducer is a weak source; the receiver must not load it"),
         Check("Pass band, lower edge (−3 dB)", m["f_lo"][0] / 1e3, "kHz", 25, 35, why="rejects low-frequency noise"),
@@ -177,31 +186,23 @@ def rx_chain():
               why="wide enough for short pings (range resolution)"),
         Check("Phase change from 39 to 41 kHz", abs(deg("r_amp39") - deg("r_amp41")), "°", hi=20,
               why="fixed per channel, removed by calibration"),
-        Check("Loss in the AD7606C-16 input filter at 40 kHz", new, "dB", lo=-0.1, why="the chosen ADC"),
-        Check("Loss the old AD7606B filter would have caused", old, "dB",
-              why="why the ADC was changed"),
     ]
-    answer = (f"A 1 m echo (0.12 V at the transducer) reaches the ADC as about **{ECHO_1M * lin:.1f} V peak**: "
-              f"the receiver amplifies ×{lin:.0f} ({g:.1f} dB) at 40 kHz and passes "
-              f"{m['f_lo'][0] / 1e3:.0f}–{m['f_hi'][0] / 1e3:.0f} kHz. The chosen ADC (AD7606C-16) loses only "
-              f"{abs(new):.2f} dB at 40 kHz; the AD7606B would have lost {abs(old):.0f} dB.")
+    answer = (f"A 1 m echo (0.12 V at the transducer) reaches the ADC as **{pk:.2f} V peak**, {abs(dbfs):.1f} dB below "
+              f"its ±1.41 V full scale: the receiver amplifies ×{lin:.1f} ({g:.1f} dB) at 40 kHz after the 2k/1k divider and "
+              f"passes {m['f_lo'][0] / 1e3:.0f}–{m['f_hi'][0] / 1e3:.0f} kHz. The ADC's own filter is digital and flat "
+              f"to about 86 kHz, so nothing is lost at 40 kHz.")
     d = read_raw(HERE / "rx_chain.raw")
     f = [abs(x) for x in d["frequency"]]
     ref = d["V(xdo)"]
     fig, ax = plt.subplots(figsize=(9, 5))
-    for name, lab, col in (("V(rx_out)", "at the ADC pin", "tab:blue"),
-                           ("V(adcc)", "inside the AD7606C-16 (chosen ADC)", GREEN),
-                           ("V(adcb)", "inside the old AD7606B, for comparison", RED)):
-        ax.semilogx(f, [20 * math.log10(abs(v / r)) for v, r in zip(d[name], ref)], label=lab, color=col,
-                    ls="-" if col != RED else "--")
+    for name, lab, col in (("V(rx_out)", "amplifier output (RX_OUT)", "tab:blue"), ("V(adc)", "at the ADC input pin", GREEN)):
+        ax.semilogx(f, [20 * math.log10(abs(v / r)) for v, r in zip(d[name], ref)], label=lab, color=col)
     ax.axvspan(m["f_lo"][0], m["f_hi"][0], color=GREEN, alpha=0.08, label="pass band")
     ax.axvline(40e3, color=GREY, ls=":")
-    ax.annotate(f"40 kHz: ×{lin:.0f} (+{g:.0f} dB)\n1 m echo → {ECHO_1M * lin:.1f} V", xy=(40e3, g),
-                xytext=(1.5e5, g + 2), arrowprops=dict(arrowstyle="->"))
-    ax.annotate(f"old ADC: {abs(old):.0f} dB weaker at 40 kHz", xy=(40e3, g + old), xytext=(1.2e5, g + old - 8),
-                arrowprops=dict(arrowstyle="->", color=RED), color=RED)
+    ax.annotate(f"40 kHz: ×{lin:.1f} (+{g:.0f} dB)\n1 m echo → {pk:.2f} V ({dbfs:.0f} dBFS)", xy=(40e3, g),
+                xytext=(1.5e5, g + 6), arrowprops=dict(arrowstyle="->"))
     ax.set_ylim(-40, 35)
-    finish(ax, "frequency (Hz)", "signal at ADC ÷ echo at transducer (dB)")
+    finish(ax, "frequency (Hz)", "signal ÷ echo at transducer (dB)")
     return checks, fig, answer
 
 
@@ -212,36 +213,38 @@ def rx_noise():
     on = [abs(x) for x in d["V(onoise)"]]
     g = read_raw(HERE / "rx_chain.raw")  # gain transducer -> ADC pin, from the rx_chain run
     gf = [abs(x) for x in g["frequency"]]
-    gh = [abs(a / b) for a, b in zip(g["V(rx_out)"], g["V(xdo)"])]
+    gh = [abs(a / b) for a, b in zip(g["V(adc)"], g["V(xdo)"])]
 
     def gain_at(fx):
         return gh[min(range(len(gf)), key=lambda i: abs(gf[i] - fx))]
     inn = [o / gain_at(fx) for o, fx in zip(on, f)]
     k = min(range(len(f)), key=lambda i: abs(f[i] - 40e3))
     band = integrate(f, [x * x for x in on], 30e3, 50e3) ** 0.5
-    adc_noise = 50e-6  # rms in 30-50 kHz, estimate from the AD7606C-16 SNR on the ±5 V range
+    # TLV320ADC5140: SNR 107 dB (A-weighted, 2 Vrms differential, DRE off); single-ended 1 Vrms full scale
+    # taken 6 dB worse -> about 9 uV rms in a 20 kHz band; same width as 30-50 kHz.
+    adc_noise = 1.0 / db2lin(101)
     total = (band ** 2 + adc_noise ** 2) ** 0.5
     echo_adc = ECHO_1M * gain_at(40e3)
     snr = 20 * math.log10(echo_adc / math.sqrt(2) / total)
     e_min = total / gain_at(40e3) * math.sqrt(2) * db2lin(10)  # echo 10 dB above the noise, at the transducer
     checks = [
-        Check("Receiver noise at the ADC pin, 30–50 kHz", band * 1e6, "µV rms", hi=60,
+        Check("Receiver noise at the ADC input pin, 30–50 kHz", band * 1e6, "µV rms", hi=20,
               why="the FPGA's digital filter keeps only this band"),
         Check("ADC's own noise in the same band (estimate, not simulated)", adc_noise * 1e6, "µV rms",
-              why="AD7606C-16 SNR on the ±5 V range"),
-        Check("Noise density at 40 kHz, at the ADC pin", on[k] * 1e9, "nV/√Hz", hi=500),
+              why="TLV320ADC5140 SNR 107 dB differential, taken 6 dB worse single-ended"),
+        Check("Noise density at 40 kHz, at the ADC input pin", on[k] * 1e9, "nV/√Hz", hi=150),
         Check("Same, referred back to the transducer", inn[k] * 1e9, "nV/√Hz", hi=50,
               why="mostly the transducer's own loss resistance and the 4.7 kΩ protection resistor"),
         Check("1 m echo above the total noise (receiver + ADC)", snr, "dB", lo=60),
         Check("Weakest echo that is still 10 dB above the noise", e_min * 1e6, "µV",
               why=f"{ECHO_1M / e_min:.0f}× weaker than a 1 m echo"),
     ]
-    answer = (f"In the band that matters (30–50 kHz) the receiver adds **{band * 1e6:.0f} µV rms** of noise at the ADC, "
+    answer = (f"In the band that matters (30–50 kHz) the receiver adds **{band * 1e6:.0f} µV rms** of noise at the ADC input, "
               f"about the same as the ADC itself (~{adc_noise * 1e6:.0f} µV). A 1 m echo is **{snr:.0f} dB** above "
               f"the total. An echo is still clearly detectable (10 dB above noise) down to about "
               f"{e_min * 1e6:.0f} µV at the transducer, {ECHO_1M / e_min:.0f}× weaker than a 1 m echo.")
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.loglog(f, [x * 1e9 for x in on], label="receiver noise at the ADC pin", color="tab:blue")
+    ax.loglog(f, [x * 1e9 for x in on], label="receiver noise at the ADC input pin", color="tab:blue")
     ax.loglog(f, [x * 1e9 for x in inn], label="same noise, referred back to the transducer", color="tab:orange")
     adc_density = adc_noise / math.sqrt(20e3)
     ax.axhline(adc_density * 1e9, color=RED, ls="--", label="ADC's own noise (estimate)")
@@ -291,8 +294,12 @@ def rx_mc():
             else:
                 tok = [ref + s] + [x if x in keep else x + s for x in tok[1:-1]] + [tok[-1]]
             lines.append(" ".join(tok))
-        lines += [f"Rdrv_on{s} DRV_OUT{s} 0 0.4", f"Radc{s} RX_OUT{s} 0 1Meg",
-                  f".meas AC g{i} FIND V(RX_OUT{s})/V(xdo) AT 40k"]
+        u = lambda t: 1 + rnd.uniform(-t, t)  # noqa: E731
+        # ADC input network (sim/models/adc_in.lib) with its tolerances: 1 % resistors, 10 % X7R coupling cap,
+        # and the ADC's 10 k input impedance, assumed +-20 % (the datasheet gives it as typical only)
+        lines += [f"Rdrv_on{s} DRV_OUT{s} 0 0.4", f"Rtop{s} RX_OUT{s} DIV{s} {2e3 * u(0.01):.6g}",
+                  f"Rbot{s} DIV{s} 0 {1e3 * u(0.01):.6g}", f"Ccpl{s} DIV{s} ADC{s} {100e-9 * u(0.1):.6g}",
+                  f"Rin{s} ADC{s} 0 {10e3 * u(0.2):.6g}", f".meas AC g{i} FIND V(ADC{s})/V(xdo) AT 40k"]
         if (i + 1) % batch == 0:
             cir = HERE / "rx_mc.cir"
             cir.write_text("\n".join(lines + [".ac lin 1 40k 40k", ".end"]) + "\n")
@@ -304,7 +311,8 @@ def rx_mc():
     sd = lambda x: (sum((a - mean(x)) ** 2 for a in x) / (len(x) - 1)) ** 0.5  # noqa: E731
     mm = sd(phases) / 360 * WAVELEN * 1e3
     checks = [
-        Check("Average gain at 40 kHz", mean(gains), "dB", 26, 29),
+        Check("Average gain at 40 kHz, element to ADC input pin", mean(gains), "dB", 15, 18.5,
+              why="27 dB amplifier, then the 2k/1k divider (−10 dB)"),
         Check("Gain spread between channels (standard deviation)", sd(gains), "dB", hi=0.5),
         Check("Gain spread, best to worst channel", max(gains) - min(gains), "dB", hi=2.0),
         Check("Phase spread between channels (standard deviation)", sd(phases), "°", hi=3.0,
@@ -334,7 +342,8 @@ def rx_overload():
     def run(ampl, late, tag):
         cir = GEN / f"rx_overload_{tag}.cir"
         cir.write_text(template.replace("AMPL", f"{ampl:.6g}").replace("LATE", f"{late:.6g}")
-                       .replace(".include gen/", ".include "))
+                       .replace(".include gen/", ".include ")
+                       .replace(".include models/", ".include ../models/"))
         return parse_meas(run_ltspice(cir, timeout=900)), cir
     cal, _ = run(0.1, 0.1, "cal")
     k_main = cal["echo_pk"][0] / 0.1   # terminal peak per volt of EMF, first echo
@@ -343,50 +352,50 @@ def rx_overload():
     cases = [(ECHO_1M, "0.12 V: object at 1 m"), (1.2, "1.2 V: 10× stronger (near object)"),
              (6.0, "6 V: 50× stronger (very near)")]
     checks, ref_late, curves = [], None, []
-    expect_late = late_v * db2lin(27.0)
+    expect_late = late_v * db2lin(27.0) * ADC_DIV
     for amp, lab in cases:
         m, cir = run(amp / k_main, late_v / k_late, f"{amp:g}V")
         d = read_raw(cir.with_suffix(".raw"))
-        t, v = d["time"], d["V(rx_out)"]
+        t, v, va = d["time"], d["V(rx_out)"], d["V(adc)"]
         # electronics: when does the amplifier leave saturation (output below 3.9 V of its ~4.2 V swing)?
         sat = [x for x, y in zip(t, v) if 0.1e-3 < x < 1.45e-3 and abs(y) > 3.9]
         unsat = (max(sat) - 0.35e-3) * 1e3 if sat else 0.0
-        # physics: when has the transducer's own ringing faded below 50 mV at the ADC?
+        # physics: when has the transducer's own ringing faded below 50 mV at the amplifier output?
         busy = [x for x, y in zip(t, v) if 0.35e-3 < x < 1.5e-3 and abs(y) > 0.05]
         quiet = (max(busy) - 0.35e-3) * 1e3 if busy else 0.0
         still = busy and max(busy) > 1.44e-3
         if ref_late is None:
             ref_late = m["late_pk"][0]
-        checks += [Check(f"{lab}: highest voltage at the ADC", m["adc_pk"][0], "V", hi=5.0,
-                         why="must stay inside the ADC's ±5 V range"),
+        checks += [Check(f"{lab}: highest voltage at the ADC input", max(m["adc_pk"][0], -m["adc_min"][0]), "V", hi=ADC_FS,
+                         why="inside the ADC's ±1.41 V full scale: the amplifier's ±4.2 V swing × 0.31 divider"),
                    Check(f"{lab}: amplifier back out of saturation, after the echo ends", max(unsat, 0.0), "ms",
                          hi=1.0, why="the electronics recover; 0 = never saturated"),
                    Check(f"{lab}: transducer's own ringing below 50 mV, after the echo ends", quiet, "ms",
                          why="the transducer is a resonator; "
                              + ("still faintly ringing when the next echo arrives" if still else "faded")),
-                   Check(f"{lab}: the later weak echo at the ADC", m["late_pk"][0], "V",
+                   Check(f"{lab}: the later weak echo at the ADC input", m["late_pk"][0], "V",
                          0.8 * expect_late, 1.2 * expect_late,
-                         why=f"expected about {expect_late:.2f} V (10 mV × 22): no lasting effect")]
-        curves.append((t, v, lab, quiet, m["adc_pk"][0], unsat, still))
+                         why=f"expected about {expect_late:.3f} V (10 mV × 22 × 0.31): no lasting effect")]
+        curves.append((t, va, lab, quiet, max(m["adc_pk"][0], -m["adc_min"][0]), unsat, still))
     worst_sat = max(c[5] for c in curves)
-    answer = (f"No. Even an echo 50× stronger than a 1 m echo stays inside the ADC range "
-              f"(**{max(c[4] for c in curves):.1f} V** at most: the clamp diodes and the amplifier's ±5 V rails limit "
-              f"it), and the amplifier comes out of saturation at most **{worst_sat:.2f} ms** after the echo ends. "
+    answer = (f"No. Even an echo 50× stronger than a 1 m echo stays inside the ADC's ±1.41 V full scale "
+              f"(**{max(c[4] for c in curves):.2f} V** at most: the clamp diodes and the amplifier's ±5 V rails limit "
+              f"the swing to ±4.2 V, and the 2k/1k divider scales it by 0.31), and the amplifier comes out of saturation at most **{worst_sat:.2f} ms** after the echo ends. "
               f"What remains is the transducer itself ringing on (it is a resonator, like a struck bell): after the "
               f"strongest echo that ringing is still faintly there when the next echo arrives 1.15 ms later, but the "
-              f"weak echo still comes through at {ref_late:.2f} V every time, as expected for a 10 mV echo. A strong "
+              f"weak echo still comes through at {ref_late:.3f} V every time, as expected for a 10 mV echo. A strong "
               f"echo leaves no lasting effect on the electronics.")
     fig, ax = plt.subplots(figsize=(9.5, 5))
     for (t, v, lab, *_), col in zip(curves, ("tab:blue", "tab:orange", RED)):
         ax.plot([x * 1e3 for x in t], v, lw=0.6, label=lab, color=col)
     ax.axvspan(0.1, 0.35, color=GREY, alpha=0.12)
-    ax.text(0.12, 4.6, "strong echo\narrives", fontsize=8)
+    ax.text(0.12, 1.55, "strong echo\narrives", fontsize=8)
     ax.axvspan(1.5, 1.75, color=GREEN, alpha=0.12)
-    ax.text(1.52, 4.6, "weak echo\n(10 mV)", fontsize=8)
-    ax.axhline(5, color=RED, ls="--", lw=0.8)
-    ax.axhline(-5, color=RED, ls="--", lw=0.8, label="ADC range ±5 V")
-    ax.set_ylim(-5.6, 5.6)
-    finish(ax, "time (ms)", "voltage at the ADC pin (V)")
+    ax.text(1.52, 1.55, "weak echo\n(10 mV)", fontsize=8)
+    ax.axhline(ADC_FS, color=RED, ls="--", lw=0.8)
+    ax.axhline(-ADC_FS, color=RED, ls="--", lw=0.8, label="ADC full scale ±1.41 V")
+    ax.set_ylim(-1.8, 1.8)
+    finish(ax, "time (ms)", "voltage at the ADC input pin (V)")
     return checks, fig, answer
 
 
@@ -412,7 +421,7 @@ def tx_burst():
         Check("Heat in the 47 Ω drive resistor (during the ping)", v["p_rdrv"] * 1e3, "mW", hi=50, why="rated 100 mW"),
         Check("Heat in the 4.7 kΩ protection resistor (during the ping)", v["p_rlim"] * 1e3, "mW", hi=50,
               why="rated 100 mW"),
-        Check("Highest voltage at the ADC during the ping", v["adc_pk"], "V", hi=5.0, why="ADC range ±5 V"),
+        Check("Highest voltage at the ADC input during the ping", v["adc_pk"], "V", hi=ADC_FS, why="ADC full scale ±1.41 V"),
     ]
     ready = {}
     for q in (20, 40):
@@ -434,7 +443,7 @@ def tx_burst():
     for q, col in ((20, "tab:green"), (40, "tab:purple")):
         dq = raws[q]
         axs[2].plot([x * 1e3 for x in dq["time"]], dq["V(rx_out)"], lw=0.6, color=col,
-                    label=f"ADC pin, transducer Q = {q}")
+                    label=f"amplifier output (RX_OUT), transducer Q = {q}")
         axs[2].axvline((burst_end + ready[q][0]) * 1e3, color=col, ls="--", lw=1)
         axs[2].text((burst_end + ready[q][0]) * 1e3 + 0.03, 3.4 if q == 20 else 2.4,
                     f"ready (Q={q}): objects beyond {ready[q][1]:.2f} m", color=col, fontsize=8)
@@ -601,17 +610,18 @@ SIMS = {
     "rx_chain": dict(
         fn=rx_chain, files=["rx_chain.cir"], part="Receiver",
         title="Receiver: how much does an echo get amplified?",
-        question="When an echo arrives, how big is the signal that reaches the ADC, and does the ADC's own input "
-                 "filter weaken it?",
-        why="The ADC must see the echo well above its own noise but below its ±5 V limit. The transducer datasheet "
-            "gives about 0.12 V for an echo from an object 1 m away.",
+        question="When an echo arrives, how big is the signal that reaches the ADC, and how much room is left "
+                 "for stronger echoes?",
+        why="The ADC must see the echo well above its own noise but below its ±1.41 V full scale. The transducer "
+            "datasheet gives about 0.12 V for an echo from an object 1 m away.",
         setup="One transceiver channel, exported from the schematic: the transducer (electrical model), the "
-              "protection resistor and clamp diodes, the ×6 amplifier stage and the 40 kHz band-pass filter, into "
-              "the ADC input. A small sine wave is swept from 1 kHz to 1 MHz.",
-        read="Left to right: frequency. Up: how much bigger the signal at the ADC is than the echo voltage at "
-             "the transducer, in dB (+20 dB = ×10, +27 dB = ×22). The response peaks at 40 kHz, the transducers' "
-             "frequency, and falls off on both sides, which keeps noise out. The green curve (chosen ADC) lies on "
-             "the blue one; the dashed red curve shows what the old ADC would have let through."),
+              "protection resistor and clamp diodes, the ×6 amplifier stage and the 40 kHz band-pass filter, then "
+              "the ADC input network from the ADC sheet (2k/1k divider, 100 nF, the ADC's 10 kΩ input). A small sine "
+              "wave is swept from 1 kHz to 1 MHz.",
+        read="Left to right: frequency. Up: how much bigger the signal is than the echo voltage at the transducer, "
+             "in dB (+20 dB = ×10). Blue: the amplifier output. Green: the ADC input pin, 10 dB lower because of "
+             "the divider that fits the amplifier's ±4.2 V swing into the ADC's ±1.41 V. Both peak at 40 kHz, the "
+             "transducers' frequency, and fall off on both sides, which keeps noise out."),
     "rx_noise": dict(
         fn=rx_noise, files=["rx_noise.cir"], part="Receiver",
         title="Receiver: how much noise does it add?",
@@ -619,7 +629,7 @@ SIMS = {
         why="Noise sets the weakest echo that can be detected, so it sets the maximum range.",
         setup="The same channel, with LTspice's noise analysis: the thermal noise of every resistor, the op-amp's "
               "noise and the transducer's own internal loss.",
-        read="Blue: noise at the ADC pin. Orange: the same noise expressed as an echo voltage at the transducer "
+        read="Blue: noise at the ADC input pin. Orange: the same noise expressed as an echo voltage at the transducer "
              "(how big an echo would be just as large as the noise). Red dashed: the ADC's own noise. Only the "
              "shaded 30–50 kHz band matters, because the FPGA filters everything else away."),
     "rx_mc": dict(
@@ -631,7 +641,8 @@ SIMS = {
             "points slightly wrong and gets wider. Fixed differences are removed by a one-time calibration, but "
             "they should be small to start with.",
         setup="200 simulated channels. In each one, every resistor and capacitor gets a random value inside the "
-              "tolerance written on its schematic value (1 %, or 5 % for C0G and 10 % for X7R capacitors).",
+              "tolerance written on its schematic value (1 %, or 5 % for C0G and 10 % for X7R capacitors), plus the ADC "
+              "input divider (1 %), its coupling capacitor (10 %) and the ADC's 10 kΩ input (assumed ±20 %).",
         read="Two histograms: how many of the 200 channels have a given gain (left) and phase (right) at 40 kHz. "
              "Narrow is good."),
     "rx_overload": dict(
@@ -643,12 +654,12 @@ SIMS = {
             "and recover fast enough to hear what comes after.",
         setup="Three runs with a strong echo of 0.12 V (an object at 1 m), 1.2 V and 6 V at the transducer, then a "
               "weak 10 mV echo 1.4 ms later. Echo voltages are measured at the transducer terminals, the same way "
-              "as in the gain test, so 0.12 V here is the same 1 m echo that gives 2.7 V at the ADC there.",
-        read="Voltage at the ADC pin over time, one colour per strength. The grey band is when the strong echo "
+              "as in the gain test, so 0.12 V here is the same 1 m echo that gives 0.86 V at the ADC there.",
+        read="Voltage at the ADC input pin over time, one colour per strength. The grey band is when the strong echo "
              "arrives; the trace goes on after it because the transducer keeps ringing (it is a resonator). "
-             "The strong echoes are flattened at about ±4.2 V, where the amplifier saturates, but never reach the "
-             "dashed ±5 V ADC limit. Each trace then decays back to zero, and the weak echo (green band) comes out "
-             "the same size in all three runs."),
+             "The strong echoes are flattened where the amplifier saturates (±4.2 V, ±1.3 V after the divider), "
+             "inside the dashed ±1.41 V ADC full scale. Each trace then decays back to zero, and the weak echo "
+             "(green band) comes out the same size in all three runs."),
     "tx_burst": dict(
         fn=tx_burst, files=["tx_burst.cir"], part="Transmitter",
         title="Transmitter: sending a ping, and listening again",
@@ -660,7 +671,7 @@ SIMS = {
               "schematic, then holds low while the element listens. The transducer's sharpness (Q) is not in its "
               "datasheet, so the test runs with Q = 20 and Q = 40, which bracket its 1.8 ms ring-down time.",
         read="Top: the 0–14 V ping on the transducer (grey band). Middle: the amplifier input, held within "
-             "±0.6 V by the clamp diodes during the ping. Bottom: the ADC pin. The receiver is overloaded during "
+             "±0.6 V by the clamp diodes during the ping. Bottom: the amplifier output. The receiver is overloaded during "
              "the ping and then hears the transducer ringing down; once the trace stays inside the green band, "
              "echoes can be heard. The dashed lines mark that moment and the matching closest distance."),
     "tx_cw": dict(

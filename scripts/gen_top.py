@@ -4,14 +4,14 @@ Three levels:
   aesa.kicad_sch (page 1)  a block diagram of the signal flow. Its blocks are the sheet symbols
                            of the group sheets below, plus Power and the FPGA headers.
   group sheets             tx.kicad_sch (16 x tx_group + 4 x en_buf), array.kicad_sch
-                           (64 x channel), adcs.kicad_sch (8 x adc), mics.kicad_sch (8 x mic),
-                           clocks.kicad_sch (7 x clk_buf). Each places its cells and joins their
+                           (64 x channel), adcs.kicad_sch (16 x adc), mics.kicad_sch (8 x mic),
+                           clocks.kicad_sch (9 x clk_buf). Each places its cells and joins their
                            ports to global labels (DRVn, RXn, TX_*, ADC_*, MIC_*).
   cell sheets              channel, adc, tx_group, en_buf, clk_buf, mic (one file, reused),
                            power and headers (one-off, directly under the top sheet).
 
 It then rewrites every cell symbol's (instances ...) block so each instance has its own
-reference: <letters><sheet id><number:02d>. Sheet ids: CH n -> n (R101..R6409), ADC k -> 70+k,
+reference: <letters><sheet id><number:02d>. Sheet ids: CH n -> n (R101..R6409), ADC k -> 70+k (k = 1..16),
 TXG k -> 100+k, TXEN j -> 120+j, CLKB j -> 130+j, MIC m -> 140+m, power 95, headers 99.
 Run it after editing any sheet (it then exports docs/schematics/aesa_schematic.pdf; --no-pdf skips that):
 
@@ -153,15 +153,18 @@ def cells():
         arr.append(s)
     g["array.kicad_sch"] = arr
 
-    ab, adcs = "AB", []
-    for k in range(1, 9):
+    adcs = []
+    for k in range(1, 17):  # 16 x 4 channels; group g = 4 ADCs on one SDA line and one BCLK/FSYNC output
         r, c = divmod(k - 1, 4)
-        s = Sheet(f"ADC{k}", "adc.kicad_sch", 70 + k, 50.8 + 88.9 * c, 50.8 + 55.88 * r, 25.4, 25.4)
-        s.pins = [(f"IN{i}", "input", "left", f"RX{8 * (k - 1) + i}") for i in range(1, 9)]
-        s.pins += [("SCLK", "input", "right", f"ADC_SCLK_{ab[(k - 1) // 4]}"),
-                   ("CONVST", "input", "right", f"ADC_CONVST_{ab[(k - 1) // 4]}"),
-                   ("DOUTA", "output", "right", f"ADC_DOUTA{k}"), ("DOUTB", "output", "right", f"ADC_DOUTB{k}"),
-                   ("BUSY", "output", "right", "ADC_BUSY" if k == 1 else None)]
+        grp, idx = divmod(k - 1, 4)
+        s = Sheet(f"ADC{k:02d}", "adc.kicad_sch", 70 + k, 50.8 + 88.9 * c, 50.8 + 45.72 * r, 25.4, 22.86)
+        s.pins = [(f"IN{j}", "input", "left", f"RX{4 * (k - 1) + j}") for j in range(1, 5)]
+        s.pins += [("BCLK", "input", "left", f"ADC_BCLK_{'ABCD'[grp]}"),
+                   ("FSYNC", "input", "left", f"ADC_FSYNC_{'ABCD'[grp]}"),
+                   ("A0", "input", "left", "+3V3" if idx & 1 else "GND"),
+                   ("A1", "input", "left", "+3V3" if idx & 2 else "GND"),
+                   ("SDOUT", "output", "right", f"ADC_SDOUT{k}"),
+                   ("SDA", "bidirectional", "right", f"ADC_SDA{grp + 1}")]
         adcs.append(s)
     g["adcs.kicad_sch"] = adcs
 
@@ -183,7 +186,8 @@ def cells():
 
     clocks = [("TX_SCK", "TX_SCK_A", "TX_SCK_B"), ("TX_SCK", "TX_SCK_C", "TX_SCK_D"),
               ("TX_LATCH", "TX_LATCH_A", "TX_LATCH_B"), ("TX_LATCH", "TX_LATCH_C", "TX_LATCH_D"),
-              ("ADC_SCLK", "ADC_SCLK_A", "ADC_SCLK_B"), ("ADC_CONVST", "ADC_CONVST_A", "ADC_CONVST_B"),
+              ("ADC_BCLK", "ADC_BCLK_A", "ADC_BCLK_B"), ("ADC_BCLK", "ADC_BCLK_C", "ADC_BCLK_D"),
+              ("ADC_FSYNC", "ADC_FSYNC_A", "ADC_FSYNC_B"), ("ADC_FSYNC", "ADC_FSYNC_C", "ADC_FSYNC_D"),
               ("MIC_CLK_IN", "MIC_CLK_A", "MIC_CLK_B")]
     clk = []
     for j, (src, o1, o2) in enumerate(clocks, start=1):  # each output drives <= 4 loads
@@ -212,13 +216,14 @@ GROUP_INFO = {  # file: (sheet name, paper, title, note)
     "array.kicad_sch": ("Transceivers", "A2", "Transceivers: 64 channels (8 x 8 grid)",
                         "Transceiver array. Channel n = element n of the 8 x 8 grid, row-major. Each channel "
                         "takes DRVn from the TX drive and returns its amplified echo RXn to the ADCs."),
-    "adcs.kicad_sch": ("ADCs", "A3", "ADCs: 8 x AD7606C-16",
-                       "ADCs. ADC k digitises RX 8(k-1)+1 ... 8k and returns 2 serial lines (DOUTA/B). "
-                       "ADC1-4 use ADC_SCLK_A/CONVST_A, ADC5-8 the _B outputs."),
+    "adcs.kicad_sch": ("ADCs", "A3", "ADCs: 16 x TLV320ADC5140 (4 channels each)",
+                       "ADCs. ADC k digitises RX 4(k-1)+1 ... 4k and returns one TDM line (SDOUTk). Group g "
+                       "(ADC 4g-3 ... 4g) shares SDAg and BCLK/FSYNC output g; A1/A0 give each ADC of a group its "
+                       "own I2C address."),
     "mics.kicad_sch": ("MEMS mics", "A3", "MEMS microphones: 8 x SPH0641LU4H-1",
                        "MEMS mics. Mics 2k-1 and 2k share MIC_DATAk-1 (SEL high on the odd one). "
                        "MIC_CLK_A feeds mics 1-4, MIC_CLK_B mics 5-8."),
-    "clocks.kicad_sch": ("Clock buffers", "A3", "Clock buffers: 7 x 74LVC2G34 at the FPGA headers",
+    "clocks.kicad_sch": ("Clock buffers", "A3", "Clock buffers: 9 x 74LVC2G34 at the FPGA headers",
                          "Clock buffers. Each FPGA clock enters one or two clk_buf cells; every output "
                          "drives at most 4 loads through 33 R."),
 }
@@ -246,7 +251,7 @@ def top_drawing():
              "2. TX drive: shift registers latch the bits; gate drivers switch each element between 0 and 15 V.",
              "3. Transceivers: the 64 CUSA-TR65 elements emit 40 kHz; echoes return to the same elements.",
              "4. The diode T/R switch and limiter protect the receiver; amplifier + 40 kHz band-pass give x22.",
-             "5. ADCs: 8 x AD7606C-16 sample all 64 channels at 200 kSPS (raw waveform, amplitude and phase).",
+             "5. ADCs: 16 x TLV320ADC5140 sample all 64 channels at once, 192 kSPS (raw waveform, amplitude and phase).",
              "6. The samples go back to the FPGA over the ribbon, which forms the beams. 8 MEMS mics add wideband audio."]
     for i, s in enumerate(steps):
         o.append(text(s, 25.4, 35.56 + 4.32 * i, 1.8, f"s{i}"))
@@ -266,7 +271,7 @@ def top_drawing():
     o.append(arrow([(127.0, 73.66), (236.22, 73.66)], "tx1", "TX_SDI0-15, TX_EN, /OE, /CLR", (130.0, 71.12)))
     o.append(arrow([(127.0, 114.3), (157.48, 114.3)], "ck1", "clocks", (130.0, 111.76)))
     o.append(arrow([(205.74, 109.22), (264.16, 109.22), (264.16, 86.36)], "ck2", "SCK, LATCH", (210.0, 106.68)))
-    o.append(arrow([(205.74, 119.38), (264.16, 119.38), (264.16, 157.48)], "ck3", "SCLK, CONVST", (210.0, 124.46)))
+    o.append(arrow([(205.74, 119.38), (264.16, 119.38), (264.16, 157.48)], "ck3", "BCLK, FSYNC", (210.0, 124.46)))
     o.append(arrow([(200.66, 124.46), (200.66, 205.74)], "ck4", "PDM clock", (202.5, 160.0)))
     o.append(arrow([(292.1, 73.66), (320.04, 73.66)], "dr", "DRV1-64", (294.0, 71.12)))
     o.append(text("0 / 15 V", 294.0, 78.74, 1.5, "dr2"))
@@ -276,21 +281,21 @@ def top_drawing():
     # RX path
     o.append(arrow([(320.04, 170.18), (292.1, 170.18)], "rx", "RX1-64", (294.0, 167.64)))
     o.append(text("echo x22", 294.0, 175.26, 1.5, "rx2"))
-    o.append(arrow([(236.22, 170.18), (127.0, 170.18)], "ad", "ADC_DOUTA/B 1-8, BUSY", (130.0, 167.64)))
+    o.append(arrow([(236.22, 170.18), (127.0, 170.18)], "ad", "ADC_SDOUT1-16 (TDM), I2C", (130.0, 167.64)))
     o.append(arrow([(157.48, 215.9), (106.68, 215.9), (106.68, 182.88)], "mc", "MIC_DATA0-3 (PDM)", (110.0, 213.36)))
     # (captions sit inside the blocks, which are otherwise empty)
     # Captions under the boxes
     caps = [("16 x 74HCT595 + 32 x UCC27524", 238.76, 71.12), ("4 x enable buffer", 238.76, 74.93),
             ("64 x: T/R diodes, CUSA-TR65,", 322.58, 73.66), ("limiter, x6 amp, 40 kHz band-pass", 322.58, 77.47),
-            ("8 x AD7606C-16, 200 kSPS", 238.76, 167.64), ("7 x 74LVC2G34, 33 R", 160.02, 114.3),
+            ("16 x TLV320ADC5140, 192 kSPS", 238.76, 167.64), ("9 x 74LVC2G34, 33 R", 160.02, 114.3),
             ("8 x SPH0641 PDM", 160.02, 215.9), ("J1 = AXU3EGB J15", 88.9, 96.52), ("(TX, mics)", 88.9, 100.33),
             ("J2 = AXU3EGB J16", 88.9, 106.68), ("(ADCs)", 88.9, 110.49)]
     for i, (s, x, y) in enumerate(caps):
         o.append(text(s, x, y, 1.5, f"c{i}"))
-    o.append(text("12 V jack -> +5V, +-6V5, +-5VA (analog), VDRV 15 V (TX), +3V3, 3V3_MIC.", 132.08, 240.03, 1.6, "p1"))
+    o.append(text("12 V jack -> +5V, +-6V5, +-5VA and +3V3A (analog), VDRV 15 V (TX), +3V3, 3V3_MIC.", 132.08, 240.03, 1.6, "p1"))
     o.append(text("Every rail: test point, isolation jumper, LED (not on the analog LDOs).", 132.08, 243.84, 1.6, "p2"))
-    o.append(text("Click a block to open it. Repeated parts are one sheet each: channel x64, adc x8, "
-                  "tx_group x16, en_buf x4, clk_buf x7, mic x8.", 25.4, 255.27, 1.6, "h1"))
+    o.append(text("Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, "
+                  "tx_group x16, en_buf x4, clk_buf x9, mic x8.", 25.4, 255.27, 1.6, "h1"))
     return "".join(o)
 
 

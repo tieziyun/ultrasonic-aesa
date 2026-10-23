@@ -1,4 +1,4 @@
-* RX chain noise at the ADC pin (channel exported from kicad/channel.kicad_sch).
+* RX chain noise at the ADC input pin (channel exported from kicad/channel.kicad_sch).
 * Includes the element's own Rm, every resistor and the OPA1678 noise model.
 * sim/run.py refers it to the element by dividing by the gain from rx_chain.
 .include gen/channel.cir
@@ -7,7 +7,8 @@
 VP VP5A 0 5
 VN VN5A 0 -5
 Rdrv_on DRV_OUT 0 0.4
-Radc RX_OUT 0 1Meg
-Cadc RX_OUT 0 5p
-.noise V(RX_OUT) VP dec 200 1k 1Meg
+* ADC input network (2k/1k divider, 100 nF, 10 k ADC input): sim/models/adc_in.lib
+.include models/adc_in.lib
+XADC RX_OUT ADC ADC_IN
+.noise V(ADC) VP dec 200 1k 1Meg
 .end

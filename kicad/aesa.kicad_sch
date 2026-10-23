@@ -67,7 +67,7 @@
 		)
 		(uuid "2dcff14f-c2fe-5b34-ab7d-b3c3599f767c")
 	)
-	(text "5. ADCs: 8 x AD7606C-16 sample all 64 channels at 200 kSPS (raw waveform, amplitude and phase)."
+	(text "5. ADCs: 16 x TLV320ADC5140 sample all 64 channels at once, 192 kSPS (raw waveform, amplitude and phase)."
 		(exclude_from_sim no)
 		(at 25.40 52.84 0)
 		(effects
@@ -379,7 +379,7 @@
 		)
 		(uuid "341f35fb-853b-5cf4-909c-baf535ab4069")
 	)
-	(text "SCLK, CONVST"
+	(text "BCLK, FSYNC"
 		(exclude_from_sim no)
 		(at 210.00 124.46 0)
 		(effects
@@ -587,7 +587,7 @@
 		)
 		(uuid "8f44f50a-adc7-502a-884d-d46cf38e62da")
 	)
-	(text "ADC_DOUTA/B 1-8, BUSY"
+	(text "ADC_SDOUT1-16 (TDM), I2C"
 		(exclude_from_sim no)
 		(at 130.00 167.64 0)
 		(effects
@@ -673,7 +673,7 @@
 		)
 		(uuid "2356bd4d-6b94-55b1-84d3-e0ed038fcf20")
 	)
-	(text "8 x AD7606C-16, 200 kSPS"
+	(text "16 x TLV320ADC5140, 192 kSPS"
 		(exclude_from_sim no)
 		(at 238.76 167.64 0)
 		(effects
@@ -684,7 +684,7 @@
 		)
 		(uuid "f9948474-9b8e-548e-a5f2-4c1fb254bda7")
 	)
-	(text "7 x 74LVC2G34, 33 R"
+	(text "9 x 74LVC2G34, 33 R"
 		(exclude_from_sim no)
 		(at 160.02 114.30 0)
 		(effects
@@ -750,7 +750,7 @@
 		)
 		(uuid "8e569b11-9ef2-5203-88fe-3a828ab98339")
 	)
-	(text "12 V jack -> +5V, +-6V5, +-5VA (analog), VDRV 15 V (TX), +3V3, 3V3_MIC."
+	(text "12 V jack -> +5V, +-6V5, +-5VA and +3V3A (analog), VDRV 15 V (TX), +3V3, 3V3_MIC."
 		(exclude_from_sim no)
 		(at 132.08 240.03 0)
 		(effects
@@ -772,7 +772,7 @@
 		)
 		(uuid "e421952c-a389-5bca-b6ca-3d8dab07967e")
 	)
-	(text "Click a block to open it. Repeated parts are one sheet each: channel x64, adc x8, tx_group x16, en_buf x4, clk_buf x7, mic x8."
+	(text "Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, tx_group x16, en_buf x4, clk_buf x9, mic x8."
 		(exclude_from_sim no)
 		(at 25.40 255.27 0)
 		(effects
@@ -898,7 +898,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "11")
+					(page "13")
 				)
 			)
 		)
@@ -938,7 +938,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "32")
+					(page "34")
 				)
 			)
 		)
@@ -978,7 +978,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "97")
+					(page "99")
 				)
 			)
 		)
@@ -1018,7 +1018,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "106")
+					(page "116")
 				)
 			)
 		)
@@ -1058,7 +1058,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "115")
+					(page "125")
 				)
 			)
 		)

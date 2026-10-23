@@ -12,7 +12,8 @@ J1_MAP = {1: "GND", 2: None, 3: "GND", 4: "GND", 5: "TX_SDI1", 6: "TX_SDI0", 7: 
           21: "TX_CLR_N", 22: "TX_OE_N", 23: "GND", 24: "TX_EN_FPGA", 25: "MIC_DATA0", 26: "GND",
           27: "MIC_DATA2", 28: "MIC_DATA1", 29: "GND", 30: "MIC_DATA3", 31: "GND", 32: "TX_SCK", 33: "GND",
           34: "MIC_CLK_IN", 35: "GND", 36: "TX_LATCH", 37: "GND", 38: "GND", 39: None, 40: None}
-J2_MAP = {1: "GND", 2: None, 3: "GND", 4: "GND", 5: "ADC_RESET", 6: "GND", 7: "ADC_SDI", 8: "ADC_BUSY",
-          **{9 + 2 * k: f"ADC_DOUTB{k + 1}" for k in range(8)}, **{10 + 2 * k: f"ADC_DOUTA{k + 1}" for k in range(8)},
-          25: "GND", 26: "GND", 27: "GND", 28: "GND", 29: "GND", 30: "GND", 31: "GND", 32: "ADC_SCLK",
-          33: "GND", 34: "ADC_CONVST", 35: "GND", 36: "ADC_CS_N", 37: "GND", 38: "GND", 39: None, 40: None}
+J2_MAP = {1: "GND", 2: None, 3: "GND", 4: "GND", 5: "ADC_SHDNZ", 6: "GND", 7: "ADC_SCL", 8: "ADC_SDA1",
+          **{9 + k: f"ADC_SDOUT{k + 1}" for k in range(16)},
+          25: "ADC_SDA2", 26: "ADC_SDA3", 27: "ADC_SDA4", 28: "GND", 29: "GND", 30: "GND", 31: "GND",
+          32: "ADC_BCLK", 33: "GND", 34: "ADC_FSYNC", 35: "GND", 36: "GND", 37: "GND", 38: "GND",
+          39: None, 40: None}

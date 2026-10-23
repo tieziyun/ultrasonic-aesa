@@ -38,4 +38,4 @@ The clock voltage at the farthest chip. The dotted line is where the chips decid
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-21 12:05 with LTspice by `sim/run.py clock_si`. Testbench: `sim/clock_si.cir`.
+Run 2026-10-23 13:41 with LTspice by `sim/run.py clock_si`. Testbench: `sim/clock_si.cir`.

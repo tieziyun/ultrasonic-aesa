@@ -13,21 +13,21 @@ Uses: 3-D sonar imaging, gesture and hand tracking, Doppler motion sensing, and 
 | Page | Sheet | What it is |
 |---|---|---|
 | 1 | top | **Block diagram**: FPGA → TX drive → transceivers → receive amplifiers → ADCs → FPGA, plus mics and power |
-| 2 | `headers` | The two 40-pin ribbon headers to the AXU3EGB, idle pull resistors |
-| 3 | group | The 7 clock buffers and which clock each one feeds |
-| 4 | `clk_buf` ×7 | One clock fan-out buffer with 33 Ω series termination |
+| 2 | `headers` | The two 40-pin ribbon headers to the AXU3EGB, idle pulls and I²C pull-ups |
+| 3 | group | The 9 clock buffers and which clock each one feeds |
+| 4 | `clk_buf` ×9 | One clock fan-out buffer with 33 Ω series termination |
 | 5 | group | TX drive: 16 TX groups and 4 enable buffers |
 | 6 | `tx_group` ×16 | 74HCT595 shift register and two UCC27524 gate drivers: drives 4 elements |
 | 7 | `en_buf` ×4 | TX-enable buffer for 8 gate drivers |
 | 8 | group | The 64 transceiver channels as an 8 × 8 grid |
 | 9 | `channel` ×64 | One transceiver: crossed-diode T/R switch, CUSA-TR65 element, limiter, OPA1678 gain stage, 40 kHz band-pass |
-| 10 | group | The 8 ADCs and which channels each one digitises |
-| 11 | `adc` ×8 | AD7606C-16, 8 channels, serial output to the FPGA |
+| 10 | group | The 16 ADCs, which channels each one digitises, and their I²C groups |
+| 11 | `adc` ×16 | TLV320ADC5140, 4 channels at 192 kSPS, input divider, TDM output to the FPGA |
 | 12 | group | The 8 microphones, paired on 4 data lines |
 | 13 | `mic` ×8 | SPH0641LU4H-1 PDM microphone |
-| 14 | `power` | 12 V jack → +5 V, ±6.5 V, ±5VA (low-noise), VDRV 15 V (switchable), +3V3, 3V3_MIC |
+| 14 | `power` | 12 V jack → +5 V, ±6.5 V, ±5VA and +3V3A (low-noise), VDRV 15 V (switchable), +3V3, 3V3_MIC |
 
-Each block that repeats is drawn once and reused, so a change to `channel` applies to all 64 channels. KiCad's own export of every instance (115 pages) is left in `build/aesa_schematic_full.pdf`.
+Each block that repeats is drawn once and reused, so a change to `channel` applies to all 64 channels. KiCad's own export of every instance (125 pages) is left in `build/aesa_schematic_full.pdf`.
 
 ## Key numbers
 
@@ -35,8 +35,8 @@ Each block that repeats is drawn once and reused, so a change to `channel` appli
 |---|---|
 | Elements | 64 × Same Sky CUSA-TR65 (40 kHz, sealed transceiver) + 8 × SPH0641LU4H-1 MEMS mics |
 | TX drive | 0–15 V square wave per element, 16 serial data lines at 10 MHz, per-element per-sample control |
-| RX chain | Gain ×22 (+27 dB) from element to ADC, 31–51 kHz pass band, 26 nV/√Hz referred to the element ([simulated](sim/reports/README.md)) |
-| ADC | 8 × AD7606C-16, 16-bit, 200 kSPS per channel, ±5 V, 220 kHz input bandwidth |
+| RX chain | Gain ×22 (+27 dB) in the amplifier, ×6.7 (+16.6 dB) to the ADC pin after the input divider; 31–51 kHz pass band; 1 m echo 93 dB above the noise ([simulated](sim/reports/README.md)) |
+| ADC | 16 × TI TLV320ADC5140, 24-bit, 192 kSPS per channel, all 64 channels sampled at once, TDM to the FPGA, I²C configuration |
 | Power | One 12 V barrel jack (≥ 1.5 A); every rail has a test point, an isolation jumper and (except the analog LDOs) an LED |
 | Board | One 4-layer board, about 200 × 170 mm: transducers on the front, all SMT parts on the back |
 | FPGA link | Two 40-pin ribbons, 3.3 V LVCMOS, about 15 cm |
@@ -51,6 +51,7 @@ Each block that repeats is drawn once and reused, so a change to `channel` appli
 | `skidl/` | Reference spec of each block in SKiDL (values, nets, LCSC numbers) |
 | `sim/` | LTspice testbenches and models. `sim/run.py` exports the channel circuit from the KiCad schematic, runs every testbench and writes [sim/reports/](sim/reports/README.md) |
 | `docs/schematics/` | The schematic PDF (one page per sheet, linked) |
+| `docs/datasheets/` | A datasheet PDF for every part on the board, with an [index](docs/datasheets/README.md); kept in step with the BOM by `scripts/datasheets.py` |
 | [CLAUDE.md](CLAUDE.md) | Working rules for the AI assistant on this project |
 
 ## Rebuild

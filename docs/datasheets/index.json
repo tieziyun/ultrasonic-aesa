@@ -1,0 +1,808 @@
+{
+ "C1002": {
+  "date": "2026-10-23",
+  "file": "Sunlord_GZ_series.pdf",
+  "maker": "Sunlord",
+  "mpn": "SUNLORD_GZ_SERIES",
+  "sha1": "e7667f43fb082f07107f585be01924c5083c5f58",
+  "url": "https://static.chipdip.ru/lib/674/DOC012674675.pdf",
+  "used_as": [
+   "600R@100MHz 0603"
+  ]
+ },
+ "C12624": {
+  "date": "2026-10-23",
+  "file": "KT-0603G_C12624.pdf",
+  "maker": "Hubei KENTO Elec",
+  "mpn": "KT-0603G",
+  "sha1": "6780ac4901cbc6f99559e775ef2d6d44e5a00401",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/69e84a3abd84e5ab5856c47a2d0334ce.pdf?productCode=C12624",
+  "used_as": [
+   "green"
+  ]
+ },
+ "C12891": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL31A226KAHNNNE",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C12891",
+  "used_as": [
+   "22u 16V X5R 1206"
+  ]
+ },
+ "C14663": {
+  "date": "2026-10-23",
+  "file": "CC0603KRX7R9BB104_C14663.pdf",
+  "maker": "YAGEO",
+  "mpn": "CC0603KRX7R9BB104",
+  "sha1": "974199eac47a3f2d0ac9504d09e395ad4de4400f",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/23ccee80ee542e7cf156a772bb589942.pdf?productCode=C14663",
+  "used_as": [
+   "100n 16V X7R",
+   "100n 50V X7R"
+  ]
+ },
+ "C14858": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL10C101JB8NNNC",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C14858",
+  "used_as": [
+   "100p 50V C0G"
+  ]
+ },
+ "C15850": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL21A106KAYNNNE",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C15850",
+  "used_as": [
+   "10u 16V X5R"
+  ]
+ },
+ "C1663": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL10C330JB8NNNC",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C1663",
+  "used_as": [
+   "33p 50V C0G"
+  ]
+ },
+ "C1671": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL10C470JB8NNNC",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C1671",
+  "used_as": [
+   "47p 50V C0G DNP"
+  ]
+ },
+ "C1679": {
+  "date": "2026-10-23",
+  "file": "0603CG6R8C500NT_C1679.pdf",
+  "maker": "FH",
+  "mpn": "0603CG6R8C500NT",
+  "sha1": "16856efa2035bd99f3c99f7697936dc4d4fd2a9a",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C1679",
+  "used_as": [
+   "6.8p 50V C0G"
+  ]
+ },
+ "C170182": {
+  "date": "2026-10-23",
+  "file": "1206N104J500CT_C170182.pdf",
+  "maker": "Walsin",
+  "mpn": "1206N104J500CT",
+  "sha1": "8257273d0d34e99f3de991478149c6bbf1452233",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/d292b592987b2b556ebeda25b5137751.pdf?productCode=C170182",
+  "used_as": [
+   "100n 50V C0G 1206"
+  ]
+ },
+ "C19193815": {
+  "date": "2026-10-23",
+  "file": "XDFH-0254-2_20P_C19193815.pdf",
+  "maker": "Lian Xin Technology",
+  "mpn": "XDFH-0254-2*20P",
+  "sha1": "ad65c8cba67aa90acdec29111e389b51bbfdb345",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/bb0b4a7fe0686e604bac904e3d0ba20d.pdf?productCode=C19193815",
+  "used_as": [
+   "EX_IO1 (AXU3EGB J15)",
+   "EX_IO2 (AXU3EGB J16)"
+  ]
+ },
+ "C192421": {
+  "date": "2026-10-23",
+  "file": "opa1678.pdf",
+  "maker": "TI",
+  "mpn": "OPA1678",
+  "sha1": "3f8f532687bdf0bacf6d27b0a4b146e2ed2a7c93",
+  "url": "https://www.ti.com/lit/ds/symlink/opa1678.pdf",
+  "used_as": [
+   "OPA1678IDR"
+  ]
+ },
+ "C2044906": {
+  "date": "2026-10-23",
+  "file": "SRN8040TA-100M_C2044906.pdf",
+  "maker": "BOURNS",
+  "mpn": "SRN8040TA-100M",
+  "sha1": "e96ca1d1b2d735257569a78472f0c36aa4a95f8d",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/b695fd8616ed3b8a63e3fc055c477574.pdf?productCode=C2044906",
+  "used_as": [
+   "10u Isat>=5A"
+  ]
+ },
+ "C20812": {
+  "date": "2026-10-23",
+  "file": "SMD1812P200TF16_C20812.pdf",
+  "maker": "RUILON",
+  "mpn": "SMD1812P200TF16",
+  "sha1": "34d28afb87516cbb8c7372824fa2065445278ec7",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/cfa74b12b2251ef3c7fa909bdad1e8a9.pdf?productCode=C20812",
+  "used_as": [
+   "SMD1812P200TF16"
+  ]
+ },
+ "C21120": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL10B224KA8NNNC",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C21120",
+  "used_as": [
+   "220n 16V X7R"
+  ]
+ },
+ "C21190": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1001T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C21190",
+  "used_as": [
+   "1k 1%"
+  ]
+ },
+ "C22434582": {
+  "date": "2026-10-23",
+  "file": "PJ-063AH_C22434582.pdf",
+  "maker": "CUI",
+  "mpn": "PJ-063AH",
+  "sha1": "37d47cebe9c8bccc4ffd01b4172ca88a7dc0a11b",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/2d5a84d46878463b63938ddb4e9c2c31.pdf?productCode=C22434582",
+  "used_as": [
+   "12 V in (5.5x2.1)"
+  ]
+ },
+ "C22452": {
+  "date": "2026-10-23",
+  "file": "SS54_C22452.pdf",
+  "maker": "MDD(Microdiode Semiconductor)",
+  "mpn": "SS54",
+  "sha1": "d605e511253272a1d5acb68a8cc0dc46a832c69a",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/3d29bdcdc3c46ec127d6db22edd72e83.pdf?productCode=C22452",
+  "used_as": [
+   "SS54"
+  ]
+ },
+ "C22775": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1000T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22775",
+  "used_as": [
+   "100 1%",
+   "100 1% DNP"
+  ]
+ },
+ "C22795": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1303T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22795",
+  "used_as": [
+   "130k 1%"
+  ]
+ },
+ "C22797": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1302T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22797",
+  "used_as": [
+   "13k 1%"
+  ]
+ },
+ "C22807": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1503T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22807",
+  "used_as": [
+   "150k 1%"
+  ]
+ },
+ "C22809": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1502T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22809",
+  "used_as": [
+   "15k 1%"
+  ]
+ },
+ "C22961": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF2203T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22961",
+  "used_as": [
+   "220k 1%"
+  ]
+ },
+ "C22975": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF2001T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22975",
+  "used_as": [
+   "2k 1%"
+  ]
+ },
+ "C22978": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF3301T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C22978",
+  "used_as": [
+   "3.3k 1%"
+  ]
+ },
+ "C23140": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF330JT5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23140",
+  "used_as": [
+   "33 1%"
+  ]
+ },
+ "C23162": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF4701T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23162",
+  "used_as": [
+   "4.7k 1%"
+  ]
+ },
+ "C23182": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF470JT5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23182",
+  "used_as": [
+   "47 1%"
+  ]
+ },
+ "C23192": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF5103T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23192",
+  "used_as": [
+   "510k 1%"
+  ]
+ },
+ "C23196": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF5102T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23196",
+  "used_as": [
+   "51k 1%"
+  ]
+ },
+ "C23237": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF7153T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23237",
+  "used_as": [
+   "715k 1%"
+  ]
+ },
+ "C23242": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF7502T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23242",
+  "used_as": [
+   "75k 1%"
+  ]
+ },
+ "C2480": {
+  "date": "2026-10-23",
+  "file": "SS14_C2480.pdf",
+  "maker": "MDD(Microdiode Semiconductor)",
+  "mpn": "SS14",
+  "sha1": "5eecb493e9119737ffe48fe54e37afb16cb9181e",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/9977bb85cd7e349115b7bcb7054cfa0d.pdf?productCode=C2480",
+  "used_as": [
+   "SS14"
+  ]
+ },
+ "C2500": {
+  "date": "2026-10-23",
+  "file": "BAV99_215_C2500.pdf",
+  "maker": "Nexperia",
+  "mpn": "BAV99,215",
+  "sha1": "c4af1388143d34acd0574f86ac5724ae4b57f298",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/8b7720fc960f8626e375ebd15030b1eb.pdf?productCode=C2500",
+  "used_as": [
+   "BAV99"
+  ]
+ },
+ "C25803": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1003T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C25803",
+  "used_as": [
+   "100k 1%"
+  ]
+ },
+ "C25804": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1002T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C25804",
+  "used_as": [
+   "10k 1%"
+  ]
+ },
+ "C25821": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF6493T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C25821",
+  "used_as": [
+   "649k 1%"
+  ]
+ },
+ "C282339": {
+  "date": "2026-10-23",
+  "file": "74HCT595D_118_C282339.pdf",
+  "maker": "Nexperia",
+  "mpn": "74HCT595D,118",
+  "sha1": "591b46d779abd2d755cbfdd10e824bce259960c2",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/a010531f03b3cd52f281e9270a37554f.pdf?productCode=C282339",
+  "used_as": [
+   "74HCT595D"
+  ]
+ },
+ "C28286": {
+  "date": "2026-10-23",
+  "file": "tps7a47.pdf",
+  "maker": "TI",
+  "mpn": "TPS7A47",
+  "sha1": "e29b675d1f0c25d5c2fa0106433276863bb9bd02",
+  "url": "https://www.ti.com/lit/ds/symlink/tps7a47.pdf",
+  "used_as": [
+   "TPS7A4700RGWT"
+  ]
+ },
+ "C28323": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL21B105KBFNNNE",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C28323",
+  "used_as": [
+   "1u 50V X7R"
+  ]
+ },
+ "C2876368": {
+  "date": "2026-10-23",
+  "file": "tlv320adc5140.pdf",
+  "maker": "TI",
+  "mpn": "TLV320ADC5140",
+  "sha1": "f67307366b651ea882078f80c154e16d6a63cd01",
+  "url": "https://www.ti.com/lit/ds/symlink/tlv320adc5140.pdf",
+  "used_as": [
+   "TLV320ADC5140"
+  ]
+ },
+ "C2879853": {
+  "date": "2026-10-23",
+  "file": "SPH0641LU4H-1.pdf",
+  "maker": "Knowles",
+  "mpn": "SPH0641LU4H-1",
+  "sha1": "01b9080673614cc42ec337ed6588d9bac6f620c1",
+  "url": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/930/SPH0641LU4H-1.PDF",
+  "used_as": [
+   "SPH0641LU4H-1"
+  ]
+ },
+ "C2894191": {
+  "date": "2026-10-23",
+  "file": "0603N472J500CT_C2894191.pdf",
+  "maker": "Walsin",
+  "mpn": "0603N472J500CT",
+  "sha1": "1543e6ee0f10372ab1ec67494770dae8595ab69c",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/9a1d1101a01dbf663fb434614e65554c.pdf?productCode=C2894191",
+  "used_as": [
+   "4.7n 50V C0G"
+  ]
+ },
+ "C294509": {
+  "date": "2026-10-23",
+  "file": "VZH101M1HTR-0810_C294509.pdf",
+  "maker": "Lelon",
+  "mpn": "VZH101M1HTR-0810",
+  "sha1": "a5db5cd88ef9a64f99b1e91b38f42bd8fce6c95f",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/9c518b974023d2e931e6999e9308d994.pdf?productCode=C294509",
+  "used_as": [
+   "100u 25V"
+  ]
+ },
+ "C309468": {
+  "date": "2026-10-23",
+  "file": "CC0603FRNPO9BN102_C309468.pdf",
+  "maker": "YAGEO",
+  "mpn": "CC0603FRNPO9BN102",
+  "sha1": "6639527525204a2e19582d24b4da2723c77fdf60",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/4eca2bb4b507f1633db47e922d632b95.pdf?productCode=C309468",
+  "used_as": [
+   "1n 50V C0G 1%"
+  ]
+ },
+ "C311983": {
+  "date": "2026-10-23",
+  "file": "tps54302.pdf",
+  "maker": "TI",
+  "mpn": "TPS54302",
+  "sha1": "5d9209905bcdf85035fe896689fe0dcb39808f13",
+  "url": "https://www.ti.com/lit/ds/symlink/tps54302.pdf",
+  "used_as": [
+   "TPS54302DDCR"
+  ]
+ },
+ "C321950": {
+  "date": "2026-10-23",
+  "file": "RS-03K5623FT_C321950.pdf",
+  "maker": "FH",
+  "mpn": "RS-03K5623FT",
+  "sha1": "953e50bf9da8a42cf228e949ee76b968232b512d",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/1fdbe8489cfdbe4917930f5e1bb150ed.pdf?productCode=C321950",
+  "used_as": [
+   "562k 1%"
+  ]
+ },
+ "C376771": {
+  "date": "2026-10-23",
+  "file": "TCC0603COG181J500CT_C376771.pdf",
+  "maker": "CCTC",
+  "mpn": "TCC0603COG181J500CT",
+  "sha1": "fa1fe6bfa7556eba0879b3005ae279e34fbe5b7e",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/71a9f8eccc4da164324d4a716182c5e3.pdf?productCode=C376771",
+  "used_as": [
+   "180p 50V C0G"
+  ]
+ },
+ "C380363": {
+  "date": "2026-10-23",
+  "file": "TCC0603COG181J500CT_C376771.pdf",
+  "maker": "CCTC",
+  "mpn": "TCC1206X7R106K160HT",
+  "sha1": "fa1fe6bfa7556eba0879b3005ae279e34fbe5b7e",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/71a9f8eccc4da164324d4a716182c5e3.pdf?productCode=C380363",
+  "used_as": [
+   "10u 16V X7R 1206"
+  ]
+ },
+ "C380364": {
+  "date": "2026-10-23",
+  "file": "TCC0603COG181J500CT_C376771.pdf",
+  "maker": "CCTC",
+  "mpn": "TCC1206X7R106K250HT",
+  "sha1": "fa1fe6bfa7556eba0879b3005ae279e34fbe5b7e",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/71a9f8eccc4da164324d4a716182c5e3.pdf?productCode=C380364",
+  "used_as": [
+   "10u 25V X7R 1206"
+  ]
+ },
+ "C388002": {
+  "date": "2026-10-23",
+  "file": "0603B105K250CT_C388002.pdf",
+  "maker": "Walsin",
+  "mpn": "0603B105K250CT",
+  "sha1": "eece2f033039735fb3ab6ed3e2dc3d979398b885",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/075a7e54e3698b3e27011665ed540992.pdf?productCode=C388002",
+  "used_as": [
+   "1u 16V X7R"
+  ]
+ },
+ "C412624": {
+  "date": "2026-10-23",
+  "file": "EMK325B7226KM-PR_C412624.pdf",
+  "maker": "Taiyo Yuden",
+  "mpn": "EMK325B7226KM-PR",
+  "sha1": "de126fb081503060ab96f85a3e5e636e6e20c8bb",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/2e21b8b6ea6e42fdc2342df47b73fa9b.pdf?productCode=C412624",
+  "used_as": [
+   "22u 16V X7R 1210"
+  ]
+ },
+ "C4190": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF2201T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C4190",
+  "used_as": [
+   "2.2k 1%"
+  ]
+ },
+ "C4210": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF1602T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C4210",
+  "used_as": [
+   "16k 1%"
+  ]
+ },
+ "C4216": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF3302T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C4216",
+  "used_as": [
+   "33k 1%"
+  ]
+ },
+ "C465729": {
+  "date": "2026-10-23",
+  "file": "ucc27524.pdf",
+  "maker": "TI",
+  "mpn": "UCC27524",
+  "sha1": "0373c813565b2b785f7f433d85512593fd2792b9",
+  "url": "https://www.ti.com/lit/ds/symlink/ucc27524.pdf",
+  "used_as": [
+   "UCC27524DR"
+  ]
+ },
+ "C485517": {
+  "date": "2026-10-23",
+  "file": "tlv757p.pdf",
+  "maker": "TI",
+  "mpn": "TLV757P",
+  "sha1": "1933b1af4c22111e2ce9891e3760ed075efabc37",
+  "url": "https://www.ti.com/lit/ds/symlink/tlv757p.pdf",
+  "used_as": [
+   "TLV75733PDBVR"
+  ]
+ },
+ "C485804": {
+  "date": "2026-10-23",
+  "file": "lm2731.pdf",
+  "maker": "TI",
+  "mpn": "LM2731",
+  "sha1": "fae713653e156327685151cca631a63d1ccccc9d",
+  "url": "https://www.ti.com/lit/ds/symlink/lm2731.pdf",
+  "used_as": [
+   "LM2731XMF"
+  ]
+ },
+ "C48996814": {
+  "date": "2026-10-23",
+  "file": "CL0603FN121KP_C48996814.pdf",
+  "maker": "CHANGLONG",
+  "mpn": "CL0603FN121KP",
+  "sha1": "6c5c960d3b21efca24464f5646cc8f70d5a82d8e",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/b82d0fda19f226111e3c739fe2a92274.pdf?productCode=C48996814",
+  "used_as": [
+   "121k 1%"
+  ]
+ },
+ "C492401": {
+  "date": "2026-10-23",
+  "file": "PZ254V-11-02P_C492401.pdf",
+  "maker": "XFCN",
+  "mpn": "PZ254V-11-02P",
+  "sha1": "232b94e601f066aac7d8faaebe6f9d1c9b7fc5c6",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/3b85a1cdf6ed945f2e278f00c1e42442.pdf?productCode=C492401",
+  "used_as": [
+   "TX power (shunt)"
+  ]
+ },
+ "C52140488": {
+  "date": "2026-10-23",
+  "file": "74LVC2G34GW_C52140488.pdf",
+  "maker": "MDD(Microdiode Semiconductor)",
+  "mpn": "74LVC2G34GW",
+  "sha1": "eb3c5b7ae4f388d20fd3b48057a80379b6ce347f",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/e1f2df81f3e24118808e3d2b9f7f34f2.pdf?productCode=C52140488",
+  "used_as": [
+   "74LVC2G34"
+  ]
+ },
+ "C525507": {
+  "date": "2026-10-23",
+  "file": "0603B105K250CT_C388002.pdf",
+  "maker": "Walsin",
+  "mpn": "1210B106K500CT",
+  "sha1": "eece2f033039735fb3ab6ed3e2dc3d979398b885",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/075a7e54e3698b3e27011665ed540992.pdf?productCode=C525507",
+  "used_as": [
+   "10u 50V X7R 1210"
+  ]
+ },
+ "C53424": {
+  "date": "2026-10-23",
+  "file": "0603CG6R8C500NT_C1679.pdf",
+  "maker": "FH",
+  "mpn": "0603CG7R5C500NT",
+  "sha1": "16856efa2035bd99f3c99f7697936dc4d4fd2a9a",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C53424",
+  "used_as": [
+   "7.5p 50V C0G"
+  ]
+ },
+ "C57112": {
+  "date": "2026-10-23",
+  "file": "0603CG6R8C500NT_C1679.pdf",
+  "maker": "FH",
+  "mpn": "0603B103K500NT",
+  "sha1": "16856efa2035bd99f3c99f7697936dc4d4fd2a9a",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C57112",
+  "used_as": [
+   "10n 16V X7R"
+  ]
+ },
+ "C7484": {
+  "date": "2026-10-23",
+  "file": "sn74ahct1g125.pdf",
+  "maker": "TI",
+  "mpn": "SN74AHCT1G125",
+  "sha1": "64d5ad2c3ed2cfd209b5375ccd243536ba1575ea",
+  "url": "https://www.ti.com/lit/ds/symlink/sn74ahct1g125.pdf",
+  "used_as": [
+   "74AHCT1G125"
+  ]
+ },
+ "C76599": {
+  "date": "2026-10-23",
+  "file": "C1608C0G1H103JT000N_C76599.pdf",
+  "maker": "TDK",
+  "mpn": "C1608C0G1H103JT000N",
+  "sha1": "d34724d666aa941ae1059d21dd4ad75eba12f695",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/38af89a3abb50324a7de8b759d1fdf7e.pdf?productCode=C76599",
+  "used_as": [
+   "10n 50V C0G"
+  ]
+ },
+ "C78804": {
+  "date": "2026-10-23",
+  "file": "SWPA6045-Series.pdf",
+  "maker": "Sunlord",
+  "mpn": "SWPA6045-SERIES",
+  "sha1": "9d72ea19321f158809b6c26ef3bdd13e29fcd57d",
+  "url": "https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/196/SWPA6045-Series.pdf",
+  "used_as": [
+   "4.7u Isat>=2A"
+  ]
+ },
+ "C79272": {
+  "date": "2026-10-23",
+  "file": "SWPA6045-Series.pdf",
+  "maker": "Sunlord",
+  "mpn": "SWPA6045-SERIES",
+  "sha1": "9d72ea19321f158809b6c26ef3bdd13e29fcd57d",
+  "url": "https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/196/SWPA6045-Series.pdf",
+  "used_as": [
+   "10u Isat>=2A"
+  ]
+ },
+ "C87663": {
+  "date": "2026-10-23",
+  "file": "tps65131.pdf",
+  "maker": "TI",
+  "mpn": "TPS65131",
+  "sha1": "07a1987af77ca3c2e54f7862342efe26859c2308",
+  "url": "https://www.ti.com/lit/ds/symlink/tps65131.pdf",
+  "used_as": [
+   "TPS65131RGER"
+  ]
+ },
+ "C90082": {
+  "date": "2026-10-23",
+  "file": "tps7a33.pdf",
+  "maker": "TI",
+  "mpn": "TPS7A33",
+  "sha1": "497939164ea94ce974d26337cb13375147950f01",
+  "url": "https://www.ti.com/lit/ds/symlink/tps7a33.pdf",
+  "used_as": [
+   "TPS7A3301RGWR"
+  ]
+ },
+ "C970679": {
+  "date": "2026-10-23",
+  "file": "RVT1H470M0607_47UF_50V_C970679.pdf",
+  "maker": "DMBJ",
+  "mpn": "RVT1H470M0607 47UF 50V",
+  "sha1": "9854164e27ddf2f5942a3a71dd6b21782c36818c",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/f0a865b841864fb1f67292a6eb3bf84a.pdf?productCode=C970679",
+  "used_as": [
+   "47u 35V"
+  ]
+ },
+ "CUSA-TR65-065-2200-TH68": {
+  "date": "2026-10-23",
+  "file": "CUSA-TR65-065-2200-TH68.pdf",
+  "maker": "",
+  "mpn": "CUSA-TR65-065-2200-TH68",
+  "sha1": "59da1af2fa36ca04b98179a378527823a223702f",
+  "url": "https://www.cuidevices.com/product/resource/cusa-tr65-065-2200-th68.pdf",
+  "used_as": [
+   "CUSA-TR65-065-2200-TH68"
+  ]
+ }
+}

@@ -1,4 +1,4 @@
-* RX chain of one channel: AC gain/phase from the element's echo to the ADC pin.
+* RX chain of one channel: AC gain/phase from the element's echo to the ADC input pin.
 * The channel circuit is exported from kicad/channel.kicad_sch by sim/run.py (gen/channel.cir):
 * driver (held low) -> R101 47R -> D101 crossed diodes -> XD (element LS101, R102 bleed)
 * -> R103 4.7k / D102 clamp / C106 -> OPA1678 stage 1 -> MFB band-pass -> R109 -> RX_OUT.
@@ -8,28 +8,20 @@
 VP VP5A 0 5
 VN VN5A 0 -5
 Rdrv_on DRV_OUT 0 0.4
-* AD7606C-16 input: 1 Mohm, 5 pF
-Radc RX_OUT 0 1Meg
-Cadc RX_OUT 0 5p
+* ADC input network (2k/1k divider, 100 nF, 10 k ADC input): sim/models/adc_in.lib
+.include models/adc_in.lib
+XADC RX_OUT ADC ADC_IN
 * reference: the same element, open circuit (what the transducer gives into no load)
 XREF xdo 0 CUSA_TR65
-* ADC internal 2nd-order analog filters (Butterworth): AD7606C-16 high-bandwidth (220 kHz)
-* vs AD7606B (22.5 kHz on +-10 V, fixed)
-.param wc={2*pi*220k} wb={2*pi*22.5k}
-Ec adcC 0 RX_OUT 0 Laplace = wc**2/(s**2 + 1.4142*wc*s + wc**2)
-Eb adcB 0 RX_OUT 0 Laplace = wb**2/(s**2 + 1.4142*wb*s + wb**2)
 .ac dec 400 1k 1Meg
 .meas AC r_xd   FIND V(XD)/V(xdo)     AT 40k
-.meas AC r_adc  FIND V(RX_OUT)/V(xdo) AT 40k
-.meas AC r_adcC FIND V(adcC)/V(xdo)   AT 40k
-.meas AC r_adcB FIND V(adcB)/V(xdo)   AT 40k
+.meas AC r_adc  FIND V(ADC)/V(xdo)    AT 40k
+.meas AC r_out  FIND V(RX_OUT)/V(xdo) AT 40k
+.meas AC r_div  FIND V(ADC)/V(RX_OUT) AT 40k
+.meas AC r_div1k FIND V(ADC)/V(RX_OUT) AT 1k
 .meas AC r_amp  FIND V(RX_OUT)/V(LIM) AT 40k
 .meas AC r_amp39 FIND V(RX_OUT)/V(LIM) AT 39k
 .meas AC r_amp41 FIND V(RX_OUT)/V(LIM) AT 41k
-.meas AC r_C39 FIND V(adcC)/V(RX_OUT) AT 39k
-.meas AC r_C41 FIND V(adcC)/V(RX_OUT) AT 41k
-.meas AC r_B39 FIND V(adcB)/V(RX_OUT) AT 39k
-.meas AC r_B41 FIND V(adcB)/V(RX_OUT) AT 41k
 .meas AC f_peak MAX mag(V(RX_OUT)/V(LIM))
 .meas AC f_lo WHEN mag(V(RX_OUT)/V(LIM))=0.7071*f_peak RISE=1
 .meas AC f_hi WHEN mag(V(RX_OUT)/V(LIM))=0.7071*f_peak FALL=last

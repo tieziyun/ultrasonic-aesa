@@ -4,10 +4,10 @@ Every block that repeats on the board is one sheet, instantiated N times from th
 sheet by scripts/gen_top.py, so there is exactly one sheet to change per block:
 
   channel.kicad_sch   x64  (drawn with the MCP server, not rebuilt here)
-  adc.kicad_sch       x8   AD7606C-16, software mode, serial 2 DOUT, 33 R source resistors
+  adc.kicad_sch       x16  TLV320ADC5140, 4 channels, TDM slave, I2C, 33 R on SDOUT
   tx_group.kicad_sch  x16  one 74HCT595 + two UCC27524: drives 4 elements
   en_buf.kicad_sch    x4   one 74AHCT1G125: TX_EN_FPGA -> TX_ENn (one per 8 drivers)
-  clk_buf.kicad_sch   x7   one 74LVC2G34, 100 k pull-down on IN, 33 R per output (<= 4 loads)
+  clk_buf.kicad_sch   x9   one 74LVC2G34, 100 k pull-down on IN, 33 R per output (<= 4 loads)
   mic.kicad_sch       x8   one SPH0641LU4H-1 + bypass cap + 33 R on DATA
   headers.kicad_sch   x1   AXU3EGB J15/J16 headers, idle pulls (one-off)
 
@@ -53,7 +53,7 @@ C1206 = "Capacitor_SMD:C_1206_3216Metric"
 
 POWER_SYM = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+5VA": "power:+5VA",
              "-5VA": "power:-5VA", "+6V5": "power:+6V", "-6V5": "power:-6V", "VIN": "power:+12V",
-             "VDRV": "power:+15V", "3V3_MIC": "power:+3V3"}
+             "VDRV": "power:+15V", "3V3_MIC": "power:+3V3", "+3V3A": "power:+3.3VA"}
 # Rotation that points a power symbol away from the pin, by outward pin angle.
 GND_ROT = {270: 0, 90: 180, 0: 90, 180: 270}
 RAIL_ROT = {90: 0, 270: 180, 180: 90, 0: 270}
@@ -434,68 +434,72 @@ def set_pin_types(path, lib_id, types):
 
 
 # =====================================================================================
-# ADC: AD7606C-16, software mode (OS2..0 high), serial, 2 DOUT lines, internal reference
+# ADC: TLV320ADC5140, 4 channels, TDM slave on BCLK/FSYNC, I2C control, AC-coupled single-ended
 # =====================================================================================
 def adc():
-    s = Sheet("adc", "A3", "ADC (x8): AD7606C-16, software mode, serial 2 DOUT")
-    s.note("ADC: AD7606C-16 (pin-compatible with AD7606B; symbol keeps AD7606 pin names)", 30.48, 25.4, 2.5)
-    s.note("Software mode: OS0-OS2 high. FPGA writes registers over SDI (pin 29, DB11/SDI) at boot:", 30.48, 33.02)
-    s.note("RANGE_CHx = 0x1 (+-5 V), BANDWIDTH = 0xFF (high bandwidth on all 8 channels), "
-           "CONFIG DOUT_FORMAT = 2 lines.", 30.48, 38.1)
-    s.note("Pin 10 is WR on the B/C parts (parallel register writes only): held high. "
-           "RANGE pin is ignored in software mode.", 30.48, 43.18)
-    s.note("33 R source resistors on DOUTA/DOUTB/BUSY (ribbon to the FPGA); BUSY is used from ADC1 only.",
-           30.48, 48.26)
-    s.note("DB9/DB10 are tied to GND: never set DOUT_FORMAT to 4 lines. After power-up the FPGA pulses "
-           "ADC_RESET (full reset), then writes the registers.", 30.48, 53.34)
-    s.part("Analog_ADC:AD7606", "U1", 190.5, 139.7, "AD7606C-16BSTZ", "Package_QFP:LQFP-64_10x10mm_P0.5mm")
-    for i in range(8):
-        s.hier(f"IN{i + 1}", f"U1.{49 + 2 * i}", shape="input")
-        s.pwr("GND", f"U1.{50 + 2 * i}")
-    s.tie("+5VA", "U1.1", "U1.37", "U1.38", "U1.48")
-    s.pwr("+3V3", "U1.23")
-    s.pwr("GND", "U1.2", "U1.43")
-    # Right side, strapping
-    s.tie("+3V3", "U1.34", "U1.6", "U1.7", "U1.8", "U1.3", "U1.4", "U1.5")  # REFSEL, SER, /STBY, RANGE, OS0-2
-    s.pwr("+3V3", "U1.10")                                                 # WR high (inactive)
-    s.hier("CONVST", "U1.9", shape="input")
-    s.glb("ADC_CS_N", "U1.13", shape="input")
-    s.hier("SCLK", "U1.12", shape="input")
-    s.glb("ADC_RESET", "U1.11", shape="input")
-    s.nc("U1.15")
-    s.glb("ADC_SDI", "U1.29", shape="input")
-    s.tie("GND", "U1.16", "U1.17", "U1.18", "U1.19", "U1.20", "U1.21", "U1.22")  # DB0-DB6
-    s.tie("GND", "U1.27", "U1.28")                                              # DB9/DOUTC, DB10/DOUTD
-    s.tie("GND", "U1.30", "U1.31", "U1.32", "U1.33")                            # DB12-DB15
-    # Output source resistors
-    for ref, y, upin, port in (("R1", 109.22, "24", "DOUTA"), ("R2", 127.0, "25", "DOUTB"),
-                               ("R3", 152.4, "14", "BUSY")):
-        s.part("Device:R", ref, 236.22, y, "33 1%", R0603, rot=90)
-        s.wire(f"U1.{upin}", f"{ref}.1")
-        s.hier(port, f"{ref}.2", shape="output")
-    # Reference and regulator caps (left side, labels)
-    s.lbl("REGCAP1", "U1.36")
-    s.lbl("REGCAP2", "U1.39")
-    s.lbl("REFIO", "U1.42")
-    s.lbl("REFCAP", "U1.44", "U1.45")
-    caps = [("C1", "100n 16V X7R", C0603, "+5VA"), ("C2", "100n 16V X7R", C0603, "+5VA"),
-            ("C3", "100n 16V X7R", C0603, "+5VA"), ("C4", "100n 16V X7R", C0603, "+5VA"),
-            ("C5", "10u 16V X5R", C0805, "+5VA"), ("C6", "100n 16V X7R", C0603, "+3V3"),
-            ("C7", "1u 16V X7R", C0603, "REGCAP1"), ("C8", "1u 16V X7R", C0603, "REGCAP2"),
-            ("C9", "10u 16V X7R", C1206, "REFCAP"), ("C10", "100n 16V X7R", C0603, "REFIO")]
-    s.note("Decoupling (place at the pins): four 100 nF on the AVCC pins + 10 uF bulk, 100 nF on VDRIVE; "
-           "REGCAP 1 uF x2, REFCAP 10 uF, REFIN/OUT 100 nF per datasheet", 30.48, 205.74)
+    s = Sheet("adc", "A3", "ADC (x16): TLV320ADC5140, 4 channels, 192 kSPS TDM")
+    s.note("ADC: TLV320ADC5140 (TI, 4 channels, up to 768 kSPS). Run at 192 kSPS: flat to about 86 kHz.",
+           30.48, 25.4, 2.5)
+    s.note("TDM slave: BCLK 18.432 MHz, FSYNC 192 kHz from the FPGA (shared by all 16 ADCs, so all 64 channels "
+           "sample at the same instant). 4 slots x 24 bits on SDOUT.", 30.48, 33.02)
+    s.note("I2C: SCL shared, SDA per group of 4 ADCs; A1/A0 set the address 0x4C-0x4F inside the group. "
+           "Config writes can use I2C broadcast (P0_R2 I2C_BRDCAST_EN).", 30.48, 38.1)
+    s.note("Per channel, set at boot: CHx_INSRC = single-ended (01), CHx_IMP = 10 k (01), AC-coupled, fixed 0 dB "
+           "gain, DRE and AGC OFF (they change gain on the fly and break channel matching).", 30.48, 43.18)
+    s.note("Also: ADC_FSCALE 2.75 V (1 Vrms single-ended full scale), AREG_SELECT = 1, TX_EDGE = 1 (the FPGA "
+           "latches SDOUT one BCLK after launch).", 30.48, 48.26)
+    s.note("Input: 2k/1k divider (x0.31 with the 10 k input) keeps the receiver's +-4.2 V worst case inside the "
+           "1.41 V peak full scale; 100 nF couples to the ADC's own bias (150 Hz high-pass).", 30.48, 53.34)
+    s.note("Power-up: SHDNZ (ADC_SHDNZ, pulled low on the header sheet) stays low until the rails settle, "
+           "then wait 2 ms before I2C.", 30.48, 58.42)
+    s.part("aesa:TLV320ADC5140", "U1", 215.9, 139.7, "TLV320ADC5140",
+           "Package_DFN_QFN:Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm_ThermalVias")
+    # Input network per channel: IN -> 2k -> (1k to GND) -> 100 nF -> INxP; INxM -> 100 nF -> GND
+    for i in range(4):
+        y = 81.28 + 25.4 * i
+        rt, rb, cc, cm = f"R{i + 1}", f"R{i + 5}", f"C{i + 1}", f"C{i + 5}"
+        s.part("Device:R", rt, 71.12, y, "2k 1%", R0603, rot=90)
+        s.part("Device:R", rb, 86.36, y + 3.81, "1k 1%", R0603)
+        s.part("Device:C", cc, 104.14, y, "100n 16V X7R", C0603, rot=90)
+        s.part("Device:C", cm, 132.08, y + 12.7, "100n 16V X7R", C0603)
+        s.hier(f"IN{i + 1}", f"{rt}.1", shape="input")
+        s.poly(f"{rt}.2", f"{rb}.1", f"{cc}.1")
+        s.pwr("GND", f"{rb}.2", f"{cm}.2")
+        s.lbl(f"INP{i + 1}", f"{cc}.2", f"U1.{6 + 2 * i}")
+        s.lbl(f"INM{i + 1}", f"{cm}.1", f"U1.{7 + 2 * i}")
+    s.note("Channel inputs: 2k + 1k divider, 100 nF AC coupling (single-ended, INxM AC-grounded)", 50.8, 68.58)
+    # Control and audio interface
+    s.glb("ADC_SHDNZ", "U1.14", shape="input")
+    s.hier("A0", "U1.16", shape="input")
+    s.hier("A1", "U1.15", shape="input")
+    s.glb("ADC_SCL", "U1.17", shape="input")
+    s.hier("SDA", "U1.18", shape="bidirectional")
+    s.hier("FSYNC", "U1.23", shape="input")
+    s.hier("BCLK", "U1.22", shape="input")
+    s.part("Device:R", "R9", 269.24, 127.0, "33 1%", R0603, rot=90)
+    s.wire("U1.21", "R9.1")
+    s.hier("SDOUT", "R9.2", shape="output")
+    s.nc("U1.20", "U1.5")  # GPIO1 and MICBIAS unused
+    # Supplies and reference
+    s.pwr("+3V3A", "U1.1")
+    s.pwr("+3V3", "U1.19")
+    s.pwr("GND", "U1.4", "U1.25")
+    s.lbl("VREF", "U1.3")
+    s.lbl("AREG", "U1.2")
+    s.lbl("DREG", "U1.24")
+    caps = [("C9", "1u 50V X7R", C0805, "+3V3A"), ("C10", "100n 16V X7R", C0603, "+3V3A"),
+            ("C11", "10u 16V X5R", C0805, "AREG"), ("C12", "100n 16V X7R", C0603, "AREG"),
+            ("C13", "10u 16V X5R", C0805, "DREG"), ("C14", "100n 16V X7R", C0603, "DREG"),
+            ("C15", "10u 16V X5R", C0805, "+3V3"), ("C16", "100n 16V X7R", C0603, "+3V3"),
+            ("C17", "1u 50V X7R", C0805, "VREF")]
+    s.note("Decoupling at the pins (datasheet Figure 172): AVDD 1 uF + 100 nF, AREG and DREG 10 uF + 100 nF, "
+           "IOVDD 10 uF + 100 nF, VREF 1 uF", 50.8, 213.36)
     for k, (ref, val, fp, net) in enumerate(caps):
-        x = 38.1 + 20.32 * k
-        s.part("Device:C", ref, x, 228.6, val, fp)
+        x = 58.42 + 22.86 * k
+        s.part("Device:C", ref, x, 233.68, val, fp)
         (s.pwr if net in POWER_SYM else s.lbl)(net, f"{ref}.1")
         s.pwr("GND", f"{ref}.2")
     s.build()
-    # Library marks DB pins as outputs; here they are tied to GND (serial mode) or driven (SDI).
-    types = {str(n): "passive" for n in (16, 17, 18, 19, 20, 21, 22, 27, 28, 30, 31, 32, 33)}
-    types["29"] = "input"
-    print("  pin types changed:", set_pin_types(s.path, "Analog_ADC:AD7606", types))
-
 
 # =====================================================================================
 # TX group: one 74HCT595 (4 of its 8 bits) feeding two UCC27524 -> 4 elements
@@ -558,7 +562,7 @@ def en_buf():
 # Clock buffer: one input -> two 33 R series-terminated outputs, <= 4 loads each
 # =====================================================================================
 def clk_buf():
-    s = Sheet("clk_buf", "A4", "Clock buffer (x7): 74LVC2G34, 33 R outputs")
+    s = Sheet("clk_buf", "A4", "Clock buffer (x9): 74LVC2G34, 33 R outputs")
     s.note("Clock fan-out: 74LVC2G34 at the header, both gates on IN, 33 R series termination per output",
            25.4, 25.4)
     s.note("Each output drives at most 4 loads (series termination works for a lumped load at the far end).",
@@ -619,7 +623,7 @@ from pinmap import J1_MAP, J2_MAP  # noqa: E402  (shared with check_design.py)
 def headers():
     s = Sheet("headers", "A3", "AXU3EGB headers J15/J16, idle pulls")
     s.note("AXU3EGB expansion headers (40-pin IDC, 2.54 mm). J1 = board J15 (TX, mics), "
-           "J2 = board J16 (ADCs).", 30.48, 25.4, 2.5)
+           "J2 = board J16 (ADCs: 16 TDM lines, BCLK, FSYNC, I2C).", 30.48, 25.4, 2.5)
     s.note("Pin 2 (+5V) and 39/40 (+3.3V) of the FPGA board are left open. Clocks sit between GND "
            "conductors (pins 31-37).", 30.48, 33.02)
     s.note("Spare FPGA pins tied to GND must stay unused (inputs) in the XDC.", 30.48, 38.1)
@@ -634,20 +638,23 @@ def headers():
             elif net == "GND":
                 s.pwr("GND", p, hide=True)
             else:
-                s.glb(net, p, shape="bidirectional" if net.startswith(("ADC_D", "ADC_B", "MIC_D")) else "input")
+                s.glb(net, p, shape="bidirectional" if net.startswith(("ADC_SDOUT", "ADC_SDA", "MIC_D")) else "input")
     pulls = [("R1", "TX_EN_FPGA", "GND", "TX drivers off while the FPGA configures"),
              ("R2", "TX_OE_N", "+3V3", "595 outputs off"),
              ("R3", "TX_CLR_N", "GND", "595 cleared"),
-             ("R4", "ADC_CS_N", "+3V3", "ADCs deselected"),
-             ("R5", "ADC_RESET", "GND", "ADCs idle until the FPGA pulses a full reset"),
-             ("R11", "ADC_SDI", "GND", "register line idle")]
-    s.note("Idle pulls (FPGA unconfigured). TX_SCK, TX_LATCH, ADC_SCLK, ADC_CONVST and MIC_CLK_IN are "
-           "pulled down in their clk_buf.", 30.48, 236.22)
+             ("R4", "ADC_SHDNZ", "GND", "ADCs in hardware shutdown until the FPGA releases them"),
+             ("R5", "ADC_SCL", "+3V3", "I2C pull-up"),
+             ("R11", "ADC_SDA1", "+3V3", "I2C pull-up, ADC group 1"),
+             ("R12", "ADC_SDA2", "+3V3", "I2C pull-up, ADC group 2"),
+             ("R13", "ADC_SDA3", "+3V3", "I2C pull-up, ADC group 3"),
+             ("R14", "ADC_SDA4", "+3V3", "I2C pull-up, ADC group 4")]
+    s.note("Idle pulls (FPGA unconfigured), 10 k; I2C pull-ups 2.2 k (run the bus at 100 kHz). TX_SCK, TX_LATCH, "
+           "ADC_BCLK, ADC_FSYNC and MIC_CLK_IN are pulled down in their clk_buf.", 30.48, 236.22)
     # Ribbon end (sim/clock_si_in.cir, clock_si_drive.cir): with the FPGA at DRIVE 8 (~40 ohm)
     # the unterminated 100-ohm ribbon rings to 3.7-4.0 V / -0.4..-0.7 V at the buffer input;
     # DRIVE 4 (~80 ohm, near source match) gives 3.3 V / 0 V on every line with no parts.
     # Fallback, not fitted: 100 R + 47 pF to GND per clock line (do not combine with DRIVE 4).
-    terms = ["TX_SCK", "TX_LATCH", "ADC_SCLK", "ADC_CONVST", "MIC_CLK_IN"]
+    terms = ["TX_SCK", "TX_LATCH", "ADC_BCLK", "ADC_FSYNC", "MIC_CLK_IN"]
     s.note("FPGA ribbon outputs: DRIVE 4, SLEW SLOW (near source-matched to the 100-ohm ribbon). "
            "DNP fallback: RC end termination 100 R + 47 pF per clock, fit only with DRIVE 8.",
            30.48, 176.53)
@@ -661,7 +668,7 @@ def headers():
         s.pwr("GND", f"C{1 + k}.2")
     for k, (ref, net, rail, _why) in enumerate(pulls):
         x = 50.8 + 40.64 * k
-        s.part("Device:R", ref, x, 256.54, "10k 1%", R0603)
+        s.part("Device:R", ref, x, 256.54, "2.2k 1%" if "ADC_S" in net and net != "ADC_SHDNZ" else "10k 1%", R0603)
         if rail == "GND":
             s.glb(net, f"{ref}.1", shape="input")
             s.pwr("GND", f"{ref}.2")
@@ -694,7 +701,7 @@ def power():
     jumper, LED, test point, flag) and end in a power symbol at the edge of the section. Pins that
     only tie to a rail (enables, mode pins, ANY-OUT pins, exposed pads) use power symbols/flags.
     """
-    s = Sheet("power", "A2", "Power: 12 V in, +5V, +-6V5, +-5VA, VDRV, +3V3, 3V3_MIC")
+    s = Sheet("power", "A2", "Power: 12 V in, +5V, +-6V5, +-5VA, VDRV, +3V3, 3V3_MIC, +3V3A")
     s.field_ov.append("--vertical")  # value text beside each upright part
     nflag = [0]
     SYM2 = {"C": "Device:C", "CP": "Device:C_Polarized", "R": "Device:R", "L": "Device:L",
@@ -768,13 +775,13 @@ def power():
     s.poly(dk, "C1.1", "C2.1", r1, tp("TP1", ox + 106.68, ry, "VIN"), flag(ox + 119.38, ry), (ox + 132.08, ry))
     s.sym("VIN", (ox + 132.08, ry))
 
-    # ---- B. +5V: TPS54202 buck --------------------------------------------------------------
+    # ---- B. +5V: TPS54302 buck --------------------------------------------------------------
     ox, oy = 309.88, 30.48
     ry = oy + 30.48
-    s.note("B. +5V: TPS54202 buck (TI reference design), 2 A", ox, oy, 2.2)
-    s.note("Vout = 0.596 V x (1 + 75k/10k) = 5.07 V. EN UVLO about 7.3 V. Load about 1.4 A.", ox, oy + 5.08)
+    s.note("B. +5V: TPS54302 buck (TI reference design), 3 A", ox, oy, 2.2)
+    s.note("Vout = 0.596 V x (1 + 75k/10k) = 5.07 V. EN UVLO about 7.3 V. Load about 1.6 A.", ox, oy + 5.08)
     s.field_ov.append("U1=-10.16,-10.16,-10.16,-7.62")
-    s.part("Regulator_Switching:TPS54202DDC", "U1", ox + 58.42, ry + 2.54, "TPS54202DDCR",
+    s.part("Regulator_Switching:TPS54302", "U1", ox + 58.42, ry + 2.54, "TPS54302DDCR",
            "Package_TO_SOT_SMD:SOT-23-6")
     caps_to_gnd(("C", "C3", ox + 12.7, ry, "10u 50V X7R 1210", C1210), ("C", "C4", ox + 22.86, ry, "100n 50V X7R", C0603))
     r2t, r2b = v("R", "R2", ox + 33.02, ry, "510k 1%", R0603)
@@ -789,7 +796,7 @@ def power():
     c5t, c5b = v("C", "C5", ox + 76.2, ry - 7.62, "100n 16V X7R", C0603)       # BOOT
     s.poly("U1.6", (ox + 71.12, None), (None, ry - 7.62), c5t)
     s.poly(c5b, (None, ry + 2.54))
-    l1a, l1b = h("L", "L1", ox + 81.28, ry + 2.54, "15u Isat>=3.5A", L8040)
+    l1a, l1b = h("L", "L1", ox + 81.28, ry + 2.54, "10u Isat>=5A", L8040)
     s.poly("U1.2", (ox + 76.2, ry + 2.54), l1a)                                 # SW
     s.netname("SW_5V", l1a, 180)
     s.netname("BOOT_5V", (ox + 71.12, ry - 7.62))
@@ -896,7 +903,7 @@ def power():
     ox, oy = 309.88, 124.46
     s.note("D. ANALOG RAILS: TPS7A4700 +5VA, TPS7A3301 -5VA (low noise, no LEDs)", ox, oy, 2.2)
     s.note("+5VA: ANY-OUT 1.4 + 3.2 + 0.4 = 5.0 V.   -5VA = -1.176 V x (1 + 715k/220k) = -5.00 V.", ox, oy + 5.08)
-    s.note("Load: 64 x OPA1678 (4 mA per channel) + 8 x AD7606C AVCC: about 0.45 A on +5VA, 0.3 A on -5VA.",
+    s.note("Load: 64 x OPA1678 (4 mA per channel): about 0.3 A on +5VA and on -5VA.",
            ox, oy + 9.4)
     cx, cy = ox + 40.64, oy + 40.64
     ry = cy - 15.24
@@ -950,7 +957,7 @@ def power():
     # ---- E. VDRV ----------------------------------------------------------------------------------
     ox, oy = 20.32, 233.68
     s.note("E. VDRV 15 V: LM2731X boost from VIN. Remove the J2 shunt to unpower all TX drivers", ox, oy, 2.2)
-    s.note("1.23 V x (1 + 150k/13.3k) = 15.1 V. Load, all 64 elements in CW at 40 kHz: about 0.24 A (sim/reports/tx_cw.md).",
+    s.note("1.23 V x (1 + 150k/13k) = 15.4 V. Load, all 64 elements in CW at 40 kHz: about 0.24 A (sim/reports/tx_cw.md).",
            ox, oy + 5.08)
     cx, cy = ox + 45.72, oy + 33.02
     ry = cy - 12.7
@@ -998,7 +1005,7 @@ def power():
     # ---- F. +3V3 -----------------------------------------------------------------------------------
     ox, oy = 309.88, 241.3
     s.note("F. +3V3: TLV75733P LDO from +5V (1 A, stable with ceramic caps)", ox, oy, 2.2)
-    s.note("Load < 0.15 A: ADC VDRIVE, clock buffers, logic, mics.", ox, oy + 5.08)
+    s.note("Load < 0.15 A: ADC IOVDD, clock buffers, logic, mics.", ox, oy + 5.08)
     cx, cy = ox + 33.02, oy + 25.4
     ry = cy - 2.54
     s.part("Regulator_Linear:TLV75733PDBV", "U6", cx, cy, "TLV75733PDBVR", "Package_TO_SOT_SMD:SOT-23-5")
@@ -1027,6 +1034,34 @@ def power():
     s.poly((ox + 5.08, ry), fa)
     s.poly(fb_, "C38.1", r21, tp("TP11", ox + 60.96, ry, "3V3_MIC"), flag(ox + 73.66, ry), (ox + 86.36, ry))
     s.sym("3V3_MIC", (ox + 86.36, ry))
+
+    # ---- I. +3V3A ----------------------------------------------------------------------------------
+    ox, oy = 309.88, 345.44
+    s.note("I. +3V3A: TPS7A4700 low-noise LDO from +5V for the 16 ADCs' AVDD (analog rail: no LED)", ox, oy, 2.2)
+    s.note("ANY-OUT 1.4 + 1.6 + 0.2 + 0.1 = 3.3 V. Load about 0.45 A (16 x TLV320ADC5140); "
+           "0.8 W in the LDO, thermal vias under the pad.", ox, oy + 5.08)
+    cx, cy = ox + 40.64, oy + 40.64
+    ry = cy - 15.24
+    s.part("Regulator_Linear:TPS7A4701xRGW", "U7", cx, cy, "TPS7A4700RGWT",
+           "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
+    caps_to_gnd(("C", "C39", ox + 12.7, ry, "10u 25V X7R 1206", C1206))
+    s.sym("+5V", (ox + 5.08, ry))
+    s.poly((ox + 5.08, ry), "C39.1", (cx - 15.24, ry), "U7.15")
+    s.poly("U7.13", (cx - 15.24, None), (None, ry))                              # EN to IN
+    s.pwr("GND", "U7.8", "U7.11", "U7.12")                                       # ANY-OUT 1.6 + 0.2 + 0.1 V
+    s.nc(*(f"U7.{n}" for n in ("4", "5", "6", "9", "10")))
+    s.tie("GND", "U7.21", "U7.7")
+    caps_to_gnd(("C", "C40", cx + 22.86, ry, "10u 16V X7R 1206", C1206), ("C", "C41", cx + 33.02, ry, "10u 16V X7R 1206", C1206))
+    j7a, j7b = jp("JP7", cx + 45.72, ry, "+3V3A")
+    s.poly("U7.1", (cx + 15.24, ry), "C40.1", "C41.1", j7a)
+    s.poly("U7.3", (cx + 15.24, None), (None, ry))                               # SENSE to OUT
+    s.netname("3V3A_REG", "C41.1")
+    c42t, c42b = v("C", "C42", cx + 17.78, cy + 10.16, "1u 16V X7R", C0603)      # NR
+    s.sym("GND", c42b)
+    s.poly("U7.14", c42t)
+    s.netname("NR_3V3A", c42t)
+    s.poly(j7b, tp("TP12", cx + 71.12, ry, "+3V3A"), flag(cx + 83.82, ry), (cx + 96.52, ry))
+    s.sym("+3V3A", (cx + 96.52, ry))
     s.build()
 
 

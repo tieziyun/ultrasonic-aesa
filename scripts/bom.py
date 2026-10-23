@@ -14,7 +14,8 @@ Outputs
   docs/bom.md            costed BOM, totals, parts bought elsewhere, optimization notes
   scripts/parts.json     value|footprint -> LCSC, read by scripts/sch_lcsc.py --force
 
-  python scripts/bom.py [--boards N]        (default N = 2, the JLCPCB assembly minimum)
+  python scripts/bom.py [--boards N] [--no-datasheets]   (N = 2 by default, the JLCPCB assembly minimum)
+Then it runs scripts/datasheets.py, which keeps docs/datasheets/ in step with the BOM.
 """
 
 import csv
@@ -38,9 +39,9 @@ PICKS = {
     "74HCT595D": ("C282339", "Nexperia. The $0.14 C52140404 'HCT' clone lists 2.7-5.5 V supply, i.e. HC-type inputs that "
                              "may not accept 3.3 V logic at 5 V; not worth $2 per board"),
     "BAV99": ("C2500", "Nexperia BAV99,215, JLCPCB Basic (was C68983, extended)"),
-    "AD7606C-16BSTZ": ("C5240947", "AD7606C-16BSTZ-RL is stocked by JLCPCB, so it is assembled, not consigned"),
+    "TLV320ADC5140": ("C2876368", "TI 4-channel 768 kHz audio ADC, 16 per board (replaces 8 x AD7606C-16 at $58.81)"),
     "SPH0641LU4H-1": ("C2879853", "Knowles PDM mic, stocked by JLCPCB, so it is assembled, not consigned"),
-    "TPS54202DDCR": ("C191884", "TI 2 A buck, +5V"),
+    "TPS54302DDCR": ("C311983", "TI 3 A buck, +5V: pin-compatible with the TPS54202, 3 A for the ADC rail"),
     "TPS65131RGER": ("C87663", "TI dual +/- boost, +/-6V5"),
     "TPS7A4700RGWT": ("C28286", "TI low-noise LDO, +5VA. Replaces TPS7A4701RGWR (C90084: stock 1, $13.16); "
                                 "same VQFN-20 pinout, ANY-OUT works the same"),
@@ -55,8 +56,8 @@ PICKS = {
     "green": ("C12624", "KT-0603G. No green 0603 LED is a Basic part; the Basic red KT-0603R (C2286) would save "
                         "the $3 fee if the colour does not matter"),
     "600R@100MHz 0603": ("C1002", "Sunlord GZ1608D601TF, JLCPCB Basic; filters the 3V3_MIC rail (mics draw ~10 mA)"),
-    "15u Isat>=3.5A": ("C2041631", "Bourns SRN8040TA-150M, Isat 4 A (the TPS54202 limit is 3.5 A); fits the drawn "
-                                   "footprint. Sunlord SWPA8040S150MT (C16853, $0.13) saturates at 3.4 A"),
+    "10u Isat>=5A": ("C2044906", "Bourns SRN8040TA-100M, 10 uH (TI reference value), Isat 5 A = the TPS54302's "
+                                 "typical current limit; same footprint as before"),
     "4.7u Isat>=2A": ("C78804", "Sunlord SWPA6045S4R7MT, 4.7 uH, Isat 5.5 A"),
     "10u Isat>=2A": ("C79272", "Sunlord SWPA6045S100MT, 10 uH, Isat 3.5 A"),
     "12 V in (5.5x2.1)": ("C22434582", "CUI PJ-063AH (8 A); kept for the documented footprint"),
@@ -66,14 +67,17 @@ PICKS = {
 }
 # Bought elsewhere and soldered by hand: value -> (source, unit USD, note)
 OFFBOARD = {
-    "CUSA-TR65-065-2200-TH68": ("DigiKey 102-CUSA-TR65-065-2200-TH68-ND", 4.72,
-                                "40 kHz transceiver; JLCPCB/LCSC have no equivalent with the same 6.5 mm can"),
+    "CUSA-TR65-065-2200-TH68": ("DigiKey 102-CUSA-TR65-065-2200-TH68-ND", 3.5536,
+                                "40 kHz transceiver, DNP for JLCPCB (hand-soldered). DigiKey 100+ price "
+                                "(1: $4.72, 50: $3.69, 500: $3.28; 350 in stock 2026-10-23); not stocked by LCSC"),
 }
 NO_PART = ("TestPoint:", "Jumper:SolderJumper")  # copper only
 
 # Schematic changes made for cost or availability (kept here so the report explains them)
 CHANGES = [
-    "AD7606C-16 is stocked by JLCPCB (C5240947), so it is assembled instead of consigned from DigiKey/Mouser.",
+    "ADC: 8 x AD7606C-16 ($58.81 each, $470 per board) → 16 x TI TLV320ADC5140 4-channel audio ADC ($4.01 each, "
+    "about $64 per board). Same simultaneous sampling of all 64 channels, 192 kSPS, more dynamic range; needs a "
+    "+3V3A LDO (second TPS7A4700) and the 3 A TPS54302 buck.",
     "SPH0641LU4H-1 is stocked by JLCPCB (C2879853), so it is assembled instead of consigned.",
     "+5VA LDO TPS7A4701RGWR (JLCPCB stock 1, $13.16) → TPS7A4700RGWT (646 in stock, $6.11): same chip "
     "family, pinout and ANY-OUT network.",
@@ -85,7 +89,7 @@ CHANGES = [
     "511k/105k → 510k/100k (UVLO ≈ 7.3 V): all Basic parts, 3 fewer extended types.",
     "VDRV divider 150k/13.3k → 150k/13k (Basic): VDRV 15.4 V instead of 15.1 V, within the UCC27524 range.",
     "Inductor footprints follow the chosen parts: Sunlord SWPA6045S for L2–L4; L1 stays SRN8040 (Bourns "
-    "SRN8040TA-150M, Isat 4 A, above the 3.5 A buck current limit).",
+    "SRN8040TA-100M, Isat 5 A, the TPS54302's typical current limit).",
     "One 0805 10 µF X7R moved to 1206 to share the part already used on 11 other lines.",
     "Mic bypass 100 nF C0G moved from 0805 to 1206: JLCPCB stocks no 100 nF C0G in 0805.",
     "Ceramic capacitors that only need X5R/X7R share one Basic part where the voltage allows "
@@ -183,15 +187,15 @@ def main():
         if b["fp"].startswith(NO_PART):
             nopart.append(b)
             continue
+        if b["value"] in OFFBOARD:
+            offboard.append((b, *OFFBOARD[b["value"]]))
+            continue
         if b["dnp"]:  # not assembled, but give it a part so it can be fitted later
             v = b["value"].replace(" DNP", "")
             b["part"] = (pk.resistor(v, package_of(b["fp"]), 0) if parse_res(v)
                          else pk.capacitor(parse_cap(v), package_of(b["fp"]), 0, b["fp"]) if parse_cap(v)
                          else pk.verify(PICKS[v][0], 0) if v in PICKS else None)
             dnp.append(b)
-            continue
-        if b["value"] in OFFBOARD:
-            offboard.append((b, *OFFBOARD[b["value"]]))
             continue
         need = b["qty"] * boards
         note = ""
@@ -296,3 +300,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    if "--no-datasheets" not in sys.argv:  # keep docs/datasheets/ in step with the BOM
+        import datasheets
+        datasheets.main()

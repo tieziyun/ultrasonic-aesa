@@ -13,8 +13,9 @@ S1 vdd DRV_OUT lg 0 SWH
 S2 DRV_OUT 0 lgn 0 SWL
 .model SWH SW(Ron=5 Roff=1G Vt=0.5 Vh=0.01)
 .model SWL SW(Ron=0.4 Roff=1G Vt=0.5 Vh=0.01)
-Radc RX_OUT 0 1Meg
-Cadc RX_OUT 0 5p
+* ADC input network (2k/1k divider, 100 nF, 10 k ADC input): sim/models/adc_in.lib
+.include models/adc_in.lib
+XADC RX_OUT ADC ADC_IN
 .save V(XD) V(LIM) V(DRV_OUT) V(DRV) I(Vdd) I(R101) I(R102) I(R103)
 .tran 0 6m 0 20n
 .meas TRAN i_vdrv AVG -I(Vdd) FROM 4.1m TO 5.9m

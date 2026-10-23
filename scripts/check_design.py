@@ -32,7 +32,7 @@ OUT = REPO / "docs" / "design-check.md"
 RAIL_V = {"VIN": 12.0, "VIN_JACK": 12.0, "VIN_FUSED": 12.0, "VIN65": 5.0, "+5V": 5.0, "5V_REG": 5.07,
           "+6V5": 6.46, "6V5_REG": 6.46, "-6V5": -6.51, "-6V5_REG": -6.51, "+5VA": 5.0, "5VA_REG": 5.0,
           "-5VA": -5.0, "-5VA_REG": -5.0, "VDRV": 15.4, "VDRV_REG": 15.4, "+3V3": 3.3, "3V3_REG": 3.3,
-          "3V3_MIC": 3.3, "SW_5V": 12.0, "SW_P": 7.0, "SW_N": -7.0, "SW_VDRV": 15.9, "BOOT_5V": 17.0}
+          "3V3_MIC": 3.3, "+3V3A": 3.3, "3V3A_REG": 3.3, "SW_5V": 12.0, "SW_P": 7.0, "SW_N": -7.0, "SW_VDRV": 15.9, "BOOT_5V": 17.0}
 
 
 # ---- results ------------------------------------------------------------------------------
@@ -125,8 +125,8 @@ def check_erc(R):
 
 def check_counts(R, d):
     expect = {"OPA1678IDR": 64, "CUSA-TR65-065-2200-TH68": 64, "BAV99": 128, "UCC27524DR": 32, "74HCT595D": 16,
-              "74AHCT1G125": 4, "74LVC2G34": 7, "AD7606C-16BSTZ": 8, "SPH0641LU4H-1": 8, "TPS54202DDCR": 1,
-              "TPS65131RGER": 1, "TPS7A4700RGWT": 1, "TPS7A3301RGWR": 1, "LM2731XMF": 1, "TLV75733PDBVR": 1}
+              "74AHCT1G125": 4, "74LVC2G34": 9, "TLV320ADC5140": 16, "SPH0641LU4H-1": 8, "TPS54302DDCR": 1,
+              "TPS65131RGER": 1, "TPS7A4700RGWT": 2, "TPS7A3301RGWR": 1, "LM2731XMF": 1, "TLV75733PDBVR": 1}
     vals = Counter(c["value"] for c in d.comps.values())
     bad = [f"- {v}: {vals.get(v, 0)} (expected {n})" for v, n in expect.items() if vals.get(v, 0) != n]
     lines = [f"{len(d.comps)} parts, {len(vals)} distinct values."]
@@ -185,6 +185,24 @@ def check_lcsc(R, d):
     R.add("LCSC numbers", not by.get("(none)"), lines, warn=bool(tbd))
 
 
+def check_datasheets(R, d):
+    """Every part with an LCSC number (and the hand-soldered transducer) has a PDF in docs/datasheets/."""
+    import json
+    idx_path = REPO / "docs" / "datasheets" / "index.json"
+    idx = json.loads(idx_path.read_text()) if idx_path.exists() else {}
+    have = {k for k, e in idx.items() if e.get("file") and (idx_path.parent / e["file"]).exists()}
+    need = {}
+    for r, c in d.comps.items():
+        code = c["lcsc"].removesuffix(" (DNP)")
+        key = code if re.fullmatch(r"C\d+", code) else (c["value"] if code == "hand-solder" else None)
+        if key:
+            need.setdefault(key, c["value"])
+    miss = sorted(f"{v} ({k})" for k, v in need.items() if k not in have)
+    R.add("Datasheets in docs/datasheets/ for every part", True,
+          [f"{len(need)} distinct parts, {len(need) - len(miss)} with a datasheet PDF "
+           f"(scripts/datasheets.py, run by bom.py)."] + [f"- missing: {m}" for m in miss], warn=bool(miss))
+
+
 def check_tx_chain(R, d):
     """Header pin -> 595 SER; 595 Q -> UCC IN; UCC OUT -> DRVn -> channel n."""
     errs = []
@@ -213,37 +231,43 @@ def check_tx_chain(R, d):
 
 
 def check_rx_chain(R, d):
+    """Channel n -> RXn -> ADC k = ceil(n/4), input i = (n-1) mod 4 through 2k / 1k / 100 nF; ADC wiring to J2."""
     errs = []
     for n in range(1, 65):
-        k, i = (n - 1) // 8 + 1, (n - 1) % 8
+        k, i = (n - 1) // 4 + 1, (n - 1) % 4
+        sid, u = 70 + k, f"U{70 + k}01"
         rx = d.net(f"R{n}09", "2")
-        if d.base(rx) != f"RX{n}" or (f"U{70 + k}01", str(49 + 2 * i)) not in d.nets.get(rx, []):
-            errs.append(f"channel {n}: R{n}09 -> {rx} {d.nets.get(rx)}")
-        gnd = d.base(d.net(f"U{70 + k}01", str(50 + 2 * i)))
-        if gnd != "GND":
-            errs.append(f"channel {n}: ADC V{i + 1}GND on {gnd}")
-    # ADC outputs and controls back to J2
+        rt, rb, cc, cm = f"R{sid}{i + 1:02d}", f"R{sid}{i + 5:02d}", f"C{sid}{i + 1:02d}", f"C{sid}{i + 5:02d}"
+        div = d.net(rt, "2")
+        if d.base(rx) != f"RX{n}" or (rt, "1") not in d.nets.get(rx, []):
+            errs.append(f"channel {n}: R{n}09 -> {rx}, expected RX{n} into {rt}")
+        if (rb, "1") not in d.nets.get(div, []) or d.base(d.net(rb, "2")) != "GND" or (cc, "1") not in d.nets.get(div, []):
+            errs.append(f"channel {n}: divider {rt}/{rb} or coupling {cc} miswired ({div})")
+        if d.net(cc, "2") != d.net(u, str(6 + 2 * i)):
+            errs.append(f"channel {n}: {cc} does not reach {u} IN{i + 1}P (pin {6 + 2 * i})")
+        if d.net(cm, "1") != d.net(u, str(7 + 2 * i)) or d.base(d.net(cm, "2")) != "GND":
+            errs.append(f"channel {n}: IN{i + 1}M (pin {7 + 2 * i}) not AC-grounded through {cm}")
     hdr = {v: k for k, v in J2_MAP.items() if v}
-    for k in range(1, 9):
-        u = f"U{70 + k}01"
-        for pin, rref, port in (("24", f"R{70 + k}01", f"ADC_DOUTA{k}"), ("25", f"R{70 + k}02", f"ADC_DOUTB{k}")):
-            a = d.net(u, pin)
-            if (rref, "1") not in d.nets.get(a, []) or d.base(d.net(rref, "2")) != port \
-                    or d.base(d.net("J9902", hdr[port])) != port:
-                errs.append(f"ADC{k} {port}: pin {pin} -> {a}; {rref}.2 -> {d.net(rref, '2')}")
-        for pin, net in (("13", "ADC_CS_N"), ("11", "ADC_RESET"), ("29", "ADC_SDI")):
+    seen = {}
+    for k in range(1, 17):
+        u, sid, grp, idx = f"U{70 + k}01", 70 + k, (k - 1) // 4, (k - 1) % 4
+        port = f"ADC_SDOUT{k}"
+        if (f"R{sid}09", "1") not in d.nets.get(d.net(u, "21"), []) or d.base(d.net(f"R{sid}09", "2")) != port                 or d.base(d.net("J9902", hdr[port])) != port:
+            errs.append(f"ADC{k} SDOUT: pin 21 -> {d.net(u, '21')}; R{sid}09.2 -> {d.net(f'R{sid}09', '2')}")
+        for pin, net in (("14", "ADC_SHDNZ"), ("17", "ADC_SCL"), ("18", f"ADC_SDA{grp + 1}"),
+                         ("22", f"ADC_BCLK_{'ABCD'[grp]}"), ("23", f"ADC_FSYNC_{'ABCD'[grp]}"),
+                         ("16", "+3V3" if idx & 1 else "GND"), ("15", "+3V3" if idx & 2 else "GND")):
             if d.base(d.net(u, pin)) != net:
-                errs.append(f"ADC{k} pin {pin} on {d.net(u, pin)}, expected {net}")
-        for pin in ("3", "4", "5", "6", "7", "10", "23", "34"):
-            if d.base(d.net(u, pin)) != "+3V3":
-                errs.append(f"ADC{k} pin {pin} ({d.pin_info.get((u, pin))}) on {d.net(u, pin)}, expected +3V3")
-    if d.base(d.net("R7103", "2")) != "ADC_BUSY":
-        errs.append("ADC1 BUSY not on ADC_BUSY")
-    R.add("RX chain (channel -> RXn -> ADC input) and ADC wiring to J2", not errs,
-          ["Checked: R_out of each channel to its ADC input (ADC k = ceil(n/8), input (n-1) mod 8 + 1), "
-           "VnGND to GND, DOUTA/B through 33 R to the J2 pins, CS/RESET/SDI, software-mode straps "
-           f"(OS0-2, PAR/SER, STBY, RANGE, WR, VDRIVE, REFSEL on +3V3). Errors: {len(errs)}."]
-          + [f"- {e}" for e in errs[:20]])
+                errs.append(f"ADC{k} pin {pin} ({d.pin_info.get((u, pin), ('',))[0]}) on {d.net(u, pin)}, expected {net}")
+        addr = (d.base(d.net(u, "18")), d.base(d.net(u, "15")), d.base(d.net(u, "16")))
+        if addr in seen:
+            errs.append(f"ADC{k} has the same I2C bus and address as ADC{seen[addr]}")
+        seen[addr] = k
+    R.add("RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2", not errs,
+          ["Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input (n-1) mod 4 + 1), the 2k/1k "
+           "divider, 100 nF coupling to INxP, INxM AC-grounded; SDOUT through 33 R to its J2 pin; SHDNZ, SCL, SDA of "
+           "the group, BCLK/FSYNC of the group, address pins, and that no two ADCs share bus + address. "
+           f"Errors: {len(errs)}."] + [f"- {e}" for e in errs[:20]])
 
 
 def trace_to_header(d, net, seen=None):
@@ -266,11 +290,11 @@ def trace_to_header(d, net, seen=None):
 
 def check_clocks(R, d):
     errs, lines = [], []
-    expect = {"TX_SCK": "J1.32", "TX_LATCH": "J1.36", "ADC_SCLK": "J2.32", "ADC_CONVST": "J2.34", "MIC_CLK_IN": "J1.34"}
+    expect = {"TX_SCK": "J1.32", "TX_LATCH": "J1.36", "ADC_BCLK": "J2.32", "ADC_FSYNC": "J2.34", "MIC_CLK_IN": "J1.34"}
     loads = {}
     for name, nodes in d.nets.items():
         b = d.base(name)
-        if re.match(r"^(TX_SCK|TX_LATCH|ADC_SCLK|ADC_CONVST|MIC_CLK)_[A-D]$", b):
+        if re.match(r"^(TX_SCK|TX_LATCH|ADC_BCLK|ADC_FSYNC|MIC_CLK)_[A-D]$", b):
             ins = [(r, p) for r, p in nodes if d.pin_info[(r, p)][1] == "input"]
             loads[b] = len(ins)
             src = trace_to_header(d, name)
@@ -282,7 +306,7 @@ def check_clocks(R, d):
     lines.append("| Buffered clock | Loads | |\n|---|---|---|")
     lines += [f"| {k} | {v} | {'ok' if v <= 4 else 'TOO MANY'} |" for k, v in sorted(loads.items())]
     # every 595 / ADC / mic clock input is on a buffered clock
-    for v, pins in (("74HCT595D", ("11", "12")), ("AD7606C-16BSTZ", ("12", "9")), ("SPH0641LU4H-1", ("4",))):
+    for v, pins in (("74HCT595D", ("11", "12")), ("TLV320ADC5140", ("22", "23")), ("SPH0641LU4H-1", ("4",))):
         for r in d.refs_by_value(v):
             for p in pins:
                 b = d.base(d.net(r, p))
@@ -313,7 +337,7 @@ def check_headers(R, d):
           + [f"- {e}" for e in errs])
 
 
-IO_SUPPLY_PIN = {"AD7606C-16BSTZ": "23"}  # outputs swing to VDRIVE, not AVCC
+IO_SUPPLY_PIN = {"TLV320ADC5140": "19"}  # outputs swing to IOVDD (+3V3), not AVDD
 
 
 def supply_of(d, ref):
@@ -360,7 +384,7 @@ def check_fpga_levels(R, d):
 
 
 def check_rails(R, d):
-    expect = {"OPA1678IDR": {"+5VA", "-5VA"}, "AD7606C-16BSTZ": {"+5VA", "+3V3"}, "74HCT595D": {"+5V"},
+    expect = {"OPA1678IDR": {"+5VA", "-5VA"}, "TLV320ADC5140": {"+3V3A", "+3V3"}, "74HCT595D": {"+5V"},
               "UCC27524DR": {"VDRV"}, "74AHCT1G125": {"+5V"}, "74LVC2G34": {"+3V3"}, "SPH0641LU4H-1": {"3V3_MIC"}}
     errs = []
     for v, rails in expect.items():
@@ -369,7 +393,7 @@ def check_rails(R, d):
                    if rr == r and typ == "power_in"} - {"GND"}
             if got != rails:
                 errs.append(f"{r} ({v}): supply pins on {sorted(got)}, expected {sorted(rails)}")
-    R.add("IC supply rails", not errs, [f"Every OPA1678, AD7606C, 74HCT595, UCC27524, 74AHCT1G125, 74LVC2G34 "
+    R.add("IC supply rails", not errs, [f"Every OPA1678, TLV320ADC5140, 74HCT595, UCC27524, 74AHCT1G125, 74LVC2G34 "
                                         f"and SPH0641 checked. Errors: {len(errs)}."] + [f"- {e}" for e in errs[:20]])
 
 
@@ -470,7 +494,7 @@ def check_regulators(R, d):
     rows, errs = [], []
     fb = {k: n for n in d.nets for k in ("FB_5V", "FBP", "FBN", "FB_VDRV", "FB_M5VA") if d.base(n) == k}
     t, (b, _) = divider(d, fb["FB_5V"], "5V_REG")
-    rows.append(("+5V TPS54202", 0.596 * (1 + t / b), 5.0))
+    rows.append(("+5V TPS54302", 0.596 * (1 + t / b), 5.0))
     t, (b, _) = divider(d, fb["FBP"], "6V5_REG")
     rows.append(("+6V5 TPS65131 boost", 1.213 * (1 + t / b), 6.5))
     t, (b, o) = divider(d, fb["FBN"], "-6V5_REG")
@@ -479,27 +503,28 @@ def check_regulators(R, d):
     rows.append(("VDRV LM2731X", 1.23 * (1 + t / b), 15.0))
     t, (b, _) = divider(d, fb["FB_M5VA"], "-5VA_REG")
     rows.append(("-5VA TPS7A3301", -1.176 * (1 + t / b), -5.0))
-    u3 = d.refs_by_value("TPS7A4700RGWT")[0]
     anyout = {"4": 6.4, "5": 6.4, "6": 3.2, "8": 1.6, "9": 0.8, "10": 0.4, "11": 0.2, "12": 0.1}
-    v = 1.4 + sum(x for p, x in anyout.items() if d.base(d.net(u3, p)) == "GND")
-    rows.append(("+5VA TPS7A4700 ANY-OUT", v, 5.0))
-    # EN UVLO of the TPS54202: 1.21 V rising threshold (datasheet), divider R2/R3
+    for u in d.refs_by_value("TPS7A4700RGWT"):  # ANY-OUT: 1.4 V + the grounded pins
+        out = d.base(d.net(u, "1"))
+        v = 1.4 + sum(x for p, x in anyout.items() if d.base(d.net(u, p)) == "GND")
+        rows.append((f"{out.replace('_REG', '')} TPS7A4700 ANY-OUT", v, {"5VA_REG": 5.0, "3V3A_REG": 3.3}.get(out, 0.0)))
+    # EN UVLO of the TPS54302: 1.23 V rising threshold (datasheet typ), divider R2/R3
     en = next(n for n in d.nets if d.base(n) == "EN_5V")
     t, (b, _) = divider(d, en, "VIN")
-    uvlo = 1.21 * (1 + t / b)
+    uvlo = 1.23 * (1 + t / b)
     lines = ["| Rail | From the netlist | Target | Error |", "|---|---|---|---|"]
     for name, got, want in rows:
         e = (got - want) / abs(want) * 100
         lines.append(f"| {name} | {got:.3f} V | {want} V | {e:+.1f} % |")
         if abs(e) > 3:
             errs.append(name)
-    lines.append(f"\nTPS54202 EN UVLO start-up threshold: {uvlo:.2f} V (needs < 11.5 V at the jack after the diode: "
+    lines.append(f"\nTPS54302 EN UVLO start-up threshold: {uvlo:.2f} V (needs < 11.5 V at the jack after the diode: "
                  f"{'ok' if uvlo < 11 else 'TOO HIGH'}).")
     R.add("Regulator outputs computed from the divider values in the netlist", not errs and uvlo < 11, lines)
 
 
 def check_testability(R, d):
-    rails = ["VIN", "+5V", "+6V5", "-6V5", "+5VA", "-5VA", "VDRV", "+3V3", "3V3_MIC", "GND"]
+    rails = ["VIN", "+5V", "+6V5", "-6V5", "+5VA", "-5VA", "+3V3A", "VDRV", "+3V3", "3V3_MIC", "GND"]
     lines = ["| Rail | Test point | Isolation | LED |", "|---|---|---|---|"]
     errs = []
     for rail in rails:
@@ -510,7 +535,7 @@ def check_testability(R, d):
         led = [r for r, p in nodes if r.startswith("R") and any(
             d.comps[x]["value"] == "green" for x, _ in d.nets.get(d.other_end(r, net), []))]
         need_iso = rail not in ("VIN", "GND")
-        need_led = rail not in ("+5VA", "-5VA", "GND")
+        need_led = rail not in ("+5VA", "-5VA", "+3V3A", "GND")  # analog LDOs: no LED
         ok = bool(tp) and (bool(iso) or not need_iso) and (bool(led) or not need_led)
         if rail == "VIN":
             iso = ["(input)"]
@@ -525,11 +550,11 @@ def check_testability(R, d):
 def check_single_nets(R, d):
     single = [n for n, nodes in d.nets.items() if len(nodes) == 1 and not n.startswith("unconnected")]
     unc = [n for n in d.nets if n.startswith("unconnected")]
-    allowed = [n for n in single if re.match(r"^/ADCs/ADC[2-8]/BUSY$", n)]
+    allowed = []
     bad = [n for n in single if n not in allowed]
     kinds = Counter(re.sub(r"unconnected-\(\w+?-(.*)-Pad\d+\)", r"\1", n) for n in unc)
     R.add("Single-pin and unconnected nets", not bad,
-          [f"Single-pin nets: {len(single)} ({len(allowed)} expected: BUSY of ADC2-8, unused). Unexpected: {bad[:20]}",
+          [f"Single-pin nets: {len(single)}. Unexpected: {bad[:20]}",
            f"Intentionally unconnected pins (no-connect flags): {len(unc)}: " +
            ", ".join(f"{k} x{v}" for k, v in kinds.most_common(15))])
 
@@ -537,11 +562,12 @@ def check_single_nets(R, d):
 def check_power_budget(R, d):
     # typical / max currents from the datasheets (mA)
     rows = [("+5VA", "OPA1678 (dual, 2 x 2.0 mA typ, 2.5 max)", 64, 4.0, 5.0),
-            ("+5VA", "AD7606C-16 AVCC (about 20 mA at 200 kSPS)", 8, 20.0, 25.0),
+            ("+3V3A", "TLV320ADC5140 AVDD (21 mA at 48 kSPS, about 28 mA estimated at 192 kSPS)", 16, 28.0, 35.0),
             ("-5VA", "OPA1678", 64, 4.0, 5.0),
-            ("+3V3", "AD7606C VDRIVE + 74LVC2G34 + mics + LEDs", 1, 60.0, 100.0),
+            ("+3V3", "ADC IOVDD + 74LVC2G34 + mics + LEDs + I2C pull-ups", 1, 60.0, 100.0),
             ("+5V", "74HCT595 (static ~0.1 mA, dynamic at 10 MHz ~2 mA)", 16, 2.0, 4.0),
-            ("+5V", "TPS65131 input for +-6V5 (0.45 A + 0.3 A loads, 85 %)", 1, 1150.0, 1350.0),
+            ("+5V", "TPS65131 input for +-6V5 (2 x 0.26 A typ / 0.32 A max at 6.5 V, 85 %)", 1, 800.0, 980.0),
+            ("+5V", "TPS7A4700 input for +3V3A (= its load)", 1, 450.0, 560.0),
             ("+5V", "TLV75733P input (+3V3 load)", 1, 60.0, 100.0),
             ("VDRV", "64 elements CW at 40 kHz, 3.73 mA each (sim/reports/tx_cw.md: C V^2 f, 47 R, 4.7 k limiter, element)", 64, 3.73, 4.0),
             ("VDRV", "UCC27524 quiescent", 32, 1.0, 1.5)]
@@ -551,15 +577,15 @@ def check_power_budget(R, d):
         tot[rail][0] += q * typ
         tot[rail][1] += q * mx
         lines.append(f"| {rail} | {what} | {q} | {q * typ:.0f} | {q * mx:.0f} |")
-    cap = {"+5VA": 1000, "-5VA": 1000, "+3V3": 1000, "+5V": 2000, "VDRV": 900}
+    cap = {"+5VA": 1000, "-5VA": 1000, "+3V3A": 1000, "+3V3": 1000, "+5V": 3000, "VDRV": 900}
     lines += ["", "| Rail | Total typ | Total max | Regulator limit | Margin |", "|---|---|---|---|---|"]
     errs = []
     for rail, (t, m) in tot.items():
         lines.append(f"| {rail} | {t:.0f} mA | {m:.0f} mA | {cap[rail]} mA | {100 * (1 - m / cap[rail]):.0f} % |")
         if m > 0.85 * cap[rail]:
             errs.append(rail)
-    lines.append("\nVIN (12 V): +5V buck input about 5 V x 1.6 A / 0.9 / 12 V = 0.75 A, plus VDRV boost 15 V x 0.12 A "
-                 "/ 0.85 / 12 V = 0.35 A (all 64 elements in CW): about 1.1 A of the 1.5 A adapter, under the 2 A polyfuse hold current.")
+    lines.append("\nVIN (12 V): +5V buck input about 5 V x 1.7 A / 0.9 / 12 V = 0.8 A, plus VDRV boost 15 V x 0.12 A "
+                 "/ 0.85 / 12 V = 0.35 A (all 64 elements in CW): about 1.15 A of the 1.5 A adapter, under the 2 A polyfuse hold current.")
     R.add("Power budget (estimates from datasheet currents)", not errs, lines, warn=False)
 
 
@@ -567,7 +593,7 @@ def main():
     export()
     d = Design(NET)
     R = Report()
-    for f in (check_erc, check_counts, check_footprints, check_lcsc, check_tx_chain, check_rx_chain, check_clocks,
+    for f in (check_erc, check_counts, check_footprints, check_lcsc, check_datasheets, check_tx_chain, check_rx_chain, check_clocks,
               check_headers, check_fpga_levels, check_rails, check_decoupling, check_cap_ratings, check_polarity,
               check_regulators, check_testability, check_single_nets, check_power_budget):
         try:
