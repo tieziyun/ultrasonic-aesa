@@ -124,7 +124,7 @@ def check_erc(R):
 
 
 def check_counts(R, d):
-    expect = {"OPA1678IDR": 64, "CUSA-TR65-065-2200-TH68": 64, "BAV99": 128, "UCC27524DR": 32, "74HCT595D": 16,
+    expect = {"OPA1678IDR": 64, "CUSP-TR80-15-2500-TH": 64, "BAV99": 128, "UCC27524DR": 32, "74HCT595D": 16,
               "74AHCT1G125": 4, "74LVC2G34": 9, "TLV320ADC5140": 16, "SPH0641LU4H-1": 8, "TPS54302DDCR": 1,
               "TPS65131RGER": 1, "TPS7A4700RGWT": 2, "TPS7A3301RGWR": 1, "LM2731XMF": 1, "TLV75733PDBVR": 1}
     vals = Counter(c["value"] for c in d.comps.values())

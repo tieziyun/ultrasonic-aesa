@@ -34,8 +34,8 @@ The clock voltage at the farthest chip. The dotted line is where the chips decid
 
 - Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.
 - Diodes (BAV99): 1N4148 junction model, the same die.
-- Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
+- Transducer (CUSP-TR80-15-2500-TH): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.0 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 13:41 with LTspice by `sim/run.py clock_si`. Testbench: `sim/clock_si.cir`.
+Run 2026-10-23 22:25 with LTspice by `sim/run.py clock_si`. Testbench: `sim/clock_si.cir`.

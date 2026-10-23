@@ -1,6 +1,6 @@
 # Design check
 
-Run 2026-10-23 18:49 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **18 pass, 0 warn, 0 fail.**
+Run 2026-10-23 22:27 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **18 pass, 0 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
@@ -35,7 +35,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 | Part | Count |
 |---|---|
 | OPA1678IDR | 64 |
-| CUSA-TR65-065-2200-TH68 | 64 |
+| CUSP-TR80-15-2500-TH | 64 |
 | BAV99 | 128 |
 | UCC27524DR | 32 |
 | 74HCT595D | 16 |

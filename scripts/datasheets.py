@@ -46,8 +46,8 @@ MAKER_URL = {  # LCSC number -> URL (or (URL, maker)); tried before LCSC's own c
     "C52140488": NXP.format("74LVC2G34"), "C2500": NXP.format("BAV99_SER"),
 }
 # Parts not bought through LCSC: value -> (file name, URL)
-EXTRA = {"CUSA-TR65-065-2200-TH68": ("CUSA-TR65-065-2200-TH68.pdf",
-                                    "https://www.cuidevices.com/product/resource/cusa-tr65-065-2200-th68.pdf")}
+EXTRA = {"CUSP-TR80-15-2500-TH": ("CUSP-TR80-15-2500-TH.pdf",
+                                 "https://www.sameskydevices.com/product/resource/cusp-tr80-15-2500-th.pdf")}
 
 
 def get(url):

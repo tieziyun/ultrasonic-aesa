@@ -38,7 +38,8 @@ SOUND = 343.0          # m/s in air
 WAVELEN = SOUND / 40e3  # 8.6 mm at 40 kHz
 ADC_FS = 1.414         # TLV320ADC5140 single-ended full scale, V peak (1 Vrms)
 ADC_DIV = 909 / (2000 + 909)  # 2k / (1k || 10 k ADC input): RX_OUT -> ADC pin
-ECHO_1M = 0.12         # V at the element terminals for a target at 1 m (CUSA-TR65 datasheet)
+ECHO_1M = 0.12         # V at the element terminals for a target at 1 m: CUSA-TR65 datasheet figure, kept as
+                       # the reference (the CUSP-TR80 sheet gives none; it transmits 5 dB stronger)
 RED, GREEN, GREY = "#d62728", "#2ca02c", "#7f7f7f"
 
 
@@ -281,7 +282,7 @@ def rx_mc():
 
     n, batch = 200, 10
     head = ["* Channel Monte Carlo, written by sim/run.py from gen/channel.cir (do not edit)", *include,
-            ".param ECHO_AC=1 QM=20", ".func echo(t)=0", "VP VP5A 0 5", "VN VN5A 0 -5", "XREF xdo 0 CUSA_TR65"]
+            ".param ECHO_AC=1 QM=20", ".func echo(t)=0", "VP VP5A 0 5", "VN VN5A 0 -5", "XREF xdo 0 CUSP_TR80"]
     lines, m = list(head), {}
     for i in range(n):
         s = f"_{i}"
@@ -730,7 +731,7 @@ SIMS = {
 ASSUMPTIONS = [
     "Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.",
     "Diodes (BAV99): 1N4148 junction model, the same die.",
-    "Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and "
+    "Transducer (CUSP-TR80-15-2500-TH): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.0 nF and "
     "Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.",
     "Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).",
     "The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.",

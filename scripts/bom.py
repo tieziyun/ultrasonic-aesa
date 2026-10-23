@@ -67,14 +67,17 @@ PICKS = {
 }
 # Bought elsewhere and soldered by hand: value -> (source, unit USD, note)
 OFFBOARD = {
-    "CUSA-TR65-065-2200-TH68": ("DigiKey 102-CUSA-TR65-065-2200-TH68-ND", 3.5536,
-                                "40 kHz transceiver, DNP for JLCPCB (hand-soldered). DigiKey 100+ price "
-                                "(1: $4.72, 50: $3.69, 500: $3.28; 350 in stock 2026-10-23); not stocked by LCSC"),
+    "CUSP-TR80-15-2500-TH": ("Future Electronics (391 in stock, $1.65 at 1, $1.54 at 1,250) or DigiKey "
+                             "102-CUSP-TR80-15-2500-TH-ND (236 in stock, $2.88 at 1, $1.77 at 5,000)", 1.65,
+                             "Same Sky 40 kHz transceiver, Ø9.8 mm, DNP for JLCPCB (hand-soldered); LCSC C4360724 "
+                             "lists it from $0.95 but has none in stock (2026-10-23). Replaced the CUSA-TR65 ($3.55)"),
 }
 NO_PART = ("TestPoint:", "Jumper:SolderJumper")  # copper only
 
 # Schematic changes made for cost or availability (kept here so the report explains them)
 CHANGES = [
+    "Transducer: Same Sky CUSA-TR65 (Ø14 mm, sealed, $3.55 at 100) -> CUSP-TR80-15-2500-TH (Ø9.8 mm, "
+    "not sealed, 105 dB vs 100 dB SPL, 0.2-15 m, 1.6 ms ring-down, $1.65): about $122 less per board.",
     "ADC: 8 x AD7606C-16 ($58.81 each, $470 per board) → 16 x TI TLV320ADC5140 4-channel audio ADC ($4.01 each, "
     "about $64 per board). Same simultaneous sampling of all 64 channels, 192 kSPS, more dynamic range; needs a "
     "+3V3A LDO (second TPS7A4700) and the 3 A TPS54302 buck.",

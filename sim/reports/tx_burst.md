@@ -2,7 +2,7 @@
 
 **Question:** When an element sends a ping, is the drive safe for every part, and how soon after can the same element hear an echo?
 
-**Answer (PASS):** Yes. The transducer gets **14.2 V** pulses, the driver peaks at 0.29 A (rated 5 A) and the clamp keeps the amplifier input within **+0.63 / -0.45 V**. After the ping the transducer keeps ringing for a while, and its own receiver hears that: it can hear echoes again **1.0–1.9 ms** after the ping, so it misses objects closer than about **0.20–0.35 m**. (The two numbers bracket the transducer's unknown Q.) In split mode other elements listen, which avoids this blind zone.
+**Answer (PASS):** Yes. The transducer gets **14.2 V** pulses, the driver peaks at 0.29 A (rated 5 A) and the clamp keeps the amplifier input within **+0.63 / -0.45 V**. After the ping the transducer keeps ringing for a while, and its own receiver hears that: it can hear echoes again **1.0–1.9 ms** after the ping, so it misses objects closer than about **0.20–0.36 m**. (The two numbers bracket the transducer's unknown Q.) In split mode other elements listen, which avoids this blind zone.
 
 ## Why it matters
 
@@ -28,18 +28,18 @@ Top: the 0–14 V ping on the transducer (grey band). Middle: the amplifier inpu
 | Peak current from the gate driver | 0.286 | A | ≤ 1 | yes | UCC27524 is rated 5 A |
 | Amplifier input during the ping, positive peak | 0.634 | V | ≤ 0.9 | yes | the clamp diodes keep the 15 V away from the op-amp |
 | Amplifier input during the ping, negative peak | -0.451 | V | ≥ -0.9 | yes |  |
-| Heat in the 47 Ω drive resistor (during the ping) | 15.7 | mW | ≤ 50 | yes | rated 100 mW |
+| Heat in the 47 Ω drive resistor (during the ping) | 14.3 | mW | ≤ 50 | yes | rated 100 mW |
 | Heat in the 4.7 kΩ protection resistor (during the ping) | 19.2 | mW | ≤ 50 | yes | rated 100 mW |
 | Highest voltage at the ADC input during the ping | 1.24 | V | ≤ 1.41 | yes | ADC full scale ±1.41 V |
-| Time until the element can listen again (Q = 20) | 0.991 | ms | ≤ 2.5 | yes | echoes from closer than 0.20 m arrive while it is still ringing |
-| Time until the element can listen again (Q = 40) | 1.86 | ms | ≤ 2.5 | yes | echoes from closer than 0.35 m arrive while it is still ringing |
+| Time until the element can listen again (Q = 20) | 0.99 | ms | ≤ 2.5 | yes | echoes from closer than 0.20 m arrive while it is still ringing |
+| Time until the element can listen again (Q = 40) | 1.88 | ms | ≤ 2.5 | yes | echoes from closer than 0.36 m arrive while it is still ringing |
 
 ## Assumptions
 
 - Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.
 - Diodes (BAV99): 1N4148 junction model, the same die.
-- Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
+- Transducer (CUSP-TR80-15-2500-TH): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.0 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 13:40 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.
+Run 2026-10-23 22:24 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.

@@ -657,7 +657,7 @@ def main():
     # the DRV lane and far from any amplifier input; everything else (protection, OPA1678, filters, output
     # resistor) around it, placed by connectivity with the transducer's pads as fixed anchors.
     h = P / 2 - 0.2
-    ky, kx = 0.9 + SOLDER_KEEPOUT, 2.5 + 0.9 + SOLDER_KEEPOUT
+    ky, kx = 1.0 + SOLDER_KEEPOUT, 2.5 + 1.0 + SOLDER_KEEPOUT     # 2.0 mm transducer pads
 
     def cell(n):
         c, r = divmod(n - 1, 8)

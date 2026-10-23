@@ -45,7 +45,7 @@
 		)
 		(uuid "89f68389-2d68-5d89-a97d-c32205493788")
 	)
-	(text "3. Transceivers: the 64 CUSA-TR65 elements emit 40 kHz; echoes return to the same elements."
+	(text "3. Transceivers: the 64 CUSP-TR80 elements emit 40 kHz; echoes return to the same elements."
 		(exclude_from_sim no)
 		(at 25.40 44.20 0)
 		(effects
@@ -651,7 +651,7 @@
 		)
 		(uuid "7a188e8f-b0cc-5938-afda-1c5b100a941f")
 	)
-	(text "64 x: T/R diodes, CUSA-TR65,"
+	(text "64 x: T/R diodes, CUSP-TR80,"
 		(exclude_from_sim no)
 		(at 322.58 73.66 0)
 		(effects

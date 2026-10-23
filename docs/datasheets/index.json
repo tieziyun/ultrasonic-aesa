@@ -827,15 +827,15 @@
    "47u 35V"
   ]
  },
- "CUSA-TR65-065-2200-TH68": {
+ "CUSP-TR80-15-2500-TH": {
   "date": "2026-10-23",
-  "file": "CUSA-TR65-065-2200-TH68.pdf",
+  "file": "CUSP-TR80-15-2500-TH.pdf",
   "maker": "",
-  "mpn": "CUSA-TR65-065-2200-TH68",
-  "sha1": "59da1af2fa36ca04b98179a378527823a223702f",
-  "url": "https://www.cuidevices.com/product/resource/cusa-tr65-065-2200-th68.pdf",
+  "mpn": "CUSP-TR80-15-2500-TH",
+  "sha1": "0ad74af69172c01416d9855428a60b6e3745c8e9",
+  "url": "https://www.sameskydevices.com/product/resource/cusp-tr80-15-2500-th.pdf",
   "used_as": [
-   "CUSA-TR65-065-2200-TH68"
+   "CUSP-TR80-15-2500-TH"
   ]
  }
 }

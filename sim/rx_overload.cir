@@ -13,7 +13,7 @@ Rdrv_on DRV_OUT 0 0.4
 .include models/adc_in.lib
 XADC RX_OUT ADC ADC_IN
 * reference: an identical element with nothing connected, to read the echo amplitude
-XREF xdo 0 CUSA_TR65
+XREF xdo 0 CUSP_TR80
 .save V(XD) V(LIM) V(RX_OUT) V(ADC) V(xdo)
 * Gear integration: the default (trapezoidal) crawls when the clamp diodes and the saturated
 * op-amp switch hard; Gear runs in seconds and gives the same waveform.

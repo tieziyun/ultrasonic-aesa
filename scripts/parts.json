@@ -60,7 +60,7 @@
  "74LVC2G34|Package_TO_SOT_SMD:SOT-363_SC-70-6": "C52140488",
  "75k 1%|Resistor_SMD:R_0603_1608Metric": "C23242",
  "BAV99|Package_TO_SOT_SMD:SOT-23": "C2500",
- "CUSA-TR65-065-2200-TH68|aesa:CUSA-TR65": "hand-solder",
+ "CUSP-TR80-15-2500-TH|aesa:CUSP-TR80": "hand-solder",
  "EX_IO1 (AXU3EGB J15)|Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical": "C19193815",
  "EX_IO2 (AXU3EGB J16)|Connector_IDC:IDC-Header_2x20_P2.54mm_Vertical": "C19193815",
  "LM2731XMF|Package_TO_SOT_SMD:SOT-23-5": "C485804",

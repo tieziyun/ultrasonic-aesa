@@ -20,7 +20,7 @@ Uses: 3-D sonar imaging, gesture and hand tracking, Doppler motion sensing, and 
 | 6 | `tx_group` ×16 | 74HCT595 shift register and two UCC27524 gate drivers: drives 4 elements |
 | 7 | `en_buf` ×4 | TX-enable buffer for 8 gate drivers |
 | 8 | group | The 64 transceiver channels as an 8 × 8 grid |
-| 9 | `channel` ×64 | One transceiver: crossed-diode T/R switch, CUSA-TR65 element, limiter, OPA1678 gain stage, 40 kHz band-pass |
+| 9 | `channel` ×64 | One transceiver: crossed-diode T/R switch, CUSP-TR80 element, limiter, OPA1678 gain stage, 40 kHz band-pass |
 | 10 | group | The 16 ADCs, which channels each one digitises, and their I²C groups |
 | 11 | `adc` ×16 | TLV320ADC5140, 4 channels at 192 kSPS, input divider, TDM output to the FPGA |
 | 12 | group | The 8 microphones, paired on 4 data lines |
@@ -33,7 +33,7 @@ Each block that repeats is drawn once and reused, so a change to `channel` appli
 
 | | |
 |---|---|
-| Elements | 64 × Same Sky CUSA-TR65 (40 kHz, sealed transceiver) + 8 × SPH0641LU4H-1 MEMS mics |
+| Elements | 64 × Same Sky CUSP-TR80-15-2500-TH (40 kHz transceiver, Ø9.8 mm) + 8 × SPH0641LU4H-1 MEMS mics |
 | TX drive | 0–15 V square wave per element, 16 serial data lines at 10 MHz, per-element per-sample control |
 | RX chain | Gain ×22 (+27 dB) in the amplifier, ×6.7 (+16.6 dB) to the ADC pin after the input divider; 31–51 kHz pass band; 1 m echo 93 dB above the noise ([simulated](sim/reports/README.md)) |
 | ADC | 16 × TI TLV320ADC5140, 24-bit, 192 kSPS per channel, all 64 channels sampled at once, TDM to the FPGA, I²C configuration |

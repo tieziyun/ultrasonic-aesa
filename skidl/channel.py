@@ -66,7 +66,7 @@ FP_SOIC8 = "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
 FP_SOIC16 = "Package_SO:SOIC-16_3.9x9.9mm_P1.27mm"
 FP_SOT23_5 = "Package_TO_SOT_SMD:SOT-23-5"
 FP_SC70_6 = "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-FP_TRANSDUCER = "aesa:CUSA-TR65"  # kicad/aesa.pretty, drawn from the datasheet
+FP_TRANSDUCER = "aesa:CUSP-TR80"  # kicad/aesa.pretty, drawn from the datasheet
 
 # LCSC numbers: only the ones checked so far. "TBD" = to be filled by parts-sourcer.
 LCSC = {
@@ -193,13 +193,13 @@ def tx_rx_channel(drv_in, drv_out, tx_bit, xd, rx_out, v_pos, v_neg, gnd):
 
 @subcircuit
 def transducer(xd, gnd):
-    """CUSA-TR65 element on the array panel.
+    """CUSP-TR80-15-2500-TH element on the array panel.
 
     The datasheet does not say which lead is connected to the aluminium can. Pin 2
     is the ground lead in the footprint: check the can lead with a meter on the
     first parts and fit them so the can goes to pin 2 (shielding).
     """
-    x = lcsc(Part("Device", "Speaker_Ultrasound", value="CUSA-TR65-065-2200-TH68",
+    x = lcsc(Part("Device", "Speaker_Ultrasound", value="CUSP-TR80-15-2500-TH",
                   footprint=FP_TRANSDUCER, tag="ls_xd"), "hand-solder")
     x[1] += xd
     x[2] += gnd

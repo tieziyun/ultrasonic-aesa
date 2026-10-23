@@ -24,18 +24,18 @@ Two histograms: how many of the 200 channels have a given gain (left) and phase 
 
 | What | Value | Unit | Limit | OK? | What it means |
 |---|---|---|---|---|---|
-| Average gain at 40 kHz, element to ADC input pin | 16.6 | dB | 15 … 18.5 | yes | 27 dB amplifier, then the 2k/1k divider (−10 dB) |
-| Gain spread between channels (standard deviation) | 0.128 | dB | ≤ 0.5 | yes |  |
-| Gain spread, best to worst channel | 0.707 | dB | ≤ 2 | yes |  |
-| Phase spread between channels (standard deviation) | 1.26 | ° | ≤ 3 | yes | = the wave arriving 0.03 mm early or late; calibration removes it |
-| Phase spread, best to worst channel | 5.89 | ° | ≤ 12 | yes |  |
+| Average gain at 40 kHz, element to ADC input pin | 16.5 | dB | 15 … 18.5 | yes | 27 dB amplifier, then the 2k/1k divider (−10 dB) |
+| Gain spread between channels (standard deviation) | 0.129 | dB | ≤ 0.5 | yes |  |
+| Gain spread, best to worst channel | 0.774 | dB | ≤ 2 | yes |  |
+| Phase spread between channels (standard deviation) | 1.25 | ° | ≤ 3 | yes | = the wave arriving 0.03 mm early or late; calibration removes it |
+| Phase spread, best to worst channel | 5.94 | ° | ≤ 12 | yes |  |
 
 ## Assumptions
 
 - Op-amp: TI's OPA167x model (`sim/models/OPA167x.lib`): gain, bandwidth, noise, output swing, overload.
 - Diodes (BAV99): 1N4148 junction model, the same die.
-- Transducer (CUSA-TR65): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.2 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
+- Transducer (CUSP-TR80-15-2500-TH): standard electrical equivalent (Butterworth–Van Dyke) with C0 = 2.0 nF and Rm = 3 kΩ from the datasheet; its sharpness Q (20–40) is an assumption.
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 13:41 with LTspice by `sim/run.py rx_mc`. Testbench: `sim/rx_mc.cir (generated)`.
+Run 2026-10-23 22:24 with LTspice by `sim/run.py rx_mc`. Testbench: `sim/rx_mc.cir (generated)`.

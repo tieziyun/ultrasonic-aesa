@@ -249,7 +249,7 @@ def top_drawing():
     o.append(text("Hybrid 8x8 ultrasonic AESA: how the signal flows", 25.4, 27.94, 3.0, "t0", bold=True))
     steps = ["1. The FPGA streams one TX bit per element (16 serial lines, 10 MHz) and the clocks.",
              "2. TX drive: shift registers latch the bits; gate drivers switch each element between 0 and 15 V.",
-             "3. Transceivers: the 64 CUSA-TR65 elements emit 40 kHz; echoes return to the same elements.",
+             "3. Transceivers: the 64 CUSP-TR80 elements emit 40 kHz; echoes return to the same elements.",
              "4. The diode T/R switch and limiter protect the receiver; amplifier + 40 kHz band-pass give x22.",
              "5. ADCs: 16 x TLV320ADC5140 sample all 64 channels at once, 192 kSPS (raw waveform, amplitude and phase).",
              "6. The samples go back to the FPGA over the ribbon, which forms the beams. 8 MEMS mics add wideband audio."]
@@ -286,7 +286,7 @@ def top_drawing():
     # (captions sit inside the blocks, which are otherwise empty)
     # Captions under the boxes
     caps = [("16 x 74HCT595 + 32 x UCC27524", 238.76, 71.12), ("4 x enable buffer", 238.76, 74.93),
-            ("64 x: T/R diodes, CUSA-TR65,", 322.58, 73.66), ("limiter, x6 amp, 40 kHz band-pass", 322.58, 77.47),
+            ("64 x: T/R diodes, CUSP-TR80,", 322.58, 73.66), ("limiter, x6 amp, 40 kHz band-pass", 322.58, 77.47),
             ("16 x TLV320ADC5140, 192 kSPS", 238.76, 167.64), ("9 x 74LVC2G34, 33 R", 160.02, 114.3),
             ("8 x SPH0641 PDM", 160.02, 215.9), ("J1 = AXU3EGB J15", 88.9, 96.52), ("(TX, mics)", 88.9, 100.33),
             ("J2 = AXU3EGB J16", 88.9, 106.68), ("(ADCs)", 88.9, 110.49)]

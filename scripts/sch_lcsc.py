@@ -27,7 +27,7 @@ KNOWN = {
     "AD7606C-16BSTZ": "C5240947",
     "74HCT595D": "C282339",
     "SPH0641LU4H-1": "C2879853",
-    "CUSA-TR65-065-2200-TH68": "hand-solder",
+    "CUSP-TR80-15-2500-TH": "hand-solder",
     "NetTie AGND-PGND": "none (copper)",
     "NetTie AGND-DGND": "none (copper)",
 }

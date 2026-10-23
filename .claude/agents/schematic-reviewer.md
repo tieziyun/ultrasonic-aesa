@@ -9,7 +9,7 @@ You review the schematic of the hybrid 8x8 ultrasonic transceiver panel describe
 Check, in this order:
 1. Run ERC: `"C:/Users/Tiezi/AppData/Local/Programs/KiCad/10.0/bin/kicad-cli.exe" sch erc --exit-code-violations <file>.kicad_sch` and report every violation.
 2. Per-channel front end (one channel first, then confirm all 64 instances are identical):
-   - TX driver: drive voltage within transducer rating (CUSA-TR65 max 150 Vpp), gate-drive levels, dead time, flyback/clamp.
+   - TX driver: drive voltage within transducer rating (CUSP-TR80-15-2500-TH max 80 Vpp), gate-drive levels, dead time, flyback/clamp.
    - T/R switch / RX protection: the RX amplifier input must never see the TX drive amplitude; check clamp diodes or switch isolation, and recovery time after TX.
    - RX amplifier: gain, bias at mid-rail, bandwidth around 40 kHz, AC coupling values, input-referred noise.
    - ADC inputs: within the ADC's range, anti-alias filtering for the chosen sample rate.

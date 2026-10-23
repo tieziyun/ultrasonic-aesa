@@ -17,12 +17,14 @@ D1 1 3 DSW
 D2 3 2 DSW
 .ends
 
-* CUSA-TR65 transceiver, Butterworth-Van Dyke: C0 2.2 nF and Rm 3 k (datasheet), Q assumed.
+* CUSP-TR80-15-2500-TH transceiver, Butterworth-Van Dyke: C0 2.0 nF (datasheet, 1.5-2.5 nF), fs 40 kHz.
+* Rm 3 k is assumed (the CUSP datasheet gives no impedance; 3 k is the CUSA-TR65 figure). Q from QM:
+* the datasheet's transmit response is about 2 kHz wide at -6 dB, i.e. Q around 20-30.
 * The echo is a voltage in the motional branch, set by global parameters:
 *   ECHO_AC  (AC magnitude, for .ac / .noise) and ECHO_V(time) through B-source expression ECHO_EXPR.
 * Every testbench defines: .param ECHO_AC=<AC volts> QM=<mechanical Q> and .func echo(t)=<volts>.
-.subckt CUSA_TR65 1 2
-C0 1 2 2.2n
+.subckt CUSP_TR80 1 2
+C0 1 2 2.0n
 Bemf vs 2 V=echo(time)
 Vac va vs AC {ECHO_AC}
 Rm va m1 3k

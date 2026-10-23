@@ -12,7 +12,7 @@ Rdrv_on DRV_OUT 0 0.4
 .include models/adc_in.lib
 XADC RX_OUT ADC ADC_IN
 * reference: the same element, open circuit (what the transducer gives into no load)
-XREF xdo 0 CUSA_TR65
+XREF xdo 0 CUSP_TR80
 .ac dec 400 1k 1Meg
 .meas AC r_xd   FIND V(XD)/V(xdo)     AT 40k
 .meas AC r_adc  FIND V(ADC)/V(xdo)    AT 40k

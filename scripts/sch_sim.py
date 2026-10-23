@@ -17,7 +17,7 @@ LIB = "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 SUBCKT = {  # lib_id -> (model name, symbol pin -> model pin)
     "Amplifier_Operational:OPA1678": ("OPA1678_DUAL", "1=1 2=2 3=3 4=4 5=5 6=6 7=7 8=8"),
     "Diode:BAV99": ("BAV99", "1=1 2=2 3=3"),
-    "Device:Speaker_Ultrasound": ("CUSA_TR65", "1=1 2=2"),
+    "Device:Speaker_Ultrasound": ("CUSP_TR80", "1=1 2=2"),
 }
 
 

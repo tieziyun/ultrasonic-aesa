@@ -2188,7 +2188,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "CUSA-TR65-065-2200-TH68"
+		(property "Value" "CUSP-TR80-15-2500-TH"
 			(at 73.66 86.36 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2199,7 +2199,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "aesa:CUSA-TR65"
+		(property "Footprint" "aesa:CUSP-TR80"
 			(at 70.231 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -2252,7 +2252,7 @@
 				(hide yes)
 			)
 		)
-		(property "Sim.Name" "CUSA_TR65"
+		(property "Sim.Name" "CUSP_TR80"
 			(at 71.12 73.66 0)
 			(effects
 				(font
