@@ -42,7 +42,7 @@ MAKER_URL = {  # LCSC number -> URL (or (URL, maker)); tried before LCSC's own c
     "C2876368": TI.format("tlv320adc5140"), "C311983": TI.format("tps54302"), "C192421": TI.format("opa1678"),
     "C465729": TI.format("ucc27524"), "C87663": TI.format("tps65131"), "C28286": TI.format("tps7a47"),
     "C90082": TI.format("tps7a33"), "C485804": TI.format("lm2731"), "C485517": TI.format("tlv757p"),
-    "C7484": TI.format("sn74ahct1g125"), "C282339": NXP.format("74HC_HCT595"),
+    "C7484": TI.format("sn74ahct1g125"), "C544399": TI.format("tps2660"), "C282339": NXP.format("74HC_HCT595"),
     "C52140488": NXP.format("74LVC2G34"), "C2500": NXP.format("BAV99_SER"),
 }
 # Parts not bought through LCSC: value -> (file name, URL)

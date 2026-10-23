@@ -29,7 +29,7 @@ NET = REPO / "build" / "aesa.net"
 ERC = REPO / "build" / "erc.rpt"
 OUT = REPO / "docs" / "design-check.md"
 
-RAIL_V = {"VIN": 12.0, "VIN_JACK": 12.0, "VIN_FUSED": 12.0, "VIN65": 5.0, "+5V": 5.0, "5V_REG": 5.07,
+RAIL_V = {"VIN": 12.0, "VIN_JACK": 12.0, "VIN_PROT": 12.0, "VIN65": 5.0, "+5V": 5.0, "5V_REG": 5.07,
           "+6V5": 6.46, "6V5_REG": 6.46, "-6V5": -6.51, "-6V5_REG": -6.51, "+5VA": 5.0, "5VA_REG": 5.0,
           "-5VA": -5.0, "-5VA_REG": -5.0, "VDRV": 15.4, "VDRV_REG": 15.4, "+3V3": 3.3, "3V3_REG": 3.3,
           "3V3_MIC": 3.3, "+3V3A": 3.3, "3V3A_REG": 3.3, "SW_5V": 12.0, "SW_P": 7.0, "SW_N": -7.0, "SW_VDRV": 15.9, "BOOT_5V": 17.0}
@@ -456,7 +456,7 @@ def check_polarity(R, d):
         if c["part"] in ("D_Schottky", "LED"):
             k, a = d.base(d.net(r, "1")), d.base(d.net(r, "2"))
             lines.append(f"- {r} {c['value']}: anode {a}, cathode {k}")
-    expect = {"D9501": ("VIN_FUSED", "VIN"), "D9504": ("SW_P", "6V5_REG"), "D9506": ("-6V5_REG", "SW_N"),
+    expect = {"D9504": ("SW_P", "6V5_REG"), "D9506": ("-6V5_REG", "SW_N"),
               "D9508": ("SW_VDRV", "VDRV_REG"), "D9507": ("GND", "LED_-6V5")}
     for r, (a, k) in expect.items():
         if (d.base(d.net(r, "2")), d.base(d.net(r, "1"))) != (a, k):

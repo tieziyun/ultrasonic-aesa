@@ -70,11 +70,13 @@ def fp_library_path(lib):
     raise FileNotFoundError(f"footprint library {lib}.pretty not found")
 
 
-def main(net_file, pcb_file):
+def build_board(net_file):
+    """Board with every footprint of the netlist (pads on their nets, fields copied, schematic
+    link set so KiCad's Update PCB from Schematic matches them). Returns (board, info, missing)
+    with info[ref] = dict(sheet=sheet path names, value=value)."""
     tree = parse_sexp(Path(net_file).read_text(encoding="utf-8"))
     comps = children(children(tree, "components")[0], "comp")
     nets = children(children(tree, "nets")[0], "net")
-
     board = pcbnew.BOARD()
     pad_net = {}
     for net in nets:
@@ -85,11 +87,8 @@ def main(net_file, pcb_file):
         board.Add(item)
         for node in children(net, "node"):
             pad_net[(child_value(node, "ref"), child_value(node, "pin"))] = item
-
-    pitch = pcbnew.FromMM(10)
-    cols = max(1, int(len(comps) ** 0.5) + 1)
-    missing = []
-    for k, comp in enumerate(comps):
+    info, missing = {}, []
+    for comp in comps:
         ref = child_value(comp, "ref")
         lib, _, name = child_value(comp, "footprint").partition(":")
         try:
@@ -108,15 +107,30 @@ def main(net_file, pcb_file):
                 f = fp.GetField(fname)  # new fields default to visible silkscreen text
                 f.SetVisible(False)
                 f.SetLayer(pcbnew.F_Fab)
-        fp.SetPosition(pcbnew.VECTOR2I(pitch * (k % cols + 1), pitch * (k // cols + 1)))
+        sp = children(comp, "sheetpath")
+        tst = child_value(sp[0], "tstamps") if sp else "/"
+        fp.SetPath(pcbnew.KIID_PATH(tst + child_value(comp, "tstamps")))
+        props = {child_value(pr, "name"): child_value(pr, "value") for pr in children(comp, "property")}
+        if "dnp" in props:
+            fp.SetDNP(True)
         board.Add(fp)
         for pad in fp.Pads():
             item = pad_net.get((ref, pad.GetNumber()))
             if item:
                 pad.SetNet(item)
+        info[ref] = dict(sheet=child_value(sp[0], "names") if sp else "/", value=child_value(comp, "value"))
+    return board, info, missing
 
+
+def main(net_file, pcb_file):
+    board, info, missing = build_board(net_file)
+    fps = list(board.GetFootprints())
+    pitch = pcbnew.FromMM(10)
+    cols = max(1, int(len(fps) ** 0.5) + 1)
+    for k, fp in enumerate(fps):
+        fp.SetPosition(pcbnew.VECTOR2I(pitch * (k % cols + 1), pitch * (k // cols + 1)))
     # Board outline around the grid.
-    rows = (len(comps) + cols - 1) // cols
+    rows = (len(fps) + cols - 1) // cols
     w, h = pitch * (cols + 1), pitch * (rows + 1)
     pts = [(0, 0), (w, 0), (w, h), (0, h)]
     for (x0, y0), (x1, y1) in zip(pts, pts[1:] + pts[:1]):
@@ -127,10 +141,9 @@ def main(net_file, pcb_file):
         seg.SetLayer(pcbnew.Edge_Cuts)
         seg.SetWidth(pcbnew.FromMM(0.1))
         board.Add(seg)
-
     os.makedirs(os.path.dirname(os.path.abspath(pcb_file)), exist_ok=True)
     board.Save(pcb_file)
-    print(f"{len(comps) - len(missing)} footprints, {len(nets)} nets -> {pcb_file}")
+    print(f"{len(fps)} footprints -> {pcb_file}")
     if missing:
         print("MISSING footprints:", ", ".join(missing))
         sys.exit(1)

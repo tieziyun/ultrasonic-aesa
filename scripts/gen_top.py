@@ -146,8 +146,8 @@ def cells():
     """{group file: [cell sheets]} with positions inside each group sheet."""
     g = {}
     arr = []
-    for n in range(1, 65):  # 8 x 8, row-major = element order on the panel
-        r, c = divmod(n - 1, 8)
+    for n in range(1, 65):  # 8 x 8, column-major = element order on the board (CH n: column (n-1)//8)
+        c, r = divmod(n - 1, 8)
         s = Sheet(f"CH{n:02d}", "channel.kicad_sch", n, 38.1 + 68.58 * c, 50.8 + 25.4 * r, 22.86, 5.08)
         s.pins = [("DRV_OUT", "input", "left", f"DRV{n}"), ("RX_OUT", "output", "right", f"RX{n}")]
         arr.append(s)
@@ -214,7 +214,7 @@ GROUP_INFO = {  # file: (sheet name, paper, title, note)
                      "TX drive. The FPGA streams 16 serial lines (TX_SDI0-15) into 16 tx_group cells; each "
                      "drives 4 elements (DRV). TX_EN_FPGA reaches the drivers through 4 en_buf cells."),
     "array.kicad_sch": ("Transceivers", "A2", "Transceivers: 64 channels (8 x 8 grid)",
-                        "Transceiver array. Channel n = element n of the 8 x 8 grid, row-major. Each channel "
+                        "Transceiver array. Channel n = element n of the 8 x 8 grid, numbered down the columns (as on the board). Each channel "
                         "takes DRVn from the TX drive and returns its amplified echo RXn to the ADCs."),
     "adcs.kicad_sch": ("ADCs", "A3", "ADCs: 16 x TLV320ADC5140 (4 channels each)",
                        "ADCs. ADC k digitises RX 4(k-1)+1 ... 4k and returns one TDM line (SDOUTk). Group g "

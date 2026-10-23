@@ -166,6 +166,17 @@
    "220n 16V X7R"
   ]
  },
+ "C21122": {
+  "date": "2026-10-23",
+  "file": "CL31A226KAHNNNE_C12891.pdf",
+  "maker": "Samsung Electro-Mechanics",
+  "mpn": "CL10B223KB8NNNC",
+  "sha1": "687e5b5995bbbba1f02fb99211c49be9637cd297",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/02336ea48ea44ca18c72517dd3cb7b47.pdf?productCode=C21122",
+  "used_as": [
+   "22n 50V X7R"
+  ]
+ },
  "C21190": {
   "date": "2026-10-23",
   "file": "0603WAF1001T5E_C21190.pdf",
@@ -186,17 +197,6 @@
   "url": "https://datasheet.lcsc.com/datasheet/pdf/2d5a84d46878463b63938ddb4e9c2c31.pdf?productCode=C22434582",
   "used_as": [
    "12 V in (5.5x2.1)"
-  ]
- },
- "C22452": {
-  "date": "2026-10-23",
-  "file": "SS54_C22452.pdf",
-  "maker": "MDD(Microdiode Semiconductor)",
-  "mpn": "SS54",
-  "sha1": "d605e511253272a1d5acb68a8cc0dc46a832c69a",
-  "url": "https://datasheet.lcsc.com/datasheet/pdf/3d29bdcdc3c46ec127d6db22edd72e83.pdf?productCode=C22452",
-  "used_as": [
-   "SS54"
   ]
  },
  "C22775": {
@@ -321,6 +321,17 @@
    "47 1%"
   ]
  },
+ "C23189": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF5601T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23189",
+  "used_as": [
+   "5.6k 1%"
+  ]
+ },
  "C23192": {
   "date": "2026-10-23",
   "file": "0603WAF1001T5E_C21190.pdf",
@@ -341,6 +352,17 @@
   "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23196",
   "used_as": [
    "51k 1%"
+  ]
+ },
+ "C23234": {
+  "date": "2026-10-23",
+  "file": "0603WAF1001T5E_C21190.pdf",
+  "maker": "UNI-ROYAL",
+  "mpn": "0603WAF7501T5E",
+  "sha1": "0b871c05c72f4ded9d586d26725a01cfe886e4b9",
+  "url": "https://datasheet.lcsc.com/datasheet/pdf/0a975aaa49b7c97f38a963127be4a823.pdf?productCode=C23234",
+  "used_as": [
+   "7.5k 1%"
   ]
  },
  "C23237": {
@@ -704,6 +726,17 @@
   "url": "https://datasheet.lcsc.com/datasheet/pdf/09fe2daf22580a99fa7fea93ccb20fb7.pdf?productCode=C53424",
   "used_as": [
    "7.5p 50V C0G"
+  ]
+ },
+ "C544399": {
+  "date": "2026-10-23",
+  "file": "tps2660.pdf",
+  "maker": "TI",
+  "mpn": "TPS2660",
+  "sha1": "76f7af0fd20348035f1b8ff81d3164fdaa0a3cbd",
+  "url": "https://www.ti.com/lit/ds/symlink/tps2660.pdf",
+  "used_as": [
+   "TPS26600PWPR"
   ]
  },
  "C57112": {

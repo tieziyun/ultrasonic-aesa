@@ -1,6 +1,6 @@
 # Design check
 
-Run 2026-10-23 15:11 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **18 pass, 0 warn, 0 fail.**
+Run 2026-10-23 18:49 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **18 pass, 0 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
@@ -31,7 +31,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 <a id="2"></a>
 ## 2. Part counts and references: PASS
 
-2044 parts, 88 distinct values.
+2055 parts, 94 distinct values.
 | Part | Count |
 |---|---|
 | OPA1678IDR | 64 |
@@ -55,19 +55,19 @@ Duplicate references: 0.
 <a id="3"></a>
 ## 3. Footprints exist and match the symbol pins: PASS
 
-29 distinct footprints, all checked for existence and pad numbers.
+30 distinct footprints, all checked for existence and pad numbers.
 
 <a id="4"></a>
 ## 4. LCSC numbers: PASS
 
-Parts with an LCSC number: 1961; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
+Parts with an LCSC number: 1969; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
 
 TBD values (count): 
 
 <a id="5"></a>
 ## 5. Datasheets in docs/datasheets/ for every part: PASS
 
-73 distinct parts, 73 with a datasheet PDF (scripts/datasheets.py, run by bom.py).
+76 distinct parts, 76 with a datasheet PDF (scripts/datasheets.py, run by bom.py).
 
 <a id="6"></a>
 ## 6. TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel): PASS
@@ -168,7 +168,7 @@ Every OPA1678, TLV320ADC5140, 74HCT595, UCC27524, 74AHCT1G125, 74LVC2G34 and SPH
 <a id="12"></a>
 ## 12. Decoupling on every IC supply pin: PASS
 
-227 IC supply pins checked. Errors: 0.
+228 IC supply pins checked. Errors: 0.
 
 <a id="13"></a>
 ## 13. Capacitor voltage ratings vs rail voltage: PASS
@@ -182,7 +182,6 @@ Errors: 0.
 
 - C9501 100u 25V: + on VIN, - on GND: ok
 - C9535 47u 35V: + on VDRV, - on GND: ok
-- D9501 SS54: anode VIN_FUSED, cathode VIN
 - D9502 green: anode LED_VIN, cathode GND
 - D9503 green: anode LED_+5V, cathode GND
 - D9504 SS14: anode SW_P, cathode 6V5_REG
@@ -230,7 +229,7 @@ TPS54302 EN UVLO start-up threshold: 7.50 V (needs < 11.5 V at the jack after th
 ## 17. Single-pin and unconnected nets: PASS
 
 Single-pin nets: 0. Unexpected: []
-Intentionally unconnected pins (no-connect flags): 133: GPIO1 x16, MICBIAS x16, QE x16, QF x16, QG x16, QH' x16, QH x16, 6.4V x4, NC x3, Pin_2 x2, Pin_39 x2, Pin_40 x2, 0.8V x2, BSW x1, 0.1V x1
+Intentionally unconnected pins (no-connect flags): 137: GPIO1 x16, MICBIAS x16, QE x16, QF x16, QG x16, QH' x16, QH x16, NC x5, 6.4V x4, Pin_2 x2, Pin_39 x2, Pin_40 x2, 0.8V x2, BSW x1, 0.1V x1
 
 <a id="18"></a>
 ## 18. Power budget (estimates from datasheet currents): PASS

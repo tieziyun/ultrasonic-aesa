@@ -756,24 +756,58 @@ def power():
     # ---- A. 12 V input ---------------------------------------------------------------------
     ox, oy = 20.32, 30.48
     ry = oy + 33.02
-    s.note("A. 12 V INPUT: jack, polyfuse (16 V), SS54 reverse-polarity diode -> VIN", ox, oy, 2.2)
-    s.note("Use a regulated 12 V adapter only (LM2731 VIN max 14 V). Jack 5.5 x 2.1 mm, >= 1.5 A.", ox, oy + 5.08)
+    s.note("A. 12 V INPUT: jack -> TPS26600 eFuse (resettable: auto-retry) -> polyfuse (back-up) -> VIN", ox, oy, 2.2)
+    s.note("eFuse: input rated 60 V and -60 V (reverse polarity), switches off above 13.8 V (protects the 14.5 V "
+           "LM2731) and below 8.8 V, current limit 1.6 A.", ox, oy + 5.08)
     s.field_ov.append("J1=-7.62,-7.62,-7.62,-5.08")
     s.part("Connector:Barrel_Jack", "J1", ox + 10.16, ry + 2.54, "12 V in (5.5x2.1)",
            "Connector_BarrelJack:BarrelJack_CUI_PJ-063AH_Horizontal")
     s.poly("J1.2", (ox + 20.32, ry + 5.08))
     s.sym("GND", (ox + 20.32, ry + 5.08))
-    f1, f2 = h("F", "F1", ox + 22.86, ry, "SMD1812P200TF16", "Fuse:Fuse_1812_4532Metric")
-    da, dk = h("D", "D1", ox + 43.18, ry, "SS54", SMA)
+    tpj = tp("TP13", ox + 25.4, ry, "VIN_JACK")                                  # adapter voltage
+    s.poly("J1.1", tpj, flag(ox + 33.02, ry))                                    # the jack powers the eFuse
+    s.netname("VIN_JACK", tpj)
+    f1, f2 = h("F", "F1", ox + 43.18, ry, "SMD1812P200TF16", "Fuse:Fuse_1812_4532Metric")
+    s.netname("VIN_PROT", f1, 180)
     caps_to_gnd(("CP", "C1", ox + 60.96, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
                 ("C", "C2", ox + 73.66, ry, "100n 50V X7R", C0603))
     r1 = led("R1", "D2", ox + 86.36, ry, "10k 1%", "VIN")
-    s.poly("J1.1", f1)
-    s.poly(f2, da)
-    s.netname("VIN_JACK", f1, 180)
-    s.netname("VIN_FUSED", da)
-    s.poly(dk, "C1.1", "C2.1", r1, tp("TP1", ox + 106.68, ry, "VIN"), flag(ox + 119.38, ry), (ox + 132.08, ry))
+    s.poly(f2, "C1.1", "C2.1", r1, tp("TP1", ox + 106.68, ry, "VIN"), flag(ox + 119.38, ry), (ox + 132.08, ry))
     s.sym("VIN", (ox + 132.08, ry))
+    # eFuse (TPS26600PWP, datasheet section 10.2): control pins by label, support parts in a row below
+    s.field_ov.append("U8=-10.16,-12.7,-10.16,-10.16")
+    s.part("Power_Management:TPS26600PWP", "U8", ox + 160.02, ry + 25.4, "TPS26600PWPR",
+           "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.66x2.46mm_ThermalVias")
+    s.lbl("VIN_JACK", "U8.1", "U8.2")
+    s.lbl("VIN_PROT", "U8.15", "U8.16")
+    s.pwr("GND", "U8.9", "U8.8", "U8.17")
+    for net, pin in (("EF_UVLO", "3"), ("EF_OVP", "5"), ("EF_IMON", "10"), ("EF_ILIM", "11"),
+                     ("EF_DVDT", "12"), ("EF_FLT", "14")):
+        s.lbl(net, f"U8.{pin}")
+    s.nc("U8.4", "U8.13", "U8.6", "U8.7")  # MODE open = auto-retry; SHDN open = on (internal pull-up)
+    yb = ry + 45.72
+    s.note("UVLO/OVP divider 100k / 5.6k / 10k: on 8.8 V, off 13.8 V. ILIM 12 k/A -> 7.5 k = 1.6 A. "
+           "dVdT 22 nF: 5 V/ms. IMON 72 uA/A into 15 k = 1.08 V/A (TP14). FLT low = fault (TP15).", ox, yb - 7.62)
+    r22t, r22b = v("R", "R22", ox + 10.16, yb, "100k 1%", R0603)
+    r23t, r23b = v("R", "R23", ox + 10.16, yb + 12.7, "5.6k 1%", R0603)
+    r24t, r24b = v("R", "R24", ox + 10.16, yb + 25.4, "10k 1%", R0603)
+    s.poly(r22b, r23t)
+    s.poly(r23b, r24t)
+    s.sym("GND", r24b)
+    s.netname("VIN_JACK", r22t)
+    s.netname("EF_UVLO", r22b)
+    s.netname("EF_OVP", r23b)
+    for k, (ref, val, fp, net) in enumerate((("R25", "7.5k 1%", R0603, "EF_ILIM"), ("C43", "22n 50V X7R", C0603, "EF_DVDT"),
+                                             ("R26", "15k 1%", R0603, "EF_IMON"), ("C44", "100n 50V X7R", C0603, "VIN_JACK"))):
+        x = ox + 30.48 + 15.24 * k
+        t, b = v(ref[0], ref, x, yb, val, fp)
+        s.netname(net, t)
+        s.sym("GND", b)
+    s.poly(tp("TP14", ox + 45.72 + 15.24, yb - 2.54, "IMON"), (ox + 60.96, yb))    # current monitor, 1.08 V/A
+    r27t, r27b = v("R", "R27", ox + 99.06, yb, "100k 1%", R0603)                  # FLT pull-up to the input
+    s.netname("VIN_JACK", r27t)
+    s.netname("EF_FLT", r27b)
+    s.poly(r27b, tp("TP15", ox + 106.68, yb + 7.62, "FLT"))
 
     # ---- B. +5V: TPS54302 buck --------------------------------------------------------------
     ox, oy = 309.88, 30.48

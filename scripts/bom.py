@@ -50,7 +50,7 @@ PICKS = {
     "TLV75733PDBVR": ("C485517", "TI 1 A LDO, +3V3"),
     "74AHCT1G125": ("C7484", "TI SN74AHCT1G125DBVR"),
     "74LVC2G34": ("C52140488", "Nexperia 74LVC2G34GW, SOT-363"),
-    "SS54": ("C22452", "40 V 5 A Schottky in SMA, JLCPCB Basic (footprint changed from SMC)"),
+    "TPS26600PWPR": ("C544399", "TI 60 V eFuse: reverse polarity, over-voltage cut-off, 1.6 A limit, auto-retry"),
     "SS14": ("C2480", "40 V 1 A Schottky, JLCPCB Basic"),
     "SMD1812P200TF16": ("C20812", "2 A hold / 16 V 1812 polyfuse, half the price of the Littelfuse 1812L200/16DR"),
     "green": ("C12624", "KT-0603G. No green 0603 LED is a Basic part; the Basic red KT-0603R (C2286) would save "
@@ -82,7 +82,8 @@ CHANGES = [
     "+5VA LDO TPS7A4701RGWR (JLCPCB stock 1, $13.16) → TPS7A4700RGWT (646 in stock, $6.11): same chip "
     "family, pinout and ANY-OUT network.",
     "BAV99 → Nexperia BAV99,215 C2500, a Basic part (no $3 fee).",
-    "SS54 moved from SMC to SMA (C22452, Basic, still 5 A).",
+    "Input protection: TPS26600 eFuse (60 V / -60 V, off above 13.8 V, 1.6 A, auto-retry) replaces the SS54 "
+    "diode (0.5 W less heat); the polyfuse stays after it as a back-up.",
     "Polyfuse 1812L200/16DR → SMD1812P200TF16 (same 2 A hold / 16 V, $0.12 instead of $0.21).",
     "Ferrite 220 Ω → 600 Ω GZ1608D601TF (Basic); more filtering on 3V3_MIC, which draws only ~10 mA.",
     "+5V buck divider 100k/13.3k + 75 pF → 75k/10k + 100 pF (5.07 V, same feed-forward zero) and EN divider "

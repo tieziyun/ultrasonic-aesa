@@ -8,6 +8,16 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
 - **Per-element, FPGA-controlled transmit/listen mode** on all 64 channels (needed for split mode and continuous wave).
 - **Easy to power, easy to test every part** (user, 2026-10-19). Power from one 12 V barrel jack (5.5×2.1 mm, ≥1.5 A); no other supply needed. Every rail has a test point and a way to isolate it (bridged solder jumper; VDRV through a removable shunt header so TX can be unpowered); every rail except the analog LDO outputs has an LED. Each block must be testable on its own: add test points on its key signals, and prefer standard, well-documented, in-production parts with downloadable datasheets (no end-of-life parts).
 
+## Decision criteria (user, 2026-10-23): judge every design and layout decision on all of these
+1. **Low interference and noise** between blocks (TX drive, digital, receivers, mics, power).
+2. **Hard to burn, safe to use** (protection, current limits, no exposed hazards, margins on ratings).
+3. **Good thermal behaviour** (spread the hot parts, copper and vias under them, keep heat away from sensitive parts).
+4. **Easy to manufacture** (JLCPCB standard capabilities, no exotic processes).
+5. **Cheap to make** (board area, layer count, extended-part fees, special processes).
+6. **Hard to damage during soldering** (room around hand-soldered parts, no fragile parts next to iron work).
+7. **Easy to test** (accessible test points, isolation, probe clearance).
+State which criteria drove a choice and what it traded off.
+
 ## Toolchain (Windows, installed 2026-10-19)
 - KiCad 10.0.6, per-user: `C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0`
   - CLI: `...\10.0\bin\kicad-cli.exe` (ERC, DRC, renders, Gerbers, BOM/positions)
@@ -35,7 +45,7 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
    - `scripts/sch_fields.py <sheet> [--vertical] [--only] [REF=dx,dy,dx2,dy2 ...]` fixes field placement (`--only` touches just the named parts: use it on the hand-drawn channel sheet; on rotated parts KiCad anchors the text at its right end); `scripts/sch_lcsc.py <sheets>` gives every part an LCSC field.
    - Check: `kicad-cli sch erc kicad/aesa.kicad_sch` (target: 0 violations), export the netlist and spot-check nets, look at `docs/schematics/aesa_schematic.pdf` (written by `gen_top.py`; `scripts/export_pdf.py` alone re-exports it).
    - Review with schematic-reviewer at milestones only, against the KiCad sheets and netlist.
-2. Board: `scripts/netlist_to_pcb.py build/aesa.net kicad/aesa.kicad_pcb` (or KiCad's Update PCB from Schematic), then place components with a pcbnew Python script (`scripts/place.py`) at the exact array pitch in the brief.
+2. Board: `scripts/place.py` builds `kicad/aesa.kicad_pcb` from the schematic (netlist via `scripts/netlist_to_pcb.py`) and places every part. **Lay the PCB out in blocks, like the schematic (user rule, 2026-10-23):** each schematic block (channel ×64, adc ×16, tx_group ×16, clk_buf ×9, en_buf ×4, mic ×8, power, headers) gets one layout that is copied to every instance and grouped (KiCad group per instance, e.g. CH01, ADC03). The channel block is a hand-made template (`CHANNEL` in `place.py`); change the template, not individual instances, then re-run `place.py`.
 3. Route: Freerouting for the bulk of the signals; power, TX drive and analog inputs by hand or reviewed carefully.
 4. Check every iteration with kicad-cli ERC/DRC, and render PNGs and look at them (layout-reviewer).
 5. Fabrication outputs to `fab/` (Gerbers, drill, BOM and positions with LCSC numbers) for JLCPCB.
@@ -47,7 +57,8 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
 
 ## Design rules (JLCPCB defaults unless the brief says otherwise)
 - 2-layer array panel, 4-layer front-end board, 1.6 mm, HASL lead-free or ENIG.
-- Minimum track/space 0.127 mm (5 mil), aim for 0.2 mm or more on general signals. Minimum via 0.3 mm drill / 0.6 mm pad.
+- Minimum track/space 0.127 mm (5 mil), aim for 0.2 mm or more on general signals. Vias 0.3 mm drill / 0.6 mm pad; 0.2 / 0.45 mm only for the thermal vias of QFN footprints (JLCPCB standard multilayer capability).
+- Board edge: no component within 3 mm (the 12 V jack is flush on purpose), copper ≥ 0.5 mm; 3 mm 45° bevel on every corner.
 - Prefer LCSC Basic parts. Every part must have an LCSC number or be marked hand-solder/consigned.
 - Keep the TX high-voltage rail and drive traces away from RX inputs; continuous ground under the analog sections.
 
