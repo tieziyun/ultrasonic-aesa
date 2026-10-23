@@ -14,8 +14,9 @@ import sys
 from pathlib import Path
 
 import pcbnew
+from common import KICAD_FOOTPRINTS
 
-KICAD_FP_DIR = Path(r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\share\kicad\footprints")
+KICAD_FP_DIR = KICAD_FOOTPRINTS
 PROJECT_FP_DIR = Path(__file__).resolve().parent.parent / "kicad"  # holds aesa.pretty
 
 

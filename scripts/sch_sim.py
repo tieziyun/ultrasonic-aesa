@@ -11,6 +11,7 @@ Passives get their numeric value (the Value field carries ratings, e.g. "1n 50V 
 import re
 import sys
 from pathlib import Path
+from common import block_end
 
 LIB = "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 SUBCKT = {  # lib_id -> (model name, symbol pin -> model pin)
@@ -37,12 +38,7 @@ def main(path):
     out, i, n = [], 0, 0
     while i < len(lines):
         if lines[i] == "\t(symbol" and lines[i + 1].startswith("\t\t(lib_id "):
-            depth, j = 0, i
-            while True:
-                depth += lines[j].count("(") - lines[j].count(")")
-                if depth == 0:
-                    break
-                j += 1
+            j = block_end(lines, i)
             blk = lines[i:j + 1]
             text = "\n".join(blk)
             lib = re.search(r'\(lib_id "([^"]+)"\)', text).group(1)
@@ -52,12 +48,7 @@ def main(path):
             keep, k = [], 0
             while k < len(blk):
                 if blk[k].startswith('\t\t(property "Sim.'):
-                    d = 0
-                    while True:
-                        d += blk[k].count("(") - blk[k].count(")")
-                        k += 1
-                        if d == 0:
-                            break
+                    k = block_end(blk, k) + 1
                     continue
                 keep.append(blk[k])
                 k += 1

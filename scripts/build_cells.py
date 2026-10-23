@@ -29,10 +29,11 @@ import sys
 import uuid
 from pathlib import Path
 
+from common import DATE, KICAD_CLI, REV, block_end
+
 REPO = Path(__file__).resolve().parent.parent
 KDIR = REPO / "kicad"
 MCP_PY = r"C:\GitHub\tools\KiCAD-MCP-Server\python"
-KICAD_CLI = r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe"
 
 sys.path.insert(0, MCP_PY)
 _cwd = os.getcwd()
@@ -53,7 +54,6 @@ C1206 = "Capacitor_SMD:C_1206_3216Metric"
 POWER_SYM = {"GND": "power:GND", "+3V3": "power:+3V3", "+5V": "power:+5V", "+5VA": "power:+5VA",
              "-5VA": "power:-5VA", "+6V5": "power:+6V", "-6V5": "power:-6V", "VIN": "power:+12V",
              "VDRV": "power:+15V", "3V3_MIC": "power:+3V3"}
-DATE, REV = "2026-10-20", "2"
 # Rotation that points a power symbol away from the pin, by outward pin angle.
 GND_ROT = {270: 0, 90: 180, 0: 90, 180: 270}
 RAIL_ROT = {90: 0, 270: 180, 180: 90, 0: 270}
@@ -414,12 +414,7 @@ def set_pin_types(path, lib_id, types):
     """Change pin electrical types in a sheet's embedded symbol (local deviation, see brief)."""
     lines = path.read_text(encoding="utf-8").split("\n")
     start = next(i for i, l in enumerate(lines) if l.strip() == f'(symbol "{lib_id}"')
-    depth, j = 0, start
-    while True:
-        depth += lines[j].count("(") - lines[j].count(")")
-        if depth == 0:
-            break
-        j += 1
+    j = block_end(lines, start)
     n = 0
     for i in range(start, j):
         s = lines[i].strip()

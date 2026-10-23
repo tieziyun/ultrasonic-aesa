@@ -18,6 +18,7 @@ symbol origin, left-justified, for parts the rules don't suit.
 
 import re
 import sys
+from common import block_end
 
 VERTICAL = False
 ONLY = False  # --only: move just the parts named in the overrides
@@ -29,12 +30,7 @@ def blocks(lines):
     i = 0
     while i < len(lines):
         if lines[i] == "\t(symbol":
-            depth, j = 0, i
-            while True:
-                depth += lines[j].count("(") - lines[j].count(")")
-                if depth == 0:
-                    break
-                j += 1
+            j = block_end(lines, i)
             yield i, j
             i = j
         i += 1
@@ -95,12 +91,7 @@ def rule(lib_id, rot, unit):
 def set_field(block, prop, x, y, justify, angle=0):
     """Rewrite the (at ...) and justification of one property inside a symbol block."""
     start = next(k for k, l in enumerate(block) if l.strip().startswith(f'(property "{prop}"'))
-    depth, end = 0, start
-    while True:
-        depth += block[end].count("(") - block[end].count(")")
-        if depth == 0:
-            break
-        end += 1
+    end = block_end(block, start)
     for k in range(start, end + 1):
         if block[k].strip().startswith("(at "):
             block[k] = re.sub(r"\(at [^)]*\)", f"(at {x:.2f} {y:.2f} {angle})", block[k])

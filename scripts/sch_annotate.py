@@ -9,10 +9,10 @@ sheet. Re-running replaces the notes it wrote before (they carry a fixed uuid pr
 import re
 import uuid
 from pathlib import Path
+from common import DATE, REV
 
 KDIR = Path(__file__).resolve().parent.parent / "kicad"
 NS = uuid.UUID("6f1e3a52-0000-4000-8000-0000000000d4")
-DATE, REV = "2026-10-20", "2"
 
 SHEETS = {
     "channel": dict(

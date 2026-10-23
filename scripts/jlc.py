@@ -19,8 +19,8 @@ _cache = {}
 def jlc_search(keyword, n=25):
     """Parts matching a keyword (MPN, C-number or description): list of dicts with
     code, mpn, maker, package, basic, preferred, stock, prices [(qty, usd)], description."""
-    if keyword in _cache:
-        return _cache[keyword]
+    if (keyword, n) in _cache:
+        return _cache[(keyword, n)]
     body = json.dumps({"keyword": keyword, "currentPage": 1, "pageSize": n, "searchSource": "search"}).encode()
     for attempt in range(3):
         try:
@@ -40,7 +40,7 @@ def jlc_search(keyword, n=25):
                         stock=x.get("stockCount") or 0,
                         prices=[(p.get("startNumber"), p.get("productPrice")) for p in x.get("componentPrices") or []],
                         description=x.get("describe") or ""))
-    _cache[keyword] = out
+    _cache[(keyword, n)] = out
     time.sleep(0.4)
     return out
 

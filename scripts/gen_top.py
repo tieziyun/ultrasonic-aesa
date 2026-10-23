@@ -21,12 +21,12 @@ Run it after editing any sheet:
 import re
 import uuid
 from pathlib import Path
+from common import DATE, REV, block_end
 
 KICAD = Path(__file__).resolve().parent.parent / "kicad"
 PROJECT = "aesa"
 ROOT_UUID = "35d88121-1d5f-4a62-9009-788ea6bf93dd"  # keep stable across runs
 NS = uuid.UUID("6f1e3a52-0000-4000-8000-0000000000a5")
-DATE, REV = "2026-10-20", "2"
 
 
 def uid(name):
@@ -350,12 +350,7 @@ def write_instances(by_file):
             out.append(line_)
             if line_ == "\t(symbol":
                 # Find this symbol's reference and unit, then replace its instances block.
-                depth, j = 0, i
-                while True:
-                    depth += lines[j].count("(") - lines[j].count(")")
-                    if depth == 0:
-                        break
-                    j += 1
+                j = block_end(lines, i)
                 blk = "\n".join(lines[i:j + 1])
                 ref = re.search(r'\(property "Reference" "([^"]+)"', blk).group(1)
                 # A KiCad re-save (kicad-cli sch upgrade) stores the first instance's reference
@@ -367,7 +362,7 @@ def write_instances(by_file):
                 unit = re.search(r"\n\t\t\(unit (\d+)\)", blk).group(1)
                 # Remove every (instances ...) block: the MCP server can add a second one
                 # with its own numbering, and KiCad then uses the stray references.
-                s0 = None
+                at = None  # where the (first) instances block was
                 while "(instances" in blk:
                     start = blk.index("(instances")
                     k = start  # strip only whitespace before it: the MCP writes ")(instances"
@@ -381,12 +376,14 @@ def write_instances(by_file):
                         if depth == 0:
                             break
                     blk = blk[:k] + blk[e:]
-                    s0 = k if s0 is None else min(s0, k)
+                    at = k if at is None else min(at, k)
+                if at is None:  # no instances block yet: add one before the symbol's closing ")"
+                    at = blk.rindex("\n\t)")
                 paths = "".join(
                     f'\n\t\t\t\t(path "{s.path}"\n\t\t\t\t\t(reference "{renumber(ref, s.sid)}")'
                     f'\n\t\t\t\t\t(unit {unit})\n\t\t\t\t)' for s in insts)
                 new_inst = f'\n\t\t(instances\n\t\t\t(project "{PROJECT}"{paths}\n\t\t\t)\n\t\t)'
-                blk = blk[:s0] + new_inst + blk[s0:]
+                blk = blk[:at] + new_inst + blk[at:]
                 out[-1:] = blk.split("\n")
                 count += 1
                 i = j + 1

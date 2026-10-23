@@ -10,8 +10,9 @@
 
 import re
 import sys
+from common import KICAD_SYMBOLS, block_end
 
-POWER_LIB = r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\share\kicad\symbols\power.kicad_sym"
+POWER_LIB = KICAD_SYMBOLS / "power.kicad_sym"
 OLD_NETS = ("AGND", "PGND", "DGND")
 OLD_SYMS = ("power:GNDA", "power:GNDPWR", "power:GNDD")
 
@@ -19,12 +20,7 @@ OLD_SYMS = ("power:GNDA", "power:GNDPWR", "power:GNDD")
 def gnd_definition():
     lines = open(POWER_LIB, encoding="utf-8").read().split("\n")
     start = lines.index('\t(symbol "GND"')
-    depth, j = 0, start
-    while True:
-        depth += lines[j].count("(") - lines[j].count(")")
-        if depth == 0:
-            break
-        j += 1
+    j = block_end(lines, start)
     block = ["\t" + l for l in lines[start:j + 1]]
     block[0] = '\t\t(symbol "power:GND"'
     return block

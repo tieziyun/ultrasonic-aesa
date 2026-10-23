@@ -1,6 +1,6 @@
 # Design check
 
-Run 2026-10-22 21:33 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **17 pass, 0 warn, 0 fail.**
+Run 2026-10-22 22:15 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **17 pass, 0 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
@@ -59,7 +59,7 @@ Duplicate references: 0.
 <a id="4"></a>
 ## 4. LCSC numbers: PASS
 
-Parts with an LCSC number: 1613; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
+Parts with an LCSC number: 1623; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
 
 TBD values (count): 
 

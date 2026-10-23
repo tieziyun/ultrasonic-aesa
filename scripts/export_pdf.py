@@ -14,9 +14,10 @@ from pathlib import Path
 
 warnings.filterwarnings("ignore")
 import fitz  # noqa: E402  PyMuPDF, bundled with KiCad's Python
+from common import KICAD_CLI
 
 REPO = Path(__file__).resolve().parent.parent
-CLI = r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe"
+CLI = KICAD_CLI
 BUILD = REPO / "build"
 DOCS = REPO / "docs" / "schematics"
 ORDER = ["aesa", "headers", "clocks", "clk_buf", "tx", "tx_group", "en_buf", "array", "channel", "adcs", "adc",

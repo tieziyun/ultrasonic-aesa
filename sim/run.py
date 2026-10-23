@@ -681,7 +681,7 @@ SIMS = {
                  "supply, without creating a resonance?",
         why="The MEMS microphones are sensitive to supply noise, and a ferrite with a large capacitor can resonate "
             "and amplify noise near its resonance.",
-        setup="+3V3 → 220 Ω ferrite → 10 µF + 8 × 100 nF at the microphones, with a typical ferrite model.",
+        setup="+3V3 → 600 Ω ferrite (GZ1608D601TF) → 10 µF + 8 × 100 nF at the microphones, with a typical ferrite model.",
         read="How much of the noise on +3V3 reaches the microphones, versus frequency. 0 dB = all of it, −60 dB = "
              "a thousandth."),
     "clock_si": dict(

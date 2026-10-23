@@ -25,10 +25,10 @@ import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
+from common import KICAD_CLI  # noqa: E402
 from jlc import jlc_search, jlcsearch, price_at  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-KICAD_CLI = r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe"
 FEE = 3.0  # JLCPCB loading fee per extended part type, per order
 
 # Hand-checked picks for non-passives: value -> (LCSC, note). Prices come from JLCPCB at run time.
@@ -186,7 +186,8 @@ def main():
         if b["dnp"]:  # not assembled, but give it a part so it can be fitted later
             v = b["value"].replace(" DNP", "")
             b["part"] = (pk.resistor(v, package_of(b["fp"]), 0) if parse_res(v)
-                         else pk.capacitor(parse_cap(v), package_of(b["fp"]), 0, b["fp"]))
+                         else pk.capacitor(parse_cap(v), package_of(b["fp"]), 0, b["fp"]) if parse_cap(v)
+                         else pk.verify(PICKS[v][0], 0) if v in PICKS else None)
             dnp.append(b)
             continue
         if b["value"] in OFFBOARD:

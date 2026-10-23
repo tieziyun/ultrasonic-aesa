@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+from common import block_end
 
 _PJ = os.path.join(os.path.dirname(__file__), "parts.json")
 PARTS = json.load(open(_PJ)) if os.path.exists(_PJ) else {}
@@ -38,12 +39,7 @@ def add_fields(path):
     while i < len(lines):
         out.append(lines[i])
         if lines[i] == "\t(symbol":
-            depth, j = 0, i
-            while True:
-                depth += lines[j].count("(") - lines[j].count(")")
-                if depth == 0:
-                    break
-                j += 1
+            j = block_end(lines, i)
             blk = lines[i + 1:j + 1]
             text = "\n".join(blk)
             lib_id = re.search(r'\(lib_id "([^"]+)"\)', text).group(1)
@@ -54,7 +50,7 @@ def add_fields(path):
                 pass
             elif '(property "LCSC"' in text:
                 new = re.sub(r'\(property "LCSC" "[^"]*"', f'(property "LCSC" "{code}"', text, count=1)
-                if FORCE and new != text:
+                if FORCE and new != text and code != "TBD":  # never replace a real number with TBD
                     blk = new.split("\n")
                     added += 1
             else:

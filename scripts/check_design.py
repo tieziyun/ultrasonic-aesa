@@ -19,16 +19,17 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from common import KICAD_CLI, KICAD_FOOTPRINTS  # noqa: E402
 from pinmap import J1_MAP, J2_MAP  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
-CLI = r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\bin\kicad-cli.exe"
-FPDIR = Path(r"C:\Users\Tiezi\AppData\Local\Programs\KiCad\10.0\share\kicad\footprints")
+CLI = KICAD_CLI
+FPDIR = KICAD_FOOTPRINTS
 NET = REPO / "build" / "aesa.net"
 ERC = REPO / "build" / "erc.rpt"
 OUT = REPO / "docs" / "design-check.md"
 
-RAIL_V = {"VIN": 12.0, "VIN_JACK": 12.0, "VIN_FUSED": 12.0, "VIN65": 5.0, "+5V": 5.0, "5V_REG": 5.08,
+RAIL_V = {"VIN": 12.0, "VIN_JACK": 12.0, "VIN_FUSED": 12.0, "VIN65": 5.0, "+5V": 5.0, "5V_REG": 5.07,
           "+6V5": 6.46, "6V5_REG": 6.46, "-6V5": -6.51, "-6V5_REG": -6.51, "+5VA": 5.0, "5VA_REG": 5.0,
           "-5VA": -5.0, "-5VA_REG": -5.0, "VDRV": 15.4, "VDRV_REG": 15.4, "+3V3": 3.3, "3V3_REG": 3.3,
           "3V3_MIC": 3.3, "SW_5V": 12.0, "SW_P": 7.0, "SW_N": -7.0, "SW_VDRV": 15.9, "BOOT_5V": 17.0}
@@ -105,10 +106,6 @@ class Design:
         return None
 
 
-def two_pin(d, ref):
-    return ref[0] in "RCLDF" and not ref.startswith("FB") or ref.startswith("FB")
-
-
 def export():
     subprocess.run([CLI, "sch", "export", "netlist", "-o", str(NET), str(REPO / "kicad" / "aesa.kicad_sch")],
                    check=True, capture_output=True)
@@ -179,7 +176,7 @@ def check_footprints(R, d):
 def check_lcsc(R, d):
     by = defaultdict(list)
     for r, c in d.comps.items():
-        by[c["lcsc"] or "(none)"].append(r)
+        by[(c["lcsc"] or "(none)").removesuffix(" (DNP)")].append(r)  # DNP parts carry "Cxxxx (DNP)"
     tbd = Counter(d.comps[r]["value"] for r in by.get("TBD", []))
     lines = [f"Parts with an LCSC number: {sum(len(v) for k, v in by.items() if k.startswith('C') and k[1:].isdigit())}; "
              f"consigned/hand-solder: {sum(len(v) for k, v in by.items() if k.lower().startswith(('consign', 'hand')))}; "

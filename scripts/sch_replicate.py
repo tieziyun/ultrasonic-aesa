@@ -16,6 +16,7 @@ Usage from Python:
 
 import re
 import uuid
+from common import block_end
 
 
 def _top_blocks(lines):
@@ -24,12 +25,7 @@ def _top_blocks(lines):
     while i < len(lines):
         m = re.match(r"^\t\((\w+)", lines[i])
         if m:
-            depth, j = 0, i
-            while True:
-                depth += lines[j].count("(") - lines[j].count(")")
-                if depth == 0:
-                    break
-                j += 1
+            j = block_end(lines, i)
             yield i, j, m.group(1)
             i = j
         i += 1
