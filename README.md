@@ -8,26 +8,26 @@ Uses: 3-D sonar imaging, gesture and hand tracking, Doppler motion sensing, and 
 
 ## Read the schematic
 
-PDFs in [docs/schematics/](docs/schematics/), regenerated from KiCad on every change. Start with page 00: a block diagram of how the signal flows. Each block opens the sheet below it.
+**[docs/schematics/aesa_schematic.pdf](docs/schematics/aesa_schematic.pdf)**: the whole schematic in one PDF, one page per sheet, regenerated on every schematic change. Page 1 is a block diagram of how the signal flows; click a block to open its sheet, and "<< up to" at the top of each page to go back. The bookmarks follow the hierarchy.
 
-| PDF | Sheet | What it is |
+| Page | Sheet | What it is |
 |---|---|---|
-| [00_aesa](docs/schematics/00_aesa.pdf) | top | **Block diagram**: FPGA → TX drive → transceivers → receive amplifiers → ADCs → FPGA, plus mics and power |
-| [01_headers](docs/schematics/01_headers.pdf) | `headers` | The two 40-pin ribbon headers to the AXU3EGB, idle pull resistors |
-| [02_clocks](docs/schematics/02_clocks.pdf) | group | The 7 clock buffers and which clock each one feeds |
-| [03_clk_buf](docs/schematics/03_clk_buf.pdf) | `clk_buf` ×7 | One clock fan-out buffer with 33 Ω series termination |
-| [04_tx](docs/schematics/04_tx.pdf) | group | TX drive: 16 TX groups and 4 enable buffers |
-| [05_tx_group](docs/schematics/05_tx_group.pdf) | `tx_group` ×16 | 74HCT595 shift register and two UCC27524 gate drivers: drives 4 elements |
-| [06_en_buf](docs/schematics/06_en_buf.pdf) | `en_buf` ×4 | TX-enable buffer for 8 gate drivers |
-| [07_array](docs/schematics/07_array.pdf) | group | The 64 transceiver channels as an 8 × 8 grid |
-| [08_channel](docs/schematics/08_channel.pdf) | `channel` ×64 | One transceiver: crossed-diode T/R switch, CUSA-TR65 element, limiter, OPA1678 gain stage, 40 kHz band-pass |
-| [09_adcs](docs/schematics/09_adcs.pdf) | group | The 8 ADCs and which channels each one digitises |
-| [10_adc](docs/schematics/10_adc.pdf) | `adc` ×8 | AD7606C-16, 8 channels, serial output to the FPGA |
-| [11_mics](docs/schematics/11_mics.pdf) | group | The 8 microphones, paired on 4 data lines |
-| [12_mic](docs/schematics/12_mic.pdf) | `mic` ×8 | SPH0641LU4H-1 PDM microphone |
-| [13_power](docs/schematics/13_power.pdf) | `power` | 12 V jack → +5 V, ±6.5 V, ±5VA (low-noise), VDRV 15 V (switchable), +3V3, 3V3_MIC |
+| 1 | top | **Block diagram**: FPGA → TX drive → transceivers → receive amplifiers → ADCs → FPGA, plus mics and power |
+| 2 | `headers` | The two 40-pin ribbon headers to the AXU3EGB, idle pull resistors |
+| 3 | group | The 7 clock buffers and which clock each one feeds |
+| 4 | `clk_buf` ×7 | One clock fan-out buffer with 33 Ω series termination |
+| 5 | group | TX drive: 16 TX groups and 4 enable buffers |
+| 6 | `tx_group` ×16 | 74HCT595 shift register and two UCC27524 gate drivers: drives 4 elements |
+| 7 | `en_buf` ×4 | TX-enable buffer for 8 gate drivers |
+| 8 | group | The 64 transceiver channels as an 8 × 8 grid |
+| 9 | `channel` ×64 | One transceiver: crossed-diode T/R switch, CUSA-TR65 element, limiter, OPA1678 gain stage, 40 kHz band-pass |
+| 10 | group | The 8 ADCs and which channels each one digitises |
+| 11 | `adc` ×8 | AD7606C-16, 8 channels, serial output to the FPGA |
+| 12 | group | The 8 microphones, paired on 4 data lines |
+| 13 | `mic` ×8 | SPH0641LU4H-1 PDM microphone |
+| 14 | `power` | 12 V jack → +5 V, ±6.5 V, ±5VA (low-noise), VDRV 15 V (switchable), +3V3, 3V3_MIC |
 
-[aesa_schematic.pdf](docs/schematics/aesa_schematic.pdf) has all of them in one file. Each block that repeats is drawn once and reused, so a change to `channel` applies to all 64 channels.
+Each block that repeats is drawn once and reused, so a change to `channel` applies to all 64 channels. KiCad's own export of every instance (115 pages) is left in `build/aesa_schematic_full.pdf`.
 
 ## Key numbers
 
@@ -50,7 +50,7 @@ PDFs in [docs/schematics/](docs/schematics/), regenerated from KiCad on every ch
 | `scripts/` | Generators: `build_cells.py` (every cell sheet except `channel`: ADC, TX, buffers, mic, headers, power), `gen_top.py` (block diagram, group sheets, references), `sch_annotate.py` (channel title and notes), `export_pdf.py` (PDFs), plus field and LCSC helpers |
 | `skidl/` | Reference spec of each block in SKiDL (values, nets, LCSC numbers) |
 | `sim/` | LTspice testbenches and models. `sim/run.py` exports the channel circuit from the KiCad schematic, runs every testbench and writes [sim/reports/](sim/reports/README.md) |
-| `docs/schematics/` | Schematic PDFs |
+| `docs/schematics/` | The schematic PDF (one page per sheet, linked) |
 | [CLAUDE.md](CLAUDE.md) | Working rules for the AI assistant on this project |
 
 ## Rebuild
@@ -62,14 +62,13 @@ set KPY=%LOCALAPPDATA%\Programs\KiCad\10.0\bin\python.exe
 set KCLI=%LOCALAPPDATA%\Programs\KiCad\10.0\bin\kicad-cli.exe
 %KPY% scripts\build_cells.py
 %KPY% scripts\sch_annotate.py
-%KPY% scripts\gen_top.py
 %KPY% scripts\sch_lcsc.py kicad\adc.kicad_sch kicad\tx_group.kicad_sch kicad\en_buf.kicad_sch kicad\clk_buf.kicad_sch kicad\mic.kicad_sch kicad\headers.kicad_sch kicad\power.kicad_sch
+%KPY% scripts\gen_top.py
 %KCLI% sch erc kicad\aesa.kicad_sch
-%KPY% scripts\export_pdf.py
 %KPY% sim\run.py
 ```
 
-The `channel` sheet is drawn by hand (with the KiCad MCP server) and is not regenerated; everything else is.
+The `channel` sheet is drawn by hand (with the KiCad MCP server) and is not regenerated; everything else is. `gen_top.py` ends by exporting the schematic PDF, and the git pre-commit hook (`.githooks/pre-commit`, enabled with `git config core.hooksPath .githooks`) refuses a commit that changes a sheet without the matching PDF.
 
 BOM (needs internet: it queries JLCPCB for parts, stock and prices, and takes a few minutes):
 

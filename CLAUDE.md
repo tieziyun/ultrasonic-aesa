@@ -21,7 +21,7 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
 
 ## Token budget and visible progress
 - Run the schematic-reviewer / layout-reviewer subagents **only at milestones**: one channel done, full schematic done, placement done, routing done, before fab output. Each spawn starts cold and costs a lot; review small edits inline instead.
-- Every milestone must leave something the user can **see**: the schematic PDFs in `docs/schematics/` (one per sheet plus `aesa_schematic.pdf`; regenerate with `scripts/export_pdf.py` after every schematic change and commit them) or a rendered board PNG. Tell the user the file path.
+- Every milestone must leave something the user can **see**: the schematic PDF `docs/schematics/aesa_schematic.pdf` (one linked file, one page per sheet; `gen_top.py` regenerates it after every schematic change, and the pre-commit hook in `.githooks/` refuses sheet changes committed without it) or a rendered board PNG. Tell the user the file path.
 
 ## Workflow
 1. **The KiCad hierarchical schematic in `kicad/` is the source of truth** (project `kicad/aesa.kicad_pro`). `skidl/channel.py` stays as the reference spec of each block (values, nets, LCSC numbers); when a block changes, change the sheet and the spec together.
@@ -33,7 +33,7 @@ Read DESIGN_BRIEF.md first. It holds the requirements, decisions, parts and open
    - `scripts/gen_top.py` writes the top and group sheets and the per-instance references (R101..R6409 in the channels, U7101.. in the ADCs, 101xx-116xx TX groups, 121xx TX enable, 131xx-137xx clock buffers, 141xx-148xx mics, 95xx power, 99xx headers). Re-run it after adding or removing parts in any sheet; never draw on the top or group sheets by hand. It tolerates a `kicad-cli sch upgrade` re-save (which stores the first instance's references in the sheet).
    - `scripts/common.py` holds what the scripts share: KiCad paths, the sheet DATE/REV, and `block_end()` (finds the end of an s-expression, ignoring parentheses inside strings). Use it rather than copying.
    - `scripts/sch_fields.py <sheet> [--vertical] [--only] [REF=dx,dy,dx2,dy2 ...]` fixes field placement (`--only` touches just the named parts: use it on the hand-drawn channel sheet; on rotated parts KiCad anchors the text at its right end); `scripts/sch_lcsc.py <sheets>` gives every part an LCSC field.
-   - Check: `kicad-cli sch erc kicad/aesa.kicad_sch` (target: 0 violations), export the netlist and spot-check nets, run `scripts/export_pdf.py` and look at `docs/schematics/`.
+   - Check: `kicad-cli sch erc kicad/aesa.kicad_sch` (target: 0 violations), export the netlist and spot-check nets, look at `docs/schematics/aesa_schematic.pdf` (written by `gen_top.py`; `scripts/export_pdf.py` alone re-exports it).
    - Review with schematic-reviewer at milestones only, against the KiCad sheets and netlist.
 2. Board: `scripts/netlist_to_pcb.py build/aesa.net kicad/aesa.kicad_pcb` (or KiCad's Update PCB from Schematic), then place components with a pcbnew Python script (`scripts/place.py`) at the exact array pitch in the brief.
 3. Route: Freerouting for the bulk of the signals; power, TX drive and analog inputs by hand or reviewed carefully.

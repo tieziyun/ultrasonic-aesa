@@ -1,56 +1,109 @@
-"""Export the schematic PDFs.
+"""Export the schematic as ONE PDF with working links: docs/schematics/aesa_schematic.pdf.
 
-  docs/schematics/<sheet>.pdf          one PDF per sheet file (first instance, e.g. CH01 for channel)
-  docs/schematics/aesa_schematic.pdf   top sheet + one copy of each sheet, in one file (committed)
-  build/aesa_schematic_full.pdf        every instance, 110 pages (not committed)
+KiCad prints every sheet instance (115 pages: 64 identical channel pages, 16 tx_group pages, ...).
+This keeps one page per sheet file (the first instance) and fixes it up:
+  * every clickable block (sheet symbol) opens the page of its sheet; KiCad's own links point
+    at instance pages that are not in this file, so each one is remapped to the sheet's page
+  * an "up" link in the top margin returns to the parent sheet
+  * bookmarks: one per sheet, nested as in the hierarchy, with the sheet title
+  * the page ids in the title blocks are renumbered "n/14"
 
-Run after every schematic change:
+gen_top.py runs this at the end, so the PDF follows every schematic change. By hand:
   C:\\Users\\Tiezi\\AppData\\Local\\Programs\\KiCad\\10.0\\bin\\python.exe scripts\\export_pdf.py
+The 115-page KiCad export stays in build/aesa_schematic_full.pdf (not committed).
 """
 
+import re
 import subprocess
-import warnings
+import sys
 from pathlib import Path
 
-warnings.filterwarnings("ignore")
-import fitz  # noqa: E402  PyMuPDF, bundled with KiCad's Python
-from common import KICAD_CLI
+import pymupdf as fitz  # bundled with KiCad's Python
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from common import KICAD_CLI  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
-CLI = KICAD_CLI
-BUILD = REPO / "build"
-DOCS = REPO / "docs" / "schematics"
+FULL = REPO / "build" / "aesa_schematic_full.pdf"
+OUT = REPO / "docs" / "schematics" / "aesa_schematic.pdf"
 ORDER = ["aesa", "headers", "clocks", "clk_buf", "tx", "tx_group", "en_buf", "array", "channel", "adcs", "adc",
          "mics", "mic", "power"]
 
 
+def field(text, key):
+    m = re.search(rf"^{key}: (.*)$", text, re.M)
+    return m.group(1).strip() if m else None
+
+
 def main():
-    BUILD.mkdir(exist_ok=True)
-    DOCS.mkdir(parents=True, exist_ok=True)
-    full = BUILD / "aesa_schematic_full.pdf"
-    subprocess.run([CLI, "sch", "export", "pdf", "-o", str(full), str(REPO / "kicad" / "aesa.kicad_sch")],
+    FULL.parent.mkdir(exist_ok=True)
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run([KICAD_CLI, "sch", "export", "pdf", "-o", str(FULL), str(REPO / "kicad" / "aesa.kicad_sch")],
                    check=True, capture_output=True)
-    doc = fitz.open(full)
-    first = {}
-    for i in range(doc.page_count):
-        text = doc[i].get_text()
-        name = next((l.split("File:")[1].strip() for l in text.splitlines() if "File:" in l), None)
-        if name:
-            first.setdefault(name.replace(".kicad_sch", ""), i)
-    missing = [n for n in ORDER if n not in first]
-    extra = [n for n in first if n not in ORDER]
+    full = fitz.open(FULL)
+    sheet_of, first, count, title = {}, {}, {}, {}
+    for i, page in enumerate(full):
+        t = page.get_text()
+        name = (field(t, "File") or "").replace(".kicad_sch", "")
+        sheet_of[i] = name
+        first.setdefault(name, i)
+        count[name] = count.get(name, 0) + 1
+        title.setdefault(name, field(t, "Title") or name)
+    missing, extra = [n for n in ORDER if n not in first], [n for n in first if n not in ORDER]
     if missing or extra:
         raise SystemExit(f"sheet list out of date: missing {missing}, new {extra}; update ORDER")
-    for old in DOCS.glob("*.pdf"):
-        old.unlink()
-    combined = fitz.open()
-    for n, name in enumerate(ORDER):
-        one = fitz.open()
-        one.insert_pdf(doc, from_page=first[name], to_page=first[name])
-        one.save(DOCS / f"{n:02d}_{name}.pdf")
-        combined.insert_pdf(doc, from_page=first[name], to_page=first[name])
-    combined.save(DOCS / "aesa_schematic.pdf")
-    print(f"{full.relative_to(REPO)}: {doc.page_count} pages; docs/schematics: {len(ORDER)} sheets + combined")
+    new_page = {name: k for k, name in enumerate(ORDER)}
+
+    out = fitz.open()
+    parent = {}
+    for name in ORDER:
+        out.insert_pdf(full, from_page=first[name], to_page=first[name], links=False, annots=False)
+    for k, name in enumerate(ORDER):
+        src, dst = full[first[name]], out[k]
+        for ln in src.get_links():
+            if ln["kind"] == fitz.LINK_GOTO:
+                target = sheet_of.get(ln["page"])
+                if target not in new_page or target == name:
+                    continue
+                parent.setdefault(target, name)
+                dst.insert_link({"kind": fitz.LINK_GOTO, "from": ln["from"], "page": new_page[target]})
+            elif ln["kind"] == fitz.LINK_URI:
+                dst.insert_link({"kind": fitz.LINK_URI, "from": ln["from"], "uri": ln["uri"]})
+        # page id in the title block: "Id: 10/115" -> "Id: 5/14"
+        old_id = field(src.get_text(), "Id")
+        for r in dst.search_for(f"Id: {old_id}"):
+            dst.add_redact_annot(r, fill=False)  # no box: the page is not white
+        dst.apply_redactions(images=fitz.PDF_REDACT_IMAGE_NONE, graphics=fitz.PDF_REDACT_LINE_ART_NONE)
+        for r in src.search_for(f"Id: {old_id}"):
+            dst.insert_text((r.x0, r.y1 - 0.25 * r.height), f"Id: {k + 1}/{len(ORDER)}", fontsize=r.height * 0.85,
+                            color=(0.52, 0, 0))  # KiCad title-block red
+    # "up" links in the top margin, and a note on reused sheets
+    for k, name in enumerate(ORDER):
+        dst = out[k]
+        x, y = 30, 22
+        if name in parent:
+            label = f"<< up to: {title[parent[name]]}"  # (Helvetica has no arrow glyph)
+            dst.insert_text((x, y), label, fontsize=9, color=(0, 0.3, 0.8))
+            w = fitz.get_text_length(label, fontsize=9)
+            dst.insert_link({"kind": fitz.LINK_GOTO, "from": fitz.Rect(x, y - 9, x + w, y + 2),
+                             "page": new_page[parent[name]]})
+            x += w + 20
+        if count[name] > 1:
+            dst.insert_text((x, y), f"This sheet is used {count[name]} times; the page shows the first instance.",
+                            fontsize=9, color=(0.4, 0.4, 0.4))
+    # bookmarks, nested like the hierarchy
+    def depth(name):
+        return 1 if name == "aesa" else depth(parent[name]) + 1
+    toc = [[depth(n), title[n] + (f" (x{count[n]})" if count[n] > 1 and "(x" not in title[n] else ""),
+            new_page[n] + 1] for n in ORDER]
+    out.set_toc(toc)
+    out.set_metadata({"title": title["aesa"], "subject": "Schematic, one page per sheet"})
+    out.save(OUT, garbage=4, deflate=True)
+    unlinked = [n for n in ORDER if n != "aesa" and n not in parent]
+    if unlinked:
+        raise SystemExit(f"no block links to: {unlinked}")
+    print(f"{OUT.relative_to(REPO)}: {len(ORDER)} pages, {sum(len(p.get_links()) for p in out)} links, "
+          f"{OUT.stat().st_size // 1024} KB (all {full.page_count} instance pages: {FULL.relative_to(REPO)})")
 
 
 if __name__ == "__main__":

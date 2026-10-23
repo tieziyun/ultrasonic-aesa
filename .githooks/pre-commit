@@ -1,0 +1,12 @@
+#!/bin/sh
+# Refuse a commit that changes a schematic sheet without the regenerated schematic PDF.
+# Enable once per clone:  git config core.hooksPath .githooks
+sheets=$(git diff --cached --name-only --diff-filter=ACMR -- 'kicad/*.kicad_sch')
+[ -z "$sheets" ] && exit 0
+if git diff --cached --name-only -- docs/schematics/aesa_schematic.pdf | grep -q .; then
+    exit 0
+fi
+echo "pre-commit: these schematic sheets changed but docs/schematics/aesa_schematic.pdf did not:" >&2
+echo "$sheets" | sed 's/^/  /' >&2
+echo "Run scripts/gen_top.py (it exports the PDF), then git add docs/schematics/aesa_schematic.pdf." >&2
+exit 1

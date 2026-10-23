@@ -13,12 +13,13 @@ Three levels:
 It then rewrites every cell symbol's (instances ...) block so each instance has its own
 reference: <letters><sheet id><number:02d>. Sheet ids: CH n -> n (R101..R6409), ADC k -> 70+k,
 TXG k -> 100+k, TXEN j -> 120+j, CLKB j -> 130+j, MIC m -> 140+m, power 95, headers 99.
-Run it after editing any sheet:
+Run it after editing any sheet (it then exports docs/schematics/aesa_schematic.pdf; --no-pdf skips that):
 
   C:\\Users\\Tiezi\\AppData\\Local\\Programs\\KiCad\\10.0\\bin\\python.exe scripts\\gen_top.py
 """
 
 import re
+import sys
 import uuid
 from pathlib import Path
 from common import DATE, REV, block_end
@@ -395,3 +396,6 @@ def write_instances(by_file):
 
 if __name__ == "__main__":
     write_all()
+    if "--no-pdf" not in sys.argv:  # keep docs/schematics/aesa_schematic.pdf in step with every change
+        import export_pdf
+        export_pdf.main()
