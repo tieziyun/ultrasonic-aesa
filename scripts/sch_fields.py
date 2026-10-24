@@ -10,7 +10,9 @@ justification change.
 --only changes just the parts given as overrides (for hand-placed sheets).
 
 --vertical writes the fields of upright two-pin parts as vertical text beside the body
-(reference left, value right), for dense sheets where parts sit about 10 mm apart.
+(reference left, value right), for dense sheets where parts sit about 10 mm apart. The text starts
+just below the top pin and runs down, so it never crosses the wire at the top of the part (where net
+labels sit) however long the value is.
 
 Optional overrides give the Reference offset (dx,dy) and Value offset (dx2,dy2) from the
 symbol origin, left-justified, for parts the rules don't suit.
@@ -22,7 +24,8 @@ from common import block_end
 
 VERTICAL = False
 ONLY = False  # --only: move just the parts named in the overrides
-TWO_PIN = ("R", "C", "C_Polarized", "L", "Polyfuse")
+TWO_PIN = ("R", "C", "C_Polarized", "L", "L_Ferrite", "Polyfuse")
+DIODES = ("D_Schottky", "D")  # drawn horizontal at rotation 0
 
 
 def blocks(lines):
@@ -69,9 +72,12 @@ def rule(lib_id, rot, unit):
     if name in TWO_PIN:
         if rot in (90, 270):  # horizontal body: ref above, value below
             return ((0, -2.54, "center"), (0, 2.54, "center"))
-        if VERTICAL:
-            return ((-2.54, 0, "center", 90), (2.54, 0, "center", 90))
+        if VERTICAL:  # 90-degree text: "right" anchors its top end, so it runs down from there
+            dx = 3.81 if name == "C_Polarized" else 2.54  # wider body
+            return ((-dx, -2.54, "right", 90), (dx, -2.54, "right", 90))
         return ((2.54, -1.27, "left"), (2.54, 1.27, "left"))
+    if name in DIODES and rot in (0, 180):  # horizontal diode: ref above, value below
+        return ((0, -2.54, "center"), (0, 2.54, "center"))
     if name.startswith("BAV99"):
         if rot == 180:
             return ((0, 5.08, "center"), (0, 7.62, "center"))

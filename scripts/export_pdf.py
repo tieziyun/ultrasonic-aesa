@@ -27,12 +27,34 @@ REPO = Path(__file__).resolve().parent.parent
 FULL = REPO / "build" / "aesa_schematic_full.pdf"
 OUT = REPO / "docs" / "schematics" / "aesa_schematic.pdf"
 ORDER = ["aesa", "headers", "clocks", "clk_buf", "tx", "tx_group", "en_buf", "array", "channel", "adcs", "adc",
-         "mics", "mic", "power"]
+         "mics", "mic", "power", "power_analog"]
 
 
 def field(text, key):
     m = re.search(rf"^{key}: (.*)$", text, re.M)
     return m.group(1).strip() if m else None
+
+
+def same_size(doc):
+    """Every page on an A3 landscape canvas, so the pages read at one scale (the cell sheets are A4, a
+    few group sheets A2; ISO A-sizes share one aspect ratio, so each page just scales). Links follow."""
+    a3 = fitz.paper_rect("a3-l")
+    out = fitz.open()
+    for k in range(len(doc)):
+        page = out.new_page(width=a3.width, height=a3.height)
+        page.show_pdf_page(page.rect, doc, k)
+    for k, src in enumerate(doc):  # links once every page exists (they point forward too)
+        s, page = a3.width / src.rect.width, out[k]
+        for ln in src.get_links():
+            new = {"kind": ln["kind"], "from": ln["from"] * fitz.Matrix(s, s)}
+            if ln["kind"] == fitz.LINK_GOTO:
+                new["page"] = ln["page"]
+            elif ln["kind"] == fitz.LINK_URI:
+                new["uri"] = ln["uri"]
+            else:
+                continue
+            page.insert_link(new)
+    return out
 
 
 def main():
@@ -96,9 +118,17 @@ def main():
         return 1 if name == "aesa" else depth(parent[name]) + 1
     toc = [[depth(n), title[n] + (f" (x{count[n]})" if count[n] > 1 and "(x" not in title[n] else ""),
             new_page[n] + 1] for n in ORDER]
+    dst = None  # release the last page, so its new links are in the document before it is copied
+    out = same_size(out)
     out.set_toc(toc)
     out.set_metadata({"title": title["aesa"], "subject": "Schematic, one page per sheet"})
-    out.save(OUT, garbage=4, deflate=True)
+    try:
+        out.save(OUT, garbage=4, deflate=True)
+    except Exception:  # a PDF viewer holds the file open: keep the result, say what to do
+        alt = REPO / "build" / OUT.name
+        out.save(alt, garbage=4, deflate=True)
+        raise SystemExit(f"{OUT.relative_to(REPO)} is open in another program (close it and run "
+                         f"scripts/export_pdf.py); this export is in {alt.relative_to(REPO)}")
     unlinked = [n for n in ORDER if n != "aesa" and n not in parent]
     if unlinked:
         raise SystemExit(f"no block links to: {unlinked}")

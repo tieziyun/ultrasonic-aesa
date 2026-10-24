@@ -22,14 +22,18 @@ Afterwards run scripts/gen_top.py, scripts/sch_lcsc.py kicad/*.kicad_sch and kic
 
 import logging
 import os
+import re
 import shutil
 from collections import Counter
 import subprocess
 import sys
+import textwrap
+import time
 import uuid
 from pathlib import Path
 
 from common import DATE, KICAD_CLI, REV, block_end
+from power_sections import BOXES, origin
 
 REPO = Path(__file__).resolve().parent.parent
 KDIR = REPO / "kicad"
@@ -67,6 +71,21 @@ def mcp(cmd, **params):
     return r
 
 
+def add_components(path, comps, auto):
+    """batch_add_components, retrying parts whose write failed: the MCP server rewrites the whole sheet per
+    part, and on Windows a file watcher or virus scan sometimes holds the file for a moment (Errno 22)."""
+    todo = list(comps)
+    for attempt in range(4):
+        r = K.handle_command("batch_add_components", {"schematicPath": str(path), "components": todo,
+                                                      "auto_position_fields": auto})
+        failed = {e["reference"] for e in r.get("errors", [])}
+        if not failed:
+            return
+        todo = [c for c in todo if c["reference"] in failed]
+        time.sleep(1 + attempt)
+    raise RuntimeError(f"batch_add_components failed for {sorted(failed)}: {r.get('errors')}")
+
+
 def title_block(paper, title):
     """(paper ...) line followed by a filled title block."""
     lines = [f'(paper "{paper}")', "\t(title_block", f'\t\t(title "{title}")', f'\t\t(date "{DATE}")',
@@ -94,6 +113,9 @@ class Sheet:
         self.at_labels = []  # net-name labels placed on a wire point or pin
         self._segs, self._conn_pts = [], []
         self.field_ov = []  # sch_fields overrides "REF=dx,dy,dx2,dy2"
+        self.frames = []  # dashed section frames (x, y, w, h)
+        self.pwr_base = 0  # first number of the #PWR references (sheets that share a sheet id need different ones)
+        self.hide_gnd_text = False  # dense sheets: GND symbols without the "GND" text
         self._u = 0
 
     # ---- description ----------------------------------------------------------------
@@ -150,6 +172,10 @@ class Sheet:
     def note(self, text, x, y, size=1.8):
         self.notes.append((text, x, y, size))
 
+    def frame(self, x, y, w, h):
+        """Dashed rectangle around a section."""
+        self.frames.append((x, y, w, h))
+
     # ---- emission ---------------------------------------------------------------------
     def uid(self):
         self._u += 1
@@ -205,8 +231,7 @@ class Sheet:
         tb = title_block(self.paper, self.title or self.name)
         t = self.path.read_text(encoding="utf-8").replace('(paper "A4")', tb)
         self.path.write_text(t, encoding="utf-8")
-        mcp("batch_add_components", schematicPath=str(self.path), components=self.parts,
-            auto_position_fields=True)
+        add_components(self.path, self.parts, True)
 
         loc = PinLocator()
 
@@ -230,13 +255,13 @@ class Sheet:
             if net != "GND" and ang != 90:
                 out.append(self.s_label("global_label", net, at, ang, "passive"))
                 return
-            if net == "GND" and ang != 270:
+            if net == "GND" and (ang != 270 or self.hide_gnd_text):
                 hide = True
             npwr[0] += 1
             rot = (GND_ROT if net == "GND" else RAIL_ROT)[ang]
             if hide:  # by position: the MCP renumbers power symbols too
                 hidden.add((round(at[0], 2), round(at[1], 2)))
-            syms.append({"symbol": POWER_SYM[net], "reference": f"#PWR{npwr[0]:03d}", "value": net,
+            syms.append({"symbol": POWER_SYM[net], "reference": f"#PWR{self.pwr_base + npwr[0]:03d}", "value": net,
                          "position": {"x": at[0], "y": at[1]}, "rotation": rot})
 
         for kind, net, p, shape in self.conns:
@@ -324,10 +349,13 @@ class Sheet:
 
         for text, x, y, size in self.notes:
             out.append(self.s_text(text, x, y, size))
+        for x, y, w, h in self.frames:
+            out.append(f'\t(rectangle\n\t\t(start {f(x)} {f(y)})\n\t\t(end {f(x + w)} {f(y + h)})\n'
+                       f'\t\t(stroke (width 0.254) (type dash))\n\t\t(fill (type none))\n'
+                       f'\t\t(uuid "{self.uid()}")\n\t)\n')
 
         if syms:
-            mcp("batch_add_components", schematicPath=str(self.path), components=syms,
-                auto_position_fields=False)
+            add_components(self.path, syms, False)
         upgrade(self.path)  # KiCad re-save: tab indentation, which the other scripts expect
         t = self.path.read_text(encoding="utf-8")
         k = t.rindex("\t(sheet_instances")
@@ -336,6 +364,7 @@ class Sheet:
         fix_refs(self.path, self.parts, self.dnp)
         upgrade(self.path)
         fix_power_fields(self.path, hidden)
+        copper_only(self.path)
         subprocess.run([sys.executable, str(REPO / "scripts" / "sch_fields.py"), str(self.path), *self.field_ov],
                        check=True, capture_output=True)
         upgrade(self.path)
@@ -368,6 +397,19 @@ def fix_refs(path, parts, dnp=()):
                     if "(reference " in lines[k]:
                         lines[k] = lines[k][:lines[k].index("(")] + f'(reference "{ref}")'
                     k += 1
+    path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def copper_only(path):
+    """Test pads and solder jumpers are copper on the board: out of the BOM, like their footprints."""
+    lines = path.read_text(encoding="utf-8").split("\n")
+    i = 0
+    while i < len(lines):
+        if lines[i] == "\t(symbol" and re.match(r'\t\t\(lib_id "(Connector:TestPoint|Jumper:SolderJumper)', lines[i + 1]):
+            j = block_end(lines, i)
+            lines[i:j + 1] = [ln.replace("(in_bom yes)", "(in_bom no)") for ln in lines[i:j + 1]]
+            i = j
+        i += 1
     path.write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -695,17 +737,40 @@ PITCH = 20.32
 
 
 def power():
-    """Power sheet, drawn conventionally: each regulator with its parts wired around it.
+    """The two power sheets (A3, like every page), drawn conventionally: each regulator with its parts
+    wired around it, one dashed box per section (scripts/power_sections.py, which also says which
+    sheet each section is on), power flowing left to right and top to bottom.
 
     Rails run as wires through the parts that hang off them (input caps, dividers, output caps,
-    jumper, LED, test point, flag) and end in a power symbol at the edge of the section. Pins that
+    jumper, LED, test point, flag) and end in a power symbol at the right of the section. Pins that
     only tie to a rail (enables, mode pins, ANY-OUT pins, exposed pads) use power symbols/flags.
     """
-    s = Sheet("power", "A2", "Power: 12 V in, +5V, +-6V5, +-5VA, VDRV, +3V3, 3V3_MIC, +3V3A")
-    s.field_ov.append("--vertical")  # value text beside each upright part
+    sheets = {"power": Sheet("power", "A3", "Power 1: 12 V input, +5V, VDRV (TX), +3V3, 3V3_MIC"),
+              "power_analog": Sheet("power_analog", "A3", "Power 2 (analog): +-6V5, +-5VA, +3V3A")}
+    sheets["power_analog"].pwr_base = 500  # both sheets use sheet id 95: keep the power symbols apart
+    for sh in sheets.values():
+        sh.field_ov.append("--vertical")  # value text beside each upright part
+        sh.hide_gnd_text = True
+    s = sheets["power"]
     nflag = [0]
     SYM2 = {"C": "Device:C", "CP": "Device:C_Polarized", "R": "Device:R", "L": "Device:L",
-            "FB": "Device:FerriteBead", "F": "Device:Polyfuse", "D": "Device:D_Schottky", "LED": "Device:LED"}
+            "FB": "Device:L_Ferrite", "F": "Device:Polyfuse", "D": "Device:D_Schottky", "LED": "Device:LED"}
+
+    def box(key, title, *notes):
+        """Frame a section on its sheet, write its heading and wrapped notes; returns the drawing origin.
+        The helpers below draw on the sheet of the last box."""
+        nonlocal s
+        sheet, x, y, w, h = BOXES[key]
+        s = sheets[sheet]
+        s.frame(x, y, w, h)
+        ox, oy = origin(key)
+        s.note(title, ox, oy, 2.2)
+        yy = oy + 5.08
+        for n in notes:
+            for line in textwrap.wrap(n, int((w - 5.08) / 1.65)):
+                s.note(line, ox, yy)
+                yy += 4.32
+        return ox, oy
 
     def v(kind, ref, x, ytop, val, fp, k_top=False):
         """Upright part with its top pin at (x, ytop). Returns (top pin, bottom pin).
@@ -727,7 +792,7 @@ def power():
         return f"{ref}.1", f"{ref}.2"
 
     def tp(ref, x, y, net):
-        s.part("Connector:TestPoint", ref, x, y, f"TP {net}", TPFP)
+        s.part("Connector:TestPoint", ref, x, y, net, TPFP)  # value = the silkscreen label on the board
         return f"{ref}.1"
 
     def flag(x, y):
@@ -743,7 +808,6 @@ def power():
     def led(rref, dref, x, y, rval, rail, negative=False):
         """Rail indicator hanging from a rail point (x, y): resistor, then LED to GND."""
         rt, rb = v("R", rref, x, y, rval, R0603)
-        s.netname(f"LED_{rail}", rb, 180)
         dt, db = v("LED", dref, x, y + 7.62, "green", LEDFP, k_top=negative)
         s.sym("GND", db)
         return rt
@@ -754,66 +818,60 @@ def power():
             s.sym("GND", bot)
 
     # ---- A. 12 V input ---------------------------------------------------------------------
-    ox, oy = 20.32, 30.48
-    ry = oy + 33.02
-    s.note("A. 12 V INPUT: jack -> TPS26600 eFuse (resettable: auto-retry) -> polyfuse (back-up) -> VIN", ox, oy, 2.2)
-    s.note("eFuse: input rated 60 V and -60 V (reverse polarity), switches off above 13.8 V (protects the 14.5 V "
-           "LM2731) and below 8.8 V, current limit 1.6 A.", ox, oy + 5.08)
+    ox, oy = box("A", "A. 12 V INPUT: jack -> TPS26600 eFuse -> polyfuse -> VIN",
+                 "eFuse U8 (resettable, auto-retry): rated +-60 V (reverse polarity), on above 8.8 V, off above "
+                 "13.8 V (protects the 14.5 V LM2731), current limit 1.6 A. F1 (2 A polyfuse) backs it up.",
+                 "UVLO/OVP divider 100k / 5.6k / 10k. ILIM 12 k/A -> 7.5k = 1.6 A. dVdT 22 nF: 5 V/ms soft start. "
+                 "IMON 72 uA/A into 15k = 1.08 V/A (TP IMON). FLT low = fault (TP FLT). MODE open = auto-retry, "
+                 "SHDN open = on.")
+    ry = oy + 30.48
+    ux = ox + 86.36                                                              # eFuse centre
     s.field_ov.append("J1=-7.62,-7.62,-7.62,-5.08")
     s.part("Connector:Barrel_Jack", "J1", ox + 10.16, ry + 2.54, "12 V in (5.5x2.1)",
            "Connector_BarrelJack:BarrelJack_CUI_PJ-063AH_Horizontal")
     s.poly("J1.2", (ox + 20.32, ry + 5.08))
     s.sym("GND", (ox + 20.32, ry + 5.08))
-    tpj = tp("TP13", ox + 25.4, ry, "VIN_JACK")                                  # adapter voltage
-    s.poly("J1.1", tpj, flag(ox + 33.02, ry))                                    # the jack powers the eFuse
-    s.netname("VIN_JACK", tpj)
-    f1, f2 = h("F", "F1", ox + 43.18, ry, "SMD1812P200TF16", "Fuse:Fuse_1812_4532Metric")
-    s.netname("VIN_PROT", f1, 180)
-    caps_to_gnd(("CP", "C1", ox + 60.96, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
-                ("C", "C2", ox + 73.66, ry, "100n 50V X7R", C0603))
-    r1 = led("R1", "D2", ox + 86.36, ry, "10k 1%", "VIN")
-    s.poly(f2, "C1.1", "C2.1", r1, tp("TP1", ox + 106.68, ry, "VIN"), flag(ox + 119.38, ry), (ox + 132.08, ry))
-    s.sym("VIN", (ox + 132.08, ry))
-    # eFuse (TPS26600PWP, datasheet section 10.2): control pins by label, support parts in a row below
-    s.field_ov.append("U8=-10.16,-12.7,-10.16,-10.16")
-    s.part("Power_Management:TPS26600PWP", "U8", ox + 160.02, ry + 25.4, "TPS26600PWPR",
+    s.field_ov.append("U8=-10.16,-22.86,-10.16,-20.32")
+    s.field_ov += [f"R{n}=-11.43,-0.64,-11.43,1.91" for n in (22, 23, 24)]  # divider text left, clear of the pin wires
+    s.part("Power_Management:TPS26600PWP", "U8", ux, ry + 12.7, "TPS26600PWPR",
            "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.66x2.46mm_ThermalVias")
-    s.lbl("VIN_JACK", "U8.1", "U8.2")
-    s.lbl("VIN_PROT", "U8.15", "U8.16")
-    s.pwr("GND", "U8.9", "U8.8", "U8.17")
-    for net, pin in (("EF_UVLO", "3"), ("EF_OVP", "5"), ("EF_IMON", "10"), ("EF_ILIM", "11"),
-                     ("EF_DVDT", "12"), ("EF_FLT", "14")):
-        s.lbl(net, f"U8.{pin}")
-    s.nc("U8.4", "U8.13", "U8.6", "U8.7")  # MODE open = auto-retry; SHDN open = on (internal pull-up)
-    yb = ry + 45.72
-    s.note("UVLO/OVP divider 100k / 5.6k / 10k: on 8.8 V, off 13.8 V. ILIM 12 k/A -> 7.5 k = 1.6 A. "
-           "dVdT 22 nF: 5 V/ms. IMON 72 uA/A into 15 k = 1.08 V/A (TP14). FLT low = fault (TP15).", ox, yb - 7.62)
-    r22t, r22b = v("R", "R22", ox + 10.16, yb, "100k 1%", R0603)
-    r23t, r23b = v("R", "R23", ox + 10.16, yb + 12.7, "5.6k 1%", R0603)
-    r24t, r24b = v("R", "R24", ox + 10.16, yb + 25.4, "10k 1%", R0603)
-    s.poly(r22b, r23t)
-    s.poly(r23b, r24t)
+    c44t, c44b = v("C", "C44", ox + 45.72, ry, "100n 50V X7R", C0603)
+    s.sym("GND", c44b)
+    r22t, r22b = v("R", "R22", ux - 25.4, ry, "100k 1%", R0603)                   # UVLO/OVP divider, pins in line
+    r23t, r23b = v("R", "R23", ux - 25.4, ry + 7.62, "5.6k 1%", R0603)            # with UVLO and OVP
+    r24t, r24b = v("R", "R24", ux - 25.4, ry + 15.24, "10k 1%", R0603)
     s.sym("GND", r24b)
-    s.netname("VIN_JACK", r22t)
-    s.netname("EF_UVLO", r22b)
-    s.netname("EF_OVP", r23b)
-    for k, (ref, val, fp, net) in enumerate((("R25", "7.5k 1%", R0603, "EF_ILIM"), ("C43", "22n 50V X7R", C0603, "EF_DVDT"),
-                                             ("R26", "15k 1%", R0603, "EF_IMON"), ("C44", "100n 50V X7R", C0603, "VIN_JACK"))):
-        x = ox + 30.48 + 15.24 * k
-        t, b = v(ref[0], ref, x, yb, val, fp)
-        s.netname(net, t)
-        s.sym("GND", b)
-    s.poly(tp("TP14", ox + 45.72 + 15.24, yb - 2.54, "IMON"), (ox + 60.96, yb))    # current monitor, 1.08 V/A
-    r27t, r27b = v("R", "R27", ox + 99.06, yb, "100k 1%", R0603)                  # FLT pull-up to the input
+    s.poly("J1.1", flag(ox + 22.86, ry), tp("TP13", ox + 30.48, ry, "VIN_JACK"), c44t, r22t, "U8.1")
+    s.netname("VIN_JACK", (ux - 22.86, ry))
+    s.poly(r23t, r22b, "U8.3")                                                   # UVLO
+    s.poly(r24t, r23b, "U8.5")                                                   # OVP
+    s.nc("U8.6", "U8.7")  # (pins 4 and 13 are no-connect pins of the symbol)
+    s.pwr("GND", "U8.9", "U8.8", "U8.17")
+    # control pins on the right: each wire runs to its part, the lowest pin to the nearest column
+    c43t, c43b = v("C", "C43", ux + 20.32, ry + 25.4, "22n 50V X7R", C0603)       # dVdT
+    r25t, r25b = v("R", "R25", ux + 33.02, ry + 22.86, "7.5k 1%", R0603)          # ILIM
+    r27t, r27b = v("R", "R27", ux + 45.72, ry + 5.08, "100k 1%", R0603)           # FLT pull-up to the input
+    r26t, r26b = v("R", "R26", ux + 58.42, ry + 15.24, "15k 1%", R0603)           # IMON
+    s.sym("GND", c43b, r25b, r26b)
+    s.poly("U8.12", c43t)
+    s.poly("U8.11", r25t)
+    s.poly("U8.14", tp("TP15", ux + 27.94, ry + 12.7, "FLT"), r27b)
     s.netname("VIN_JACK", r27t)
-    s.netname("EF_FLT", r27b)
-    s.poly(r27b, tp("TP15", ox + 106.68, yb + 7.62, "FLT"))
+    s.poly("U8.10", r26t, tp("TP14", ux + 66.04, ry + 15.24, "IMON"))
+    f1, f2 = h("F", "F1", ux + 73.66, ry, "SMD1812P200TF16", "Fuse:Fuse_1812_4532Metric")
+    s.poly("U8.15", f1)
+    s.netname("VIN_PROT", (ux + 60.96, ry))
+    caps_to_gnd(("CP", "C1", ux + 91.44, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
+                ("C", "C2", ux + 101.6, ry, "100n 50V X7R", C0603))
+    r1 = led("R1", "D2", ux + 111.76, ry, "10k 1%", "VIN")
+    s.poly(f2, "C1.1", "C2.1", r1, flag(ux + 121.92, ry), tp("TP1", ux + 132.08, ry, "VIN"), (ux + 144.78, ry))
+    s.sym("VIN", (ux + 144.78, ry))
 
     # ---- B. +5V: TPS54302 buck --------------------------------------------------------------
-    ox, oy = 309.88, 30.48
+    ox, oy = box("B", "B. +5V: TPS54302 buck (TI reference design), 3 A",
+                 "Vout = 0.596 V x (1 + 75k/10k) = 5.07 V. EN UVLO about 7.3 V. Load about 1.6 A. "
+                 "SW_5V loop (C3, U1, L1) kept tight on the board.")
     ry = oy + 30.48
-    s.note("B. +5V: TPS54302 buck (TI reference design), 3 A", ox, oy, 2.2)
-    s.note("Vout = 0.596 V x (1 + 75k/10k) = 5.07 V. EN UVLO about 7.3 V. Load about 1.6 A.", ox, oy + 5.08)
     s.field_ov.append("U1=-10.16,-10.16,-10.16,-7.62")
     s.part("Regulator_Switching:TPS54302", "U1", ox + 58.42, ry + 2.54, "TPS54302DDCR",
            "Package_TO_SOT_SMD:SOT-23-6")
@@ -827,13 +885,14 @@ def power():
     s.poly(r2b, (ox + 40.64, None), (None, ry + 5.08), "U1.5")                  # EN
     s.netname("EN_5V", (ox + 40.64, ry + 5.08))
     s.sym("GND", "U1.1")
+    s.field_ov.append("C5=2.54,-1.27,2.54,1.27")
     c5t, c5b = v("C", "C5", ox + 76.2, ry - 7.62, "100n 16V X7R", C0603)       # BOOT
     s.poly("U1.6", (ox + 71.12, None), (None, ry - 7.62), c5t)
     s.poly(c5b, (None, ry + 2.54))
     l1a, l1b = h("L", "L1", ox + 81.28, ry + 2.54, "10u Isat>=5A", L8040)
     s.poly("U1.2", (ox + 76.2, ry + 2.54), l1a)                                 # SW
-    s.netname("SW_5V", l1a, 180)
-    s.netname("BOOT_5V", (ox + 71.12, ry - 7.62))
+    s.netname("SW_5V", (ox + 74.93, ry + 2.54), 180)
+    s.netname("BOOT_5V", (ox + 71.12, ry - 7.62), 180)
     yo = ry + 2.54
     r4t, r4b = v("R", "R4", ox + 96.52, yo, "75k 1%", R0603)
     c8t, c8b = v("C", "C8", ox + 109.22, yo, "100p 50V C0G", C0603)
@@ -851,14 +910,20 @@ def power():
     s.poly(jb, r6, tp("TP2", ox + 185.42, yo, "+5V"), flag(ox + 198.12, yo), (ox + 210.82, yo))
     s.sym("+5V", (ox + 210.82, yo))
 
+    # ---- G. ground test points --------------------------------------------------------------------
+    ox, oy = box("G", "G. GROUND", "One GND net and plane (In1, In2). Scope-ground test points: TP9/TP10 "
+                 "at the power supply, TP16-TP19 spread over the board (ADC row, array sides, TX row). Power tree "
+                 "and bring-up checklist: Power 2.")
+    s.sym("GND", *(tp(f"TP{n}", ox + 7.62 + 15.24 * (k % 4), oy + 38.1 + 17.78 * (k // 4), "GND")
+                   for k, n in enumerate((9, 10, 16, 17, 18, 19))), flag(ox + 53.34, oy + 55.88))
+
     # ---- C. +-6V5: TPS65131 ----------------------------------------------------------------------
-    ox, oy = 20.32, 124.46
+    ox, oy = box("C", "C. +-6V5: TPS65131RGER boost + inverter from +5V (feeds the analog LDOs only)",
+                 "Drawn with the pin-identical TPS65130 symbol: order TPS65131RGER (2 A switches). "
+                 "PSP/PSN low: fixed-frequency PWM.",
+                 "+6V5 = 1.213 V x (1 + 562k/130k) = 6.46 V.   -6V5 = -1.213 V x 649k/121k = -6.51 V.")
     cx, cy = ox + 76.2, oy + 50.8
     yi = cy - 27.94
-    s.note("C. +-6V5: TPS65131RGER boost + inverter from +5V (feeds the analog LDOs only)", ox, oy, 2.2)
-    s.note("Drawn with the pin-identical TPS65130 symbol: order TPS65131RGER (2 A switches). "
-           "PSP/PSN low: fixed-frequency PWM.", ox, oy + 5.08)
-    s.note("+6V5 = 1.213 V x (1 + 562k/130k) = 6.46 V.   -6V5 = -1.213 V x 649k/121k = -6.51 V.", ox, oy + 9.4)
     s.part("Regulator_Switching:TPS65130RGE", "U2", cx, cy, "TPS65131RGER",
            "Package_DFN_QFN:VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm_ThermalVias")
     s.field_ov.append("U2=-22.86,17.78,-22.86,20.32")
@@ -882,65 +947,62 @@ def power():
     s.nc("U2.7", "U2.12", "U2.20")
     s.tie("GND", "U2.19", "U2.25", "U2.2")
     # positive output, row cy-20.32
-    r8t, r8b = v("R", "R8", cx + 91.44, cy - 20.32, "562k 1%", R0603)
-    c14t, c14b = v("C", "C14", cx + 104.14, cy - 20.32, "6.8p 50V C0G", C0603)
-    r9t, r9b = v("R", "R9", cx + 91.44, cy - 12.7, "130k 1%", R0603)
+    r8t, r8b = v("R", "R8", cx + 96.52, cy - 20.32, "562k 1%", R0603)
+    c14t, c14b = v("C", "C14", cx + 111.76, cy - 20.32, "6.8p 50V C0G", C0603)
+    r9t, r9b = v("R", "R9", cx + 96.52, cy - 12.7, "130k 1%", R0603)
     s.field_ov += ["R8=2.54,-1.27,2.54,1.27", "R9=2.54,-1.27,2.54,1.27"]
     s.sym("GND", r9b)
-    caps_to_gnd(("C", "C15", cx + 116.84, cy - 20.32, "10u 25V X7R 1206", C1206),
-                ("C", "C16", cx + 129.54, cy - 20.32, "10u 25V X7R 1206", C1206))
-    j5a, j5b = jp("JP5", cx + 139.7, cy - 20.32, "+6V5")
+    caps_to_gnd(("C", "C15", cx + 124.46, cy - 20.32, "10u 25V X7R 1206", C1206),
+                ("C", "C16", cx + 134.62, cy - 20.32, "10u 25V X7R 1206", C1206))
+    j5a, j5b = jp("JP5", cx + 144.78, cy - 20.32, "+6V5")
     s.poly(d4k, (cx + 25.4, cy - 20.32), r8t, c14t, "C15.1", "C16.1", j5a)
     s.poly("U2.23", (cx + 25.4, None), (None, cy - 20.32))                        # VPOS sense
     s.netname("6V5_REG", (cx + 25.4, cy - 20.32))
-    s.netname("FBP", r8b)
+    s.netname("FBP", r8b, 180)
     s.poly("U2.22", r8b)                                                          # FBP
     s.poly(c14b, r8b)
-    r10 = led("R10", "D5", cx + 160.02, cy - 20.32, "3.3k 1%", "+6V5")
-    s.poly(j5b, r10, tp("TP3", cx + 180.34, cy - 20.32, "+6V5"), flag(cx + 193.04, cy - 20.32), (cx + 205.74, cy - 20.32))
-    s.sym("+6V5", (cx + 205.74, cy - 20.32))
+    r10 = led("R10", "D5", cx + 162.56, cy - 20.32, "3.3k 1%", "+6V5")
+    s.poly(j5b, r10, tp("TP3", cx + 177.8, cy - 20.32, "+6V5"), flag(cx + 187.96, cy - 20.32), (cx + 198.12, cy - 20.32))
+    s.sym("+6V5", (cx + 198.12, cy - 20.32))
     # VREF, FBN divider (-6V5 -> FBN -> VREF), VNEG sense
     r12t, r12b = v("R", "R12", cx + 58.42, cy - 10.16, "121k 1%", R0603)
-    c18t, c18b = v("C", "C18", cx + 83.82, cy - 10.16, "220n 16V X7R", C0603)
+    c18t, c18b = v("C", "C18", cx + 86.36, cy - 10.16, "220n 16V X7R", C0603)
     s.field_ov += ["R12=2.54,-1.27,2.54,1.27", "R11=2.54,-1.27,2.54,1.27"]
     s.sym("GND", c18b)
     s.poly("U2.17", r12t, c18t)                                                   # VREF
     s.netname("VREF65", r12t, 180)
     r11t, r11b = v("R", "R11", cx + 58.42, cy - 2.54, "649k 1%", R0603)
-    c17t, c17b = v("C", "C17", cx + 71.12, cy - 2.54, "7.5p 50V C0G", C0603)
+    c17t, c17b = v("C", "C17", cx + 73.66, cy - 2.54, "7.5p 50V C0G", C0603)
     s.poly("U2.16", (cx + 55.88, None), (None, cy - 2.54), r12b, c17t)
     s.netname("FBN", (cx + 55.88, cy - 5.08), 180)          # FBN
     s.poly("U2.15", (cx + 50.8, None), (None, cy + 5.08))                        # VNEG sense
     # inverter: OUTN -> L3 to GND, D6 to -6V5
-    l3t, l3b = v("L", "L3", cx + 30.48, cy + 5.08, "4.7u Isat>=2A", L6045)
+    l3t, l3b = v("L", "L3", cx + 33.02, cy + 5.08, "4.7u Isat>=2A", L6045)
     s.sym("GND", l3b)
-    d6k, d6a = h("D", "D6", cx + 36.83, cy + 5.08, "SS14", SMA, k_left=True)
+    d6k, d6a = h("D", "D6", cx + 39.37, cy + 5.08, "SS14", SMA, k_left=True)
     s.poly("U2.13", l3t, d6k)
     s.netname("SW_N", l3t)
-    caps_to_gnd(("C", "C21", cx + 116.84, cy + 5.08, "10u 25V X7R 1206", C1206),
-                ("C", "C22", cx + 129.54, cy + 5.08, "10u 25V X7R 1206", C1206))
-    j6a, j6b = jp("JP6", cx + 139.7, cy + 5.08, "-6V5")
+    caps_to_gnd(("C", "C21", cx + 124.46, cy + 5.08, "10u 25V X7R 1206", C1206),
+                ("C", "C22", cx + 134.62, cy + 5.08, "10u 25V X7R 1206", C1206))
+    j6a, j6b = jp("JP6", cx + 144.78, cy + 5.08, "-6V5")
     s.poly(d6a, (cx + 50.8, cy + 5.08), r11b, c17b, "C21.1", "C22.1", j6a)
     s.netname("-6V5_REG", "C22.1")
-    c20t, c20b = v("C", "C20", cx + 22.86, cy + 7.62, "4.7n 50V C0G", C0603)    # CN
-    c19t, c19b = v("C", "C19", cx + 15.24, cy + 12.7, "10n 16V X7R", C0603)     # CP
+    c20t, c20b = v("C", "C20", cx + 25.4, cy + 7.62, "4.7n 50V C0G", C0603)     # CN
+    c19t, c19b = v("C", "C19", cx + 17.78, cy + 12.7, "10n 16V X7R", C0603)     # CP
     s.sym("GND", c20b, c19b)
     s.poly("U2.18", c20t)
     s.poly("U2.21", c19t)
-    s.netname("CN65", c20t)
-    s.netname("CP65", c19t)
-    r13 = led("R13", "D7", cx + 160.02, cy + 5.08, "3.3k 1%", "-6V5", negative=True)
-    s.poly(j6b, r13, tp("TP4", cx + 180.34, cy + 5.08, "-6V5"), flag(cx + 193.04, cy + 5.08), (cx + 205.74, cy + 5.08))
-    s.sym("-6V5", (cx + 205.74, cy + 5.08))
+    r13 = led("R13", "D7", cx + 162.56, cy + 5.08, "3.3k 1%", "-6V5", negative=True)
+    s.poly(j6b, r13, tp("TP4", cx + 177.8, cy + 5.08, "-6V5"), flag(cx + 187.96, cy + 5.08), (cx + 198.12, cy + 5.08))
+    s.sym("-6V5", (cx + 198.12, cy + 5.08))
 
     # ---- D. analog LDOs ------------------------------------------------------------------------
-    ox, oy = 309.88, 124.46
-    s.note("D. ANALOG RAILS: TPS7A4700 +5VA, TPS7A3301 -5VA (low noise, no LEDs)", ox, oy, 2.2)
-    s.note("+5VA: ANY-OUT 1.4 + 3.2 + 0.4 = 5.0 V.   -5VA = -1.176 V x (1 + 715k/220k) = -5.00 V.", ox, oy + 5.08)
-    s.note("Load: 64 x OPA1678 (4 mA per channel): about 0.3 A on +5VA and on -5VA.",
-           ox, oy + 9.4)
+    ox, oy = box("D", "D. +-5VA: TPS7A4700 / TPS7A3301 low-noise LDOs",
+                 "+5VA: ANY-OUT 1.4 + 3.2 + 0.4 = 5.0 V.  -5VA = -1.176 V x (1 + 715k/220k) = -5.00 V.",
+                 "Load: 64 x OPA1678 (4 mA per channel), about 0.3 A on each rail. Analog rails: no LEDs.")
     cx, cy = ox + 40.64, oy + 40.64
     ry = cy - 15.24
+    s.field_ov.append("U3=-7.62,-22.86,-7.62,-20.32")
     s.part("Regulator_Linear:TPS7A4701xRGW", "U3", cx, cy, "TPS7A4700RGWT",
            "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
     caps_to_gnd(("C", "C23", ox + 12.7, ry, "10u 25V X7R 1206", C1206))
@@ -961,8 +1023,9 @@ def power():
     s.netname("NR_5VA", c26t)
     s.poly(j2b, tp("TP5", cx + 71.12, ry, "+5VA"), flag(cx + 83.82, ry), (cx + 96.52, ry))
     s.sym("+5VA", (cx + 96.52, ry))
-    cx, cy = ox + 40.64, oy + 86.36
+    cx, cy = ox + 40.64, oy + 81.28
     ry = cy - 5.08
+    s.field_ov.append("U4=-7.62,-12.7,-7.62,-10.16")
     s.part("Regulator_Linear:TPS7A3301RGW", "U4", cx, cy, "TPS7A3301RGWR",
            "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
     caps_to_gnd(("C", "C27", ox + 12.7, ry, "10u 25V X7R 1206", C1206))
@@ -972,8 +1035,9 @@ def power():
     c28t, c28b = v("C", "C28", cx - 17.78, cy + 2.54, "1u 16V X7R", C0603)       # NR/SS
     s.sym("GND", c28b)
     s.poly("U4.14", c28t)
-    s.netname("NR_M5VA", c28t, 180)
+    s.netname("NR_M5VA", c28t)
     s.tie("GND", "U4.21", "U4.7")
+    s.field_ov += ["R14=2.54,-1.27,2.54,1.27", "R15=2.54,-1.27,2.54,1.27"]  # clear of the FB label
     r14t, r14b = v("R", "R14", cx + 20.32, ry, "715k 1%", R0603)
     c29t, c29b = v("C", "C29", cx + 33.02, ry, "10n 50V C0G", C0603)
     r15t, r15b = v("R", "R15", cx + 20.32, cy + 7.62, "220k 1%", R0603)
@@ -988,11 +1052,22 @@ def power():
     s.poly(j3b, tp("TP6", cx + 81.28, ry, "-5VA"), flag(cx + 93.98, ry), (cx + 106.68, ry))
     s.sym("-5VA", (cx + 106.68, ry))
 
+    # ---- H. 3V3_MIC --------------------------------------------------------------------------------
+    ox, oy = box("H", "H. 3V3_MIC: mic supply", "Ferrite-filtered +3V3 for the 8 MEMS mics. "
+                 "Remove FB1 to isolate.")
+    ry = oy + 25.4
+    fa, fb_ = h("FB", "FB1", ox + 15.24, ry, "600R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric")
+    caps_to_gnd(("C", "C38", ox + 33.02, ry, "10u 16V X5R", C0805))
+    r21 = led("R21", "D11", ox + 45.72, ry, "1k 1%", "3V3_MIC")
+    s.sym("+3V3", (ox + 5.08, ry))
+    s.poly((ox + 5.08, ry), fa)
+    s.poly(fb_, "C38.1", r21, tp("TP11", ox + 66.04, ry, "3V3_MIC"), flag(ox + 78.74, ry), (ox + 91.44, ry))
+    s.sym("3V3_MIC", (ox + 91.44, ry))
+
     # ---- E. VDRV ----------------------------------------------------------------------------------
-    ox, oy = 20.32, 233.68
-    s.note("E. VDRV 15 V: LM2731X boost from VIN. Remove the J2 shunt to unpower all TX drivers", ox, oy, 2.2)
-    s.note("1.23 V x (1 + 150k/13k) = 15.4 V. Load, all 64 elements in CW at 40 kHz: about 0.24 A (sim/reports/tx_cw.md).",
-           ox, oy + 5.08)
+    ox, oy = box("E", "E. VDRV 15 V: LM2731X boost from VIN",
+                 "1.23 V x (1 + 150k/13k) = 15.4 V. Load, all 64 elements in CW at 40 kHz: about 0.24 A "
+                 "(sim/reports/tx_cw.md). Remove the J2 shunt to unpower every TX driver.")
     cx, cy = ox + 45.72, oy + 33.02
     ry = cy - 12.7
     s.field_ov.append("U5=7.62,10.16,7.62,12.7")
@@ -1007,9 +1082,9 @@ def power():
     s.netname("EN_VDRV", (cx - 20.32, cy + 2.54))
     s.sym("GND", "U5.2")
     s.poly(l4b, (None, cy - 2.54))                                                # SW: L4 down to the SW pin
-    d8a, d8k = h("D", "D8", cx + 12.7, cy - 2.54, "SS14", SMA)
+    d8a, d8k = h("D", "D8", cx + 17.78, cy - 2.54, "SS14", SMA)
     s.poly("U5.1", d8a)
-    s.netname("SW_VDRV", d8a, 180)
+    s.netname("SW_VDRV", (cx + 10.16, cy - 2.54))
     r17t, r17b = v("R", "R17", cx + 27.94, cy - 2.54, "150k 1%", R0603)
     c32t, c32b = v("C", "C32", cx + 40.64, cy - 2.54, "180p 50V C0G", C0603)
     r18t, r18b = v("R", "R18", cx + 27.94, cy + 10.16, "13k 1%", R0603)
@@ -1022,26 +1097,19 @@ def power():
     s.poly(d8k, r17t, c32t, "C33.1", "C34.1", "J2.1")
     s.poly("U5.3", (cx + 22.86, None), (None, cy + 5.08), r17b, c32b)          # FB
     s.netname("FB_VDRV", (cx + 22.86, cy + 5.08), 180)
-    s.netname("VDRV_REG", "C34.1")
+    s.netname("VDRV_REG", "C33.1")
     caps_to_gnd(("CP", "C35", cx + 86.36, cy + 10.16, "47u 35V", "Capacitor_SMD:CP_Elec_6.3x7.7"))
     r19 = led("R19", "D9", cx + 99.06, cy + 10.16, "15k 1%", "VDRV")
-    s.poly("J2.2", (cx + 73.66, None), (None, cy + 10.16), "C35.1", r19, tp("TP7", cx + 119.38, cy + 10.16, "VDRV"),
-           flag(cx + 132.08, cy + 10.16), (cx + 144.78, cy + 10.16))
-    s.sym("VDRV", (cx + 144.78, cy + 10.16))
-
-    # ---- G. ground test points --------------------------------------------------------------------
-    ox, oy = 223.52, 233.68
-    s.note("G. GROUND: one GND net and plane", ox, oy, 2.2)
-    s.note("Test points for scope grounds.", ox, oy + 5.08)
-    s.sym("GND", tp("TP9", ox + 5.08, oy + 22.86, "GND"), tp("TP10", ox + 20.32, oy + 22.86, "GND"),
-          flag(ox + 35.56, oy + 22.86))
+    s.poly("J2.2", (cx + 73.66, None), (None, cy + 10.16), "C35.1", r19, tp("TP7", cx + 116.84, cy + 10.16, "VDRV"),
+           flag(cx + 129.54, cy + 10.16), (cx + 139.7, cy + 10.16))
+    s.sym("VDRV", (cx + 139.7, cy + 10.16))
 
     # ---- F. +3V3 -----------------------------------------------------------------------------------
-    ox, oy = 309.88, 241.3
-    s.note("F. +3V3: TLV75733P LDO from +5V (1 A, stable with ceramic caps)", ox, oy, 2.2)
-    s.note("Load < 0.15 A: ADC IOVDD, clock buffers, logic, mics.", ox, oy + 5.08)
-    cx, cy = ox + 33.02, oy + 25.4
+    ox, oy = box("F", "F. +3V3: TLV75733P LDO from +5V",
+                 "1 A, stable with ceramic caps. Load < 0.15 A: ADC IOVDD, clock buffers, logic, mics.")
+    cx, cy = ox + 33.02, oy + 30.48
     ry = cy - 2.54
+    s.field_ov.append("U6=-7.62,-10.16,-7.62,-7.62")
     s.part("Regulator_Linear:TLV75733PDBV", "U6", cx, cy, "TLV75733PDBVR", "Package_TO_SOT_SMD:SOT-23-5")
     caps_to_gnd(("C", "C36", ox + 15.24, ry, "10u 16V X5R", C0805))
     s.sym("+5V", (ox + 5.08, ry))
@@ -1057,25 +1125,13 @@ def power():
     s.poly(j4b, r20, tp("TP8", cx + 66.04, ry, "+3V3"), flag(cx + 78.74, ry), (cx + 91.44, ry))
     s.sym("+3V3", (cx + 91.44, ry))
 
-    # ---- H. 3V3_MIC --------------------------------------------------------------------------------
-    ox, oy = 309.88, 294.64
-    ry = oy + 20.32
-    s.note("H. 3V3_MIC: ferrite-filtered supply for the 8 MEMS mics (remove FB1 to isolate)", ox, oy, 2.2)
-    fa, fb_ = h("FB", "FB1", ox + 10.16, ry, "600R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric")
-    caps_to_gnd(("C", "C38", ox + 27.94, ry, "10u 16V X5R", C0805))
-    r21 = led("R21", "D11", ox + 40.64, ry, "1k 1%", "3V3_MIC")
-    s.sym("+3V3", (ox + 5.08, ry))
-    s.poly((ox + 5.08, ry), fa)
-    s.poly(fb_, "C38.1", r21, tp("TP11", ox + 60.96, ry, "3V3_MIC"), flag(ox + 73.66, ry), (ox + 86.36, ry))
-    s.sym("3V3_MIC", (ox + 86.36, ry))
-
     # ---- I. +3V3A ----------------------------------------------------------------------------------
-    ox, oy = 309.88, 345.44
-    s.note("I. +3V3A: TPS7A4700 low-noise LDO from +5V for the 16 ADCs' AVDD (analog rail: no LED)", ox, oy, 2.2)
-    s.note("ANY-OUT 1.4 + 1.6 + 0.2 + 0.1 = 3.3 V. Load about 0.45 A (16 x TLV320ADC5140); "
-           "0.8 W in the LDO, thermal vias under the pad.", ox, oy + 5.08)
+    ox, oy = box("I", "I. +3V3A: TPS7A4700 low-noise LDO from +5V",
+                 "AVDD of the 16 ADCs (analog rail: no LED). ANY-OUT 1.4 + 1.6 + 0.2 + 0.1 = 3.3 V. Load about "
+                 "0.45 A; 0.8 W in the LDO, thermal vias under the pad.")
     cx, cy = ox + 40.64, oy + 40.64
     ry = cy - 15.24
+    s.field_ov.append("U7=-7.62,-22.86,-7.62,-20.32")
     s.part("Regulator_Linear:TPS7A4701xRGW", "U7", cx, cy, "TPS7A4700RGWT",
            "Package_DFN_QFN:Texas_RGW0020A_VQFN-20-1EP_5x5mm_P0.65mm_EP3.15x3.15mm_ThermalVias")
     caps_to_gnd(("C", "C39", ox + 12.7, ry, "10u 25V X7R 1206", C1206))
@@ -1096,7 +1152,24 @@ def power():
     s.netname("NR_3V3A", c42t)
     s.poly(j7b, tp("TP12", cx + 71.12, ry, "+3V3A"), flag(cx + 83.82, ry), (cx + 96.52, ry))
     s.sym("+3V3A", (cx + 96.52, ry))
-    s.build()
+
+    # ---- N. power tree and bring-up --------------------------------------------------------------
+    box("N", "POWER TREE, BRING-UP",
+        "Power 1: A input, B +5V, E VDRV, F +3V3, H 3V3_MIC, G ground. Power 2: C +-6V5, D +-5VA, I +3V3A.",
+        "12 V jack -> eFuse U8 -> F1 -> VIN.",
+        "VIN -> U1 buck -> +5V.  VIN -> U5 boost -> VDRV.",
+        "+5V -> U2 -> +-6V5 -> U3 / U4 -> +-5VA (receivers).",
+        "+5V -> U7 -> +3V3A (ADC AVDD).",
+        "+5V -> U6 -> +3V3 -> FB1 -> 3V3_MIC.",
+        "First power-up: J2 shunt off, bench supply 12 V limited to 0.3 A. Expect at the test points:",
+        "VIN 12 V, +5V 5.07 V, +3V3 3.30 V, 3V3_MIC 3.3 V,",
+        "+6V5 6.46 V, -6V5 -6.51 V, +5VA 5.00 V,",
+        "-5VA -5.00 V, +3V3A 3.30 V.",
+        "IMON 1.08 V per A in. FLT high (low = eFuse fault).",
+        "Then fit J2: VDRV 15.4 V.",
+        "A wrong rail: cut its jumper, measure the regulator side (*_REG) and the load side apart.")
+    for sh in sheets.values():
+        sh.build()
 
 
 SHEETS = {"adc": adc, "tx_group": tx_group, "en_buf": en_buf, "clk_buf": clk_buf, "mic": mic,

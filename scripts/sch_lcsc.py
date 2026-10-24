@@ -45,7 +45,9 @@ def add_fields(path):
             lib_id = re.search(r'\(lib_id "([^"]+)"\)', text).group(1)
             value = re.search(r'\(property "Value" "([^"]*)"', text).group(1)
             fpm = re.search(r'\(property "Footprint" "([^"]*)"', text)
-            code = PARTS.get(f"{value}|{fpm.group(1) if fpm else ''}") or KNOWN.get(value, "TBD")
+            fp = fpm.group(1) if fpm else ""
+            code = PARTS.get(f"{value}|{fp}") or KNOWN.get(value) or \
+                ("none (copper)" if fp.startswith(("TestPoint:", "Jumper:SolderJumper")) else "TBD")
             if lib_id.startswith("power:"):
                 pass
             elif '(property "LCSC"' in text:

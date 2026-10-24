@@ -1,0 +1,40 @@
+(version 1)
+# Custom design rules for the AESA panel, on top of the net classes in aesa.kicad_pro (scripts/place.py).
+# KiCad's DRC reads this file automatically. Freerouting does not, so check DRC after every autoroute.
+
+# ---- noise: keep the 15 V TX drive away from the receive signals (CLAUDE.md design rules) -------------
+(rule "TX drive vs receive: 1 mm"
+	(condition "A.NetClass == 'Drive' && B.NetClass == 'Analog'")
+	(constraint clearance (min 1.0mm)))
+
+(rule "Switch nodes vs receive: 2 mm"
+	(condition "A.NetName == '/Power/SW_*' && B.NetClass == 'Analog'")
+	(constraint clearance (min 2.0mm)))
+
+# clocks: tracks at least 2x their width from other signals (crosstalk); pads keep the class value
+(rule "Clock tracks spaced from other tracks"
+	(condition "A.NetClass == 'Clock' && A.Type == 'Track' && B.Type == 'Track' && B.NetClass != 'Clock'")
+	(constraint clearance (min 0.4mm)))
+
+# receive tracks spaced from digital tracks
+(rule "Receive tracks spaced from digital tracks"
+	(condition "A.NetClass == 'Analog' && A.Type == 'Track' && B.Type == 'Track' && (B.NetClass == 'Default' || B.NetClass == 'Clock')")
+	(constraint clearance (min 0.5mm)))
+
+# ---- manufacturing: JLCPCB standard 4-layer capabilities ---------------------------------------------
+(rule "JLCPCB: via annular ring"
+	(condition "A.Type == 'Via'")
+	(constraint annular_width (min 0.15mm)))
+
+(rule "JLCPCB: via drill"
+	(condition "A.Type == 'Via'")
+	(constraint hole_size (min 0.3mm)))
+
+(rule "JLCPCB: hole to hole"
+	(constraint hole_to_hole (min 0.5mm)))
+
+(rule "JLCPCB: track width"
+	(condition "A.Type == 'Track'")
+	(constraint track_width (min 0.127mm)))
+
+# silkscreen: JLCPCB clips silk off pads itself; the library footprints keep about 0.14 mm

@@ -8,11 +8,12 @@ Three levels:
                            clocks.kicad_sch (9 x clk_buf). Each places its cells and joins their
                            ports to global labels (DRVn, RXn, TX_*, ADC_*, MIC_*).
   cell sheets              channel, adc, tx_group, en_buf, clk_buf, mic (one file, reused),
-                           power and headers (one-off, directly under the top sheet).
+                           power, power_analog and headers (one-off, directly under the top sheet).
 
 It then rewrites every cell symbol's (instances ...) block so each instance has its own
 reference: <letters><sheet id><number:02d>. Sheet ids: CH n -> n (R101..R6409), ADC k -> 70+k (k = 1..16),
-TXG k -> 100+k, TXEN j -> 120+j, CLKB j -> 130+j, MIC m -> 140+m, power 95, headers 99.
+TXG k -> 100+k, TXEN j -> 120+j, CLKB j -> 130+j, MIC m -> 140+m, power and power_analog 95 (their
+local references are unique across the two), headers 99.
 Run it after editing any sheet (it then exports docs/schematics/aesa_schematic.pdf; --no-pdf skips that):
 
   C:\\Users\\Tiezi\\AppData\\Local\\Programs\\KiCad\\10.0\\bin\\python.exe scripts\\gen_top.py
@@ -148,7 +149,7 @@ def cells():
     arr = []
     for n in range(1, 65):  # 8 x 8, column-major = element order on the board (CH n: column (n-1)//8)
         c, r = divmod(n - 1, 8)
-        s = Sheet(f"CH{n:02d}", "channel.kicad_sch", n, 38.1 + 68.58 * c, 50.8 + 25.4 * r, 22.86, 5.08)
+        s = Sheet(f"CH{n:02d}", "channel.kicad_sch", n, 27.94 + 48.26 * c, 45.72 + 25.4 * r, 22.86, 5.08)
         s.pins = [("DRV_OUT", "input", "left", f"DRV{n}"), ("RX_OUT", "output", "right", f"RX{n}")]
         arr.append(s)
     g["array.kicad_sch"] = arr
@@ -213,7 +214,7 @@ GROUP_INFO = {  # file: (sheet name, paper, title, note)
     "tx.kicad_sch": ("TX drive", "A3", "TX drive: 16 shift-register/driver groups, 4 enable buffers",
                      "TX drive. The FPGA streams 16 serial lines (TX_SDI0-15) into 16 tx_group cells; each "
                      "drives 4 elements (DRV). TX_EN_FPGA reaches the drivers through 4 en_buf cells."),
-    "array.kicad_sch": ("Transceivers", "A2", "Transceivers: 64 channels (8 x 8 grid)",
+    "array.kicad_sch": ("Transceivers", "A3", "Transceivers: 64 channels (8 x 8 grid)",
                         "Transceiver array. Channel n = element n of the 8 x 8 grid, numbered down the columns (as on the board). Each channel "
                         "takes DRVn from the TX drive and returns its amplified echo RXn to the ADCs."),
     "adcs.kicad_sch": ("ADCs", "A3", "ADCs: 16 x TLV320ADC5140 (4 channels each)",
@@ -240,7 +241,9 @@ def top_blocks():
         "array.kicad_sch": Sheet("Transceivers", "array.kicad_sch", 0, 320.04, 60.96, 55.88, 121.92, blue),
         "adcs.kicad_sch": Sheet("ADCs", "adcs.kicad_sch", 0, 236.22, 157.48, 55.88, 25.4, green),
         "mics.kicad_sch": Sheet("MEMS mics", "mics.kicad_sch", 0, 157.48, 205.74, 48.26, 20.32, grey),
-        "power.kicad_sch": Sheet("Power", "power.kicad_sch", 95, 86.36, 220.98, 40.64, 25.4, grey),
+        "power.kicad_sch": Sheet("Power 1", "power.kicad_sch", 95, 86.36, 223.52, 40.64, 15.24, grey),
+        "power_analog.kicad_sch": Sheet("Power 2 (analog)", "power_analog.kicad_sch", 95, 86.36, 246.38, 40.64,
+                                        15.24, grey),
     }
 
 
@@ -292,10 +295,12 @@ def top_drawing():
             ("J2 = AXU3EGB J16", 88.9, 106.68), ("(ADCs)", 88.9, 110.49)]
     for i, (s, x, y) in enumerate(caps):
         o.append(text(s, x, y, 1.5, f"c{i}"))
-    o.append(text("12 V jack -> +5V, +-6V5, +-5VA and +3V3A (analog), VDRV 15 V (TX), +3V3, 3V3_MIC.", 132.08, 240.03, 1.6, "p1"))
-    o.append(text("Every rail: test point, isolation jumper, LED (not on the analog LDOs).", 132.08, 243.84, 1.6, "p2"))
+    o.append(text("Power 1: 12 V jack -> eFuse -> VIN -> +5V buck, VDRV 15 V boost (TX), +3V3, 3V3_MIC.",
+                  132.08, 232.41, 1.6, "p1"))
+    o.append(text("Power 2 (analog): +5V -> +-6V5 -> +-5VA (receivers), +3V3A (ADCs).", 132.08, 255.27, 1.6, "p3"))
+    o.append(text("Every rail: test point, isolation jumper, LED (not on the analog LDOs).", 132.08, 236.22, 1.6, "p2"))
     o.append(text("Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, "
-                  "tx_group x16, en_buf x4, clk_buf x9, mic x8.", 25.4, 255.27, 1.6, "h1"))
+                  "tx_group x16, en_buf x4, clk_buf x9, mic x8.", 25.4, 273.05, 1.6, "h1"))
     return "".join(o)
 
 
@@ -305,7 +310,7 @@ def write_all():
     top = top_blocks()
     page = 1
     order = ["headers.kicad_sch", "clocks.kicad_sch", "tx.kicad_sch", "array.kicad_sch", "adcs.kicad_sch",
-             "mics.kicad_sch", "power.kicad_sch"]
+             "mics.kicad_sch", "power.kicad_sch", "power_analog.kicad_sch"]
     for f in order:
         page += 1
         top[f].page = page
@@ -333,7 +338,7 @@ def write_all():
     for f, cs in groups.items():
         for c in cs:
             insts.setdefault(c.file, []).append(c)
-    for f in ("power.kicad_sch", "headers.kicad_sch"):
+    for f in ("power.kicad_sch", "power_analog.kicad_sch", "headers.kicad_sch"):
         insts[f] = [top[f]]
     write_instances(insts)
     print(f"top + {len(groups)} group sheets, {page} pages")

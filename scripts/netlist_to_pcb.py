@@ -98,6 +98,7 @@ def build_board(net_file):
         if fp is None:
             missing.append(f"{ref} ({lib}:{name})")
             continue
+        fp.SetFPID(pcbnew.LIB_ID(lib, name))  # keep the library name, so schematic parity and updates match
         fp.SetReference(ref)
         fp.SetValue(child_value(comp, "value"))
         for field in children(children(comp, "fields")[0], "field") if children(comp, "fields") else []:

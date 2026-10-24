@@ -750,9 +750,9 @@
 		)
 		(uuid "8e569b11-9ef2-5203-88fe-3a828ab98339")
 	)
-	(text "12 V jack -> +5V, +-6V5, +-5VA and +3V3A (analog), VDRV 15 V (TX), +3V3, 3V3_MIC."
+	(text "Power 1: 12 V jack -> eFuse -> VIN -> +5V buck, VDRV 15 V boost (TX), +3V3, 3V3_MIC."
 		(exclude_from_sim no)
-		(at 132.08 240.03 0)
+		(at 132.08 232.41 0)
 		(effects
 			(font
 				(size 1.6 1.6)
@@ -761,9 +761,20 @@
 		)
 		(uuid "4d29dabf-c948-59c2-aa8a-08aafff18901")
 	)
+	(text "Power 2 (analog): +5V -> +-6V5 -> +-5VA (receivers), +3V3A (ADCs)."
+		(exclude_from_sim no)
+		(at 132.08 255.27 0)
+		(effects
+			(font
+				(size 1.6 1.6)
+			)
+			(justify left bottom)
+		)
+		(uuid "902f469e-9822-584a-bf20-ce8f05f97b2d")
+	)
 	(text "Every rail: test point, isolation jumper, LED (not on the analog LDOs)."
 		(exclude_from_sim no)
-		(at 132.08 243.84 0)
+		(at 132.08 236.22 0)
 		(effects
 			(font
 				(size 1.6 1.6)
@@ -774,7 +785,7 @@
 	)
 	(text "Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, tx_group x16, en_buf x4, clk_buf x9, mic x8."
 		(exclude_from_sim no)
-		(at 25.40 255.27 0)
+		(at 25.40 273.05 0)
 		(effects
 			(font
 				(size 1.6 1.6)
@@ -1024,8 +1035,8 @@
 		)
 	)
 	(sheet
-		(at 86.36 220.98)
-		(size 40.64 25.40)
+		(at 86.36 223.52)
+		(size 40.64 15.24)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -1034,9 +1045,9 @@
 		(fill
 			(color 238 238 238 1.0000)
 		)
-		(uuid "b14876ec-12de-5a3f-872b-84ce6fa6f612")
-		(property "Sheetname" "Power"
-			(at 86.36 220.27 0)
+		(uuid "0cf78b95-de72-5488-a76f-04e6c2f804fb")
+		(property "Sheetname" "Power 1"
+			(at 86.36 222.81 0)
 			(effects
 				(font
 					(size 1.8 1.8)
@@ -1046,7 +1057,7 @@
 			)
 		)
 		(property "Sheetfile" "power.kicad_sch"
-			(at 86.36 246.97 0)
+			(at 86.36 239.35 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1059,6 +1070,46 @@
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
 					(page "125")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 86.36 246.38)
+		(size 40.64 15.24)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 238 238 238 1.0000)
+		)
+		(uuid "f8d8b1cc-03a0-522b-9d40-054cb44d429d")
+		(property "Sheetname" "Power 2 (analog)"
+			(at 86.36 245.67 0)
+			(effects
+				(font
+					(size 1.8 1.8)
+					(bold yes)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power_analog.kicad_sch"
+			(at 86.36 262.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
+					(page "126")
 				)
 			)
 		)

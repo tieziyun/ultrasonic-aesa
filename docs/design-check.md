@@ -1,6 +1,6 @@
 # Design check
 
-Run 2026-10-23 22:27 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **18 pass, 0 warn, 0 fail.**
+Run 2026-10-24 15:28 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **19 pass, 0 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
@@ -9,19 +9,20 @@ Run 2026-10-23 22:27 by `scripts/check_design.py` on a fresh netlist of `kicad/a
 | 3 | [Footprints exist and match the symbol pins](#3) | **PASS** |
 | 4 | [LCSC numbers](#4) | **PASS** |
 | 5 | [Datasheets in docs/datasheets/ for every part](#5) | **PASS** |
-| 6 | [TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel)](#6) | **PASS** |
-| 7 | [RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2](#7) | **PASS** |
-| 8 | [Clocks: buffered, <= 4 loads per output, traced to the right header pin](#8) | **PASS** |
-| 9 | [FPGA header pin maps (scripts/pinmap.py) and GND around clocks](#9) | **PASS** |
-| 10 | [No signal above 3.3 V reaches an FPGA pin](#10) | **PASS** |
-| 11 | [IC supply rails](#11) | **PASS** |
-| 12 | [Decoupling on every IC supply pin](#12) | **PASS** |
-| 13 | [Capacitor voltage ratings vs rail voltage](#13) | **PASS** |
-| 14 | [Polarity: electrolytics, rectifiers, LEDs](#14) | **PASS** |
-| 15 | [Regulator outputs computed from the divider values in the netlist](#15) | **PASS** |
-| 16 | [Testability rule: every rail has a test point, isolation and an LED (not the analog LDOs)](#16) | **PASS** |
-| 17 | [Single-pin and unconnected nets](#17) | **PASS** |
-| 18 | [Power budget (estimates from datasheet currents)](#18) | **PASS** |
+| 6 | [3D model for every part](#6) | **PASS** |
+| 7 | [TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel)](#7) | **PASS** |
+| 8 | [RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2](#8) | **PASS** |
+| 9 | [Clocks: buffered, <= 4 loads per output, traced to the right header pin](#9) | **PASS** |
+| 10 | [FPGA header pin maps (scripts/pinmap.py) and GND around clocks](#10) | **PASS** |
+| 11 | [No signal above 3.3 V reaches an FPGA pin](#11) | **PASS** |
+| 12 | [IC supply rails](#12) | **PASS** |
+| 13 | [Decoupling on every IC supply pin](#13) | **PASS** |
+| 14 | [Capacitor voltage ratings vs rail voltage](#14) | **PASS** |
+| 15 | [Polarity: electrolytics, rectifiers, LEDs](#15) | **PASS** |
+| 16 | [Regulator outputs computed from the divider values in the netlist](#16) | **PASS** |
+| 17 | [Testability rule: every rail has a test point, isolation and an LED (not the analog LDOs)](#17) | **PASS** |
+| 18 | [Single-pin and unconnected nets](#18) | **PASS** |
+| 19 | [Power budget (estimates from datasheet currents)](#19) | **PASS** |
 
 <a id="1"></a>
 ## 1. ERC: PASS
@@ -31,7 +32,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 <a id="2"></a>
 ## 2. Part counts and references: PASS
 
-2055 parts, 94 distinct values.
+2123 parts, 95 distinct values.
 | Part | Count |
 |---|---|
 | OPA1678IDR | 64 |
@@ -55,7 +56,7 @@ Duplicate references: 0.
 <a id="3"></a>
 ## 3. Footprints exist and match the symbol pins: PASS
 
-30 distinct footprints, all checked for existence and pad numbers.
+31 distinct footprints, all checked for existence and pad numbers.
 
 <a id="4"></a>
 ## 4. LCSC numbers: PASS
@@ -70,17 +71,22 @@ TBD values (count):
 76 distinct parts, 76 with a datasheet PDF (scripts/datasheets.py, run by bom.py).
 
 <a id="6"></a>
-## 6. TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel): PASS
+## 6. 3D model for every part: PASS
+
+2033 footprints with a model that resolves; pad-only footprints (test pads, solder jumpers, fiducials, holes) need none. Substitutes for models missing from KiCad's library: MODEL_SUBST in place.py; own parts: scripts/make_3d.py.
+
+<a id="7"></a>
+## 7. TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel): PASS
 
 Traced 64 elements: header pin, shift-register SER and output, driver input/output, DRVn, channel R_drv. Errors: 0.
 
-<a id="7"></a>
-## 7. RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2: PASS
+<a id="8"></a>
+## 8. RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2: PASS
 
 Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input (n-1) mod 4 + 1), the 2k/1k divider, 100 nF coupling to INxP, INxM AC-grounded; SDOUT through 33 R to its J2 pin; SHDNZ, SCL, SDA of the group, BCLK/FSYNC of the group, address pins, and that no two ADCs share bus + address. Errors: 0.
 
-<a id="8"></a>
-## 8. Clocks: buffered, <= 4 loads per output, traced to the right header pin: PASS
+<a id="9"></a>
+## 9. Clocks: buffered, <= 4 loads per output, traced to the right header pin: PASS
 
 | Buffered clock | Loads | |
 |---|---|---|
@@ -105,13 +111,13 @@ Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input (n-1)
 
 Errors: 0.
 
-<a id="9"></a>
-## 9. FPGA header pin maps (scripts/pinmap.py) and GND around clocks: PASS
+<a id="10"></a>
+## 10. FPGA header pin maps (scripts/pinmap.py) and GND around clocks: PASS
 
 50 signal pins, 24 GND pins, 6 open (+5V, +3.3V from the FPGA board). Errors: 0.
 
-<a id="10"></a>
-## 10. No signal above 3.3 V reaches an FPGA pin: PASS
+<a id="11"></a>
+## 11. No signal above 3.3 V reaches an FPGA pin: PASS
 
 Every board-driven header net and its driver's supply (directly or through the 33 R source resistor). Errors: 0.
 
@@ -160,41 +166,41 @@ Every board-driven header net and its driver's supply (directly or through the 3
 
 </details>
 
-<a id="11"></a>
-## 11. IC supply rails: PASS
+<a id="12"></a>
+## 12. IC supply rails: PASS
 
 Every OPA1678, TLV320ADC5140, 74HCT595, UCC27524, 74AHCT1G125, 74LVC2G34 and SPH0641 checked. Errors: 0.
 
-<a id="12"></a>
-## 12. Decoupling on every IC supply pin: PASS
+<a id="13"></a>
+## 13. Decoupling on every IC supply pin: PASS
 
 228 IC supply pins checked. Errors: 0.
 
-<a id="13"></a>
-## 13. Capacitor voltage ratings vs rail voltage: PASS
+<a id="14"></a>
+## 14. Capacitor voltage ratings vs rail voltage: PASS
 
 Rule: rating >= 1.2 x voltage (fail), >= 1.5 x for ceramics (warn). Errors: 0, warnings: 0.
 
-<a id="14"></a>
-## 14. Polarity: electrolytics, rectifiers, LEDs: PASS
+<a id="15"></a>
+## 15. Polarity: electrolytics, rectifiers, LEDs: PASS
 
 Errors: 0.
 
 - C9501 100u 25V: + on VIN, - on GND: ok
 - C9535 47u 35V: + on VDRV, - on GND: ok
-- D9502 green: anode LED_VIN, cathode GND
-- D9503 green: anode LED_+5V, cathode GND
-- D9504 SS14: anode SW_P, cathode 6V5_REG
-- D9505 green: anode LED_+6V5, cathode GND
-- D9506 SS14: anode -6V5_REG, cathode SW_N
-- D9507 green: anode GND, cathode LED_-6V5
+- D9502 green: anode Net-(D9502-A), cathode GND
+- D9503 green: anode Net-(D9503-A), cathode GND
 - D9508 SS14: anode SW_VDRV, cathode VDRV_REG
-- D9509 green: anode LED_VDRV, cathode GND
-- D9510 green: anode LED_+3V3, cathode GND
-- D9511 green: anode LED_3V3_MIC, cathode GND
+- D9509 green: anode Net-(D9509-A), cathode GND
+- D9510 green: anode Net-(D9510-A), cathode GND
+- D9511 green: anode Net-(D9511-A), cathode GND
+- D9504 SS14: anode SW_P, cathode 6V5_REG
+- D9505 green: anode Net-(D9505-A), cathode GND
+- D9506 SS14: anode -6V5_REG, cathode SW_N
+- D9507 green: anode GND, cathode Net-(D9507-K)
 
-<a id="15"></a>
-## 15. Regulator outputs computed from the divider values in the netlist: PASS
+<a id="16"></a>
+## 16. Regulator outputs computed from the divider values in the netlist: PASS
 
 | Rail | From the netlist | Target | Error |
 |---|---|---|---|
@@ -208,8 +214,8 @@ Errors: 0.
 
 TPS54302 EN UVLO start-up threshold: 7.50 V (needs < 11.5 V at the jack after the diode: ok).
 
-<a id="16"></a>
-## 16. Testability rule: every rail has a test point, isolation and an LED (not the analog LDOs): PASS
+<a id="17"></a>
+## 17. Testability rule: every rail has a test point, isolation and an LED (not the analog LDOs): PASS
 
 | Rail | Test point | Isolation | LED |
 |---|---|---|---|
@@ -223,16 +229,16 @@ TPS54302 EN UVLO start-up threshold: 7.50 V (needs < 11.5 V at the jack after th
 | VDRV | TP9507 | J9502 | R9519 |
 | +3V3 | TP9508 | FB9501, JP9504 | R9520 |
 | 3V3_MIC | TP9511 | FB9501 | R9521 |
-| GND | TP9509, TP9510 | - | - (by rule) |
+| GND | TP9509, TP9510, TP9516, TP9517, TP9518, TP9519 | - | - (by rule) |
 
-<a id="17"></a>
-## 17. Single-pin and unconnected nets: PASS
+<a id="18"></a>
+## 18. Single-pin and unconnected nets: PASS
 
 Single-pin nets: 0. Unexpected: []
 Intentionally unconnected pins (no-connect flags): 137: GPIO1 x16, MICBIAS x16, QE x16, QF x16, QG x16, QH' x16, QH x16, NC x5, 6.4V x4, Pin_2 x2, Pin_39 x2, Pin_40 x2, 0.8V x2, BSW x1, 0.1V x1
 
-<a id="18"></a>
-## 18. Power budget (estimates from datasheet currents): PASS
+<a id="19"></a>
+## 19. Power budget (estimates from datasheet currents): PASS
 
 | Rail | Load | Qty | Typ mA | Max mA |
 |---|---|---|---|---|

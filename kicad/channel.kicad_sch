@@ -283,6 +283,129 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -1490,6 +1613,54 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Transceiver channel (one of 64). TX: UCC27524 half -> 47 R -> BAV99 crossed diodes -> element (0-15 V square)."
+		(exclude_from_sim no)
+		(at 25.4 22.86 0)
+		(effects
+			(font
+				(size 2 2)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "5a74766f-e9e2-5e2a-95b7-4281510f2cfe")
+	)
+	(text "33k bleed resets the element after TX. RX: 4.7k + BAV99 clamp (+-0.7 V) + 100 pF (340 kHz RF filter)."
+		(exclude_from_sim no)
+		(at 25.4 27.43 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "cc7a35a0-1248-5e49-bfad-8b40c4e2e3dc")
+	)
+	(text "OPA1678 stage 1: gain 6, AC-coupled at 800 Hz. Stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4. Then 100 R to the ADC."
+		(exclude_from_sim no)
+		(at 25.4 31.5 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "f26e2d85-5572-5d60-a3a3-b68450ab776c")
+	)
+	(text "Element -> ADC +27 dB, pass band 31-51 kHz (sim/reports/rx_chain.md). Band-pass parts 1 % C0G for phase match."
+		(exclude_from_sim no)
+		(at 25.4 35.56 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "f32c82f3-e528-543e-bd6b-f577e03f619e")
+	)
 	(junction
 		(at 114.3 76.2)
 		(diameter 0)
@@ -1561,6 +1732,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c8ca6f43-35f9-4159-a702-2d40a990f6e6")
+	)
+	(junction
+		(at 203.2 66.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "caa8c789-b464-5368-bb12-19bfa5dc439c")
 	)
 	(junction
 		(at 45.72 50.8)
@@ -2046,6 +2223,16 @@
 	)
 	(wire
 		(pts
+			(xy 203.2 66.04) (xy 203.2 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e8df8a60-4806-5775-93d6-8f978e27a1b1")
+	)
+	(wire
+		(pts
 			(xy 196.85 66.04) (xy 203.2 66.04)
 		)
 		(stroke
@@ -2210,7 +2397,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.sameskydevices.com/product/resource/cusp-tr80-15-2500-th.pdf"
 			(at 70.231 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -2245,38 +2432,46 @@
 		)
 		(property "Sim.Library" "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 			(at 71.12 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Name" "CUSP_TR80"
 			(at 71.12 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
 			(at 71.12 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2"
 			(at 71.12 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -2954,38 +3149,46 @@
 		)
 		(property "Sim.Library" "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 			(at 175.26 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Name" "OPA1678_DUAL"
 			(at 175.26 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
 			(at 175.26 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2 3=3 4=4 5=5 6=6 7=7 8=8"
 			(at 175.26 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "5"
@@ -3680,38 +3883,46 @@
 		)
 		(property "Sim.Library" "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 			(at 101.6 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Name" "BAV99"
 			(at 101.6 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
 			(at 101.6 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2 3=3"
 			(at 101.6 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -5048,20 +5259,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 193.04 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=100"
 			(at 193.04 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -5410,20 +5625,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 111.76 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=100p"
 			(at 111.76 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -5770,20 +5989,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 38.1 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=47"
 			(at 38.1 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -6461,20 +6684,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 55.88 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=33k"
 			(at 55.88 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -6760,10 +6987,10 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "10k 1%"
@@ -6771,10 +6998,10 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
@@ -6823,20 +7050,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 124.46 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=10k"
 			(at 124.46 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -7185,20 +7416,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 157.48 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=100n"
 			(at 157.48 113.03 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -7484,10 +7719,10 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "2k 1%"
@@ -7495,10 +7730,10 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
@@ -7547,20 +7782,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 114.3 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=2k"
 			(at 114.3 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -7825,6 +8064,345 @@
 				)
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/de98dd7d-cfca-5cb9-a94c-60e753a494ed"
 					(reference "R6405")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 203.2 71.12 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6f73886f-988f-4bee-8baf-7eb7562178e7")
+		(property "Reference" "TP101"
+			(at 205.74 73.66 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(justify left)
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "RX"
+			(at 205.74 76.20 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(justify left)
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.0mm"
+			(at 198.12 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 198.12 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 203.2 71.12 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "none (copper)"
+			(at 203.2 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b7613772-bb60-4d2e-8edd-ac9dbfc55819")
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/79da2e28-e240-5ebb-89d7-48d582b950bc"
+					(reference "TP101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/9ca2f719-63d1-5fb2-a6f0-5e10613120fe"
+					(reference "TP201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/c638b543-3bcf-5461-816b-8a6bdc3af88d"
+					(reference "TP301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/62bd4a1b-82ba-5579-bfaa-59fb5134eb23"
+					(reference "TP401")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/1f9877e4-aeb7-5995-bba4-555698ebb284"
+					(reference "TP501")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/6064d6e9-d491-5b59-9ebe-f70a3bef79ff"
+					(reference "TP601")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/5805027c-3cc1-5cef-a110-f7bea2800ce2"
+					(reference "TP701")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/5498e49f-468e-56d2-8413-30831b9c6afe"
+					(reference "TP801")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/beb8772e-69da-5726-bd8b-7a59f28b8d3f"
+					(reference "TP901")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/86839ba9-dad7-5d54-8c45-8494e10e5888"
+					(reference "TP1001")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/c95403b6-b807-5169-9feb-1759b85e44b9"
+					(reference "TP1101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/d180516d-c5d6-5dc5-8803-d71cdadbb46c"
+					(reference "TP1201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/decddf8b-ee52-5eee-827e-8e5ed8ff81e9"
+					(reference "TP1301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/b2139eeb-2fa5-58d5-ac66-ee922cd6e203"
+					(reference "TP1401")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/885306a8-0612-5a89-bbb0-4ab622c57cd6"
+					(reference "TP1501")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/1c3804b0-aa06-5b01-a8f6-41e98d8f2ea6"
+					(reference "TP1601")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/e0f01dd8-18c2-550c-9fbb-88918c7fc162"
+					(reference "TP1701")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/602da12a-0f6c-5140-9d68-93a157a213f9"
+					(reference "TP1801")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/89f3695b-c394-5244-bb9f-e8fb4873b92f"
+					(reference "TP1901")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/c31f4276-227c-5d2a-bf90-907609f26c73"
+					(reference "TP2001")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/618ba6cd-2086-5342-96b4-514484210e1c"
+					(reference "TP2101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/a678aaa2-10ae-5cc6-ba9f-68ccced8e931"
+					(reference "TP2201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/638f9bd0-e722-55a9-8e00-22ee82513150"
+					(reference "TP2301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/19d58890-d207-5009-99f7-631b958c60dc"
+					(reference "TP2401")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/bd97b177-8c00-52f4-8e2d-040614645a1b"
+					(reference "TP2501")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/706f251c-3f50-568f-be47-94d51e7edfd6"
+					(reference "TP2601")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/f6eed3fd-c76c-5055-ab2f-309675785adb"
+					(reference "TP2701")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/bf63fe51-ee19-528f-b249-3618f23b7bbb"
+					(reference "TP2801")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/7920db3f-18ff-5ac2-b5ec-fdfd62f8e4da"
+					(reference "TP2901")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/3137a5a3-a59e-5b92-931a-a2a77e0ffc8f"
+					(reference "TP3001")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/008ffc73-5dcb-52b4-9903-63a274e1f96c"
+					(reference "TP3101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/bd1e8ab6-804f-525a-8444-933897e82daa"
+					(reference "TP3201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/16f2a543-a264-517f-8e4e-9c202bd3c2fb"
+					(reference "TP3301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/e2672273-30ae-5572-a66e-d2b8b1c7d387"
+					(reference "TP3401")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/070b8df9-7d3f-5858-8e06-e6f4674f99b3"
+					(reference "TP3501")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/96ebd303-53b3-51b6-9432-af24a3cf21ae"
+					(reference "TP3601")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/68cea58a-4b47-50cf-af9c-0a6cdcb9dbc1"
+					(reference "TP3701")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/ae95c497-016c-5103-8b48-1d3777612e96"
+					(reference "TP3801")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/60c1c2d9-42cd-55ab-9b88-8a36adda8fe9"
+					(reference "TP3901")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/75a28581-4f77-5c3c-bb70-c408dc40eb8c"
+					(reference "TP4001")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/31cd4a35-10cf-5a18-955e-d4c4796acbc6"
+					(reference "TP4101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/e67f3213-64dc-55bf-a8e8-ecd4b601c8db"
+					(reference "TP4201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/61917a16-f6a7-56ca-a468-0ca070ba0921"
+					(reference "TP4301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/79eaad21-9150-546f-b3df-445656ae663f"
+					(reference "TP4401")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/6f75af6b-722a-5f69-adea-151188a8dd02"
+					(reference "TP4501")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/6a825d4c-e82e-5ead-bc68-48d4a870a702"
+					(reference "TP4601")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/61306967-2897-55ae-a176-c5d855acc912"
+					(reference "TP4701")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/c006f66f-db73-5429-9b5f-32b71551a32d"
+					(reference "TP4801")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/74b89d68-2932-56cd-9b39-9b6dae505567"
+					(reference "TP4901")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/bc635978-049e-54d1-914a-5c239382c4af"
+					(reference "TP5001")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/bdd3be86-2834-5719-9552-086af6532d5c"
+					(reference "TP5101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/81ab96ce-1318-5352-bae2-73c1e6fc4ae2"
+					(reference "TP5201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/5b11f744-54aa-5c94-b5be-3e0816c55882"
+					(reference "TP5301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/4f4aad45-d257-5ef5-b0d3-01d2dacb5579"
+					(reference "TP5401")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/6c3e7761-e0c3-5b47-b107-a7ed43eafd29"
+					(reference "TP5501")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/ae95bdee-4143-53b1-8ce1-955f28411a0c"
+					(reference "TP5601")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/f17c773b-7273-572a-9e6e-9a1d990fc7a1"
+					(reference "TP5701")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/6c9e8ef9-4fa2-5b2d-9dc9-a7571fc3c7eb"
+					(reference "TP5801")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/fb51e856-2967-50db-9099-b1653ce31bad"
+					(reference "TP5901")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/389ae401-d41d-50ec-9a1a-518c967ff834"
+					(reference "TP6001")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/b46858d7-d5d1-5d9c-abe4-df22b6208450"
+					(reference "TP6101")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/79b32fdf-42e6-5685-8265-10f944506752"
+					(reference "TP6201")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/d71fcb6e-dcf7-5620-ba61-8c9c47367f58"
+					(reference "TP6301")
+					(unit 1)
+				)
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/3b0347c7-c944-5ae2-a397-63a7b0b865c0/de98dd7d-cfca-5cb9-a94c-60e753a494ed"
+					(reference "TP6401")
 					(unit 1)
 				)
 			)
@@ -8238,38 +8816,46 @@
 		)
 		(property "Sim.Library" "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 			(at 124.46 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Name" "OPA1678_DUAL"
 			(at 124.46 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
 			(at 124.46 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2 3=3 4=4 5=5 6=6 7=7 8=8"
 			(at 124.46 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -8965,20 +9551,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 114.3 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=100n"
 			(at 114.3 93.98 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9327,38 +9917,46 @@
 		)
 		(property "Sim.Library" "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 			(at 55.88 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Name" "BAV99"
 			(at 55.88 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
 			(at 55.88 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2 3=3"
 			(at 55.88 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -9708,20 +10306,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 167.64 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=1n"
 			(at 167.64 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -10726,20 +11328,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 88.9 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=4.7k"
 			(at 88.9 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11025,21 +11631,21 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "33p 50V C0G"
-			(at 133.35 88.90 90)
+			(at 133.35 88.9 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
@@ -11088,20 +11694,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 124.46 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=33p"
 			(at 124.46 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -11779,20 +12389,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 134.62 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=100n"
 			(at 134.62 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12139,20 +12753,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 175.26 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=16k"
 			(at 175.26 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -12501,38 +13119,46 @@
 		)
 		(property "Sim.Library" "${KIPRJMOD}/../sim/models/aesa_parts.lib"
 			(at 124.46 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Name" "OPA1678_DUAL"
 			(at 124.46 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
 			(at 124.46 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2 3=3 4=4 5=5 6=6 7=7 8=8"
 			(at 124.46 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "4"
@@ -13228,20 +13854,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 152.4 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=2k"
 			(at 152.4 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -13856,10 +14486,10 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "1n 50V C0G 1%"
@@ -13867,10 +14497,10 @@
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
-				(justify left)
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
@@ -13919,20 +14549,24 @@
 		)
 		(property "Sim.Device" "C"
 			(at 158.75 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "c=1n"
 			(at 158.75 68.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14608,20 +15242,24 @@
 		)
 		(property "Sim.Device" "R"
 			(at 142.24 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(property "Sim.Params" "r=2k"
 			(at 142.24 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
 		(pin "1"
@@ -14890,54 +15528,6 @@
 				)
 			)
 		)
-	)
-	(text "Transceiver channel (one of 64). TX: UCC27524 half -> 47 R -> BAV99 crossed diodes -> element (0-15 V square)."
-		(exclude_from_sim no)
-		(at 25.4 22.86 0)
-		(effects
-			(font
-				(size 2.0 2.0)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "5a74766f-e9e2-5e2a-95b7-4281510f2cfe")
-	)
-	(text "33k bleed resets the element after TX. RX: 4.7k + BAV99 clamp (+-0.7 V) + 100 pF (340 kHz RF filter)."
-		(exclude_from_sim no)
-		(at 25.4 27.43 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "cc7a35a0-1248-5e49-bfad-8b40c4e2e3dc")
-	)
-	(text "OPA1678 stage 1: gain 6, AC-coupled at 800 Hz. Stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4. Then 100 R to the ADC."
-		(exclude_from_sim no)
-		(at 25.4 31.5 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "f26e2d85-5572-5d60-a3a3-b68450ab776c")
-	)
-	(text "Element -> ADC +27 dB, pass band 31-51 kHz (sim/reports/rx_chain.md). Band-pass parts 1 % C0G for phase match."
-		(exclude_from_sim no)
-		(at 25.4 35.56 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "f32c82f3-e528-543e-bd6b-f577e03f619e")
 	)
 	(sheet_instances
 		(path "/"

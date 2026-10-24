@@ -38,6 +38,7 @@ import pcbnew
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import KICAD_CLI, KICAD_FOOTPRINTS  # noqa: E402
 from netlist_to_pcb import build_board  # noqa: E402
+from power_sections import D_SPLIT_Y, SECTIONS, SHEET_FILES, section_of  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 NET = REPO / "build" / "aesa.net"
@@ -154,7 +155,9 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
         """Box (with GAP, plus room for a readable label on test points, jumpers and LEDs) and pad offsets."""
         fp.SetOrientationDegrees(ang)
         bx, by, w, h = bbox_mm(fp)
-        lab = 1.6 if fp.GetReference().startswith(("TP", "JP")) or fp.GetValue() == "green" else 0.0
+        r = fp.GetReference()
+        labelled = r.startswith(("TP", "JP")) and not 1 <= (sid_of(r) or 0) <= 64   # not the channels' RX pads
+        lab = 1.6 if labelled or fp.GetValue() == "green" else 0.0
         bx, by, w, h = bx - lab / 2, by - lab, w + lab, h + lab
         pos = fp.GetPosition()
         ox, oy = pcbnew.ToMM(pos.x) - bx, pcbnew.ToMM(pos.y) - by
@@ -358,10 +361,6 @@ def place_block(board, instances, size, label, pulls=None, ic_angle=None):
         group(board, name, parts)
 
 
-# Power sheet sections (origin of each section's note in kicad/power.kicad_sch, see build_cells.power()).
-SECTIONS = {"A": (20.32, 30.48), "B": (309.88, 30.48), "C": (20.32, 124.46), "D": (309.88, 124.46),
-            "E": (20.32, 233.68), "G": (223.52, 233.68), "F": (309.88, 241.3), "H": (309.88, 294.64),
-            "I": (309.88, 345.44)}
 # Switcher cores (offsets from the section's top-left corner). E = LM2731 VDRV boost: inductor L4 left of
 # the IC with its SW pad 3.6 mm from SW (pin 1), the SS14 (D8) anode 2.5 mm below SW, the output caps
 # C33/C34 beside the cathode with their GND pads towards the IC's GND pin, input cap C31 at VIN (pin 5).
@@ -370,16 +369,27 @@ POWER_CORES = {"E": {"U5": (12.0, 8.0, 0), "L4": (5.0, 8.95, 0), "D8": (11.0, 13
 BOTTOM_ORDER = ["D1", "C", "H", "D2", "E", "G", "B"]  # left to right: hot parts alternate with cool ones
 
 
+def power_positions():
+    """{local reference: (sheet, x, y)} of every part on the two power sheets."""
+    pos = {}
+    for sheet in SHEET_FILES:
+        sch = (REPO / "kicad" / f"{sheet}.kicad_sch").read_text(encoding="utf-8")
+        for m in re.finditer(r'\(lib_id "[^"]+"\)\s*\(at ([\d.]+) ([\d.]+)[^)]*\).*?\(property "Reference" "([^"]+)"',
+                             sch, re.S):
+            pos[m.group(3)] = (sheet, float(m.group(1)), float(m.group(2)))
+    return pos
+
+
 def power_by_section(fps):
-    sch = (REPO / "kicad" / "power.kicad_sch").read_text(encoding="utf-8")
-    pos = {m.group(3): (float(m.group(1)), float(m.group(2))) for m in re.finditer(
-        r'\(lib_id "[^"]+"\)\s*\(at ([\d.]+) ([\d.]+)[^)]*\).*?\(property "Reference" "([^"]+)"', sch, re.S)}
+    """Power parts by the section box they sit in on the power sheets (scripts/power_sections.py)."""
+    pos = power_positions()
     by = {k: [] for k in SECTIONS}
     for fp in fps:
         to_back(fp)
-        x, y = pos.get(local_ref(fp.GetReference()), (0, 0))
-        cands = [(o[1], o[0], k) for k, o in SECTIONS.items() if o[0] <= x + 5 and o[1] <= y + 5]
-        by[max(cands)[2] if cands else "A"].append(fp)
+        k = section_of(*pos.get(local_ref(fp.GetReference()), ("", 0, 0)))
+        if k is None:
+            raise SystemExit(f"{fp.GetReference()} is outside every power-sheet section")
+        by[k].append(fp)
     return by
 
 
@@ -406,11 +416,9 @@ def txg_origin(k):
 def split_analog_ldos(sec):
     """Section D holds both +5VA and -5VA LDOs; split it (by schematic position: -5VA is drawn below)
     into D1 and D2 so the two hot LDOs sit in separate regions."""
-    sch = (REPO / "kicad" / "power.kicad_sch").read_text(encoding="utf-8")
-    pos = {m.group(3): float(m.group(2)) for m in re.finditer(
-        r'\(lib_id "[^"]+"\)\s*\(at ([\d.]+) ([\d.]+)[^)]*\).*?\(property "Reference" "([^"]+)"', sch, re.S)}
+    pos = power_positions()
     d = sec.pop("D")
-    sec["D1"] = [f for f in d if pos.get(local_ref(f.GetReference()), 0) < SECTIONS["D"][1] + 64]
+    sec["D1"] = [f for f in d if pos[local_ref(f.GetReference())][2] < D_SPLIT_Y]
     sec["D2"] = [f for f in d if f not in sec["D1"]]
 
 
@@ -499,7 +507,9 @@ def gnd_planes(board):
         z.SetNet(gnd)
         z.SetLocalClearance(mm(0.3))
         z.SetMinThickness(mm(0.25))
-        z.SetPadConnection(pcbnew.ZONE_CONNECTION_FULL)
+        z.SetPadConnection(pcbnew.ZONE_CONNECTION_THT_THERMAL)  # PTH: 4 spokes, easy hand soldering
+        z.SetThermalReliefGap(mm(0.5))
+        z.SetThermalReliefSpokeWidth(mm(0.5))
         ol = z.Outline()
         ol.NewOutline()
         for x, y in ((b + e, e), (W - b - e, e), (W - e, b + e), (W - e, H - b - e), (W - b - e, H - e),
@@ -533,7 +543,6 @@ def silkscreen(board):
         if r.startswith("TP"):
             ref.SetVisible(False)
             val = fp.Value()
-            val.SetText(fp.GetValue().replace("TP ", ""))
             val.SetLayer(pcbnew.B_SilkS if fp.IsFlipped() else pcbnew.F_SilkS)
             val.SetVisible(True)
             val.SetTextSize(v(0.9, 0.9))
@@ -593,11 +602,42 @@ def labels(board, groups):
         text(board, f"TXG{k:02d}", x + P / 2, y + TX_H / 2 - 0.9, 0.8, pcbnew.F_SilkS)
     # front silkscreen is free apart from the transducers: board name and the safety notes go there
     text(board, "Hybrid 8x8 ultrasonic AESA  rev 1  2026-10-23", W / 2, H - EDGE - 2, 1.5, pcbnew.F_SilkS, True)
+    text(board, "JLCJLCJLCJLC", W - 38, H - EDGE - 6, 1.0, pcbnew.F_SilkS)  # JLCPCB prints the order number here
     text(board, "12 V DC only, centre +, 1.5 A min.  Input protected: 9-13.8 V, 1.6 A", W / 2, H - EDGE - 5,
          1.0, pcbnew.F_SilkS)
     text(board, "TX drive 15 V: remove shunt J9502 to switch all transmitters off", W / 2, H - EDGE - 7.5,
          1.0, pcbnew.F_SilkS)
     text(board, "<- 12 V in", 16, ADC_Y - 6, 1.0, pcbnew.F_SilkS)
+
+
+# JLCPCB JLC04161H-7628 (1.6 mm): 1 oz outer, 0.5 oz inner copper, one 7628 prepreg each side of a 1.065 mm
+# core; ENIG (user, 2026-10-24: flat pads for the 0.5 mm-pitch QFNs and the hand-soldered transducers).
+STACKUP = [("F.SilkS", "Top Silk Screen", None, None), ("F.Paste", "Top Solder Paste", None, None),
+           ("F.Mask", "Top Solder Mask", 0.01, None), ("F.Cu", "copper", 0.035, None),
+           ("dielectric 1", "prepreg", 0.2104, ("7628", 4.4)), ("In1.Cu", "copper", 0.0152, None),
+           ("dielectric 2", "core", 1.065, ("FR4", 4.6)), ("In2.Cu", "copper", 0.0152, None),
+           ("dielectric 3", "prepreg", 0.2104, ("7628", 4.4)), ("B.Cu", "copper", 0.035, None),
+           ("B.Mask", "Bottom Solder Mask", 0.01, None), ("B.Paste", "Bottom Solder Paste", None, None),
+           ("B.SilkS", "Bottom Silk Screen", None, None)]
+
+
+def write_stackup(path):
+    """The board's physical stackup (impedance calculator, 3D thickness, fabrication notes)."""
+    s = ["\t\t(stackup"]
+    for name, typ, th, diel in STACKUP:
+        s.append(f'\t\t\t(layer "{name}"\n\t\t\t\t(type "{typ}")')
+        if diel:
+            s.append('\t\t\t\t(color "FR4 natural")')
+        if th:
+            s.append(f"\t\t\t\t(thickness {th})")
+        if diel:
+            s.append(f'\t\t\t\t(material "{diel[0]}")\n\t\t\t\t(epsilon_r {diel[1]})\n\t\t\t\t(loss_tangent 0.02)')
+        s.append("\t\t\t)")
+    s += ['\t\t\t(copper_finish "ENIG")', "\t\t\t(dielectric_constraints no)", "\t\t)"]
+    t = path.read_text(encoding="utf-8")
+    assert "(stackup" not in t
+    t = t.replace("\t(setup\n", "\t(setup\n" + "\n".join(s) + "\n", 1)
+    path.write_text(t, encoding="utf-8")
 
 
 def netclasses():
@@ -613,15 +653,19 @@ def netclasses():
     base.update(track_width=0.2, clearance=0.15)
     pro["net_settings"]["classes"] = [
         base,
+        cls("HighCurrent", 1.0, 0.25, 0.8, 0.4),  # up to 1.6 A (3 A peak on SW_5V): 1 mm keeps the rise and loss low
         cls("Power", 0.5, 0.2, 0.8, 0.4),       # rails and regulator nodes
         cls("Drive", 0.35, 0.3),                # 15 V gate-driver outputs to the elements
         cls("Analog", 0.25, 0.25),              # receiver outputs to the ADCs
         cls("Clock", 0.2, 0.2),                 # buffered clocks (QFN pads are 0.2 mm from the EP)
     ]
     pro["net_settings"]["netclass_patterns"] = [
+        {"netclass": "HighCurrent", "pattern": p} for p in
+        ("VIN", "+5V", "/Power/VIN_JACK", "/Power/VIN_PROT", "/Power/5V_REG", "/Power/SW_5V")] + [
+        # the other rails, regulator outputs and switch nodes; feedback, enable and NR nodes stay thin (Default)
         {"netclass": "Power", "pattern": p} for p in
-        ("VIN*", "+5V", "+5VA", "-5VA", "+6V5", "-6V5", "+3V3", "+3V3A", "3V3_MIC", "VDRV", "*_REG", "SW_*",
-         "/Power/*")] + [
+        ("+5VA", "-5VA", "+6V5", "-6V5", "+3V3", "+3V3A", "3V3_MIC", "VDRV", "/Power/*_REG", "/Power/SW_*",
+         "/Power/VIN65")] + [
         {"netclass": "Drive", "pattern": "DRV*"},
         {"netclass": "Drive", "pattern": "/Transceivers/CH*/XD"},
         {"netclass": "Analog", "pattern": "RX*"},
@@ -635,6 +679,28 @@ def netclasses():
     PRO.write_text(json.dumps(pro, indent=2), encoding="utf-8")
 
 
+# Library footprints whose 3D model is missing from KiCad 10's library get the stock model of a part with the
+# same body (sizes from the datasheets). Pad-only footprints (test pads, solder jumpers, fiducials, mounting
+# holes) have no body. The project's own footprints carry their models (kicad/aesa.3dshapes, make_3d.py).
+MODEL_SUBST = {
+    "Fuse_1812_4532Metric": "Resistor_SMD.3dshapes/R_1812_4532Metric.step",  # 4.5 x 3.2 mm chip
+    "L_Bourns_SRN8040TA": "Inductor_SMD.3dshapes/L_Sunlord_SWPA8040S.step",  # 8 x 8 x 4 mm
+    "VQFN-24-1EP_4x4mm_P0.5mm_EP2.45x2.45mm_ThermalVias":
+        "Package_DFN_QFN.3dshapes/Texas_RGE0024C_VQFN-24-1EP_4x4mm_P0.5mm_EP2.1x2.1mm.step",
+    "Knowles_LGA-5_3.5x2.65mm": "Sensor_Audio.3dshapes/Knowles_SPH0645LM4H-6_3.5x2.65mm.step",  # 3.5 x 2.65 x 1
+}
+
+
+def fix_models(board):
+    for fp in board.GetFootprints():
+        sub = MODEL_SUBST.get(str(fp.GetFPID().GetLibItemName()))
+        if not sub:
+            continue
+        if not len(fp.Models()):
+            fp.Models().push_back(pcbnew.FP_3DMODEL())
+        fp.Models()[0].m_Filename = "${KICAD10_3DMODEL_DIR}/" + sub
+
+
 def main():
     subprocess.run([KICAD_CLI, "sch", "export", "netlist", "-o", str(NET), str(REPO / "kicad" / "aesa.kicad_sch")],
                    check=True, capture_output=True)
@@ -642,6 +708,8 @@ def main():
     if missing:
         raise SystemExit(f"missing footprints: {missing}")
     board.SetCopperLayerCount(4)
+    for layer in (pcbnew.In1_Cu, pcbnew.In2_Cu):  # GND planes: "power" layers, so no autorouter cuts them
+        board.SetLayerType(layer, pcbnew.LT_POWER)
     board.GetDesignSettings().SetBoardThickness(mm(1.6))
     outline(board)
     groups = {}
@@ -672,11 +740,14 @@ def main():
         to_back(f)
     fixed1 = [f for f in smd1 if local_ref(f.GetReference()) in CHANNEL_FIXED]
     place_template(fixed1, cx, cy, CHANNEL_FIXED)
-    rx1 = [f for f in smd1 if f not in fixed1]
-    left = place_near(rx1, [(cx - h, cy - h, 2 * h, h - ky), (cx - 5.4, cy + ky, h + 5.4, h - ky),
-                            (cx + kx, cy - ky, h - kx, 2 * ky)], "channel RX",
-                      obstacles=[bbox_mm(f) for f in fixed1] + [(cx - h, cy - h, 4.2, 2 * h)],  # TX side clear
-               fixed=[ls1] + fixed1, pulls={r"RX\d": (cx + 7.0, cy)})
+    tp1 = [f for f in smd1 if f.GetReference().startswith("TP")]   # RX_OUT test pad: last, in the space left
+    rx1 = [f for f in smd1 if f not in fixed1 and f not in tp1]
+    rx_rects = [(cx - h, cy - h, 2 * h, h - ky), (cx - 5.4, cy + ky, h + 5.4, h - ky), (cx + kx, cy - ky, h - kx, 2 * ky)]
+    tx_clear = [(cx - h, cy - h, 4.2, 2 * h)]   # TX side clear
+    left = place_near(rx1, rx_rects, "channel RX", obstacles=[bbox_mm(f) for f in fixed1] + tx_clear,
+                      fixed=[ls1] + fixed1, pulls={r"RX\d": (cx + 7.0, cy)})
+    left += place_near(tp1, rx_rects, "channel RX test pad", obstacles=[bbox_mm(f) for f in smd1 if f not in tp1] + tx_clear,
+                       fixed=[ls1] + [f for f in smd1 if f not in tp1])
     if left:
         raise SystemExit("channel block does not fit: the copy to 64 channels would be wrong")
     insts = []
@@ -720,7 +791,9 @@ def main():
     sec["A"].remove(jack)
     jw, jhh = place_jack(jack, 0.0, 6 + HOLE_KEEP + 0.5)     # below the corner mounting hole
     jb = bbox_mm(jack)
-    place_near(sec["A"], (EDGE, EDGE, HDR_X - EDGE - 0.5, ADC_Y - EDGE - 0.5), "power A",
+    place_near(sec["A"], [(EDGE, EDGE, HDR_X - EDGE - 0.5, ADC_Y - EDGE - 0.5),   # corner, plus the free left
+                          (EDGE, ADC_Y - 0.5, MARGIN - EDGE - 0.5, TOP + 0.4 * P - ADC_Y - 0.5)],  # margin to MIC1
+               "power A",
                [(jb[0] - GAP, jb[1] - GAP, jb[2] + 2 * GAP, jb[3] + 2 * GAP)])
     xr = HDR_X + 2 * HDR_W + HDR_GAP + 0.5
     wr = (W - EDGE - xr - 4.0) / 2           # +3V3A and +3V3 LDOs in separate halves, 4 mm apart (heat)
@@ -729,7 +802,14 @@ def main():
     yt = ARRAY_END + 1
     yp = yt + TX_H + 0.5
     split_analog_ldos(sec)
-    area = {k: sum(bbox_mm(f)[2] * bbox_mm(f)[3] for f in sec[k]) for k in BOTTOM_ORDER}
+    # scope-ground test points spread over the board: between the ribbon headers, both array sides (in the
+    # gap between mics 1 and 2; the mid-side holes sit between mics 2 and 3), right margin of the TX rows
+    for ref, (x, y) in {"TP9516": (W / 2, EDGE + 4.0), "TP9517": (MARGIN / 2, TOP + 2.0 * P),
+                        "TP9518": (W - MARGIN / 2, TOP + 2.0 * P), "TP9519": (W - MARGIN / 2, yt + TX_H / 2)}.items():
+        fp = next(f for f in sec["G"] if f.GetReference() == ref)
+        sec["G"].remove(fp)
+        fp.SetPosition(v(x, y))
+    area ={k: sum(bbox_mm(f)[2] * bbox_mm(f)[3] for f in sec[k]) for k in BOTTOM_ORDER}
     gap = 3.0
     avail = W - 2 * EDGE - gap * (len(BOTTOM_ORDER) - 1)
     widths = {k: max(10.0, avail * area[k] / sum(area.values())) for k in BOTTOM_ORDER}
@@ -768,7 +848,9 @@ def main():
     place_labels(board)
     labels(board, groups)
     gnd_planes(board)
+    fix_models(board)
     board.Save(str(PCB))
+    write_stackup(PCB)
     netclasses()
     print(f"{PCB.relative_to(REPO)}: {len(board.GetFootprints())} footprints, board {W:.0f} x {H:.0f} mm, "
           f"pitch {P} mm")

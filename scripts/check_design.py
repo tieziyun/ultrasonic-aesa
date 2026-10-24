@@ -19,7 +19,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import KICAD_CLI, KICAD_FOOTPRINTS  # noqa: E402
+from common import KICAD_3DMODELS, KICAD_CLI, KICAD_FOOTPRINTS  # noqa: E402
 from pinmap import J1_MAP, J2_MAP  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
@@ -201,6 +201,32 @@ def check_datasheets(R, d):
     R.add("Datasheets in docs/datasheets/ for every part", True,
           [f"{len(need)} distinct parts, {len(need) - len(miss)} with a datasheet PDF "
            f"(scripts/datasheets.py, run by bom.py)."] + [f"- missing: {m}" for m in miss], warn=bool(miss))
+
+
+def check_3d_models(R, d):
+    """Every footprint on the board has a 3D model that exists (pad-only footprints have no body)."""
+    pcb = REPO / "kicad" / "aesa.kicad_pcb"
+    if not pcb.exists():
+        R.add("3D model for every part", True, ["No board yet."], warn=True)
+        return
+    pad_only = ("TestPoint", "SolderJumper", "Fiducial", "MountingHole")  # footprint names
+    env = {"KICAD10_3DMODEL_DIR": str(KICAD_3DMODELS), "KIPRJMOD": str(pcb.parent)}
+    miss, n = Counter(), 0
+    for blk in pcb.read_text(encoding="utf-8").split("\n\t(footprint ")[1:]:
+        lib = blk[1:blk.index('"', 1)]
+        models = re.findall(r'\(model "([^"]+)"', blk)
+        if not models:
+            if not lib.split(":")[-1].startswith(pad_only):
+                miss[f"{lib} (no model)"] += 1
+            continue
+        n += 1
+        path = re.sub(r"\$\{(\w+)\}", lambda m: env.get(m.group(1), m.group(0)), models[0])
+        if not any(Path(path).with_suffix(s).exists() for s in (".step", ".wrl", Path(path).suffix)):
+            miss[f"{lib} ({models[0]})"] += 1
+    R.add("3D model for every part", not miss,
+          [f"{n} footprints with a model that resolves; pad-only footprints (test pads, solder jumpers, fiducials, "
+           "holes) need none. Substitutes for models missing from KiCad's library: MODEL_SUBST in place.py; "
+           "own parts: scripts/make_3d.py."] + [f"- missing: {k} x{v}" for k, v in sorted(miss.items())])
 
 
 def check_tx_chain(R, d):
@@ -456,15 +482,21 @@ def check_polarity(R, d):
         if c["part"] in ("D_Schottky", "LED"):
             k, a = d.base(d.net(r, "1")), d.base(d.net(r, "2"))
             lines.append(f"- {r} {c['value']}: anode {a}, cathode {k}")
-    expect = {"D9504": ("SW_P", "6V5_REG"), "D9506": ("-6V5_REG", "SW_N"),
-              "D9508": ("SW_VDRV", "VDRV_REG"), "D9507": ("GND", "LED_-6V5")}
+    expect = {"D9504": ("SW_P", "6V5_REG"), "D9506": ("-6V5_REG", "SW_N"), "D9508": ("SW_VDRV", "VDRV_REG")}
     for r, (a, k) in expect.items():
         if (d.base(d.net(r, "2")), d.base(d.net(r, "1"))) != (a, k):
             errs.append(f"{r}: anode {d.net(r, '2')}, cathode {d.net(r, '1')}; expected {a} -> {k}")
+    # rail LEDs: rail -> resistor -> LED -> GND; on a negative rail the LED points the other way
     for r in d.refs_by_value("green"):
-        a, k = d.base(d.net(r, "2")), d.base(d.net(r, "1"))
-        if not (k == "GND" and a.startswith("LED_") or a == "GND" and k.startswith("LED_-")):
-            errs.append(f"{r}: LED anode {a}, cathode {k}")
+        a, k = d.net(r, "2"), d.net(r, "1")
+        mid = a if d.base(k) == "GND" else k
+        res = [x for x, _ in d.nets.get(mid, []) if x.startswith("R")]
+        rail = d.base(d.other_end(res[0], mid)) if len(res) == 1 else None
+        negative = rail is not None and rail.startswith("-")
+        ok = rail is not None and (d.base(k) == "GND" and mid == a and not negative
+                                   or d.base(a) == "GND" and mid == k and negative)
+        if not ok:
+            errs.append(f"{r}: LED anode {d.base(a)}, cathode {d.base(k)}, fed from {rail}")
     R.add("Polarity: electrolytics, rectifiers, LEDs", not errs, [f"Errors: {len(errs)}."] + [f"- {e}" for e in errs]
           + [""] + lines)
 
@@ -593,7 +625,7 @@ def main():
     export()
     d = Design(NET)
     R = Report()
-    for f in (check_erc, check_counts, check_footprints, check_lcsc, check_datasheets, check_tx_chain, check_rx_chain, check_clocks,
+    for f in (check_erc, check_counts, check_footprints, check_lcsc, check_datasheets, check_3d_models, check_tx_chain, check_rx_chain, check_clocks,
               check_headers, check_fpga_levels, check_rails, check_decoupling, check_cap_ratings, check_polarity,
               check_regulators, check_testability, check_single_nets, check_power_budget):
         try:

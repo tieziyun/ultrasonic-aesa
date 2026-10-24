@@ -3,7 +3,7 @@
 	(generator "eeschema")
 	(generator_version "10.0")
 	(uuid "1253a4d7-e996-5945-a465-d19e12cbc0ea")
-	(paper "A2")
+	(paper "A3")
 	(title_block
 		(title "Transceivers: 64 channels (8 x 8 grid)")
 		(date "2026-10-20")
@@ -25,7 +25,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 53.34) (xy 35.56 53.34)
+			(xy 27.94 48.26) (xy 25.40 48.26)
 		)
 		(stroke
 			(width 0)
@@ -35,18 +35,18 @@
 	)
 	(global_label "DRV1"
 		(shape passive)
-		(at 35.56 53.34 180)
+		(at 25.40 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "ab43058a-5939-5f83-ac7d-685abbf18ff8")
+		(uuid "b3cd553f-89b7-51dd-9587-f522342f0136")
 	)
 	(wire
 		(pts
-			(xy 60.96 53.34) (xy 63.50 53.34)
+			(xy 50.80 48.26) (xy 53.34 48.26)
 		)
 		(stroke
 			(width 0)
@@ -56,17 +56,17 @@
 	)
 	(global_label "RX1"
 		(shape passive)
-		(at 63.50 53.34 0)
+		(at 53.34 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "e6485134-f129-596c-a16d-9414b1eb532b")
+		(uuid "88c895f1-6205-58aa-be38-8dfb400760e6")
 	)
 	(sheet
-		(at 38.10 50.80)
+		(at 27.94 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -78,7 +78,7 @@
 		)
 		(uuid "79da2e28-e240-5ebb-89d7-48d582b950bc")
 		(property "Sheetname" "CH01"
-			(at 38.10 50.09 0)
+			(at 27.94 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -88,7 +88,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 56.47 0)
+			(at 27.94 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -98,7 +98,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 53.34 180)
+			(at 27.94 48.26 180)
 			(uuid "2d79b404-1b24-5e82-bf03-e8bbff9e148a")
 			(effects
 				(font
@@ -108,7 +108,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 53.34 0)
+			(at 50.80 48.26 0)
 			(uuid "893f9e98-8874-55a7-a6aa-bb9caa47a268")
 			(effects
 				(font
@@ -127,7 +127,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 78.74) (xy 35.56 78.74)
+			(xy 27.94 73.66) (xy 25.40 73.66)
 		)
 		(stroke
 			(width 0)
@@ -137,18 +137,18 @@
 	)
 	(global_label "DRV2"
 		(shape passive)
-		(at 35.56 78.74 180)
+		(at 25.40 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "c8f0ce3a-ce96-51f0-8b5a-dbe62f49a19a")
+		(uuid "3e8ebb9d-ccb5-53cb-ae42-d5ef09acf359")
 	)
 	(wire
 		(pts
-			(xy 60.96 78.74) (xy 63.50 78.74)
+			(xy 50.80 73.66) (xy 53.34 73.66)
 		)
 		(stroke
 			(width 0)
@@ -158,17 +158,17 @@
 	)
 	(global_label "RX2"
 		(shape passive)
-		(at 63.50 78.74 0)
+		(at 53.34 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "da890e7a-9d5b-5181-87a8-4948c8494fbe")
+		(uuid "baef91b4-876d-5958-bb4b-e7f89be1a7a1")
 	)
 	(sheet
-		(at 38.10 76.20)
+		(at 27.94 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -180,7 +180,7 @@
 		)
 		(uuid "9ca2f719-63d1-5fb2-a6f0-5e10613120fe")
 		(property "Sheetname" "CH02"
-			(at 38.10 75.49 0)
+			(at 27.94 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -190,7 +190,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 81.87 0)
+			(at 27.94 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -200,7 +200,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 78.74 180)
+			(at 27.94 73.66 180)
 			(uuid "bdb7ecb4-ea6f-53f0-a828-230ec63c5157")
 			(effects
 				(font
@@ -210,7 +210,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 78.74 0)
+			(at 50.80 73.66 0)
 			(uuid "497fa653-56af-5227-bbba-50da51a246c4")
 			(effects
 				(font
@@ -229,7 +229,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 104.14) (xy 35.56 104.14)
+			(xy 27.94 99.06) (xy 25.40 99.06)
 		)
 		(stroke
 			(width 0)
@@ -239,18 +239,18 @@
 	)
 	(global_label "DRV3"
 		(shape passive)
-		(at 35.56 104.14 180)
+		(at 25.40 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "a7df8f8e-0e30-58a8-8a01-dda333ecbe12")
+		(uuid "6c23cdcf-3f1a-56ab-b13f-7cfa1232f465")
 	)
 	(wire
 		(pts
-			(xy 60.96 104.14) (xy 63.50 104.14)
+			(xy 50.80 99.06) (xy 53.34 99.06)
 		)
 		(stroke
 			(width 0)
@@ -260,17 +260,17 @@
 	)
 	(global_label "RX3"
 		(shape passive)
-		(at 63.50 104.14 0)
+		(at 53.34 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "a2ec34b7-e6c4-5d94-82cd-bb4ca0b9ca77")
+		(uuid "bfab489d-142a-5539-8363-3dc30b6d01ca")
 	)
 	(sheet
-		(at 38.10 101.60)
+		(at 27.94 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -282,7 +282,7 @@
 		)
 		(uuid "c638b543-3bcf-5461-816b-8a6bdc3af88d")
 		(property "Sheetname" "CH03"
-			(at 38.10 100.89 0)
+			(at 27.94 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -292,7 +292,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 107.27 0)
+			(at 27.94 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -302,7 +302,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 104.14 180)
+			(at 27.94 99.06 180)
 			(uuid "9f484076-6b3e-5706-9c94-cf034d390ab7")
 			(effects
 				(font
@@ -312,7 +312,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 104.14 0)
+			(at 50.80 99.06 0)
 			(uuid "ccaf9d18-8e4f-50f9-bdf1-07bba040083c")
 			(effects
 				(font
@@ -331,7 +331,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 129.54) (xy 35.56 129.54)
+			(xy 27.94 124.46) (xy 25.40 124.46)
 		)
 		(stroke
 			(width 0)
@@ -341,18 +341,18 @@
 	)
 	(global_label "DRV4"
 		(shape passive)
-		(at 35.56 129.54 180)
+		(at 25.40 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "88c33575-0eac-5618-b974-b92e2c0842e2")
+		(uuid "9567e13d-a358-5fcd-89f0-0c279d7e5115")
 	)
 	(wire
 		(pts
-			(xy 60.96 129.54) (xy 63.50 129.54)
+			(xy 50.80 124.46) (xy 53.34 124.46)
 		)
 		(stroke
 			(width 0)
@@ -362,17 +362,17 @@
 	)
 	(global_label "RX4"
 		(shape passive)
-		(at 63.50 129.54 0)
+		(at 53.34 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "91b322a4-32c6-50bc-be4f-3448978da13e")
+		(uuid "7a5daa37-1509-56c6-bd67-1ef14bff2fbf")
 	)
 	(sheet
-		(at 38.10 127.00)
+		(at 27.94 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -384,7 +384,7 @@
 		)
 		(uuid "62bd4a1b-82ba-5579-bfaa-59fb5134eb23")
 		(property "Sheetname" "CH04"
-			(at 38.10 126.29 0)
+			(at 27.94 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -394,7 +394,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 132.67 0)
+			(at 27.94 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -404,7 +404,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 129.54 180)
+			(at 27.94 124.46 180)
 			(uuid "a1d1ae34-6839-5c87-92b2-6c7a7736bb07")
 			(effects
 				(font
@@ -414,7 +414,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 129.54 0)
+			(at 50.80 124.46 0)
 			(uuid "170b0438-1a9c-56db-ade5-20ee6f8a88af")
 			(effects
 				(font
@@ -433,7 +433,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 154.94) (xy 35.56 154.94)
+			(xy 27.94 149.86) (xy 25.40 149.86)
 		)
 		(stroke
 			(width 0)
@@ -443,18 +443,18 @@
 	)
 	(global_label "DRV5"
 		(shape passive)
-		(at 35.56 154.94 180)
+		(at 25.40 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "9e4f6962-338c-5a6c-860f-9e97cca77a87")
+		(uuid "20b1abe2-adc6-5d67-bf00-e946cbd475e6")
 	)
 	(wire
 		(pts
-			(xy 60.96 154.94) (xy 63.50 154.94)
+			(xy 50.80 149.86) (xy 53.34 149.86)
 		)
 		(stroke
 			(width 0)
@@ -464,17 +464,17 @@
 	)
 	(global_label "RX5"
 		(shape passive)
-		(at 63.50 154.94 0)
+		(at 53.34 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "fe63d051-e2e0-526c-b634-7c7e7e4cb5c9")
+		(uuid "2f42d58b-1cd3-5168-8d3d-ed35e475d065")
 	)
 	(sheet
-		(at 38.10 152.40)
+		(at 27.94 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -486,7 +486,7 @@
 		)
 		(uuid "1f9877e4-aeb7-5995-bba4-555698ebb284")
 		(property "Sheetname" "CH05"
-			(at 38.10 151.69 0)
+			(at 27.94 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -496,7 +496,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 158.07 0)
+			(at 27.94 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -506,7 +506,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 154.94 180)
+			(at 27.94 149.86 180)
 			(uuid "d75ebb5c-ce5e-5ec5-a7fa-41fe115e9305")
 			(effects
 				(font
@@ -516,7 +516,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 154.94 0)
+			(at 50.80 149.86 0)
 			(uuid "e9de6118-7165-5acc-a7b3-3c64bbdcd611")
 			(effects
 				(font
@@ -535,7 +535,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 180.34) (xy 35.56 180.34)
+			(xy 27.94 175.26) (xy 25.40 175.26)
 		)
 		(stroke
 			(width 0)
@@ -545,18 +545,18 @@
 	)
 	(global_label "DRV6"
 		(shape passive)
-		(at 35.56 180.34 180)
+		(at 25.40 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "5055b6d2-860b-52ec-a961-f0b5aeabfaca")
+		(uuid "d2442337-b668-53e8-b86d-08fe52b41d83")
 	)
 	(wire
 		(pts
-			(xy 60.96 180.34) (xy 63.50 180.34)
+			(xy 50.80 175.26) (xy 53.34 175.26)
 		)
 		(stroke
 			(width 0)
@@ -566,17 +566,17 @@
 	)
 	(global_label "RX6"
 		(shape passive)
-		(at 63.50 180.34 0)
+		(at 53.34 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "5d2023b7-e53a-5e54-9574-3ce7a03413eb")
+		(uuid "9280ec46-e42a-5e0c-b627-20bd5eb4833f")
 	)
 	(sheet
-		(at 38.10 177.80)
+		(at 27.94 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -588,7 +588,7 @@
 		)
 		(uuid "6064d6e9-d491-5b59-9ebe-f70a3bef79ff")
 		(property "Sheetname" "CH06"
-			(at 38.10 177.09 0)
+			(at 27.94 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -598,7 +598,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 183.47 0)
+			(at 27.94 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -608,7 +608,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 180.34 180)
+			(at 27.94 175.26 180)
 			(uuid "25661b03-aad0-575e-bdb8-ace0ab3e6a0e")
 			(effects
 				(font
@@ -618,7 +618,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 180.34 0)
+			(at 50.80 175.26 0)
 			(uuid "1fae6c5f-f959-5eca-bbdf-3db4089b5f5f")
 			(effects
 				(font
@@ -637,7 +637,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 205.74) (xy 35.56 205.74)
+			(xy 27.94 200.66) (xy 25.40 200.66)
 		)
 		(stroke
 			(width 0)
@@ -647,18 +647,18 @@
 	)
 	(global_label "DRV7"
 		(shape passive)
-		(at 35.56 205.74 180)
+		(at 25.40 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "b428e5d4-7235-529f-893c-cfd36462e051")
+		(uuid "34aab1a5-5d76-52fb-8175-048b4d14c7ac")
 	)
 	(wire
 		(pts
-			(xy 60.96 205.74) (xy 63.50 205.74)
+			(xy 50.80 200.66) (xy 53.34 200.66)
 		)
 		(stroke
 			(width 0)
@@ -668,17 +668,17 @@
 	)
 	(global_label "RX7"
 		(shape passive)
-		(at 63.50 205.74 0)
+		(at 53.34 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "55fd17cd-2c4b-5c9e-803c-4e02ba16e2b7")
+		(uuid "a3ecf196-50d2-533a-8f3a-534d8c4fbd00")
 	)
 	(sheet
-		(at 38.10 203.20)
+		(at 27.94 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -690,7 +690,7 @@
 		)
 		(uuid "5805027c-3cc1-5cef-a110-f7bea2800ce2")
 		(property "Sheetname" "CH07"
-			(at 38.10 202.49 0)
+			(at 27.94 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -700,7 +700,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 208.87 0)
+			(at 27.94 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -710,7 +710,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 205.74 180)
+			(at 27.94 200.66 180)
 			(uuid "4b7d7ba2-9934-5d2d-94e5-b47c9419cd6f")
 			(effects
 				(font
@@ -720,7 +720,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 205.74 0)
+			(at 50.80 200.66 0)
 			(uuid "dab04ddd-7e67-5942-82ac-b66034e7deb5")
 			(effects
 				(font
@@ -739,7 +739,7 @@
 	)
 	(wire
 		(pts
-			(xy 38.10 231.14) (xy 35.56 231.14)
+			(xy 27.94 226.06) (xy 25.40 226.06)
 		)
 		(stroke
 			(width 0)
@@ -749,18 +749,18 @@
 	)
 	(global_label "DRV8"
 		(shape passive)
-		(at 35.56 231.14 180)
+		(at 25.40 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "700ff0d2-67e4-5bef-b966-ab7a4b2ba2c2")
+		(uuid "b6c46a4c-a17e-525c-9c44-0775081547fb")
 	)
 	(wire
 		(pts
-			(xy 60.96 231.14) (xy 63.50 231.14)
+			(xy 50.80 226.06) (xy 53.34 226.06)
 		)
 		(stroke
 			(width 0)
@@ -770,17 +770,17 @@
 	)
 	(global_label "RX8"
 		(shape passive)
-		(at 63.50 231.14 0)
+		(at 53.34 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "526b887d-cfde-5222-96a3-022993ce4c91")
+		(uuid "3fc7724c-0010-5c61-8b34-e344914ee1d9")
 	)
 	(sheet
-		(at 38.10 228.60)
+		(at 27.94 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -792,7 +792,7 @@
 		)
 		(uuid "5498e49f-468e-56d2-8413-30831b9c6afe")
 		(property "Sheetname" "CH08"
-			(at 38.10 227.89 0)
+			(at 27.94 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -802,7 +802,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 38.10 234.27 0)
+			(at 27.94 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -812,7 +812,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 38.10 231.14 180)
+			(at 27.94 226.06 180)
 			(uuid "7cc8977c-97e6-5911-9f8d-1518ddcda237")
 			(effects
 				(font
@@ -822,7 +822,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 60.96 231.14 0)
+			(at 50.80 226.06 0)
 			(uuid "70b25649-b4c7-51f8-b8fd-03d243c05456")
 			(effects
 				(font
@@ -841,7 +841,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 53.34) (xy 104.14 53.34)
+			(xy 76.20 48.26) (xy 73.66 48.26)
 		)
 		(stroke
 			(width 0)
@@ -851,18 +851,18 @@
 	)
 	(global_label "DRV9"
 		(shape passive)
-		(at 104.14 53.34 180)
+		(at 73.66 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "274b8b30-b052-5075-8ab1-846ff97c58c5")
+		(uuid "938591de-eae0-5a44-80c7-9a5056ae4294")
 	)
 	(wire
 		(pts
-			(xy 129.54 53.34) (xy 132.08 53.34)
+			(xy 99.06 48.26) (xy 101.60 48.26)
 		)
 		(stroke
 			(width 0)
@@ -872,17 +872,17 @@
 	)
 	(global_label "RX9"
 		(shape passive)
-		(at 132.08 53.34 0)
+		(at 101.60 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "76f14255-4a0a-548f-9069-ecc8256a6bd4")
+		(uuid "eb6594e1-c374-5440-9f0a-047012a4179e")
 	)
 	(sheet
-		(at 106.68 50.80)
+		(at 76.20 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -894,7 +894,7 @@
 		)
 		(uuid "beb8772e-69da-5726-bd8b-7a59f28b8d3f")
 		(property "Sheetname" "CH09"
-			(at 106.68 50.09 0)
+			(at 76.20 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -904,7 +904,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 56.47 0)
+			(at 76.20 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -914,7 +914,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 53.34 180)
+			(at 76.20 48.26 180)
 			(uuid "dc7d94e6-333d-5751-b075-99004ecabbfb")
 			(effects
 				(font
@@ -924,7 +924,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 53.34 0)
+			(at 99.06 48.26 0)
 			(uuid "b45d76e8-4f9b-5f44-98ff-40365124accb")
 			(effects
 				(font
@@ -943,7 +943,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 78.74) (xy 104.14 78.74)
+			(xy 76.20 73.66) (xy 73.66 73.66)
 		)
 		(stroke
 			(width 0)
@@ -953,18 +953,18 @@
 	)
 	(global_label "DRV10"
 		(shape passive)
-		(at 104.14 78.74 180)
+		(at 73.66 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "ba2061ad-9be5-537f-84bc-2eb9824f1aa9")
+		(uuid "e0d7b81a-900f-57ed-b855-606594adec65")
 	)
 	(wire
 		(pts
-			(xy 129.54 78.74) (xy 132.08 78.74)
+			(xy 99.06 73.66) (xy 101.60 73.66)
 		)
 		(stroke
 			(width 0)
@@ -974,17 +974,17 @@
 	)
 	(global_label "RX10"
 		(shape passive)
-		(at 132.08 78.74 0)
+		(at 101.60 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "9df4aa37-50ff-5b14-9015-ffd6143d7f3e")
+		(uuid "bca60c98-e492-5309-beef-66a19a73584e")
 	)
 	(sheet
-		(at 106.68 76.20)
+		(at 76.20 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -996,7 +996,7 @@
 		)
 		(uuid "86839ba9-dad7-5d54-8c45-8494e10e5888")
 		(property "Sheetname" "CH10"
-			(at 106.68 75.49 0)
+			(at 76.20 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1006,7 +1006,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 81.87 0)
+			(at 76.20 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1016,7 +1016,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 78.74 180)
+			(at 76.20 73.66 180)
 			(uuid "e3c876bb-522f-5789-9eae-42241b4bccd2")
 			(effects
 				(font
@@ -1026,7 +1026,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 78.74 0)
+			(at 99.06 73.66 0)
 			(uuid "389b3eae-e8fb-58a7-a921-b5d1770adbc5")
 			(effects
 				(font
@@ -1045,7 +1045,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 104.14) (xy 104.14 104.14)
+			(xy 76.20 99.06) (xy 73.66 99.06)
 		)
 		(stroke
 			(width 0)
@@ -1055,18 +1055,18 @@
 	)
 	(global_label "DRV11"
 		(shape passive)
-		(at 104.14 104.14 180)
+		(at 73.66 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "b5c07dfe-b714-5d2c-8bca-36ea510ed36e")
+		(uuid "ab8bfc6a-95e4-587d-a511-dcb55aa90b66")
 	)
 	(wire
 		(pts
-			(xy 129.54 104.14) (xy 132.08 104.14)
+			(xy 99.06 99.06) (xy 101.60 99.06)
 		)
 		(stroke
 			(width 0)
@@ -1076,17 +1076,17 @@
 	)
 	(global_label "RX11"
 		(shape passive)
-		(at 132.08 104.14 0)
+		(at 101.60 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "fed396e2-28ec-5b68-b352-35ab0901f061")
+		(uuid "94f0e20c-d7ce-5133-a2c4-b32b83fe5fc2")
 	)
 	(sheet
-		(at 106.68 101.60)
+		(at 76.20 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1098,7 +1098,7 @@
 		)
 		(uuid "c95403b6-b807-5169-9feb-1759b85e44b9")
 		(property "Sheetname" "CH11"
-			(at 106.68 100.89 0)
+			(at 76.20 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1108,7 +1108,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 107.27 0)
+			(at 76.20 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1118,7 +1118,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 104.14 180)
+			(at 76.20 99.06 180)
 			(uuid "729151a6-2076-5d6a-bea7-08b85b1addea")
 			(effects
 				(font
@@ -1128,7 +1128,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 104.14 0)
+			(at 99.06 99.06 0)
 			(uuid "3b0d68a6-9ad7-5b41-b53e-1489ca688546")
 			(effects
 				(font
@@ -1147,7 +1147,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 129.54) (xy 104.14 129.54)
+			(xy 76.20 124.46) (xy 73.66 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1157,18 +1157,18 @@
 	)
 	(global_label "DRV12"
 		(shape passive)
-		(at 104.14 129.54 180)
+		(at 73.66 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "9e6c4f28-cc88-5018-9bd6-45aca0a80c62")
+		(uuid "c4167c34-3b30-5812-9e72-de74adf8fc9c")
 	)
 	(wire
 		(pts
-			(xy 129.54 129.54) (xy 132.08 129.54)
+			(xy 99.06 124.46) (xy 101.60 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1178,17 +1178,17 @@
 	)
 	(global_label "RX12"
 		(shape passive)
-		(at 132.08 129.54 0)
+		(at 101.60 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "e30acd2a-2022-586b-b27e-ba5021344720")
+		(uuid "94a69ecd-facf-5815-bba4-b0a7c4d81e98")
 	)
 	(sheet
-		(at 106.68 127.00)
+		(at 76.20 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1200,7 +1200,7 @@
 		)
 		(uuid "d180516d-c5d6-5dc5-8803-d71cdadbb46c")
 		(property "Sheetname" "CH12"
-			(at 106.68 126.29 0)
+			(at 76.20 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1210,7 +1210,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 132.67 0)
+			(at 76.20 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1220,7 +1220,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 129.54 180)
+			(at 76.20 124.46 180)
 			(uuid "1ece7a50-2c8d-52a2-aa0a-4baf05f93560")
 			(effects
 				(font
@@ -1230,7 +1230,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 129.54 0)
+			(at 99.06 124.46 0)
 			(uuid "bfa8e323-91cd-5cd1-b2de-431cd022d06c")
 			(effects
 				(font
@@ -1249,7 +1249,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 154.94) (xy 104.14 154.94)
+			(xy 76.20 149.86) (xy 73.66 149.86)
 		)
 		(stroke
 			(width 0)
@@ -1259,18 +1259,18 @@
 	)
 	(global_label "DRV13"
 		(shape passive)
-		(at 104.14 154.94 180)
+		(at 73.66 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "8333d433-c846-53c6-bc05-9af166f0eeb6")
+		(uuid "cbb26155-db72-5033-9273-1e973345ecd8")
 	)
 	(wire
 		(pts
-			(xy 129.54 154.94) (xy 132.08 154.94)
+			(xy 99.06 149.86) (xy 101.60 149.86)
 		)
 		(stroke
 			(width 0)
@@ -1280,17 +1280,17 @@
 	)
 	(global_label "RX13"
 		(shape passive)
-		(at 132.08 154.94 0)
+		(at 101.60 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "ec4a401f-fbfe-5692-b197-f801c33e3375")
+		(uuid "2d7b6018-8480-5888-9b78-3bd903bc05cb")
 	)
 	(sheet
-		(at 106.68 152.40)
+		(at 76.20 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1302,7 +1302,7 @@
 		)
 		(uuid "decddf8b-ee52-5eee-827e-8e5ed8ff81e9")
 		(property "Sheetname" "CH13"
-			(at 106.68 151.69 0)
+			(at 76.20 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1312,7 +1312,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 158.07 0)
+			(at 76.20 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1322,7 +1322,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 154.94 180)
+			(at 76.20 149.86 180)
 			(uuid "bc061c1c-4f3f-564d-b5e6-ef35df526de8")
 			(effects
 				(font
@@ -1332,7 +1332,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 154.94 0)
+			(at 99.06 149.86 0)
 			(uuid "a7818acb-8d63-5ef9-9138-37834f9fef9a")
 			(effects
 				(font
@@ -1351,7 +1351,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 180.34) (xy 104.14 180.34)
+			(xy 76.20 175.26) (xy 73.66 175.26)
 		)
 		(stroke
 			(width 0)
@@ -1361,18 +1361,18 @@
 	)
 	(global_label "DRV14"
 		(shape passive)
-		(at 104.14 180.34 180)
+		(at 73.66 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "dee0291c-bf22-5954-b07a-10e73cbcc18b")
+		(uuid "9bb922c3-aea6-5ce0-a82b-a14b30252263")
 	)
 	(wire
 		(pts
-			(xy 129.54 180.34) (xy 132.08 180.34)
+			(xy 99.06 175.26) (xy 101.60 175.26)
 		)
 		(stroke
 			(width 0)
@@ -1382,17 +1382,17 @@
 	)
 	(global_label "RX14"
 		(shape passive)
-		(at 132.08 180.34 0)
+		(at 101.60 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "db0eb0db-7f22-5e90-99a5-45bdcf1fde05")
+		(uuid "a3c83d0f-0ab5-53ce-ae3f-c1b06cb5398c")
 	)
 	(sheet
-		(at 106.68 177.80)
+		(at 76.20 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1404,7 +1404,7 @@
 		)
 		(uuid "b2139eeb-2fa5-58d5-ac66-ee922cd6e203")
 		(property "Sheetname" "CH14"
-			(at 106.68 177.09 0)
+			(at 76.20 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1414,7 +1414,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 183.47 0)
+			(at 76.20 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1424,7 +1424,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 180.34 180)
+			(at 76.20 175.26 180)
 			(uuid "c2d1acab-5285-5ea1-8b04-52da29f15c18")
 			(effects
 				(font
@@ -1434,7 +1434,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 180.34 0)
+			(at 99.06 175.26 0)
 			(uuid "7f71de45-815c-5b84-a5d8-37f78be349f9")
 			(effects
 				(font
@@ -1453,7 +1453,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 205.74) (xy 104.14 205.74)
+			(xy 76.20 200.66) (xy 73.66 200.66)
 		)
 		(stroke
 			(width 0)
@@ -1463,18 +1463,18 @@
 	)
 	(global_label "DRV15"
 		(shape passive)
-		(at 104.14 205.74 180)
+		(at 73.66 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "a682ad0f-8119-5176-a595-a7c7ca8a26f2")
+		(uuid "51641b29-4f1f-519d-9f41-d15a586b555d")
 	)
 	(wire
 		(pts
-			(xy 129.54 205.74) (xy 132.08 205.74)
+			(xy 99.06 200.66) (xy 101.60 200.66)
 		)
 		(stroke
 			(width 0)
@@ -1484,17 +1484,17 @@
 	)
 	(global_label "RX15"
 		(shape passive)
-		(at 132.08 205.74 0)
+		(at 101.60 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "cb0d7321-637d-5364-bbb2-c0d9ec5567ea")
+		(uuid "434dbe36-8e0d-554c-93f9-16019654b6f9")
 	)
 	(sheet
-		(at 106.68 203.20)
+		(at 76.20 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1506,7 +1506,7 @@
 		)
 		(uuid "885306a8-0612-5a89-bbb0-4ab622c57cd6")
 		(property "Sheetname" "CH15"
-			(at 106.68 202.49 0)
+			(at 76.20 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1516,7 +1516,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 208.87 0)
+			(at 76.20 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1526,7 +1526,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 205.74 180)
+			(at 76.20 200.66 180)
 			(uuid "45010465-71b5-56d8-b961-23f5304bd147")
 			(effects
 				(font
@@ -1536,7 +1536,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 205.74 0)
+			(at 99.06 200.66 0)
 			(uuid "a1f88859-321e-5f06-a82a-1626bd3621c8")
 			(effects
 				(font
@@ -1555,7 +1555,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 231.14) (xy 104.14 231.14)
+			(xy 76.20 226.06) (xy 73.66 226.06)
 		)
 		(stroke
 			(width 0)
@@ -1565,18 +1565,18 @@
 	)
 	(global_label "DRV16"
 		(shape passive)
-		(at 104.14 231.14 180)
+		(at 73.66 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "bd406566-96d0-53e2-8938-fbfd3cfbdbaf")
+		(uuid "39819453-b7cc-5d90-9f83-1c1914fffe9f")
 	)
 	(wire
 		(pts
-			(xy 129.54 231.14) (xy 132.08 231.14)
+			(xy 99.06 226.06) (xy 101.60 226.06)
 		)
 		(stroke
 			(width 0)
@@ -1586,17 +1586,17 @@
 	)
 	(global_label "RX16"
 		(shape passive)
-		(at 132.08 231.14 0)
+		(at 101.60 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "caba0c0f-74d5-5bdc-b160-7635eccdf614")
+		(uuid "6e748bf6-38f4-5606-9f1f-44f2b8fcb44f")
 	)
 	(sheet
-		(at 106.68 228.60)
+		(at 76.20 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1608,7 +1608,7 @@
 		)
 		(uuid "1c3804b0-aa06-5b01-a8f6-41e98d8f2ea6")
 		(property "Sheetname" "CH16"
-			(at 106.68 227.89 0)
+			(at 76.20 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1618,7 +1618,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 106.68 234.27 0)
+			(at 76.20 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1628,7 +1628,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 106.68 231.14 180)
+			(at 76.20 226.06 180)
 			(uuid "bdab910f-79c9-5ea3-b195-d97c5ffdccd8")
 			(effects
 				(font
@@ -1638,7 +1638,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 129.54 231.14 0)
+			(at 99.06 226.06 0)
 			(uuid "6f04f7a9-0c5c-5e9a-8829-a21d58d69f03")
 			(effects
 				(font
@@ -1657,7 +1657,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 53.34) (xy 172.72 53.34)
+			(xy 124.46 48.26) (xy 121.92 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1667,18 +1667,18 @@
 	)
 	(global_label "DRV17"
 		(shape passive)
-		(at 172.72 53.34 180)
+		(at 121.92 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "346abd7c-a5ac-5227-889c-911df353e63e")
+		(uuid "377e48c2-203b-5111-b30c-0bbbf9efb97e")
 	)
 	(wire
 		(pts
-			(xy 198.12 53.34) (xy 200.66 53.34)
+			(xy 147.32 48.26) (xy 149.86 48.26)
 		)
 		(stroke
 			(width 0)
@@ -1688,17 +1688,17 @@
 	)
 	(global_label "RX17"
 		(shape passive)
-		(at 200.66 53.34 0)
+		(at 149.86 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "2502624e-a0ae-59fa-8f70-a5f341e3f234")
+		(uuid "cef66b98-3c5e-55f3-b5f3-1051f592ea2b")
 	)
 	(sheet
-		(at 175.26 50.80)
+		(at 124.46 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1710,7 +1710,7 @@
 		)
 		(uuid "e0f01dd8-18c2-550c-9fbb-88918c7fc162")
 		(property "Sheetname" "CH17"
-			(at 175.26 50.09 0)
+			(at 124.46 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1720,7 +1720,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 56.47 0)
+			(at 124.46 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1730,7 +1730,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 53.34 180)
+			(at 124.46 48.26 180)
 			(uuid "297fde1c-275c-5c60-850f-81586d464872")
 			(effects
 				(font
@@ -1740,7 +1740,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 53.34 0)
+			(at 147.32 48.26 0)
 			(uuid "7b2770da-8ba0-581e-aa64-e9214d79fa4d")
 			(effects
 				(font
@@ -1759,7 +1759,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 78.74) (xy 172.72 78.74)
+			(xy 124.46 73.66) (xy 121.92 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1769,18 +1769,18 @@
 	)
 	(global_label "DRV18"
 		(shape passive)
-		(at 172.72 78.74 180)
+		(at 121.92 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "5a829de9-fece-5cc6-b6da-31d3398ef186")
+		(uuid "3858199c-949a-5004-af33-d217ad968e8d")
 	)
 	(wire
 		(pts
-			(xy 198.12 78.74) (xy 200.66 78.74)
+			(xy 147.32 73.66) (xy 149.86 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1790,17 +1790,17 @@
 	)
 	(global_label "RX18"
 		(shape passive)
-		(at 200.66 78.74 0)
+		(at 149.86 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "a4c3c2d7-7ba7-5297-a0d8-0061b11776d4")
+		(uuid "622448e7-1708-549d-a9d2-d7e4a31d0ad8")
 	)
 	(sheet
-		(at 175.26 76.20)
+		(at 124.46 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1812,7 +1812,7 @@
 		)
 		(uuid "602da12a-0f6c-5140-9d68-93a157a213f9")
 		(property "Sheetname" "CH18"
-			(at 175.26 75.49 0)
+			(at 124.46 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1822,7 +1822,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 81.87 0)
+			(at 124.46 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1832,7 +1832,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 78.74 180)
+			(at 124.46 73.66 180)
 			(uuid "efcaa0ac-2216-5eb0-85c8-b7cd4cb1f72a")
 			(effects
 				(font
@@ -1842,7 +1842,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 78.74 0)
+			(at 147.32 73.66 0)
 			(uuid "fa28d411-b059-504b-a14a-85d5cf486ac8")
 			(effects
 				(font
@@ -1861,7 +1861,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 104.14) (xy 172.72 104.14)
+			(xy 124.46 99.06) (xy 121.92 99.06)
 		)
 		(stroke
 			(width 0)
@@ -1871,18 +1871,18 @@
 	)
 	(global_label "DRV19"
 		(shape passive)
-		(at 172.72 104.14 180)
+		(at 121.92 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "7a93bff2-3fea-5542-8cd2-60a8a5d96825")
+		(uuid "2b67bb80-ec9b-5c54-b1ee-0f060d1d907b")
 	)
 	(wire
 		(pts
-			(xy 198.12 104.14) (xy 200.66 104.14)
+			(xy 147.32 99.06) (xy 149.86 99.06)
 		)
 		(stroke
 			(width 0)
@@ -1892,17 +1892,17 @@
 	)
 	(global_label "RX19"
 		(shape passive)
-		(at 200.66 104.14 0)
+		(at 149.86 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "8be712af-324e-50ad-bbf5-e52602a19370")
+		(uuid "614348ad-2792-5c48-baab-42878d122ee3")
 	)
 	(sheet
-		(at 175.26 101.60)
+		(at 124.46 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -1914,7 +1914,7 @@
 		)
 		(uuid "89f3695b-c394-5244-bb9f-e8fb4873b92f")
 		(property "Sheetname" "CH19"
-			(at 175.26 100.89 0)
+			(at 124.46 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1924,7 +1924,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 107.27 0)
+			(at 124.46 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1934,7 +1934,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 104.14 180)
+			(at 124.46 99.06 180)
 			(uuid "04369c70-f365-5623-ba2b-067722a5941f")
 			(effects
 				(font
@@ -1944,7 +1944,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 104.14 0)
+			(at 147.32 99.06 0)
 			(uuid "f2e97bc2-2149-5211-8639-ad3eddb0a29a")
 			(effects
 				(font
@@ -1963,7 +1963,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 129.54) (xy 172.72 129.54)
+			(xy 124.46 124.46) (xy 121.92 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1973,18 +1973,18 @@
 	)
 	(global_label "DRV20"
 		(shape passive)
-		(at 172.72 129.54 180)
+		(at 121.92 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "b60bca86-3206-5ad7-84c5-0ef4c9b05152")
+		(uuid "73f8914a-6b5c-555e-9a54-ed3bb864f56e")
 	)
 	(wire
 		(pts
-			(xy 198.12 129.54) (xy 200.66 129.54)
+			(xy 147.32 124.46) (xy 149.86 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1994,17 +1994,17 @@
 	)
 	(global_label "RX20"
 		(shape passive)
-		(at 200.66 129.54 0)
+		(at 149.86 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "1e22dbc3-19f2-58be-b070-e16b0d901f53")
+		(uuid "5c03c39f-87a5-518c-a209-4a355dfaaff9")
 	)
 	(sheet
-		(at 175.26 127.00)
+		(at 124.46 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2016,7 +2016,7 @@
 		)
 		(uuid "c31f4276-227c-5d2a-bf90-907609f26c73")
 		(property "Sheetname" "CH20"
-			(at 175.26 126.29 0)
+			(at 124.46 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2026,7 +2026,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 132.67 0)
+			(at 124.46 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2036,7 +2036,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 129.54 180)
+			(at 124.46 124.46 180)
 			(uuid "1c4a4c21-ddb4-5d1b-9aa0-5496c0c8d11f")
 			(effects
 				(font
@@ -2046,7 +2046,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 129.54 0)
+			(at 147.32 124.46 0)
 			(uuid "c0368b8e-2ecf-5268-8222-28e23318ec84")
 			(effects
 				(font
@@ -2065,7 +2065,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 154.94) (xy 172.72 154.94)
+			(xy 124.46 149.86) (xy 121.92 149.86)
 		)
 		(stroke
 			(width 0)
@@ -2075,18 +2075,18 @@
 	)
 	(global_label "DRV21"
 		(shape passive)
-		(at 172.72 154.94 180)
+		(at 121.92 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "edbd9d36-c089-58d9-88c4-2f3529b2ac9d")
+		(uuid "84ea64d7-7297-56e9-b3dd-36fb702f2497")
 	)
 	(wire
 		(pts
-			(xy 198.12 154.94) (xy 200.66 154.94)
+			(xy 147.32 149.86) (xy 149.86 149.86)
 		)
 		(stroke
 			(width 0)
@@ -2096,17 +2096,17 @@
 	)
 	(global_label "RX21"
 		(shape passive)
-		(at 200.66 154.94 0)
+		(at 149.86 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "185941ed-986f-526d-bc64-1b79d22730a7")
+		(uuid "e111ba65-770f-5f72-9a4c-25293c614634")
 	)
 	(sheet
-		(at 175.26 152.40)
+		(at 124.46 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2118,7 +2118,7 @@
 		)
 		(uuid "618ba6cd-2086-5342-96b4-514484210e1c")
 		(property "Sheetname" "CH21"
-			(at 175.26 151.69 0)
+			(at 124.46 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2128,7 +2128,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 158.07 0)
+			(at 124.46 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2138,7 +2138,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 154.94 180)
+			(at 124.46 149.86 180)
 			(uuid "bb5afef5-d664-5090-941b-df47adfafa64")
 			(effects
 				(font
@@ -2148,7 +2148,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 154.94 0)
+			(at 147.32 149.86 0)
 			(uuid "f12220aa-9f58-5d67-9846-51d7267253ee")
 			(effects
 				(font
@@ -2167,7 +2167,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 180.34) (xy 172.72 180.34)
+			(xy 124.46 175.26) (xy 121.92 175.26)
 		)
 		(stroke
 			(width 0)
@@ -2177,18 +2177,18 @@
 	)
 	(global_label "DRV22"
 		(shape passive)
-		(at 172.72 180.34 180)
+		(at 121.92 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "4c5072a1-a531-52da-8ec0-0ebfdc20289d")
+		(uuid "a3aaeb67-2731-502a-951f-5c60a954a3fb")
 	)
 	(wire
 		(pts
-			(xy 198.12 180.34) (xy 200.66 180.34)
+			(xy 147.32 175.26) (xy 149.86 175.26)
 		)
 		(stroke
 			(width 0)
@@ -2198,17 +2198,17 @@
 	)
 	(global_label "RX22"
 		(shape passive)
-		(at 200.66 180.34 0)
+		(at 149.86 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "0410d930-a27e-5f06-a3a7-7c674818de30")
+		(uuid "e3d064cd-80af-5c1f-a4e0-a7b81f1b00e1")
 	)
 	(sheet
-		(at 175.26 177.80)
+		(at 124.46 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2220,7 +2220,7 @@
 		)
 		(uuid "a678aaa2-10ae-5cc6-ba9f-68ccced8e931")
 		(property "Sheetname" "CH22"
-			(at 175.26 177.09 0)
+			(at 124.46 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2230,7 +2230,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 183.47 0)
+			(at 124.46 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2240,7 +2240,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 180.34 180)
+			(at 124.46 175.26 180)
 			(uuid "6d096ef4-1ca9-5b61-8e60-b4a2c81ee19c")
 			(effects
 				(font
@@ -2250,7 +2250,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 180.34 0)
+			(at 147.32 175.26 0)
 			(uuid "16a7c6e9-26a7-53c9-be00-2c548beeaf7f")
 			(effects
 				(font
@@ -2269,7 +2269,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 205.74) (xy 172.72 205.74)
+			(xy 124.46 200.66) (xy 121.92 200.66)
 		)
 		(stroke
 			(width 0)
@@ -2279,18 +2279,18 @@
 	)
 	(global_label "DRV23"
 		(shape passive)
-		(at 172.72 205.74 180)
+		(at 121.92 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "73b5a6f7-9452-57be-8309-c45938f14362")
+		(uuid "34d9939d-8da0-558b-a393-cc39b4378603")
 	)
 	(wire
 		(pts
-			(xy 198.12 205.74) (xy 200.66 205.74)
+			(xy 147.32 200.66) (xy 149.86 200.66)
 		)
 		(stroke
 			(width 0)
@@ -2300,17 +2300,17 @@
 	)
 	(global_label "RX23"
 		(shape passive)
-		(at 200.66 205.74 0)
+		(at 149.86 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "33226379-e3d2-5379-9d82-a2785b3f9a42")
+		(uuid "eac92f4d-09a2-52a5-857a-33c423888002")
 	)
 	(sheet
-		(at 175.26 203.20)
+		(at 124.46 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2322,7 +2322,7 @@
 		)
 		(uuid "638f9bd0-e722-55a9-8e00-22ee82513150")
 		(property "Sheetname" "CH23"
-			(at 175.26 202.49 0)
+			(at 124.46 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2332,7 +2332,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 208.87 0)
+			(at 124.46 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2342,7 +2342,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 205.74 180)
+			(at 124.46 200.66 180)
 			(uuid "cd93ab1f-0d8f-5f35-905a-2ae846b444f5")
 			(effects
 				(font
@@ -2352,7 +2352,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 205.74 0)
+			(at 147.32 200.66 0)
 			(uuid "e55b4414-ff3d-5bbc-b9a9-3fe27573e6c8")
 			(effects
 				(font
@@ -2371,7 +2371,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 231.14) (xy 172.72 231.14)
+			(xy 124.46 226.06) (xy 121.92 226.06)
 		)
 		(stroke
 			(width 0)
@@ -2381,18 +2381,18 @@
 	)
 	(global_label "DRV24"
 		(shape passive)
-		(at 172.72 231.14 180)
+		(at 121.92 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "bbd69fb0-3eb5-5522-b8d0-d0d502cfb216")
+		(uuid "0bfa8775-8086-597f-b0bf-b40add235037")
 	)
 	(wire
 		(pts
-			(xy 198.12 231.14) (xy 200.66 231.14)
+			(xy 147.32 226.06) (xy 149.86 226.06)
 		)
 		(stroke
 			(width 0)
@@ -2402,17 +2402,17 @@
 	)
 	(global_label "RX24"
 		(shape passive)
-		(at 200.66 231.14 0)
+		(at 149.86 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "36e3b5c3-cdf0-5881-a744-9df300f7c5b4")
+		(uuid "e69e3617-8581-522d-a95a-b772962a3186")
 	)
 	(sheet
-		(at 175.26 228.60)
+		(at 124.46 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2424,7 +2424,7 @@
 		)
 		(uuid "19d58890-d207-5009-99f7-631b958c60dc")
 		(property "Sheetname" "CH24"
-			(at 175.26 227.89 0)
+			(at 124.46 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2434,7 +2434,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 175.26 234.27 0)
+			(at 124.46 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2444,7 +2444,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 175.26 231.14 180)
+			(at 124.46 226.06 180)
 			(uuid "6dc780bd-4398-5a40-9f8d-b236d01cd402")
 			(effects
 				(font
@@ -2454,7 +2454,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 198.12 231.14 0)
+			(at 147.32 226.06 0)
 			(uuid "4fcb6f50-15db-59da-929f-a76ffad26332")
 			(effects
 				(font
@@ -2473,7 +2473,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 53.34) (xy 241.30 53.34)
+			(xy 172.72 48.26) (xy 170.18 48.26)
 		)
 		(stroke
 			(width 0)
@@ -2483,18 +2483,18 @@
 	)
 	(global_label "DRV25"
 		(shape passive)
-		(at 241.30 53.34 180)
+		(at 170.18 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "824a42b1-5bff-53af-989d-4afe694fcf81")
+		(uuid "743ffc5a-bb43-5975-89a0-10899bcb3d6f")
 	)
 	(wire
 		(pts
-			(xy 266.70 53.34) (xy 269.24 53.34)
+			(xy 195.58 48.26) (xy 198.12 48.26)
 		)
 		(stroke
 			(width 0)
@@ -2504,17 +2504,17 @@
 	)
 	(global_label "RX25"
 		(shape passive)
-		(at 269.24 53.34 0)
+		(at 198.12 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "42edff8b-ab30-5db3-85a9-c74fd872f319")
+		(uuid "7d31a979-3382-5538-84d1-49b8aaf8d18b")
 	)
 	(sheet
-		(at 243.84 50.80)
+		(at 172.72 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2526,7 +2526,7 @@
 		)
 		(uuid "bd97b177-8c00-52f4-8e2d-040614645a1b")
 		(property "Sheetname" "CH25"
-			(at 243.84 50.09 0)
+			(at 172.72 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2536,7 +2536,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 56.47 0)
+			(at 172.72 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2546,7 +2546,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 53.34 180)
+			(at 172.72 48.26 180)
 			(uuid "ad6a0611-31a5-572b-b873-a692eb38d977")
 			(effects
 				(font
@@ -2556,7 +2556,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 53.34 0)
+			(at 195.58 48.26 0)
 			(uuid "29d1f31b-5236-550a-86de-ed129b016723")
 			(effects
 				(font
@@ -2575,7 +2575,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 78.74) (xy 241.30 78.74)
+			(xy 172.72 73.66) (xy 170.18 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2585,18 +2585,18 @@
 	)
 	(global_label "DRV26"
 		(shape passive)
-		(at 241.30 78.74 180)
+		(at 170.18 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "c0cd4f17-d086-50a4-a54a-d8d75054d7c4")
+		(uuid "b59a58fb-443a-58dd-8dfb-c9fc55253ed5")
 	)
 	(wire
 		(pts
-			(xy 266.70 78.74) (xy 269.24 78.74)
+			(xy 195.58 73.66) (xy 198.12 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2606,17 +2606,17 @@
 	)
 	(global_label "RX26"
 		(shape passive)
-		(at 269.24 78.74 0)
+		(at 198.12 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "1bc5f708-8a12-5680-9c22-d4e912d234e3")
+		(uuid "7b7959b8-ca1d-5b9e-ad4d-b9372d9a1d67")
 	)
 	(sheet
-		(at 243.84 76.20)
+		(at 172.72 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2628,7 +2628,7 @@
 		)
 		(uuid "706f251c-3f50-568f-be47-94d51e7edfd6")
 		(property "Sheetname" "CH26"
-			(at 243.84 75.49 0)
+			(at 172.72 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2638,7 +2638,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 81.87 0)
+			(at 172.72 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2648,7 +2648,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 78.74 180)
+			(at 172.72 73.66 180)
 			(uuid "e1262d9f-7738-524b-81a1-3fbca103c8be")
 			(effects
 				(font
@@ -2658,7 +2658,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 78.74 0)
+			(at 195.58 73.66 0)
 			(uuid "9694eb59-f06e-54e6-a464-af35d4ffdaa6")
 			(effects
 				(font
@@ -2677,7 +2677,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 104.14) (xy 241.30 104.14)
+			(xy 172.72 99.06) (xy 170.18 99.06)
 		)
 		(stroke
 			(width 0)
@@ -2687,18 +2687,18 @@
 	)
 	(global_label "DRV27"
 		(shape passive)
-		(at 241.30 104.14 180)
+		(at 170.18 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "80173115-d4b4-54ac-802d-bf016997607d")
+		(uuid "0513010c-f8c9-5900-9c82-304b1dc737da")
 	)
 	(wire
 		(pts
-			(xy 266.70 104.14) (xy 269.24 104.14)
+			(xy 195.58 99.06) (xy 198.12 99.06)
 		)
 		(stroke
 			(width 0)
@@ -2708,17 +2708,17 @@
 	)
 	(global_label "RX27"
 		(shape passive)
-		(at 269.24 104.14 0)
+		(at 198.12 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "da2a2941-011f-5579-a9b4-e33523d9d7fb")
+		(uuid "1a0ac0a2-a7da-580a-b51a-d6179cf9a934")
 	)
 	(sheet
-		(at 243.84 101.60)
+		(at 172.72 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2730,7 +2730,7 @@
 		)
 		(uuid "f6eed3fd-c76c-5055-ab2f-309675785adb")
 		(property "Sheetname" "CH27"
-			(at 243.84 100.89 0)
+			(at 172.72 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2740,7 +2740,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 107.27 0)
+			(at 172.72 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2750,7 +2750,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 104.14 180)
+			(at 172.72 99.06 180)
 			(uuid "2bb5e846-e60b-5b88-ba2e-c46e59015237")
 			(effects
 				(font
@@ -2760,7 +2760,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 104.14 0)
+			(at 195.58 99.06 0)
 			(uuid "22e7e072-2a5e-5932-849c-c6136f7bf48b")
 			(effects
 				(font
@@ -2779,7 +2779,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 129.54) (xy 241.30 129.54)
+			(xy 172.72 124.46) (xy 170.18 124.46)
 		)
 		(stroke
 			(width 0)
@@ -2789,18 +2789,18 @@
 	)
 	(global_label "DRV28"
 		(shape passive)
-		(at 241.30 129.54 180)
+		(at 170.18 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "48eb015c-9fbb-5ad0-a932-37db53b2befc")
+		(uuid "7a6910c6-1e49-55df-b8de-2a060df332b1")
 	)
 	(wire
 		(pts
-			(xy 266.70 129.54) (xy 269.24 129.54)
+			(xy 195.58 124.46) (xy 198.12 124.46)
 		)
 		(stroke
 			(width 0)
@@ -2810,17 +2810,17 @@
 	)
 	(global_label "RX28"
 		(shape passive)
-		(at 269.24 129.54 0)
+		(at 198.12 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "a4b94244-132c-58a8-8710-10bb9d0267ba")
+		(uuid "d04b68d2-1b25-51bb-8862-3e3594259307")
 	)
 	(sheet
-		(at 243.84 127.00)
+		(at 172.72 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2832,7 +2832,7 @@
 		)
 		(uuid "bf63fe51-ee19-528f-b249-3618f23b7bbb")
 		(property "Sheetname" "CH28"
-			(at 243.84 126.29 0)
+			(at 172.72 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2842,7 +2842,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 132.67 0)
+			(at 172.72 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2852,7 +2852,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 129.54 180)
+			(at 172.72 124.46 180)
 			(uuid "51230dbc-ea69-5b15-bf57-df07a08a7b83")
 			(effects
 				(font
@@ -2862,7 +2862,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 129.54 0)
+			(at 195.58 124.46 0)
 			(uuid "ce315bbe-1aa3-5c45-9f0a-86b9b82fc650")
 			(effects
 				(font
@@ -2881,7 +2881,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 154.94) (xy 241.30 154.94)
+			(xy 172.72 149.86) (xy 170.18 149.86)
 		)
 		(stroke
 			(width 0)
@@ -2891,18 +2891,18 @@
 	)
 	(global_label "DRV29"
 		(shape passive)
-		(at 241.30 154.94 180)
+		(at 170.18 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "59f034a7-b6ae-5cff-8a3c-0c09aff2f660")
+		(uuid "0dda42d2-595a-5e13-a9b6-da698673a8f9")
 	)
 	(wire
 		(pts
-			(xy 266.70 154.94) (xy 269.24 154.94)
+			(xy 195.58 149.86) (xy 198.12 149.86)
 		)
 		(stroke
 			(width 0)
@@ -2912,17 +2912,17 @@
 	)
 	(global_label "RX29"
 		(shape passive)
-		(at 269.24 154.94 0)
+		(at 198.12 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "e122cf44-f759-572e-a64b-f48a5bc9693a")
+		(uuid "bedcf232-232d-5139-89b6-892123594d46")
 	)
 	(sheet
-		(at 243.84 152.40)
+		(at 172.72 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -2934,7 +2934,7 @@
 		)
 		(uuid "7920db3f-18ff-5ac2-b5ec-fdfd62f8e4da")
 		(property "Sheetname" "CH29"
-			(at 243.84 151.69 0)
+			(at 172.72 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2944,7 +2944,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 158.07 0)
+			(at 172.72 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2954,7 +2954,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 154.94 180)
+			(at 172.72 149.86 180)
 			(uuid "77cdd3a4-2842-59c7-948f-b8200dbfab65")
 			(effects
 				(font
@@ -2964,7 +2964,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 154.94 0)
+			(at 195.58 149.86 0)
 			(uuid "e213f42e-750d-5cad-8934-6d0376564da4")
 			(effects
 				(font
@@ -2983,7 +2983,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 180.34) (xy 241.30 180.34)
+			(xy 172.72 175.26) (xy 170.18 175.26)
 		)
 		(stroke
 			(width 0)
@@ -2993,18 +2993,18 @@
 	)
 	(global_label "DRV30"
 		(shape passive)
-		(at 241.30 180.34 180)
+		(at 170.18 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "3326047a-27ca-57b0-a154-0b248b526ec1")
+		(uuid "d75d9ab4-6f9e-5dec-8460-77e7e90bb699")
 	)
 	(wire
 		(pts
-			(xy 266.70 180.34) (xy 269.24 180.34)
+			(xy 195.58 175.26) (xy 198.12 175.26)
 		)
 		(stroke
 			(width 0)
@@ -3014,17 +3014,17 @@
 	)
 	(global_label "RX30"
 		(shape passive)
-		(at 269.24 180.34 0)
+		(at 198.12 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "de5239de-cab0-5f58-b9bb-04d7c526620b")
+		(uuid "06707b89-c294-57b7-b4d6-4ef3ddda9c7a")
 	)
 	(sheet
-		(at 243.84 177.80)
+		(at 172.72 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3036,7 +3036,7 @@
 		)
 		(uuid "3137a5a3-a59e-5b92-931a-a2a77e0ffc8f")
 		(property "Sheetname" "CH30"
-			(at 243.84 177.09 0)
+			(at 172.72 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3046,7 +3046,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 183.47 0)
+			(at 172.72 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3056,7 +3056,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 180.34 180)
+			(at 172.72 175.26 180)
 			(uuid "dad5a779-5a06-5a3e-a922-66c1e927c8e3")
 			(effects
 				(font
@@ -3066,7 +3066,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 180.34 0)
+			(at 195.58 175.26 0)
 			(uuid "32ae9e71-7c10-5556-a081-abe9081d29d6")
 			(effects
 				(font
@@ -3085,7 +3085,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 205.74) (xy 241.30 205.74)
+			(xy 172.72 200.66) (xy 170.18 200.66)
 		)
 		(stroke
 			(width 0)
@@ -3095,18 +3095,18 @@
 	)
 	(global_label "DRV31"
 		(shape passive)
-		(at 241.30 205.74 180)
+		(at 170.18 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "4c39f5c3-88a0-5056-b858-e651d4e64fa7")
+		(uuid "8ebdfe48-e430-5dc9-8e5b-e60412f36a2f")
 	)
 	(wire
 		(pts
-			(xy 266.70 205.74) (xy 269.24 205.74)
+			(xy 195.58 200.66) (xy 198.12 200.66)
 		)
 		(stroke
 			(width 0)
@@ -3116,17 +3116,17 @@
 	)
 	(global_label "RX31"
 		(shape passive)
-		(at 269.24 205.74 0)
+		(at 198.12 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "af19f684-091d-52a8-8275-7119c0d8fa46")
+		(uuid "867eadf3-37bd-52a1-8df5-ec0c809a638f")
 	)
 	(sheet
-		(at 243.84 203.20)
+		(at 172.72 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3138,7 +3138,7 @@
 		)
 		(uuid "008ffc73-5dcb-52b4-9903-63a274e1f96c")
 		(property "Sheetname" "CH31"
-			(at 243.84 202.49 0)
+			(at 172.72 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3148,7 +3148,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 208.87 0)
+			(at 172.72 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3158,7 +3158,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 205.74 180)
+			(at 172.72 200.66 180)
 			(uuid "205ae559-9a59-5fd3-ab3a-b615722d6709")
 			(effects
 				(font
@@ -3168,7 +3168,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 205.74 0)
+			(at 195.58 200.66 0)
 			(uuid "bf3657f1-b338-5650-996f-1e6558e35ad7")
 			(effects
 				(font
@@ -3187,7 +3187,7 @@
 	)
 	(wire
 		(pts
-			(xy 243.84 231.14) (xy 241.30 231.14)
+			(xy 172.72 226.06) (xy 170.18 226.06)
 		)
 		(stroke
 			(width 0)
@@ -3197,18 +3197,18 @@
 	)
 	(global_label "DRV32"
 		(shape passive)
-		(at 241.30 231.14 180)
+		(at 170.18 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "36158883-fc35-5da5-a1dd-4efcca18ef4a")
+		(uuid "7c2718a3-669e-5960-98c6-06cd4a45dbe6")
 	)
 	(wire
 		(pts
-			(xy 266.70 231.14) (xy 269.24 231.14)
+			(xy 195.58 226.06) (xy 198.12 226.06)
 		)
 		(stroke
 			(width 0)
@@ -3218,17 +3218,17 @@
 	)
 	(global_label "RX32"
 		(shape passive)
-		(at 269.24 231.14 0)
+		(at 198.12 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "513c37c3-81cb-5a24-ba1b-9164cd93c6fe")
+		(uuid "d76b733c-a536-5883-ad2d-ec739692bf0e")
 	)
 	(sheet
-		(at 243.84 228.60)
+		(at 172.72 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3240,7 +3240,7 @@
 		)
 		(uuid "bd1e8ab6-804f-525a-8444-933897e82daa")
 		(property "Sheetname" "CH32"
-			(at 243.84 227.89 0)
+			(at 172.72 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3250,7 +3250,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 243.84 234.27 0)
+			(at 172.72 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3260,7 +3260,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 243.84 231.14 180)
+			(at 172.72 226.06 180)
 			(uuid "cc6fc674-bdcd-5044-9b11-2c73fc71edc1")
 			(effects
 				(font
@@ -3270,7 +3270,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 266.70 231.14 0)
+			(at 195.58 226.06 0)
 			(uuid "5f04c928-15c3-5a01-bfcd-b3035a6073a5")
 			(effects
 				(font
@@ -3289,7 +3289,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 53.34) (xy 309.88 53.34)
+			(xy 220.98 48.26) (xy 218.44 48.26)
 		)
 		(stroke
 			(width 0)
@@ -3299,18 +3299,18 @@
 	)
 	(global_label "DRV33"
 		(shape passive)
-		(at 309.88 53.34 180)
+		(at 218.44 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "d4d3293e-946d-5eab-9714-96b05ba5955e")
+		(uuid "5119ca70-d518-52e3-819a-79d9ee26a03e")
 	)
 	(wire
 		(pts
-			(xy 335.28 53.34) (xy 337.82 53.34)
+			(xy 243.84 48.26) (xy 246.38 48.26)
 		)
 		(stroke
 			(width 0)
@@ -3320,17 +3320,17 @@
 	)
 	(global_label "RX33"
 		(shape passive)
-		(at 337.82 53.34 0)
+		(at 246.38 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "fd3c2d1d-6a30-5aad-9229-233486261cf1")
+		(uuid "08a65e0f-b203-53ef-bc40-cd301e733a59")
 	)
 	(sheet
-		(at 312.42 50.80)
+		(at 220.98 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3342,7 +3342,7 @@
 		)
 		(uuid "16f2a543-a264-517f-8e4e-9c202bd3c2fb")
 		(property "Sheetname" "CH33"
-			(at 312.42 50.09 0)
+			(at 220.98 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3352,7 +3352,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 56.47 0)
+			(at 220.98 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3362,7 +3362,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 53.34 180)
+			(at 220.98 48.26 180)
 			(uuid "69b50d29-ce36-512f-9780-87673d023213")
 			(effects
 				(font
@@ -3372,7 +3372,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 53.34 0)
+			(at 243.84 48.26 0)
 			(uuid "85e17cbf-f0cc-56b5-9bf8-dd566deb5f01")
 			(effects
 				(font
@@ -3391,7 +3391,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 78.74) (xy 309.88 78.74)
+			(xy 220.98 73.66) (xy 218.44 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3401,18 +3401,18 @@
 	)
 	(global_label "DRV34"
 		(shape passive)
-		(at 309.88 78.74 180)
+		(at 218.44 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "2ac62ce6-bffb-5961-90f7-8a7f39f0ba24")
+		(uuid "6346d861-7e63-51f4-b513-b1ddb681971d")
 	)
 	(wire
 		(pts
-			(xy 335.28 78.74) (xy 337.82 78.74)
+			(xy 243.84 73.66) (xy 246.38 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3422,17 +3422,17 @@
 	)
 	(global_label "RX34"
 		(shape passive)
-		(at 337.82 78.74 0)
+		(at 246.38 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "84e7bb29-7f74-5aa9-b143-5c0790372ca2")
+		(uuid "03cfbc89-593c-5a1c-8c32-21836dae3956")
 	)
 	(sheet
-		(at 312.42 76.20)
+		(at 220.98 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3444,7 +3444,7 @@
 		)
 		(uuid "e2672273-30ae-5572-a66e-d2b8b1c7d387")
 		(property "Sheetname" "CH34"
-			(at 312.42 75.49 0)
+			(at 220.98 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3454,7 +3454,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 81.87 0)
+			(at 220.98 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3464,7 +3464,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 78.74 180)
+			(at 220.98 73.66 180)
 			(uuid "87b74e68-eaf9-5431-a219-2478d7f638bc")
 			(effects
 				(font
@@ -3474,7 +3474,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 78.74 0)
+			(at 243.84 73.66 0)
 			(uuid "f3f6cd4f-6b9c-5cdf-97ab-fb5df111d90d")
 			(effects
 				(font
@@ -3493,7 +3493,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 104.14) (xy 309.88 104.14)
+			(xy 220.98 99.06) (xy 218.44 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3503,18 +3503,18 @@
 	)
 	(global_label "DRV35"
 		(shape passive)
-		(at 309.88 104.14 180)
+		(at 218.44 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "42e6a5af-3034-586a-b507-f72eb45047eb")
+		(uuid "2f17d4e4-b502-5d7b-aa6d-15f950d68000")
 	)
 	(wire
 		(pts
-			(xy 335.28 104.14) (xy 337.82 104.14)
+			(xy 243.84 99.06) (xy 246.38 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3524,17 +3524,17 @@
 	)
 	(global_label "RX35"
 		(shape passive)
-		(at 337.82 104.14 0)
+		(at 246.38 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "04f37d43-30f3-5577-8310-fe16f5096d59")
+		(uuid "b71e7b71-ba0b-556b-aad6-5ccba11117a6")
 	)
 	(sheet
-		(at 312.42 101.60)
+		(at 220.98 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3546,7 +3546,7 @@
 		)
 		(uuid "070b8df9-7d3f-5858-8e06-e6f4674f99b3")
 		(property "Sheetname" "CH35"
-			(at 312.42 100.89 0)
+			(at 220.98 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3556,7 +3556,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 107.27 0)
+			(at 220.98 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3566,7 +3566,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 104.14 180)
+			(at 220.98 99.06 180)
 			(uuid "e8b469dd-99fd-536d-8fe4-79b0a5278679")
 			(effects
 				(font
@@ -3576,7 +3576,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 104.14 0)
+			(at 243.84 99.06 0)
 			(uuid "299406f8-df68-5f43-8303-f490596ca2ad")
 			(effects
 				(font
@@ -3595,7 +3595,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 129.54) (xy 309.88 129.54)
+			(xy 220.98 124.46) (xy 218.44 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3605,18 +3605,18 @@
 	)
 	(global_label "DRV36"
 		(shape passive)
-		(at 309.88 129.54 180)
+		(at 218.44 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "f33374d9-3f30-5df6-85cb-ac542915f23e")
+		(uuid "33675d1c-7144-5f17-be57-32ce4067aea3")
 	)
 	(wire
 		(pts
-			(xy 335.28 129.54) (xy 337.82 129.54)
+			(xy 243.84 124.46) (xy 246.38 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3626,17 +3626,17 @@
 	)
 	(global_label "RX36"
 		(shape passive)
-		(at 337.82 129.54 0)
+		(at 246.38 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "5925b4dc-69c5-543b-9656-d9131fe87fe4")
+		(uuid "dfc38b4b-2975-5150-9c20-1b8a1fd0ba15")
 	)
 	(sheet
-		(at 312.42 127.00)
+		(at 220.98 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3648,7 +3648,7 @@
 		)
 		(uuid "96ebd303-53b3-51b6-9432-af24a3cf21ae")
 		(property "Sheetname" "CH36"
-			(at 312.42 126.29 0)
+			(at 220.98 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3658,7 +3658,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 132.67 0)
+			(at 220.98 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3668,7 +3668,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 129.54 180)
+			(at 220.98 124.46 180)
 			(uuid "73ec7aae-417e-59da-ae4a-f190293ba3eb")
 			(effects
 				(font
@@ -3678,7 +3678,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 129.54 0)
+			(at 243.84 124.46 0)
 			(uuid "27a2f0b7-446e-585d-81a5-d166c7008f54")
 			(effects
 				(font
@@ -3697,7 +3697,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 154.94) (xy 309.88 154.94)
+			(xy 220.98 149.86) (xy 218.44 149.86)
 		)
 		(stroke
 			(width 0)
@@ -3707,18 +3707,18 @@
 	)
 	(global_label "DRV37"
 		(shape passive)
-		(at 309.88 154.94 180)
+		(at 218.44 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "ae1aec1f-cfbe-5153-a192-1f4f7d059ac3")
+		(uuid "647df0a6-7ded-5566-b823-91a9df841b56")
 	)
 	(wire
 		(pts
-			(xy 335.28 154.94) (xy 337.82 154.94)
+			(xy 243.84 149.86) (xy 246.38 149.86)
 		)
 		(stroke
 			(width 0)
@@ -3728,17 +3728,17 @@
 	)
 	(global_label "RX37"
 		(shape passive)
-		(at 337.82 154.94 0)
+		(at 246.38 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "e84b64f2-c463-5a11-93b6-7cd92ace5838")
+		(uuid "67dd2609-3136-56be-bb2d-222060238e27")
 	)
 	(sheet
-		(at 312.42 152.40)
+		(at 220.98 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3750,7 +3750,7 @@
 		)
 		(uuid "68cea58a-4b47-50cf-af9c-0a6cdcb9dbc1")
 		(property "Sheetname" "CH37"
-			(at 312.42 151.69 0)
+			(at 220.98 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3760,7 +3760,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 158.07 0)
+			(at 220.98 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3770,7 +3770,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 154.94 180)
+			(at 220.98 149.86 180)
 			(uuid "114ee407-7f94-5602-afe2-6d94d81038ed")
 			(effects
 				(font
@@ -3780,7 +3780,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 154.94 0)
+			(at 243.84 149.86 0)
 			(uuid "f298b566-416d-5cf0-b886-1cb56edf79a0")
 			(effects
 				(font
@@ -3799,7 +3799,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 180.34) (xy 309.88 180.34)
+			(xy 220.98 175.26) (xy 218.44 175.26)
 		)
 		(stroke
 			(width 0)
@@ -3809,18 +3809,18 @@
 	)
 	(global_label "DRV38"
 		(shape passive)
-		(at 309.88 180.34 180)
+		(at 218.44 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "d963635a-5e30-5264-bf2a-1a27f535ee30")
+		(uuid "0b523f42-3aad-5ca4-b6ec-8179d66cbd83")
 	)
 	(wire
 		(pts
-			(xy 335.28 180.34) (xy 337.82 180.34)
+			(xy 243.84 175.26) (xy 246.38 175.26)
 		)
 		(stroke
 			(width 0)
@@ -3830,17 +3830,17 @@
 	)
 	(global_label "RX38"
 		(shape passive)
-		(at 337.82 180.34 0)
+		(at 246.38 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "fda8967b-b105-527c-aa19-67204badf4a3")
+		(uuid "08bfc41e-7ba1-5a88-91d5-d7821abe5503")
 	)
 	(sheet
-		(at 312.42 177.80)
+		(at 220.98 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3852,7 +3852,7 @@
 		)
 		(uuid "ae95c497-016c-5103-8b48-1d3777612e96")
 		(property "Sheetname" "CH38"
-			(at 312.42 177.09 0)
+			(at 220.98 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3862,7 +3862,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 183.47 0)
+			(at 220.98 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3872,7 +3872,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 180.34 180)
+			(at 220.98 175.26 180)
 			(uuid "ddd8dd5a-c1c6-589f-8635-7045d14f1eb9")
 			(effects
 				(font
@@ -3882,7 +3882,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 180.34 0)
+			(at 243.84 175.26 0)
 			(uuid "a91cf64a-123b-5af4-8649-4435450fbf0d")
 			(effects
 				(font
@@ -3901,7 +3901,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 205.74) (xy 309.88 205.74)
+			(xy 220.98 200.66) (xy 218.44 200.66)
 		)
 		(stroke
 			(width 0)
@@ -3911,18 +3911,18 @@
 	)
 	(global_label "DRV39"
 		(shape passive)
-		(at 309.88 205.74 180)
+		(at 218.44 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "8806ea45-8b06-5a70-9db3-267445d8d168")
+		(uuid "4daa655a-745f-5b7a-8d9f-c5de2d3a7ebb")
 	)
 	(wire
 		(pts
-			(xy 335.28 205.74) (xy 337.82 205.74)
+			(xy 243.84 200.66) (xy 246.38 200.66)
 		)
 		(stroke
 			(width 0)
@@ -3932,17 +3932,17 @@
 	)
 	(global_label "RX39"
 		(shape passive)
-		(at 337.82 205.74 0)
+		(at 246.38 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "a231d23d-f274-5d43-92f4-0204bbd815db")
+		(uuid "871b78fe-25a0-52e6-bb05-0ca3e1f97a25")
 	)
 	(sheet
-		(at 312.42 203.20)
+		(at 220.98 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -3954,7 +3954,7 @@
 		)
 		(uuid "60c1c2d9-42cd-55ab-9b88-8a36adda8fe9")
 		(property "Sheetname" "CH39"
-			(at 312.42 202.49 0)
+			(at 220.98 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3964,7 +3964,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 208.87 0)
+			(at 220.98 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3974,7 +3974,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 205.74 180)
+			(at 220.98 200.66 180)
 			(uuid "01280107-fe06-5ddb-92e4-4c9b5e8b96ab")
 			(effects
 				(font
@@ -3984,7 +3984,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 205.74 0)
+			(at 243.84 200.66 0)
 			(uuid "4fc7b525-6b9f-56fb-ad59-579eab7cd341")
 			(effects
 				(font
@@ -4003,7 +4003,7 @@
 	)
 	(wire
 		(pts
-			(xy 312.42 231.14) (xy 309.88 231.14)
+			(xy 220.98 226.06) (xy 218.44 226.06)
 		)
 		(stroke
 			(width 0)
@@ -4013,18 +4013,18 @@
 	)
 	(global_label "DRV40"
 		(shape passive)
-		(at 309.88 231.14 180)
+		(at 218.44 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "5ed5e82c-938e-580a-b742-461030ee56f9")
+		(uuid "d5712c2a-0733-5d69-afef-b1f7d19377ed")
 	)
 	(wire
 		(pts
-			(xy 335.28 231.14) (xy 337.82 231.14)
+			(xy 243.84 226.06) (xy 246.38 226.06)
 		)
 		(stroke
 			(width 0)
@@ -4034,17 +4034,17 @@
 	)
 	(global_label "RX40"
 		(shape passive)
-		(at 337.82 231.14 0)
+		(at 246.38 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "0d73164a-4288-537b-9eaa-c16cae446f76")
+		(uuid "d36fd03d-b230-5d10-ba2c-0e2e38d6095f")
 	)
 	(sheet
-		(at 312.42 228.60)
+		(at 220.98 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4056,7 +4056,7 @@
 		)
 		(uuid "75a28581-4f77-5c3c-bb70-c408dc40eb8c")
 		(property "Sheetname" "CH40"
-			(at 312.42 227.89 0)
+			(at 220.98 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4066,7 +4066,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 312.42 234.27 0)
+			(at 220.98 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4076,7 +4076,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 312.42 231.14 180)
+			(at 220.98 226.06 180)
 			(uuid "abccb669-e593-5136-956a-6bea934c7642")
 			(effects
 				(font
@@ -4086,7 +4086,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 335.28 231.14 0)
+			(at 243.84 226.06 0)
 			(uuid "83a34380-9d7e-5861-a57a-d77143489267")
 			(effects
 				(font
@@ -4105,7 +4105,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 53.34) (xy 378.46 53.34)
+			(xy 269.24 48.26) (xy 266.70 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4115,18 +4115,18 @@
 	)
 	(global_label "DRV41"
 		(shape passive)
-		(at 378.46 53.34 180)
+		(at 266.70 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "032e3d6b-c014-5238-b2d9-79e953f79aa6")
+		(uuid "532597a8-dfc0-5d6d-8f3d-517371916d6a")
 	)
 	(wire
 		(pts
-			(xy 403.86 53.34) (xy 406.40 53.34)
+			(xy 292.10 48.26) (xy 294.64 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4136,17 +4136,17 @@
 	)
 	(global_label "RX41"
 		(shape passive)
-		(at 406.40 53.34 0)
+		(at 294.64 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "a26b3695-c596-5551-b7f1-2676ee7e5e1c")
+		(uuid "6f456c1d-c687-5290-bc2b-778c3918183c")
 	)
 	(sheet
-		(at 381.00 50.80)
+		(at 269.24 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4158,7 +4158,7 @@
 		)
 		(uuid "31cd4a35-10cf-5a18-955e-d4c4796acbc6")
 		(property "Sheetname" "CH41"
-			(at 381.00 50.09 0)
+			(at 269.24 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4168,7 +4168,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 56.47 0)
+			(at 269.24 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4178,7 +4178,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 53.34 180)
+			(at 269.24 48.26 180)
 			(uuid "21d1fbeb-21be-5a51-9016-a01546bf5f9d")
 			(effects
 				(font
@@ -4188,7 +4188,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 53.34 0)
+			(at 292.10 48.26 0)
 			(uuid "0dadf0ce-057e-5822-8c84-af4dad56156c")
 			(effects
 				(font
@@ -4207,7 +4207,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 78.74) (xy 378.46 78.74)
+			(xy 269.24 73.66) (xy 266.70 73.66)
 		)
 		(stroke
 			(width 0)
@@ -4217,18 +4217,18 @@
 	)
 	(global_label "DRV42"
 		(shape passive)
-		(at 378.46 78.74 180)
+		(at 266.70 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "d76e5f19-bf0a-5ce2-9e6b-541ff2944fae")
+		(uuid "631b7c02-5762-5c35-87d0-5e8d0076746e")
 	)
 	(wire
 		(pts
-			(xy 403.86 78.74) (xy 406.40 78.74)
+			(xy 292.10 73.66) (xy 294.64 73.66)
 		)
 		(stroke
 			(width 0)
@@ -4238,17 +4238,17 @@
 	)
 	(global_label "RX42"
 		(shape passive)
-		(at 406.40 78.74 0)
+		(at 294.64 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "9d727671-97c3-5720-858c-6e5663558b86")
+		(uuid "ed2cf244-5d73-56da-a429-20de9e96990e")
 	)
 	(sheet
-		(at 381.00 76.20)
+		(at 269.24 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4260,7 +4260,7 @@
 		)
 		(uuid "e67f3213-64dc-55bf-a8e8-ecd4b601c8db")
 		(property "Sheetname" "CH42"
-			(at 381.00 75.49 0)
+			(at 269.24 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4270,7 +4270,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 81.87 0)
+			(at 269.24 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4280,7 +4280,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 78.74 180)
+			(at 269.24 73.66 180)
 			(uuid "20d0759b-6771-5eeb-bf3c-e9b4dbf122c7")
 			(effects
 				(font
@@ -4290,7 +4290,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 78.74 0)
+			(at 292.10 73.66 0)
 			(uuid "6a336ec4-eaaa-5062-9726-bc5390b685c2")
 			(effects
 				(font
@@ -4309,7 +4309,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 104.14) (xy 378.46 104.14)
+			(xy 269.24 99.06) (xy 266.70 99.06)
 		)
 		(stroke
 			(width 0)
@@ -4319,18 +4319,18 @@
 	)
 	(global_label "DRV43"
 		(shape passive)
-		(at 378.46 104.14 180)
+		(at 266.70 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "5881c191-285c-5d6d-9ad1-32ce9c29bef6")
+		(uuid "e75ac2eb-9c18-518f-9f33-e875734045ec")
 	)
 	(wire
 		(pts
-			(xy 403.86 104.14) (xy 406.40 104.14)
+			(xy 292.10 99.06) (xy 294.64 99.06)
 		)
 		(stroke
 			(width 0)
@@ -4340,17 +4340,17 @@
 	)
 	(global_label "RX43"
 		(shape passive)
-		(at 406.40 104.14 0)
+		(at 294.64 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "43aabed4-0644-57fd-9d77-69ae1f94ac39")
+		(uuid "bbf47942-26b5-52cc-bfa0-c29f3f3ee1c3")
 	)
 	(sheet
-		(at 381.00 101.60)
+		(at 269.24 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4362,7 +4362,7 @@
 		)
 		(uuid "61917a16-f6a7-56ca-a468-0ca070ba0921")
 		(property "Sheetname" "CH43"
-			(at 381.00 100.89 0)
+			(at 269.24 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4372,7 +4372,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 107.27 0)
+			(at 269.24 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4382,7 +4382,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 104.14 180)
+			(at 269.24 99.06 180)
 			(uuid "627e9ab0-0a3d-522b-9444-86f2f3326163")
 			(effects
 				(font
@@ -4392,7 +4392,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 104.14 0)
+			(at 292.10 99.06 0)
 			(uuid "0155a908-c409-5b0e-963d-4e38ec580d93")
 			(effects
 				(font
@@ -4411,7 +4411,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 129.54) (xy 378.46 129.54)
+			(xy 269.24 124.46) (xy 266.70 124.46)
 		)
 		(stroke
 			(width 0)
@@ -4421,18 +4421,18 @@
 	)
 	(global_label "DRV44"
 		(shape passive)
-		(at 378.46 129.54 180)
+		(at 266.70 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "0b1b0581-9cb6-59e4-b261-f49dcbc5190c")
+		(uuid "421e99ea-db97-5c74-8dfc-65c2973b0152")
 	)
 	(wire
 		(pts
-			(xy 403.86 129.54) (xy 406.40 129.54)
+			(xy 292.10 124.46) (xy 294.64 124.46)
 		)
 		(stroke
 			(width 0)
@@ -4442,17 +4442,17 @@
 	)
 	(global_label "RX44"
 		(shape passive)
-		(at 406.40 129.54 0)
+		(at 294.64 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "19a9c86e-a4d7-5fff-9f15-8c6dd97954e0")
+		(uuid "8a200ff0-fa86-59d8-ad47-1716e64024cf")
 	)
 	(sheet
-		(at 381.00 127.00)
+		(at 269.24 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4464,7 +4464,7 @@
 		)
 		(uuid "79eaad21-9150-546f-b3df-445656ae663f")
 		(property "Sheetname" "CH44"
-			(at 381.00 126.29 0)
+			(at 269.24 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4474,7 +4474,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 132.67 0)
+			(at 269.24 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4484,7 +4484,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 129.54 180)
+			(at 269.24 124.46 180)
 			(uuid "30544534-4145-506d-82a0-74b022c30930")
 			(effects
 				(font
@@ -4494,7 +4494,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 129.54 0)
+			(at 292.10 124.46 0)
 			(uuid "d05f3df4-7de2-5b52-b1a0-0663c6b105bc")
 			(effects
 				(font
@@ -4513,7 +4513,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 154.94) (xy 378.46 154.94)
+			(xy 269.24 149.86) (xy 266.70 149.86)
 		)
 		(stroke
 			(width 0)
@@ -4523,18 +4523,18 @@
 	)
 	(global_label "DRV45"
 		(shape passive)
-		(at 378.46 154.94 180)
+		(at 266.70 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "fdcb7276-453f-5d8b-80b9-2b52c6979634")
+		(uuid "445806d7-f3dc-5b75-8f70-7cda5a7a6c83")
 	)
 	(wire
 		(pts
-			(xy 403.86 154.94) (xy 406.40 154.94)
+			(xy 292.10 149.86) (xy 294.64 149.86)
 		)
 		(stroke
 			(width 0)
@@ -4544,17 +4544,17 @@
 	)
 	(global_label "RX45"
 		(shape passive)
-		(at 406.40 154.94 0)
+		(at 294.64 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "4b3d943d-9269-52f3-a64a-4381e57dd5f0")
+		(uuid "dc22ea25-053a-5709-98a5-1f6cea4948d7")
 	)
 	(sheet
-		(at 381.00 152.40)
+		(at 269.24 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4566,7 +4566,7 @@
 		)
 		(uuid "6f75af6b-722a-5f69-adea-151188a8dd02")
 		(property "Sheetname" "CH45"
-			(at 381.00 151.69 0)
+			(at 269.24 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4576,7 +4576,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 158.07 0)
+			(at 269.24 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4586,7 +4586,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 154.94 180)
+			(at 269.24 149.86 180)
 			(uuid "f2d0d16b-d240-5e9f-9af7-4c54952fdf96")
 			(effects
 				(font
@@ -4596,7 +4596,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 154.94 0)
+			(at 292.10 149.86 0)
 			(uuid "23b30dad-974a-5e7c-9797-63c742916080")
 			(effects
 				(font
@@ -4615,7 +4615,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 180.34) (xy 378.46 180.34)
+			(xy 269.24 175.26) (xy 266.70 175.26)
 		)
 		(stroke
 			(width 0)
@@ -4625,18 +4625,18 @@
 	)
 	(global_label "DRV46"
 		(shape passive)
-		(at 378.46 180.34 180)
+		(at 266.70 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "a675e566-dae4-55aa-b138-4ec0d3487103")
+		(uuid "8386d3dd-cb86-57b7-b002-cfae2102d57b")
 	)
 	(wire
 		(pts
-			(xy 403.86 180.34) (xy 406.40 180.34)
+			(xy 292.10 175.26) (xy 294.64 175.26)
 		)
 		(stroke
 			(width 0)
@@ -4646,17 +4646,17 @@
 	)
 	(global_label "RX46"
 		(shape passive)
-		(at 406.40 180.34 0)
+		(at 294.64 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "1953609c-2573-505c-8b4d-8e42b0ef2fca")
+		(uuid "ff126891-dc12-5603-b457-dab3fa2cb6f0")
 	)
 	(sheet
-		(at 381.00 177.80)
+		(at 269.24 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4668,7 +4668,7 @@
 		)
 		(uuid "6a825d4c-e82e-5ead-bc68-48d4a870a702")
 		(property "Sheetname" "CH46"
-			(at 381.00 177.09 0)
+			(at 269.24 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4678,7 +4678,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 183.47 0)
+			(at 269.24 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4688,7 +4688,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 180.34 180)
+			(at 269.24 175.26 180)
 			(uuid "bf6e016e-2361-5369-93e9-914b2c648abc")
 			(effects
 				(font
@@ -4698,7 +4698,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 180.34 0)
+			(at 292.10 175.26 0)
 			(uuid "446a219c-038e-5553-9952-e571552bc78c")
 			(effects
 				(font
@@ -4717,7 +4717,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 205.74) (xy 378.46 205.74)
+			(xy 269.24 200.66) (xy 266.70 200.66)
 		)
 		(stroke
 			(width 0)
@@ -4727,18 +4727,18 @@
 	)
 	(global_label "DRV47"
 		(shape passive)
-		(at 378.46 205.74 180)
+		(at 266.70 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "f0ce7afb-8ba7-5b37-90ad-5be4c63f8c2c")
+		(uuid "bc2763b9-bdac-556f-987b-1d797e113a10")
 	)
 	(wire
 		(pts
-			(xy 403.86 205.74) (xy 406.40 205.74)
+			(xy 292.10 200.66) (xy 294.64 200.66)
 		)
 		(stroke
 			(width 0)
@@ -4748,17 +4748,17 @@
 	)
 	(global_label "RX47"
 		(shape passive)
-		(at 406.40 205.74 0)
+		(at 294.64 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "dd277929-a501-52f6-a184-63a15aece14c")
+		(uuid "2c46c357-cae9-56c9-b07b-a92ebe50ae4d")
 	)
 	(sheet
-		(at 381.00 203.20)
+		(at 269.24 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4770,7 +4770,7 @@
 		)
 		(uuid "61306967-2897-55ae-a176-c5d855acc912")
 		(property "Sheetname" "CH47"
-			(at 381.00 202.49 0)
+			(at 269.24 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4780,7 +4780,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 208.87 0)
+			(at 269.24 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4790,7 +4790,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 205.74 180)
+			(at 269.24 200.66 180)
 			(uuid "fba43010-1f6a-5d0a-a126-7d667db2a2a1")
 			(effects
 				(font
@@ -4800,7 +4800,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 205.74 0)
+			(at 292.10 200.66 0)
 			(uuid "e99f95dc-59df-5cae-b023-251a06fa1ccc")
 			(effects
 				(font
@@ -4819,7 +4819,7 @@
 	)
 	(wire
 		(pts
-			(xy 381.00 231.14) (xy 378.46 231.14)
+			(xy 269.24 226.06) (xy 266.70 226.06)
 		)
 		(stroke
 			(width 0)
@@ -4829,18 +4829,18 @@
 	)
 	(global_label "DRV48"
 		(shape passive)
-		(at 378.46 231.14 180)
+		(at 266.70 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "2e0aa3d1-aae7-5813-9984-aa2aa491791d")
+		(uuid "79e6453e-884d-5536-98bc-7effc79f2521")
 	)
 	(wire
 		(pts
-			(xy 403.86 231.14) (xy 406.40 231.14)
+			(xy 292.10 226.06) (xy 294.64 226.06)
 		)
 		(stroke
 			(width 0)
@@ -4850,17 +4850,17 @@
 	)
 	(global_label "RX48"
 		(shape passive)
-		(at 406.40 231.14 0)
+		(at 294.64 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "118413f0-f3a9-5566-ae67-d2238b542eac")
+		(uuid "d6c8c0b5-7e6f-558a-82df-cb948d62924d")
 	)
 	(sheet
-		(at 381.00 228.60)
+		(at 269.24 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4872,7 +4872,7 @@
 		)
 		(uuid "c006f66f-db73-5429-9b5f-32b71551a32d")
 		(property "Sheetname" "CH48"
-			(at 381.00 227.89 0)
+			(at 269.24 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4882,7 +4882,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 381.00 234.27 0)
+			(at 269.24 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4892,7 +4892,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 381.00 231.14 180)
+			(at 269.24 226.06 180)
 			(uuid "876f03cb-17d0-5afb-b611-344e8a1d93d9")
 			(effects
 				(font
@@ -4902,7 +4902,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 403.86 231.14 0)
+			(at 292.10 226.06 0)
 			(uuid "12529150-007b-5437-bff1-cc39f1889c30")
 			(effects
 				(font
@@ -4921,7 +4921,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 53.34) (xy 447.04 53.34)
+			(xy 317.50 48.26) (xy 314.96 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4931,18 +4931,18 @@
 	)
 	(global_label "DRV49"
 		(shape passive)
-		(at 447.04 53.34 180)
+		(at 314.96 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "9662c252-e9d3-5695-87c0-4afc48fa2be6")
+		(uuid "7ad34aa3-4926-51c4-bb70-c1c7619add4a")
 	)
 	(wire
 		(pts
-			(xy 472.44 53.34) (xy 474.98 53.34)
+			(xy 340.36 48.26) (xy 342.90 48.26)
 		)
 		(stroke
 			(width 0)
@@ -4952,17 +4952,17 @@
 	)
 	(global_label "RX49"
 		(shape passive)
-		(at 474.98 53.34 0)
+		(at 342.90 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "f0ea17b3-34fd-5518-bb48-3fb3734714f7")
+		(uuid "3dd3e771-493c-5839-9518-77da542591e0")
 	)
 	(sheet
-		(at 449.58 50.80)
+		(at 317.50 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -4974,7 +4974,7 @@
 		)
 		(uuid "74b89d68-2932-56cd-9b39-9b6dae505567")
 		(property "Sheetname" "CH49"
-			(at 449.58 50.09 0)
+			(at 317.50 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4984,7 +4984,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 56.47 0)
+			(at 317.50 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4994,7 +4994,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 53.34 180)
+			(at 317.50 48.26 180)
 			(uuid "533e45b7-b281-585e-abbc-06baf2c871e8")
 			(effects
 				(font
@@ -5004,7 +5004,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 53.34 0)
+			(at 340.36 48.26 0)
 			(uuid "29617b16-2daa-5e29-99f8-8b7a04a83809")
 			(effects
 				(font
@@ -5023,7 +5023,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 78.74) (xy 447.04 78.74)
+			(xy 317.50 73.66) (xy 314.96 73.66)
 		)
 		(stroke
 			(width 0)
@@ -5033,18 +5033,18 @@
 	)
 	(global_label "DRV50"
 		(shape passive)
-		(at 447.04 78.74 180)
+		(at 314.96 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "29aaf621-96ce-56a3-9a85-386d7530834e")
+		(uuid "34a44533-1d22-5322-9981-ab10d0f66e9d")
 	)
 	(wire
 		(pts
-			(xy 472.44 78.74) (xy 474.98 78.74)
+			(xy 340.36 73.66) (xy 342.90 73.66)
 		)
 		(stroke
 			(width 0)
@@ -5054,17 +5054,17 @@
 	)
 	(global_label "RX50"
 		(shape passive)
-		(at 474.98 78.74 0)
+		(at 342.90 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "4217ddaa-7191-5691-a4e1-6389785504bc")
+		(uuid "cd9dd4ad-8577-506d-b77f-08044b904ab9")
 	)
 	(sheet
-		(at 449.58 76.20)
+		(at 317.50 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5076,7 +5076,7 @@
 		)
 		(uuid "bc635978-049e-54d1-914a-5c239382c4af")
 		(property "Sheetname" "CH50"
-			(at 449.58 75.49 0)
+			(at 317.50 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5086,7 +5086,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 81.87 0)
+			(at 317.50 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5096,7 +5096,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 78.74 180)
+			(at 317.50 73.66 180)
 			(uuid "56099458-c0da-5085-81dc-236876fe181d")
 			(effects
 				(font
@@ -5106,7 +5106,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 78.74 0)
+			(at 340.36 73.66 0)
 			(uuid "e68e73d4-0ea9-58a1-8e92-88a8750e3e5d")
 			(effects
 				(font
@@ -5125,7 +5125,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 104.14) (xy 447.04 104.14)
+			(xy 317.50 99.06) (xy 314.96 99.06)
 		)
 		(stroke
 			(width 0)
@@ -5135,18 +5135,18 @@
 	)
 	(global_label "DRV51"
 		(shape passive)
-		(at 447.04 104.14 180)
+		(at 314.96 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "7fdc7560-66ce-5d2b-8912-631cd56a1f33")
+		(uuid "c5197f5b-a577-5d8e-87a8-cb57b7724e2b")
 	)
 	(wire
 		(pts
-			(xy 472.44 104.14) (xy 474.98 104.14)
+			(xy 340.36 99.06) (xy 342.90 99.06)
 		)
 		(stroke
 			(width 0)
@@ -5156,17 +5156,17 @@
 	)
 	(global_label "RX51"
 		(shape passive)
-		(at 474.98 104.14 0)
+		(at 342.90 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "122cb333-0209-5e27-9467-b3b0cb497a71")
+		(uuid "b360a2d2-df4c-5ec0-b1cf-3a13666140be")
 	)
 	(sheet
-		(at 449.58 101.60)
+		(at 317.50 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5178,7 +5178,7 @@
 		)
 		(uuid "bdd3be86-2834-5719-9552-086af6532d5c")
 		(property "Sheetname" "CH51"
-			(at 449.58 100.89 0)
+			(at 317.50 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5188,7 +5188,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 107.27 0)
+			(at 317.50 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5198,7 +5198,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 104.14 180)
+			(at 317.50 99.06 180)
 			(uuid "abd0f525-10ea-56b4-bbc7-18574c18871e")
 			(effects
 				(font
@@ -5208,7 +5208,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 104.14 0)
+			(at 340.36 99.06 0)
 			(uuid "91393993-cb83-592d-90e3-242ef6a27834")
 			(effects
 				(font
@@ -5227,7 +5227,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 129.54) (xy 447.04 129.54)
+			(xy 317.50 124.46) (xy 314.96 124.46)
 		)
 		(stroke
 			(width 0)
@@ -5237,18 +5237,18 @@
 	)
 	(global_label "DRV52"
 		(shape passive)
-		(at 447.04 129.54 180)
+		(at 314.96 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "b6bc1c38-c5cf-5506-8aa2-70e7a108e604")
+		(uuid "fd7e7454-20ca-5ab6-89be-b0884c6e9689")
 	)
 	(wire
 		(pts
-			(xy 472.44 129.54) (xy 474.98 129.54)
+			(xy 340.36 124.46) (xy 342.90 124.46)
 		)
 		(stroke
 			(width 0)
@@ -5258,17 +5258,17 @@
 	)
 	(global_label "RX52"
 		(shape passive)
-		(at 474.98 129.54 0)
+		(at 342.90 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "7fb5f357-bb04-5a63-992e-f71665607418")
+		(uuid "df29e94d-795d-5919-be02-b56a642de75d")
 	)
 	(sheet
-		(at 449.58 127.00)
+		(at 317.50 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5280,7 +5280,7 @@
 		)
 		(uuid "81ab96ce-1318-5352-bae2-73c1e6fc4ae2")
 		(property "Sheetname" "CH52"
-			(at 449.58 126.29 0)
+			(at 317.50 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5290,7 +5290,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 132.67 0)
+			(at 317.50 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5300,7 +5300,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 129.54 180)
+			(at 317.50 124.46 180)
 			(uuid "0f320b20-7410-50b5-82e5-227f1c97752b")
 			(effects
 				(font
@@ -5310,7 +5310,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 129.54 0)
+			(at 340.36 124.46 0)
 			(uuid "833684a4-7e75-58b9-a50f-3029aa3c36df")
 			(effects
 				(font
@@ -5329,7 +5329,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 154.94) (xy 447.04 154.94)
+			(xy 317.50 149.86) (xy 314.96 149.86)
 		)
 		(stroke
 			(width 0)
@@ -5339,18 +5339,18 @@
 	)
 	(global_label "DRV53"
 		(shape passive)
-		(at 447.04 154.94 180)
+		(at 314.96 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "847b0982-7d6c-541c-b58b-863838ea2d81")
+		(uuid "8cd14437-9fac-52c3-b912-37c35d745367")
 	)
 	(wire
 		(pts
-			(xy 472.44 154.94) (xy 474.98 154.94)
+			(xy 340.36 149.86) (xy 342.90 149.86)
 		)
 		(stroke
 			(width 0)
@@ -5360,17 +5360,17 @@
 	)
 	(global_label "RX53"
 		(shape passive)
-		(at 474.98 154.94 0)
+		(at 342.90 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "7228a07a-d9c1-5461-ae73-5a8fce2bb227")
+		(uuid "bcb4fa6f-0609-5271-a9bc-f571f2881d2a")
 	)
 	(sheet
-		(at 449.58 152.40)
+		(at 317.50 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5382,7 +5382,7 @@
 		)
 		(uuid "5b11f744-54aa-5c94-b5be-3e0816c55882")
 		(property "Sheetname" "CH53"
-			(at 449.58 151.69 0)
+			(at 317.50 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5392,7 +5392,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 158.07 0)
+			(at 317.50 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5402,7 +5402,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 154.94 180)
+			(at 317.50 149.86 180)
 			(uuid "0ff44ebd-68ef-5b11-bccc-2cd707813be5")
 			(effects
 				(font
@@ -5412,7 +5412,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 154.94 0)
+			(at 340.36 149.86 0)
 			(uuid "78e18519-3052-503e-83e8-bf0f8eec5fa1")
 			(effects
 				(font
@@ -5431,7 +5431,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 180.34) (xy 447.04 180.34)
+			(xy 317.50 175.26) (xy 314.96 175.26)
 		)
 		(stroke
 			(width 0)
@@ -5441,18 +5441,18 @@
 	)
 	(global_label "DRV54"
 		(shape passive)
-		(at 447.04 180.34 180)
+		(at 314.96 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "09cb0501-18ce-596a-8e32-f63f56f58042")
+		(uuid "c4ef86ba-ada3-516a-b2a9-1f5dbd84e5d8")
 	)
 	(wire
 		(pts
-			(xy 472.44 180.34) (xy 474.98 180.34)
+			(xy 340.36 175.26) (xy 342.90 175.26)
 		)
 		(stroke
 			(width 0)
@@ -5462,17 +5462,17 @@
 	)
 	(global_label "RX54"
 		(shape passive)
-		(at 474.98 180.34 0)
+		(at 342.90 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "9062da53-f40d-5e4f-bfb8-902e96696144")
+		(uuid "5f7633e1-1c22-5766-83c4-e36ebd264942")
 	)
 	(sheet
-		(at 449.58 177.80)
+		(at 317.50 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5484,7 +5484,7 @@
 		)
 		(uuid "4f4aad45-d257-5ef5-b0d3-01d2dacb5579")
 		(property "Sheetname" "CH54"
-			(at 449.58 177.09 0)
+			(at 317.50 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5494,7 +5494,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 183.47 0)
+			(at 317.50 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5504,7 +5504,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 180.34 180)
+			(at 317.50 175.26 180)
 			(uuid "878b7507-e73f-583b-b624-6919bec0e7d1")
 			(effects
 				(font
@@ -5514,7 +5514,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 180.34 0)
+			(at 340.36 175.26 0)
 			(uuid "79e7bd09-dc7f-5c6b-a99b-59d67625ed40")
 			(effects
 				(font
@@ -5533,7 +5533,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 205.74) (xy 447.04 205.74)
+			(xy 317.50 200.66) (xy 314.96 200.66)
 		)
 		(stroke
 			(width 0)
@@ -5543,18 +5543,18 @@
 	)
 	(global_label "DRV55"
 		(shape passive)
-		(at 447.04 205.74 180)
+		(at 314.96 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "801d873e-cbc1-5605-bc4c-89c0ecf52d99")
+		(uuid "b765ced4-22ea-5133-9f61-b6e69d0f9518")
 	)
 	(wire
 		(pts
-			(xy 472.44 205.74) (xy 474.98 205.74)
+			(xy 340.36 200.66) (xy 342.90 200.66)
 		)
 		(stroke
 			(width 0)
@@ -5564,17 +5564,17 @@
 	)
 	(global_label "RX55"
 		(shape passive)
-		(at 474.98 205.74 0)
+		(at 342.90 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "d9343cb9-0a0d-5b2d-babd-7eb7c888bfaa")
+		(uuid "5d88c312-2c89-5119-a508-7e5fc2c672d3")
 	)
 	(sheet
-		(at 449.58 203.20)
+		(at 317.50 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5586,7 +5586,7 @@
 		)
 		(uuid "6c3e7761-e0c3-5b47-b107-a7ed43eafd29")
 		(property "Sheetname" "CH55"
-			(at 449.58 202.49 0)
+			(at 317.50 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5596,7 +5596,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 208.87 0)
+			(at 317.50 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5606,7 +5606,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 205.74 180)
+			(at 317.50 200.66 180)
 			(uuid "33980edb-bb61-50a1-9e3c-18c705fb283f")
 			(effects
 				(font
@@ -5616,7 +5616,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 205.74 0)
+			(at 340.36 200.66 0)
 			(uuid "4191acec-886c-596e-9f25-dd85e5e4158b")
 			(effects
 				(font
@@ -5635,7 +5635,7 @@
 	)
 	(wire
 		(pts
-			(xy 449.58 231.14) (xy 447.04 231.14)
+			(xy 317.50 226.06) (xy 314.96 226.06)
 		)
 		(stroke
 			(width 0)
@@ -5645,18 +5645,18 @@
 	)
 	(global_label "DRV56"
 		(shape passive)
-		(at 447.04 231.14 180)
+		(at 314.96 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "a70d5059-fd08-55a1-b86b-78e791184851")
+		(uuid "7313d7bd-a901-5701-8600-64e24bd48dec")
 	)
 	(wire
 		(pts
-			(xy 472.44 231.14) (xy 474.98 231.14)
+			(xy 340.36 226.06) (xy 342.90 226.06)
 		)
 		(stroke
 			(width 0)
@@ -5666,17 +5666,17 @@
 	)
 	(global_label "RX56"
 		(shape passive)
-		(at 474.98 231.14 0)
+		(at 342.90 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "be3c3a10-23e9-511d-b5f8-b9d3076c6433")
+		(uuid "877c5ce2-cfa4-58a9-8aeb-225f39e5955e")
 	)
 	(sheet
-		(at 449.58 228.60)
+		(at 317.50 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5688,7 +5688,7 @@
 		)
 		(uuid "ae95bdee-4143-53b1-8ce1-955f28411a0c")
 		(property "Sheetname" "CH56"
-			(at 449.58 227.89 0)
+			(at 317.50 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5698,7 +5698,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 449.58 234.27 0)
+			(at 317.50 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5708,7 +5708,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 449.58 231.14 180)
+			(at 317.50 226.06 180)
 			(uuid "a72062fd-cf1e-55f4-88ec-9203a0809190")
 			(effects
 				(font
@@ -5718,7 +5718,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 472.44 231.14 0)
+			(at 340.36 226.06 0)
 			(uuid "7b10d05f-f4f5-5abe-8bea-1d06cd4da88a")
 			(effects
 				(font
@@ -5737,7 +5737,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 53.34) (xy 515.62 53.34)
+			(xy 365.76 48.26) (xy 363.22 48.26)
 		)
 		(stroke
 			(width 0)
@@ -5747,18 +5747,18 @@
 	)
 	(global_label "DRV57"
 		(shape passive)
-		(at 515.62 53.34 180)
+		(at 363.22 48.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "8cae09f8-120b-5c27-8812-e666c33a5fb6")
+		(uuid "cb8664f6-84d2-5f4a-915f-197c9eb69c4b")
 	)
 	(wire
 		(pts
-			(xy 541.02 53.34) (xy 543.56 53.34)
+			(xy 388.62 48.26) (xy 391.16 48.26)
 		)
 		(stroke
 			(width 0)
@@ -5768,17 +5768,17 @@
 	)
 	(global_label "RX57"
 		(shape passive)
-		(at 543.56 53.34 0)
+		(at 391.16 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "1e5730db-6375-5ab0-8c55-dc1b8371c5e8")
+		(uuid "5609b20f-7651-52e2-9b87-2fee2b00cc82")
 	)
 	(sheet
-		(at 518.16 50.80)
+		(at 365.76 45.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5790,7 +5790,7 @@
 		)
 		(uuid "f17c773b-7273-572a-9e6e-9a1d990fc7a1")
 		(property "Sheetname" "CH57"
-			(at 518.16 50.09 0)
+			(at 365.76 45.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5800,7 +5800,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 56.47 0)
+			(at 365.76 51.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5810,7 +5810,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 53.34 180)
+			(at 365.76 48.26 180)
 			(uuid "58481659-e0b9-5578-aac6-8dfaa16a1edc")
 			(effects
 				(font
@@ -5820,7 +5820,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 53.34 0)
+			(at 388.62 48.26 0)
 			(uuid "1ccc50c7-5865-59ac-9cf9-f7f8d908a954")
 			(effects
 				(font
@@ -5839,7 +5839,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 78.74) (xy 515.62 78.74)
+			(xy 365.76 73.66) (xy 363.22 73.66)
 		)
 		(stroke
 			(width 0)
@@ -5849,18 +5849,18 @@
 	)
 	(global_label "DRV58"
 		(shape passive)
-		(at 515.62 78.74 180)
+		(at 363.22 73.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "e3a14c4c-f407-5154-9925-084aeb25ca6f")
+		(uuid "88e21269-8ac7-514e-a343-a3720df2782c")
 	)
 	(wire
 		(pts
-			(xy 541.02 78.74) (xy 543.56 78.74)
+			(xy 388.62 73.66) (xy 391.16 73.66)
 		)
 		(stroke
 			(width 0)
@@ -5870,17 +5870,17 @@
 	)
 	(global_label "RX58"
 		(shape passive)
-		(at 543.56 78.74 0)
+		(at 391.16 73.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "e0d9bf28-891c-5664-a072-53aeefe17421")
+		(uuid "403bfd14-b655-5306-acca-0b27b4bb845d")
 	)
 	(sheet
-		(at 518.16 76.20)
+		(at 365.76 71.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5892,7 +5892,7 @@
 		)
 		(uuid "6c9e8ef9-4fa2-5b2d-9dc9-a7571fc3c7eb")
 		(property "Sheetname" "CH58"
-			(at 518.16 75.49 0)
+			(at 365.76 70.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5902,7 +5902,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 81.87 0)
+			(at 365.76 76.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5912,7 +5912,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 78.74 180)
+			(at 365.76 73.66 180)
 			(uuid "df2ec738-00b2-5392-854f-448731ee38fa")
 			(effects
 				(font
@@ -5922,7 +5922,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 78.74 0)
+			(at 388.62 73.66 0)
 			(uuid "3347d8ce-80fc-5f1b-9f8d-ea38c44e2b8c")
 			(effects
 				(font
@@ -5941,7 +5941,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 104.14) (xy 515.62 104.14)
+			(xy 365.76 99.06) (xy 363.22 99.06)
 		)
 		(stroke
 			(width 0)
@@ -5951,18 +5951,18 @@
 	)
 	(global_label "DRV59"
 		(shape passive)
-		(at 515.62 104.14 180)
+		(at 363.22 99.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "62f5b166-deaf-5c7c-abf3-38bc6e71c044")
+		(uuid "5147bf67-c297-5777-bf81-af44f328b252")
 	)
 	(wire
 		(pts
-			(xy 541.02 104.14) (xy 543.56 104.14)
+			(xy 388.62 99.06) (xy 391.16 99.06)
 		)
 		(stroke
 			(width 0)
@@ -5972,17 +5972,17 @@
 	)
 	(global_label "RX59"
 		(shape passive)
-		(at 543.56 104.14 0)
+		(at 391.16 99.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "6f3891c8-a184-5889-801a-2cc95214fe00")
+		(uuid "b794c8d1-8289-54c0-a985-4f8158875801")
 	)
 	(sheet
-		(at 518.16 101.60)
+		(at 365.76 96.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -5994,7 +5994,7 @@
 		)
 		(uuid "fb51e856-2967-50db-9099-b1653ce31bad")
 		(property "Sheetname" "CH59"
-			(at 518.16 100.89 0)
+			(at 365.76 95.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6004,7 +6004,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 107.27 0)
+			(at 365.76 102.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6014,7 +6014,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 104.14 180)
+			(at 365.76 99.06 180)
 			(uuid "9de0580b-fc04-5920-86f7-15dbaa4384e5")
 			(effects
 				(font
@@ -6024,7 +6024,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 104.14 0)
+			(at 388.62 99.06 0)
 			(uuid "b85779c7-3bda-512a-ba83-2946dcf9ca06")
 			(effects
 				(font
@@ -6043,7 +6043,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 129.54) (xy 515.62 129.54)
+			(xy 365.76 124.46) (xy 363.22 124.46)
 		)
 		(stroke
 			(width 0)
@@ -6053,18 +6053,18 @@
 	)
 	(global_label "DRV60"
 		(shape passive)
-		(at 515.62 129.54 180)
+		(at 363.22 124.46 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "06407552-98dc-551b-b052-8f94023cae89")
+		(uuid "38ff4daf-bae6-561a-bc1a-4963ff9290e8")
 	)
 	(wire
 		(pts
-			(xy 541.02 129.54) (xy 543.56 129.54)
+			(xy 388.62 124.46) (xy 391.16 124.46)
 		)
 		(stroke
 			(width 0)
@@ -6074,17 +6074,17 @@
 	)
 	(global_label "RX60"
 		(shape passive)
-		(at 543.56 129.54 0)
+		(at 391.16 124.46 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "81493766-83b0-5f28-bb15-e00529bb3606")
+		(uuid "483a9d7e-6db6-54fc-b17a-07ad83dc6a76")
 	)
 	(sheet
-		(at 518.16 127.00)
+		(at 365.76 121.92)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -6096,7 +6096,7 @@
 		)
 		(uuid "389ae401-d41d-50ec-9a1a-518c967ff834")
 		(property "Sheetname" "CH60"
-			(at 518.16 126.29 0)
+			(at 365.76 121.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6106,7 +6106,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 132.67 0)
+			(at 365.76 127.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6116,7 +6116,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 129.54 180)
+			(at 365.76 124.46 180)
 			(uuid "ff32ab64-6299-51f5-89b4-061f29f8a537")
 			(effects
 				(font
@@ -6126,7 +6126,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 129.54 0)
+			(at 388.62 124.46 0)
 			(uuid "736d9537-22f3-54c9-82fd-86b4db49bcc0")
 			(effects
 				(font
@@ -6145,7 +6145,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 154.94) (xy 515.62 154.94)
+			(xy 365.76 149.86) (xy 363.22 149.86)
 		)
 		(stroke
 			(width 0)
@@ -6155,18 +6155,18 @@
 	)
 	(global_label "DRV61"
 		(shape passive)
-		(at 515.62 154.94 180)
+		(at 363.22 149.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "31913a89-1659-5660-90a9-7f48a1de952c")
+		(uuid "a7bbf09c-ed84-57d1-b60b-420aec58acca")
 	)
 	(wire
 		(pts
-			(xy 541.02 154.94) (xy 543.56 154.94)
+			(xy 388.62 149.86) (xy 391.16 149.86)
 		)
 		(stroke
 			(width 0)
@@ -6176,17 +6176,17 @@
 	)
 	(global_label "RX61"
 		(shape passive)
-		(at 543.56 154.94 0)
+		(at 391.16 149.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "ca17725d-809e-5528-8482-f6712494f49b")
+		(uuid "654b2b6c-fabf-595e-a39f-123d2ec02399")
 	)
 	(sheet
-		(at 518.16 152.40)
+		(at 365.76 147.32)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -6198,7 +6198,7 @@
 		)
 		(uuid "b46858d7-d5d1-5d9c-abe4-df22b6208450")
 		(property "Sheetname" "CH61"
-			(at 518.16 151.69 0)
+			(at 365.76 146.61 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6208,7 +6208,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 158.07 0)
+			(at 365.76 152.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6218,7 +6218,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 154.94 180)
+			(at 365.76 149.86 180)
 			(uuid "9ca36bff-b89c-5c22-a2c5-8877d0190cee")
 			(effects
 				(font
@@ -6228,7 +6228,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 154.94 0)
+			(at 388.62 149.86 0)
 			(uuid "c216c519-9ecf-53af-958d-ccbb2171eb6b")
 			(effects
 				(font
@@ -6247,7 +6247,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 180.34) (xy 515.62 180.34)
+			(xy 365.76 175.26) (xy 363.22 175.26)
 		)
 		(stroke
 			(width 0)
@@ -6257,18 +6257,18 @@
 	)
 	(global_label "DRV62"
 		(shape passive)
-		(at 515.62 180.34 180)
+		(at 363.22 175.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "8609c237-1859-5145-9630-75b70a1e9297")
+		(uuid "8e8fba55-f725-5f97-8d8d-27a5e08ffd2c")
 	)
 	(wire
 		(pts
-			(xy 541.02 180.34) (xy 543.56 180.34)
+			(xy 388.62 175.26) (xy 391.16 175.26)
 		)
 		(stroke
 			(width 0)
@@ -6278,17 +6278,17 @@
 	)
 	(global_label "RX62"
 		(shape passive)
-		(at 543.56 180.34 0)
+		(at 391.16 175.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "0ac4af84-1d7a-5ff8-84af-8ab1ac61f70c")
+		(uuid "412a1315-ba82-581a-842b-74855842a739")
 	)
 	(sheet
-		(at 518.16 177.80)
+		(at 365.76 172.72)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -6300,7 +6300,7 @@
 		)
 		(uuid "79b32fdf-42e6-5685-8265-10f944506752")
 		(property "Sheetname" "CH62"
-			(at 518.16 177.09 0)
+			(at 365.76 172.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6310,7 +6310,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 183.47 0)
+			(at 365.76 178.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6320,7 +6320,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 180.34 180)
+			(at 365.76 175.26 180)
 			(uuid "3497d7c1-2bb5-566d-ac8a-2699d8dcc5a6")
 			(effects
 				(font
@@ -6330,7 +6330,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 180.34 0)
+			(at 388.62 175.26 0)
 			(uuid "5bfae046-f7e9-50d9-9a4b-2b8b477725d1")
 			(effects
 				(font
@@ -6349,7 +6349,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 205.74) (xy 515.62 205.74)
+			(xy 365.76 200.66) (xy 363.22 200.66)
 		)
 		(stroke
 			(width 0)
@@ -6359,18 +6359,18 @@
 	)
 	(global_label "DRV63"
 		(shape passive)
-		(at 515.62 205.74 180)
+		(at 363.22 200.66 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "08f88517-2f59-57cf-b006-623048c4a5e6")
+		(uuid "21fe6487-bbf7-5e42-804d-bfbaf21a31a1")
 	)
 	(wire
 		(pts
-			(xy 541.02 205.74) (xy 543.56 205.74)
+			(xy 388.62 200.66) (xy 391.16 200.66)
 		)
 		(stroke
 			(width 0)
@@ -6380,17 +6380,17 @@
 	)
 	(global_label "RX63"
 		(shape passive)
-		(at 543.56 205.74 0)
+		(at 391.16 200.66 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "6b61b9dd-d597-5d6e-96c1-9d7282dee25e")
+		(uuid "cffeea7b-f327-55eb-8c6f-11b52a09f409")
 	)
 	(sheet
-		(at 518.16 203.20)
+		(at 365.76 198.12)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -6402,7 +6402,7 @@
 		)
 		(uuid "d71fcb6e-dcf7-5620-ba61-8c9c47367f58")
 		(property "Sheetname" "CH63"
-			(at 518.16 202.49 0)
+			(at 365.76 197.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6412,7 +6412,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 208.87 0)
+			(at 365.76 203.79 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6422,7 +6422,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 205.74 180)
+			(at 365.76 200.66 180)
 			(uuid "6bb4789d-1df7-5a21-9ccc-b4087bac4443")
 			(effects
 				(font
@@ -6432,7 +6432,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 205.74 0)
+			(at 388.62 200.66 0)
 			(uuid "ba0c8cf6-a4e0-5532-a779-f87290bd8815")
 			(effects
 				(font
@@ -6451,7 +6451,7 @@
 	)
 	(wire
 		(pts
-			(xy 518.16 231.14) (xy 515.62 231.14)
+			(xy 365.76 226.06) (xy 363.22 226.06)
 		)
 		(stroke
 			(width 0)
@@ -6461,18 +6461,18 @@
 	)
 	(global_label "DRV64"
 		(shape passive)
-		(at 515.62 231.14 180)
+		(at 363.22 226.06 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "e8d54771-f49b-55e5-8da3-c1a20cb776c2")
+		(uuid "bb5f53f8-5bfd-5f14-8550-9d2cb6f1e895")
 	)
 	(wire
 		(pts
-			(xy 541.02 231.14) (xy 543.56 231.14)
+			(xy 388.62 226.06) (xy 391.16 226.06)
 		)
 		(stroke
 			(width 0)
@@ -6482,17 +6482,17 @@
 	)
 	(global_label "RX64"
 		(shape passive)
-		(at 543.56 231.14 0)
+		(at 391.16 226.06 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid "5a4eeb8b-28c9-5bbe-835f-e78ce9b5ad3a")
+		(uuid "1a4338d6-b7ef-586b-a02d-fc4b0e3e9334")
 	)
 	(sheet
-		(at 518.16 228.60)
+		(at 365.76 223.52)
 		(size 22.86 5.08)
 		(fields_autoplaced yes)
 		(stroke
@@ -6504,7 +6504,7 @@
 		)
 		(uuid "de98dd7d-cfca-5cb9-a94c-60e753a494ed")
 		(property "Sheetname" "CH64"
-			(at 518.16 227.89 0)
+			(at 365.76 222.81 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6514,7 +6514,7 @@
 			)
 		)
 		(property "Sheetfile" "channel.kicad_sch"
-			(at 518.16 234.27 0)
+			(at 365.76 229.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6524,7 +6524,7 @@
 			)
 		)
 		(pin "DRV_OUT" input
-			(at 518.16 231.14 180)
+			(at 365.76 226.06 180)
 			(uuid "eee4afe8-0f0b-5951-93c5-fc96d1d6cea2")
 			(effects
 				(font
@@ -6534,7 +6534,7 @@
 			)
 		)
 		(pin "RX_OUT" output
-			(at 541.02 231.14 0)
+			(at 388.62 226.06 0)
 			(uuid "1194b641-fe5b-51b2-9ffe-3bc8c4ee3805")
 			(effects
 				(font

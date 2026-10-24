@@ -10,6 +10,7 @@ KICAD_BIN = Path(os.environ.get("LOCALAPPDATA", r"C:\Users\Tiezi\AppData\Local")
 KICAD_CLI = str(KICAD_BIN / "bin" / "kicad-cli.exe")
 KICAD_FOOTPRINTS = KICAD_BIN / "share" / "kicad" / "footprints"
 KICAD_SYMBOLS = KICAD_BIN / "share" / "kicad" / "symbols"
+KICAD_3DMODELS = KICAD_BIN / "share" / "kicad" / "3dmodels"
 
 # Title-block date and revision of every generated sheet
 DATE, REV = "2026-10-20", "2"

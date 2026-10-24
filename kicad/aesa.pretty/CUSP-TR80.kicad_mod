@@ -32,4 +32,9 @@
 	)
 	(pad "1" thru_hole rect (at -2.5 0) (size 2 2) (drill 0.9) (layers "*.Cu" "*.Mask"))
 	(pad "2" thru_hole circle (at 2.5 0) (size 2 2) (drill 0.9) (layers "*.Cu" "*.Mask"))
+	(model "${KIPRJMOD}/aesa.3dshapes/CUSP-TR80.step"
+		(offset (xyz 0 0 0))
+		(scale (xyz 1 1 1))
+		(rotate (xyz 0 0 0))
+	)
 )
