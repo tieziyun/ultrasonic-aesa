@@ -266,7 +266,7 @@ class Sheet:
 
         for kind, net, p, shape in self.conns:
             xy, ang = pin(p)
-            if xy in seen:  # stacked pins (e.g. the AD7606's AGND): one connection is enough
+            if xy in seen:  # stacked pins (e.g. the TPS26600's two IN pins): one connection is enough
                 if seen[xy] != (kind, net):
                     raise RuntimeError(f"{self.name}: {p} stacked with a different net")
                 continue
@@ -820,7 +820,7 @@ def power():
     # ---- A. 12 V input ---------------------------------------------------------------------
     ox, oy = box("A", "A. 12 V INPUT: jack -> TPS26600 eFuse -> polyfuse -> VIN",
                  "eFuse U8 (resettable, auto-retry): rated +-60 V (reverse polarity), on above 8.8 V, off above "
-                 "13.8 V (protects the 14.5 V LM2731), current limit 1.6 A. F1 (2 A polyfuse) backs it up.",
+                 "13.8 V (LM2731 input limit 14 V), current limit 1.6 A. F1 (2 A polyfuse) backs it up.",
                  "UVLO/OVP divider 100k / 5.6k / 10k. ILIM 12 k/A -> 7.5k = 1.6 A. dVdT 22 nF: 5 V/ms soft start. "
                  "IMON 72 uA/A into 15k = 1.08 V/A (TP IMON). FLT low = fault (TP FLT). MODE open = auto-retry, "
                  "SHDN open = on.")

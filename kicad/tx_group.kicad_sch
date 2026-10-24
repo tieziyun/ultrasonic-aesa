@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "TX group (x16): 74HCT595 + 2 x UCC27524, 4 elements")
-		(date "2026-10-20")
-		(rev "2")
+		(date "2026-10-24")
+		(rev "1")
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols

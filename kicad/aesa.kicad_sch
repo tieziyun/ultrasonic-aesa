@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "Hybrid 8x8 ultrasonic AESA: block diagram")
-		(date "2026-10-20")
-		(rev "2")
+		(date "2026-10-24")
+		(rev "1")
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols)

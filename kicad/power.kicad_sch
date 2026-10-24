@@ -6,8 +6,8 @@
 	(paper "A3")
 	(title_block
 		(title "Power 1: 12 V input, +5V, VDRV (TX), +3V3, 3V3_MIC")
-		(date "2026-10-20")
-		(rev "2")
+		(date "2026-10-24")
+		(rev "1")
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols
@@ -4241,7 +4241,7 @@
 		)
 		(uuid "f564ac8c-0365-5613-8c97-b83901bcc825")
 	)
-	(text "eFuse U8 (resettable, auto-retry): rated +-60 V (reverse polarity), on above 8.8 V, off above 13.8 V (protects the 14.5 V LM2731), current limit"
+	(text "eFuse U8 (resettable, auto-retry): rated +-60 V (reverse polarity), on above 8.8 V, off above 13.8 V (LM2731 input limit 14 V), current limit"
 		(exclude_from_sim no)
 		(at 20.32 30.48 0)
 		(effects

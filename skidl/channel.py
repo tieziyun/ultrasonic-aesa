@@ -281,7 +281,7 @@ def tx_control(en_fpga, en_drv, oe_n, clr_n, v5, v3, gnd):
 @subcircuit
 def mic_supply_filter(v3, vmic, gnd):
     """Quiet supply for the 8 mics: +3V3 -> ferrite bead -> 10 uF -> vmic (3V3_MIC)."""
-    fb = lcsc(Part("Device", "FerriteBead", footprint="Inductor_SMD:L_0603_1608Metric",
+    fb = lcsc(Part("Device", "L_Ferrite", footprint="Inductor_SMD:L_0603_1608Metric",
                    value="600R@100MHz 0603", tag="fb_mic"), "TBD")
     fb[1] += v3
     fb[2] += vmic

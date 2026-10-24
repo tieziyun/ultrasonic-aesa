@@ -28,7 +28,7 @@ Uses: 3-D sonar imaging, gesture and hand tracking, Doppler motion sensing, and 
 | 14 | `power` | Power 1: 12 V jack → eFuse → VIN, +5 V buck, VDRV 15 V boost (switchable), +3V3, 3V3_MIC, ground test points |
 | 15 | `power_analog` | Power 2 (analog): ±6.5 V → low-noise ±5VA for the receivers, +3V3A for the ADCs; the power tree and a bring-up checklist with the expected voltage at every test point |
 
-Each block that repeats is drawn once and reused, so a change to `channel` applies to all 64 channels. KiCad's own export of every instance (125 pages) is left in `build/aesa_schematic_full.pdf`.
+Each block that repeats is drawn once and reused, so a change to `channel` applies to all 64 channels. KiCad's own export of every instance (126 pages) is left in `build/aesa_schematic_full.pdf`.
 
 ## Key numbers
 
@@ -36,10 +36,10 @@ Each block that repeats is drawn once and reused, so a change to `channel` appli
 |---|---|
 | Elements | 64 × Same Sky CUSP-TR80-15-2500-TH (40 kHz transceiver, Ø9.8 mm) + 8 × SPH0641LU4H-1 MEMS mics |
 | TX drive | 0–15 V square wave per element, 16 serial data lines at 10 MHz, per-element per-sample control |
-| RX chain | Gain ×22 (+27 dB) in the amplifier, ×6.7 (+16.6 dB) to the ADC pin after the input divider; 31–51 kHz pass band; 1 m echo 93 dB above the noise ([simulated](sim/reports/README.md)) |
+| RX chain | Gain ×22 (+27 dB) in the amplifier, ×6.7 (+16.5 dB) to the ADC pin after the input divider; 31–51 kHz pass band; 1 m echo 93 dB above the noise ([simulated](sim/reports/README.md)) |
 | ADC | 16 × TI TLV320ADC5140, 24-bit, 192 kSPS per channel, all 64 channels sampled at once, TDM to the FPGA, I²C configuration |
 | Power | One 12 V barrel jack (≥ 1.5 A); every rail has a test point, an isolation jumper and (except the analog LDOs) an LED |
-| Board | One 4-layer board, about 200 × 170 mm: transducers on the front, all SMT parts on the back |
+| Board | One 4-layer board, 192 × 301 mm (JLC04161H-7628, ENIG): transducers on the front, all SMT parts on the back |
 | FPGA link | Two 40-pin ribbons, 3.3 V LVCMOS, about 15 cm |
 
 ## Repository

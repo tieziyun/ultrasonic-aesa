@@ -24,8 +24,8 @@ SHEETS = {
              25.4, 27.43, 1.8),
             ("OPA1678 stage 1: gain 6, AC-coupled at 800 Hz. Stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4. "
              "Then 100 R to the ADC.", 25.4, 31.5, 1.8),
-            ("Element -> ADC +27 dB, pass band 31-51 kHz (sim/reports/rx_chain.md). Band-pass parts 1 % C0G "
-             "for phase match.", 25.4, 35.56, 1.8),
+            ("Element -> amplifier out +27 dB (x22), -> ADC pin +16.5 dB after the ADC cell's 2k/1k divider; "
+             "pass band 31-51 kHz (sim/reports/rx_chain.md). Band-pass parts 1 % C0G.", 25.4, 35.56, 1.8),
         ]),
 }
 

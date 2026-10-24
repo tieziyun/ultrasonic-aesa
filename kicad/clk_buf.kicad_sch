@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Clock buffer (x9): 74LVC2G34, 33 R outputs")
-		(date "2026-10-20")
-		(rev "2")
+		(date "2026-10-24")
+		(rev "1")
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols

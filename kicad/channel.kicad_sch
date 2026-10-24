@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "Transceiver channel (x64): TX, T/R switch, RX amplifier")
-		(date "2026-10-20")
-		(rev "2")
+		(date "2026-10-24")
+		(rev "1")
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols
@@ -1612,54 +1612,6 @@
 			)
 			(embedded_fonts no)
 		)
-	)
-	(text "Transceiver channel (one of 64). TX: UCC27524 half -> 47 R -> BAV99 crossed diodes -> element (0-15 V square)."
-		(exclude_from_sim no)
-		(at 25.4 22.86 0)
-		(effects
-			(font
-				(size 2 2)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "5a74766f-e9e2-5e2a-95b7-4281510f2cfe")
-	)
-	(text "33k bleed resets the element after TX. RX: 4.7k + BAV99 clamp (+-0.7 V) + 100 pF (340 kHz RF filter)."
-		(exclude_from_sim no)
-		(at 25.4 27.43 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "cc7a35a0-1248-5e49-bfad-8b40c4e2e3dc")
-	)
-	(text "OPA1678 stage 1: gain 6, AC-coupled at 800 Hz. Stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4. Then 100 R to the ADC."
-		(exclude_from_sim no)
-		(at 25.4 31.5 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "f26e2d85-5572-5d60-a3a3-b68450ab776c")
-	)
-	(text "Element -> ADC +27 dB, pass band 31-51 kHz (sim/reports/rx_chain.md). Band-pass parts 1 % C0G for phase match."
-		(exclude_from_sim no)
-		(at 25.4 35.56 0)
-		(effects
-			(font
-				(size 1.8 1.8)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "f32c82f3-e528-543e-bd6b-f577e03f619e")
 	)
 	(junction
 		(at 114.3 76.2)
@@ -15528,6 +15480,54 @@
 				)
 			)
 		)
+	)
+	(text "Transceiver channel (one of 64). TX: UCC27524 half -> 47 R -> BAV99 crossed diodes -> element (0-15 V square)."
+		(exclude_from_sim no)
+		(at 25.4 22.86 0)
+		(effects
+			(font
+				(size 2.0 2.0)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "5a74766f-e9e2-5e2a-95b7-4281510f2cfe")
+	)
+	(text "33k bleed resets the element after TX. RX: 4.7k + BAV99 clamp (+-0.7 V) + 100 pF (340 kHz RF filter)."
+		(exclude_from_sim no)
+		(at 25.4 27.43 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "cc7a35a0-1248-5e49-bfad-8b40c4e2e3dc")
+	)
+	(text "OPA1678 stage 1: gain 6, AC-coupled at 800 Hz. Stage 2: MFB band-pass f0 39.8 kHz, Q 2, gain -4. Then 100 R to the ADC."
+		(exclude_from_sim no)
+		(at 25.4 31.5 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "f26e2d85-5572-5d60-a3a3-b68450ab776c")
+	)
+	(text "Element -> amplifier out +27 dB (x22), -> ADC pin +16.5 dB after the ADC cell's 2k/1k divider; pass band 31-51 kHz (sim/reports/rx_chain.md). Band-pass parts 1 % C0G."
+		(exclude_from_sim no)
+		(at 25.4 35.56 0)
+		(effects
+			(font
+				(size 1.8 1.8)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "f32c82f3-e528-543e-bd6b-f577e03f619e")
 	)
 	(sheet_instances
 		(path "/"

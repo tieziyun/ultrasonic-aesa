@@ -23,13 +23,9 @@ KNOWN = {
     "UCC27524DR": "C465729",
     "OPA1678IDR": "C192421",
     "BAV99": "C2500",
-    "AD7606BBSTZ-RL": "C651284",
-    "AD7606C-16BSTZ": "C5240947",
     "74HCT595D": "C282339",
     "SPH0641LU4H-1": "C2879853",
     "CUSP-TR80-15-2500-TH": "hand-solder",
-    "NetTie AGND-PGND": "none (copper)",
-    "NetTie AGND-DGND": "none (copper)",
 }
 
 

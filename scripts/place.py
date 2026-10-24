@@ -36,7 +36,7 @@ from pathlib import Path
 import pcbnew
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import KICAD_CLI, KICAD_FOOTPRINTS  # noqa: E402
+from common import DATE, KICAD_CLI, KICAD_FOOTPRINTS, REV  # noqa: E402
 from netlist_to_pcb import build_board  # noqa: E402
 from power_sections import D_SPLIT_Y, SECTIONS, SHEET_FILES, section_of  # noqa: E402
 
@@ -601,9 +601,9 @@ def labels(board, groups):
         x, y = txg_origin(k)
         text(board, f"TXG{k:02d}", x + P / 2, y + TX_H / 2 - 0.9, 0.8, pcbnew.F_SilkS)
     # front silkscreen is free apart from the transducers: board name and the safety notes go there
-    text(board, "Hybrid 8x8 ultrasonic AESA  rev 1  2026-10-23", W / 2, H - EDGE - 2, 1.5, pcbnew.F_SilkS, True)
+    text(board, f"Hybrid 8x8 ultrasonic AESA  rev {REV}  {DATE}", W / 2, H - EDGE - 2, 1.5, pcbnew.F_SilkS, True)
     text(board, "JLCJLCJLCJLC", W - 38, H - EDGE - 6, 1.0, pcbnew.F_SilkS)  # JLCPCB prints the order number here
-    text(board, "12 V DC only, centre +, 1.5 A min.  Input protected: 9-13.8 V, 1.6 A", W / 2, H - EDGE - 5,
+    text(board, "12 V DC only, centre +, 1.5 A min.  Input protected: 8.8-13.8 V, 1.6 A", W / 2, H - EDGE - 5,
          1.0, pcbnew.F_SilkS)
     text(board, "TX drive 15 V: remove shunt J9502 to switch all transmitters off", W / 2, H - EDGE - 7.5,
          1.0, pcbnew.F_SilkS)
