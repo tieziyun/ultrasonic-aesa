@@ -17,6 +17,8 @@ S2 DRV_OUT 0 lgn 0 SWL
 .include models/adc_in.lib
 XADC RX_OUT ADC ADC_IN
 .save V(XD) V(LIM) V(DRV_OUT) V(DRV) I(Vdd) I(R101) I(R102) I(R103)
+* Gear integration: the default trapezoidal method stalls on this long overdriven run (2026-10-25)
+.options method=gear
 .tran 0 6m 0 20n
 .meas TRAN i_vdrv AVG -I(Vdd) FROM 4.1m TO 5.9m
 .meas TRAN p_rdrv AVG V(DRV_OUT,DRV)*I(R101) FROM 4.1m TO 5.9m

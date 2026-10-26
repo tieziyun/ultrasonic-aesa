@@ -11,7 +11,7 @@
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols)
-	(text "MEMS mics. Mics 2k-1 and 2k share MIC_DATAk-1 (SEL high on the odd one). MIC_CLK_A feeds mics 1-4, MIC_CLK_B mics 5-8."
+	(text "MEMS mics. Mics 2k-1 and 2k share MIC_DATAk-1 (SEL high on the odd one). One clock per mic pair: MIC_CLK_A mics 1-2, B 3-4, C 5-6, D 7-8."
 		(exclude_from_sim no)
 		(at 38.10 30.48 0)
 		(effects
@@ -151,7 +151,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "117")
+					(page "118")
 				)
 			)
 		)
@@ -284,7 +284,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "118")
+					(page "119")
 				)
 			)
 		)
@@ -299,7 +299,7 @@
 		)
 		(uuid "039e02f3-14a4-5c8f-bdeb-10bd4c9c05b1")
 	)
-	(global_label "MIC_CLK_A"
+	(global_label "MIC_CLK_B"
 		(shape passive)
 		(at 231.14 53.34 180)
 		(effects
@@ -308,7 +308,7 @@
 			)
 			(justify right)
 		)
-		(uuid "bdcf9c1d-53b4-5312-9b50-6eb59477beed")
+		(uuid "71f7298e-fe24-5f8a-bb04-c241ea04e1c4")
 	)
 	(wire
 		(pts
@@ -417,7 +417,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "119")
+					(page "120")
 				)
 			)
 		)
@@ -432,7 +432,7 @@
 		)
 		(uuid "161ed841-6115-5dd9-8cce-2fb38bba279f")
 	)
-	(global_label "MIC_CLK_A"
+	(global_label "MIC_CLK_B"
 		(shape passive)
 		(at 322.58 53.34 180)
 		(effects
@@ -441,7 +441,7 @@
 			)
 			(justify right)
 		)
-		(uuid "6a86f019-3349-529c-bda4-9dd2a445c404")
+		(uuid "9cd143b1-233d-5563-b1b8-a1da884470c4")
 	)
 	(wire
 		(pts
@@ -550,7 +550,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "120")
+					(page "121")
 				)
 			)
 		)
@@ -565,7 +565,7 @@
 		)
 		(uuid "83d0960d-a092-5dbd-b170-4c46a8783253")
 	)
-	(global_label "MIC_CLK_B"
+	(global_label "MIC_CLK_C"
 		(shape passive)
 		(at 48.26 86.36 180)
 		(effects
@@ -574,7 +574,7 @@
 			)
 			(justify right)
 		)
-		(uuid "15eb87b1-983e-5b55-96e2-7553fac3c5cf")
+		(uuid "3c951578-b2b6-5469-8591-e40daeaf8e89")
 	)
 	(wire
 		(pts
@@ -683,7 +683,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "121")
+					(page "122")
 				)
 			)
 		)
@@ -698,7 +698,7 @@
 		)
 		(uuid "2335ec17-a7b8-5c09-b2c1-34061dae2b71")
 	)
-	(global_label "MIC_CLK_B"
+	(global_label "MIC_CLK_C"
 		(shape passive)
 		(at 139.70 86.36 180)
 		(effects
@@ -707,7 +707,7 @@
 			)
 			(justify right)
 		)
-		(uuid "10c05824-9461-598f-8a48-270f3d41bc14")
+		(uuid "6f864b98-0a11-5970-a982-c5cf30d795ac")
 	)
 	(wire
 		(pts
@@ -816,7 +816,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "122")
+					(page "123")
 				)
 			)
 		)
@@ -831,7 +831,7 @@
 		)
 		(uuid "b87ede15-381a-5fdf-82bd-c2e2532398c9")
 	)
-	(global_label "MIC_CLK_B"
+	(global_label "MIC_CLK_D"
 		(shape passive)
 		(at 231.14 86.36 180)
 		(effects
@@ -840,7 +840,7 @@
 			)
 			(justify right)
 		)
-		(uuid "6f4cf29d-7c21-5740-8fac-76538739cd6c")
+		(uuid "f3da35d2-e92e-50db-9087-66f76559556b")
 	)
 	(wire
 		(pts
@@ -949,7 +949,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "123")
+					(page "124")
 				)
 			)
 		)
@@ -964,7 +964,7 @@
 		)
 		(uuid "502c0ee0-032d-5bbd-9605-5667a0c4ece6")
 	)
-	(global_label "MIC_CLK_B"
+	(global_label "MIC_CLK_D"
 		(shape passive)
 		(at 322.58 86.36 180)
 		(effects
@@ -973,7 +973,7 @@
 			)
 			(justify right)
 		)
-		(uuid "c95ad95d-3a61-58ff-bc42-9b16b8239862")
+		(uuid "bf5892a3-3c2c-5660-85ca-41f4ed4926e6")
 	)
 	(wire
 		(pts
@@ -1082,7 +1082,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/f773ca19-03bb-5251-9781-0307c4b28445"
-					(page "124")
+					(page "125")
 				)
 			)
 		)

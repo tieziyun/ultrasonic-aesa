@@ -2,7 +2,7 @@
 
 **Question:** When an element sends a ping, is the drive safe for every part, and how soon after can the same element hear an echo?
 
-**Answer (PASS):** Yes. The transducer gets **14.2 V** pulses, the driver peaks at 0.29 A (rated 5 A) and the clamp keeps the amplifier input within **+0.63 / -0.45 V**. After the ping the transducer keeps ringing for a while, and its own receiver hears that: it can hear echoes again **1.0–1.9 ms** after the ping, so it misses objects closer than about **0.20–0.36 m**. (The two numbers bracket the transducer's unknown Q.) In split mode other elements listen, which avoids this blind zone.
+**Answer (PASS):** Yes. The transducer gets **14.2 V** pulses, the driver peaks at 0.28 A (rated 5 A) and the clamp keeps the amplifier input within **+0.63 / -0.45 V**. After the ping the transducer keeps ringing for a while, and its own receiver hears that: it can hear echoes again **1.0–1.9 ms** after the ping, so it misses objects closer than about **0.20–0.36 m**. (The two numbers bracket the transducer's unknown Q.) In split mode other elements listen, which avoids this blind zone.
 
 ## Why it matters
 
@@ -25,7 +25,7 @@ Top: the 0–14 V ping on the transducer (grey band). Middle: the amplifier inpu
 | What | Value | Unit | Limit | OK? | What it means |
 |---|---|---|---|---|---|
 | Voltage on the transducer during the ping | 14.2 | V | 13 … 15.5 | yes | 15 V supply minus one diode drop |
-| Peak current from the gate driver | 0.286 | A | ≤ 1 | yes | UCC27524 is rated 5 A |
+| Peak current from the gate driver | 0.283 | A | ≤ 1 | yes | UCC27524 is rated 5 A |
 | Amplifier input during the ping, positive peak | 0.634 | V | ≤ 0.9 | yes | the clamp diodes keep the 15 V away from the op-amp |
 | Amplifier input during the ping, negative peak | -0.451 | V | ≥ -0.9 | yes |  |
 | Heat in the 47 Ω drive resistor (during the ping) | 14.3 | mW | ≤ 50 | yes | rated 100 mW |
@@ -42,4 +42,4 @@ Top: the 0–14 V ping on the transducer (grey band). Middle: the amplifier inpu
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 22:24 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.
+Run 2026-10-25 01:31 with LTspice by `sim/run.py tx_burst`. Testbench: `sim/tx_burst.cir`.

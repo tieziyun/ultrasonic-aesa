@@ -42,4 +42,4 @@ Left to right: frequency. Up: how much bigger the signal is than the echo voltag
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 22:24 with LTspice by `sim/run.py rx_chain`. Testbench: `sim/rx_chain.cir`.
+Run 2026-10-25 01:31 with LTspice by `sim/run.py rx_chain`. Testbench: `sim/rx_chain.cir`.

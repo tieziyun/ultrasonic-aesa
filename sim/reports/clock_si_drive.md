@@ -42,4 +42,4 @@ The clock voltage at our buffer's input for each drive strength. Same lines and 
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 22:25 with LTspice by `sim/run.py clock_si_drive`. Testbench: `sim/clock_si_drive.cir`.
+Run 2026-10-25 01:51 with LTspice by `sim/run.py clock_si_drive`. Testbench: `sim/clock_si_drive.cir`.

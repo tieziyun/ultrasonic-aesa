@@ -27,7 +27,6 @@ part as close as possible to the parts it connects to. No part comes within EDGE
 """
 
 import json
-import math
 import re
 import subprocess
 import sys
@@ -54,13 +53,19 @@ MARGIN = 16.0               # left/right margin (mics, mounting holes)
 W = 8 * P + 2 * MARGIN      # board width
 HDR_W, HDR_GAP = 60.0, 6.0  # ribbon header body length, gap between the two headers
 HDR_X = (W - 2 * HDR_W - HDR_GAP) / 2
-ADC_Y = 26.0                # top of the ADC rows
-ADC_H = 18.0
-TOP = ADC_Y + 2 * ADC_H + 1.0   # top of the array
+ADC_Y = 27.5                # top of the ADC rows (1.5 mm below the clock buffers: room for vias and bus stubs)
+ADC_H = 18.0                # ADC block pitch
+ADC_CH = 4.0                # bus channel between the two ADC rows (back copper): the lower row's shared buses
+TOP = ADC_Y + 2 * ADC_H + ADC_CH + 2.0   # top of the array (the lower ADC row's lane fan-out above it)
 X0, Y0 = MARGIN + P / 2, TOP + P / 2          # centre of element 1 (row 0, col 0)
 ARRAY_END = TOP + 8 * P
-TX_H, PWR_H = 44.0, 30.0
-H = ARRAY_END + 1 + TX_H + PWR_H + EDGE
+TX_TOP = 3.0                # under the array: the two +-5VA trunks (back copper)
+TXG_H, TX_CH = 19.8, 4.5    # TX group block height, bus channel under each TX row (back copper)
+TX_H = TX_TOP + 2 * (TXG_H + TX_CH)
+PWR_H = 30.0
+CLK_W, CLK_H = 13.5, 7.7    # clock-buffer block (74LVC2G34, 2 x 47 R, pull-down, 100 nF)
+CLK_BAND_Y = ARRAY_END + TX_H + 0.5   # TX clock buffers, between the TX rows and the power row
+H = ARRAY_END + TX_H + 1 + PWR_H + EDGE
 GAP = 0.35                  # extra space around each courtyard when placing
 HOLES = [(6, 6), (W - 6, 6), (6, H - 6), (W - 6, H - 6),        # M3 mounting holes: corners (clear of the
          (6, TOP + 4 * P), (W - 6, TOP + 4 * P)]                # bevels) and mid-sides for waveguide/frame
@@ -112,7 +117,14 @@ def is_power(net):
     return n == "GND" or n in ("+5V", "+5VA", "-5VA", "+6V5", "-6V5", "+3V3", "+3V3A", "3V3_MIC", "VDRV", "VIN")
 
 
-def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None, ic_angle=None):
+def label_room(fp):
+    """Room kept above a part for its silkscreen label: test points (not the channels' RX pads), jumpers, LEDs."""
+    r = fp.GetReference()
+    labelled = r.startswith(("TP", "JP")) and not 1 <= (sid_of(r) or 0) <= 64
+    return 1.6 if labelled or fp.GetValue() == "green" else 0.0
+
+
+def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None, ic_angle=None, weights=None):
     """Connectivity-driven placement into free rectangles [(x, y, w, h), ...] (a single tuple is allowed).
 
     Order: ICs first (biggest first), then breadth-first outwards from what is already placed: decoupling
@@ -122,7 +134,9 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
     capacitors, so their GND pad lands at the IC's ground pin and the loop stays small). `fixed` parts take
     part in the nets but do not move (e.g. the transducer). `pulls` = {net regex: (x, y)} pulls pads of nets
     that leave the block towards the side they leave from. `ic_angle(fp)` returns a fixed rotation for an
-    IC (or None for automatic). Returns the parts that did not fit."""
+    IC (or None for automatic). `weights` = {net regex: factor} makes critical nets (op-amp inputs and
+    feedback nodes) count more, so their parts are placed first and land right at the pins. Returns the
+    parts that did not fit."""
     if isinstance(rects, tuple):
         rects = [rects]
     pulls = pulls or {}
@@ -155,9 +169,7 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
         """Box (with GAP, plus room for a readable label on test points, jumpers and LEDs) and pad offsets."""
         fp.SetOrientationDegrees(ang)
         bx, by, w, h = bbox_mm(fp)
-        r = fp.GetReference()
-        labelled = r.startswith(("TP", "JP")) and not 1 <= (sid_of(r) or 0) <= 64   # not the channels' RX pads
-        lab = 1.6 if labelled or fp.GetValue() == "green" else 0.0
+        lab = label_room(fp)
         bx, by, w, h = bx - lab / 2, by - lab, w + lab, h + lab
         pos = fp.GetPosition()
         ox, oy = pcbnew.ToMM(pos.x) - bx, pcbnew.ToMM(pos.y) - by
@@ -175,7 +187,7 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
             # not next to another capacitor on the same rail; signal nets may chain part to part
             pts = icpts.get(n) if (is_power(n) or n in rail_nets) and icpts.get(n) else netpts.get(n)
             if pts:
-                wgt = 0.5 if n == "GND" else 1.0
+                wgt = 0.5 if n == "GND" else net_weight(n)
                 c += wgt * min((px - qx) ** 2 + (py - qy) ** 2 for qx, qy in pts) ** 0.5
                 hit = True
             for rx_, pt in pulls.items():
@@ -183,6 +195,9 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
                     c += 0.15 * ((px - pt[0]) ** 2 + (py - pt[1]) ** 2) ** 0.5
                     hit = True
         return c, hit
+
+    def net_weight(n):
+        return max([w for rx_, w in (weights or {}).items() if re.search(rx_, n)] or [1.0])
 
     cx0 = sum(r[0] + r[2] / 2 for r in rects) / len(rects)
     cy0 = sum(r[1] + r[3] / 2 for r in rects) / len(rects)
@@ -194,8 +209,8 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
             fp = todo.pop(0)
         else:
             def links(f):
-                return sum(1 for p in f.Pads() if p.GetNetname() and p.GetNetname() != "GND"
-                           and p.GetNetname() in netpts)
+                return sum(net_weight(p.GetNetname()) for p in f.Pads() if p.GetNetname()
+                           and p.GetNetname() != "GND" and p.GetNetname() in netpts)
             def on_switch_node(f):   # inductor / diode of a switcher: the switch loop comes first
                 return f.GetReference()[0] in "LD" and any(re.search(r"(^|/)SW", p.GetNetname())
                                                            for p in f.Pads()) and links(f)
@@ -229,7 +244,7 @@ def place_near(fps, rects, label, obstacles=(), step=0.25, fixed=(), pulls=None,
             continue
         _, ang, x, y, w, h = best
         fp.SetOrientationDegrees(ang)
-        lab = 1.6 if fp.GetReference().startswith(("TP", "JP")) or fp.GetValue() == "green" else 0.0
+        lab = label_room(fp)
         move_box_to(fp, x + GAP / 2 + lab / 2, y + GAP / 2 + lab)
         placed_boxes.append((x, y, w, h))
         add_pads(fp)
@@ -255,21 +270,27 @@ def angle_facing(fp, pins, direction):
 
 
 # ---- blocks: one layout per schematic block, copied to every instance -------------------------------
-# Channel block (channel.kicad_sch), hand-made, in signal-flow order. Offsets from the element centre in
-# mm (front view, x right, y down), rotation in degrees; all parts on the back. The element's pads are at
-# (-2.5, 0) XD and (+2.5, 0) GND; nothing comes within SOLDER_KEEPOUT of them.
-#   below the element (TX side): DRV from the drivers below -> R1 47R -> D1 crossed diodes -> XD; R2 bleed
-#   left pocket, next to the XD pad: R3 4.7k, D2 clamp (input protection right at the element)
-#   above the element (RX side): U1 OPA1678; stage 1 (R4 C7 R5 C3, C6 at LIM) left of it; band-pass
-#   (R6 R7 C4 C5 R8) and the output resistor R9 right of it; RX_OUT leaves at the top-right corner
-#   towards the ADCs. TX and RX parts sit on opposite sides of the element.
-CHANNEL = {"R1": (-5.0, 8.4, 0), "D1": (-5.0, 5.3, 0), "R2": (0.0, 4.6, 0),
-           "R3": (-7.8, -1.9, 90), "D2": (-7.8, 1.7, 0),
-           "U1": (0.0, -6.5, 0),
-           "R4": (-5.3, -8.7, 0), "C7": (-8.3, -8.7, 0), "R5": (-5.3, -6.9, 0), "C3": (-8.3, -6.9, 0),
-           "C6": (-8.3, -5.1, 0), "C2": (-5.3, -5.1, 0),
-           "R6": (5.3, -8.7, 0), "C4": (8.3, -8.7, 0), "R7": (5.3, -6.9, 0), "C5": (8.3, -6.9, 0),
-           "R8": (5.3, -5.1, 0), "R9": (8.3, -5.1, 0), "C1": (7.8, -2.2, 0)}
+# Channel block (channel.kicad_sch), hand-made, every part fixed. Offsets from the element centre in mm
+# (front view, x right, y down), rotation as KiCad stores it for the flipped part; all parts on the back.
+# The element's pads are at (-2.5, 0) XD and (+2.5, 0) GND; no courtyard within SOLDER_KEEPOUT of them.
+# The column's front copper (route.py): drive lanes on the left (x < -6.4), receive lanes on the right
+# (x > 6.4), the +-5VA rails at -+0.6, so the cell's own vias sit in |x| < 6.3.
+#   top: U1 OPA1678, stage 1 on half B (left pins: 8 +5VA, 7 S1, 6 FB1, 5 LIM), stage 2 on half A (right
+#   pins: 1 OUT2, 2 INV2, 3 GND, 4 -5VA). Each supply capacitor at its pin (C1 top-left, C2 bottom-right);
+#   stage-1 feedback R4 || C7 across pins 7/6, gain leg R5 + C3 below it; input filter C6 at pin 5, the
+#   clamp D2 and series R3 in the pocket beside the element; stage-2 feedback R8 across pins 1/2, C4/C5 and
+#   R6/R7 around N2 to the right; R9 and the RX test pad in the right pocket.
+#   bottom: the TX parts (R1 47R, D1 crossed diodes, R2 bleed) between the DRV lane via and the XD pad.
+CHANNEL = {
+    "U1": (0.05, -6.9, 180),
+    "C1": (-5.22, -9.02, 180), "C3": (-8.27, -9.02, 0),
+    "R4": (-4.47, -6.72, 90), "C7": (-6.02, -6.72, 90), "R5": (-7.57, -6.72, 90),
+    "C6": (-5.22, -4.42, 0), "D2": (-8.05, -1.6, 270), "R3": (-7.6, 1.4, 180),
+    "R8": (4.57, -8.17, 90), "C5": (6.87, -9.02, 180), "C4": (6.87, -7.42, 180),
+    "R6": (6.87, -5.85, 0), "R7": (7.67, -3.5, 270), "C2": (5.32, -4.3, 180),
+    "R9": (7.0, 0.6, 270), "TP1": (7.0, 3.3, 0),
+    "D1": (-2.5, 5.6, 90), "R1": (-3.5, 8.9, 0), "R2": (-5.2, 4.9, 270),
+}
 
 
 # Hand-made block templates, built from the real (mirrored, back-side) pad positions. Offsets in mm from
@@ -279,29 +300,30 @@ CHANNEL = {"R1": (-5.0, 8.4, 0), "D1": (-5.0, 5.3, 0), "R2": (0.0, 4.6, 0),
 # TX group (tx_group.kicad_sch), 19.6 x 21.7 mm. The two UCC27524 (U2, U3) at the top, rotated so their
 # outputs and VDD pin face the array; each 100 nF VDRV capacitor (C3, C5) stands right above its VDD pin
 # (pin 6) between the two outputs, the 1 uF ones (C2, C4) between the drivers. The 74HCT595 (U1) below,
-# QB-QD (pins 1-3) facing the drivers' inputs, its 100 nF (C1) beside VCC (pin 16).
+# QB-QD (pins 1-3) facing the drivers' inputs, its 100 nF (C1) beside VCC (pin 16), +5V pad towards the pin.
 TXG = {"U2": (4.6, 7.0, 90), "U3": (14.6, 7.0, 90),
        "C3": (3.96, 1.6, 90), "C5": (13.96, 1.6, 90), "C2": (8.4, 1.75, 90), "C4": (10.6, 1.75, 90),
-       "U1": (9.8, 16.0, 270), "C1": (2.6, 18.5, 0)}
-# ADC (adc.kicad_sch), 19.6 x 16.6 mm. TLV320ADC5140 rotated 180: AVDD/AREG/VREF (pins 1-3) on the right
-# with their capacitors (C10, C12, C17; bulk C9, C11 further right), IOVDD (pin 19) top-left with C16/C15,
-# DREG (pin 24) top-right with C14/C13; R9 (SDOUT 33R) above the chip, leaving a 1.5 mm gap for BCLK and
-# FSYNC. The 8 inputs (pins 6-13) face the array; below them one column per channel: coupling capacitor
-# (C1-C4, INxP) and INxM capacitor (C5-C8) first, then the 2k (R1-R4) and 1k (R5-R8) divider.
+       "U1": (9.8, 16.0, 270), "C1": (2.6, 18.5, 180)}
+# ADC (adc.kicad_sch), 19.6 x 17.6 mm. TLV320ADC5140 rotated 180: AVDD/AREG/VREF (pins 1-3) on the right
+# with their capacitors (C10, C12, C17; bulk C9, C11 further right, supply pad up towards the 100 nF), IOVDD
+# (pin 19) top-left with C16/C15 (supply pad towards C16), DREG (pin 24) top-right with C14/C13; R9 (SDOUT
+# 33R) above the chip, leaving a 1.5 mm gap for BCLK and FSYNC. The 8 inputs (pins 6-13) face the array; 2 mm
+# below them (room for the fan-out) one column per channel, INxM left and INxP right as on the chip's pins:
+# the INxM capacitor (C5-C8) over the 1k (R5-R8), the coupling capacitor (C1-C4) over the 2k (R1-R4). The
+# INxM capacitor's GND (bottom) and the 1k's GND (top) meet at one via between them, the channel's input
+# reference; the divider node runs from the 2k's top to the 1k's bottom; RX enters at the bottom of the 2k.
+# TX enable buffer (en_buf.kicad_sch): 74AHCT1G125 with GND and /OE (pins 1, 3) to the left, its 100 nF
+# right under it, +5V pad under VCC (pin 5).
+TXEN = {"U1": (5.5, 3.0, 0), "C1": (5.68, 6.03, 180)}
 ADC = {"U1": (9.8, 6.0, 180),
-       "C10": (14.3, 3.6, 0), "C12": (14.3, 5.4, 0), "C17": (14.6, 7.4, 0), "C9": (17.6, 3.6, 90),
-       "C11": (17.6, 7.4, 90), "C14": (11.8, 1.6, 90), "C13": (14.6, 1.2, 0), "C16": (6.2, 3.0, 90),
-       "C15": (3.0, 1.3, 0), "R9": (8.7, 1.6, 90)}
+       "C10": (14.3, 3.6, 0), "C12": (14.3, 5.4, 0), "C17": (14.6, 7.4, 0), "C9": (17.6, 3.6, 270),
+       "C11": (17.6, 7.4, 270), "C14": (11.8, 1.6, 90), "C13": (14.6, 1.2, 0), "C16": (6.2, 3.0, 90),
+       "C15": (3.0, 1.3, 180), "R9": (8.7, 1.6, 90)}
 for _i, _xc in enumerate((14.7, 10.9, 7.1, 3.3)):        # channel 1 .. 4 columns
-    ADC[f"C{_i + 1}"] = (_xc - 0.85, 10.6, 90)
-    ADC[f"C{_i + 5}"] = (_xc + 0.85, 10.6, 90)
-    ADC[f"R{_i + 1}"] = (_xc - 0.85, 14.4, 90)
-    ADC[f"R{_i + 5}"] = (_xc + 0.85, 14.4, 90)
-# Channel: the TX parts in the pocket beside the XD pad (relative to the element centre), the op-amp at a
-# fixed spot on the receive side; the remaining parts are placed by connectivity around them.
-CHANNEL_FIXED = {"D1": (-7.85, -1.6, 0), "R1": (-7.85, 1.8, 90), "R2": (-7.5, 5.3, 0), "U1": (3.6, -6.6, 0),
-                 "C2": (-1.9, -8.5, 180)}   # -5VA capacitor beside pin 4, its -5VA pad towards the pin
-
+    ADC[f"C{_i + 1}"] = (_xc + 0.85, 11.6, 90)           # pin 2 INxP up, pin 1 divider down
+    ADC[f"C{_i + 5}"] = (_xc - 0.85, 11.6, 270)          # pin 1 INxM up, pin 2 GND down
+    ADC[f"R{_i + 1}"] = (_xc + 0.85, 15.4, 90)           # pin 2 divider up, pin 1 RX down
+    ADC[f"R{_i + 5}"] = (_xc - 0.85, 15.4, 90)           # pin 2 GND up (shares the INxM capacitor's via), pin 1 divider down
 
 def local_ref(ref):
     """Reference inside its sheet: R1203 (channel 12) -> R3."""
@@ -364,8 +386,52 @@ def place_block(board, instances, size, label, pulls=None, ic_angle=None):
 # Switcher cores (offsets from the section's top-left corner). E = LM2731 VDRV boost: inductor L4 left of
 # the IC with its SW pad 3.6 mm from SW (pin 1), the SS14 (D8) anode 2.5 mm below SW, the output caps
 # C33/C34 beside the cathode with their GND pads towards the IC's GND pin, input cap C31 at VIN (pin 5).
+# C = TPS65131 +-6V5 (datasheet 9.1: inductors, rectifiers, input and output caps close to the IC, dividers at
+# the FB pins): the positive boost on the left (L2 SW pad 2.1 mm from INP pin 1, D4 below it, outputs C15/C16 at
+# the cathode, the +6V5 rail leaves left towards its LDO), the inverter on the right (L3 SW pad 2.1 mm from OUTN
+# pins 13/14, D6 above it, outputs C21/C22 at the anode, -6V5 leaves right), the inverter's input cap C12 at the
+# INN pins 5/6, C11 at L2's input. Each inductor's 5.7 mm pad lines up with its own switch pins only (L2 below
+# VIN65 pin 4, L3 above VNEG pin 15), so the other pins on those sides keep a way out. The small parts (FBP/FBN
+# dividers, VREF, CP/CN) go in the space right at their pins, placed first (POWER_WEIGHTS).
 POWER_CORES = {"E": {"U5": (12.0, 8.0, 0), "L4": (5.0, 8.95, 0), "D8": (11.0, 13.4, 90), "C31": (16.5, 8.0, 90),
-                     "C33": (14.6, 13.6, 90), "C34": (18.6, 13.6, 90)}}
+                     "C33": (14.6, 13.6, 90), "C34": (18.6, 13.6, 90)},
+               "C": {"U2": (26.0, 10.9, 0), "L2": (17.6, 13.8, 0), "C11": (12.5, 12.5, 90), "D4": (20.7, 19.55, 0),
+                     "C15": (12.6, 18.5, 90), "C16": (10.0, 18.5, 90), "C12": (19.56, 5.9, 90),
+                     "L3": (32.4, 7.45, 0), "D6": (31.0, 2.2, 0), "C21": (37.4, 3.5, 270), "C22": (40.2, 3.5, 270),
+                     # VIN65 filter in the column between L2 and the IC (C13's GND pad on the IC's GND pins 2-3)
+                     "R7": (22.26, 7.5, 270), "C13": (22.26, 10.6, 270),
+                     # CP and the FBP divider under their pins; CN, VREF and the FBN divider in a row below L3
+                     "C19": (26.56, 15.3, 270), "R8": (27.46, 18.8, 0), "C14": (27.46, 20.4, 0), "R9": (30.06, 19.6, 270),
+                     "C20": (29.66, 14.6, 270), "C18": (31.46, 14.6, 270), "R12": (33.26, 14.3, 270),
+                     "R11": (33.26, 17.4, 270), "C17": (35.06, 17.4, 270),
+                     # outputs: +6V5 jumper, test point and LED left of C16; -6V5 ones right of C22
+                     "JP5": (5.76, 19.7, 180), "TP3": (2.16, 19.7, 0), "R10": (2.66, 15.2, 270), "D5": (2.66, 12.2, 90),
+                     "JP6": (43.76, 2.0, 0), "TP4": (47.26, 2.0, 0), "R13": (46.16, 5.7, 270), "D7": (46.16, 8.9, 270),
+                     # snubbers (DNP): SW_P one between L2's switch pad and the IC, SW_N one beside D6's cathode
+                     "R29": (22.33, 15.0, 270), "C47": (24.03, 16.1, 270),
+                     "R30": (25.76, 2.0, 180), "C48": (22.66, 2.0, 180)},
+               # B = TPS54302 +5V buck (datasheet 7.4.1: input and output caps close, SW short, VFB node small and
+               # away from SW): L1's SW pad 3 mm from SW (pin 2), the output caps C6/C7 at L1's output end with
+               # the isolation jumper JP1 above them, C3 at VIN (pin 3); the FB divider, boot cap and enable
+               # divider are placed first at their pins (POWER_WEIGHTS), on the far side of the IC from L1
+               "B": {"U1": (14.51, 10.9, 0), "L1": (7.51, 11.0, 180), "C6": (1.41, 7.9, 90), "C7": (1.41, 13.1, 270),
+                     "C3": (14.1, 6.3, 90), "JP1": (4.6, 2.6, 0)}}
+# A = TPS26600 eFuse (datasheet 12.1: the ILIM, dVdT, IMON, MODE, UVLO and OVP parts close to their pins, the
+# 100 nF IN bypass tight to IN and GND)
+# A = 12 V input (TPS26600 eFuse, datasheet 12.1 / Figure 71), in the left margin under the jack, absolute board
+# positions (x, y, rotation). The eFuse at 180 degrees puts IN (pins 1-2) right under the jack's 12 V pin and OUT
+# (15-16) on the far side; the UVLO/OVP divider stacks beside the IN side in pin order (IN, UVLO, OVP, RTN); the
+# RTN parts (dVdT, ILIM, IMON) sit in a row under their pins on the RTN island; C44 bypasses IN at the pins. The
+# output runs down the board edge to the polyfuse and the C45 - L5 - C1 filter. Every via of the section stays
+# left of x 10.9: the TX trunk lanes run down the margin on the front from x 11.5 (route.py stage_trunks).
+POWER_A = {"U8": (10.0, 30.6, 180), "C44": (11.0, 25.2, 180), "R27": (10.6, 26.9, 180), "TP15": (7.9, 24.2, 0),
+           "TP13": (14.4, 24.0, 0), "R22": (14.9, 27.6, 270), "R23": (14.9, 30.7, 270), "R24": (14.9, 33.8, 270),
+           "C43": (4.2, 36.2, 270), "R25": (5.9, 36.2, 270), "R26": (7.6, 36.2, 270), "TP14": (9.9, 36.3, 0),
+           "F1": (5.0, 41.2, 270), "C45": (5.0, 46.8, 270), "L5": (9.4, 45.0, 270), "C1": (8.0, 54.6, 270),
+           "C2": (4.3, 63.0, 270), "R1": (6.8, 63.0, 270), "D2": (6.8, 66.2, 90), "TP1": (10.0, 63.5, 0)}
+POWER_WEIGHTS = {"A": {r"U9508-(ILIM|IMON|dVdT|OVP|UVLO|~\{FLT\})": 4, r"VIN_JACK": 2},
+                 "C": {r"FBP|FBN|VREF65|U9502-CP|U9502-CN": 6, r"VIN65": 3},
+                 "B": {r"FB_5V": 6, r"BOOT_5V": 3, r"EN_5V": 1}}
 BOTTOM_ORDER = ["D1", "C", "H", "D2", "E", "G", "B"]  # left to right: hot parts alternate with cool ones
 
 
@@ -405,12 +471,14 @@ def template_blocks(board, instances, template):
 
 def adc_origin(k):
     col, odd = (k - 1) // 2, (k - 1) % 2 == 0
-    return MARGIN + col * P + 0.2, ADC_Y + (ADC_H if odd else 0)
+    return MARGIN + col * P + 0.2, ADC_Y + (ADC_H + ADC_CH if odd else 0)
 
 
 def txg_origin(k):
-    col, odd = (k - 1) // 2, (k - 1) % 2 == 0
-    return MARGIN + col * P + 0.2, ARRAY_END + 1 + (0 if odd else TX_H / 2)
+    """TX group k: column (k-1)//2; the even group (rows 4-7) in the upper TX row next to the array, the odd one
+    (rows 0-3) below it (common.tx_port)."""
+    col, upper = (k - 1) // 2, k % 2 == 0
+    return MARGIN + col * P + 0.2, ARRAY_END + TX_TOP + (0 if upper else TXG_H + TX_CH)
 
 
 def split_analog_ldos(sec):
@@ -599,13 +667,13 @@ def labels(board, groups):
         x, y = adc_origin(k)
         text(board, f"ADC{k:02d}", x + P / 2, y + ADC_H - 0.9, 0.8, pcbnew.F_SilkS)
         x, y = txg_origin(k)
-        text(board, f"TXG{k:02d}", x + P / 2, y + TX_H / 2 - 0.9, 0.8, pcbnew.F_SilkS)
+        text(board, f"TXG{k:02d}", x + P / 2, y + TXG_H - 0.9, 0.8, pcbnew.F_SilkS)
     # front silkscreen is free apart from the transducers: board name and the safety notes go there
-    text(board, f"Hybrid 8x8 ultrasonic AESA  rev {REV}  {DATE}", W / 2, H - EDGE - 2, 1.5, pcbnew.F_SilkS, True)
+    text(board, f"Hybrid 8x8 ultrasonic AESA  rev {REV}  {DATE}", W / 2 - 22, H - EDGE - 2, 1.5, pcbnew.F_SilkS, True)
     text(board, "JLCJLCJLCJLC", W - 38, H - EDGE - 6, 1.0, pcbnew.F_SilkS)  # JLCPCB prints the order number here
-    text(board, "12 V DC only, centre +, 1.5 A min.  Input protected: 8.8-13.8 V, 1.6 A", W / 2, H - EDGE - 5,
+    text(board, "12 V DC only, centre +, 1.5 A min.  Input protected: 8.8-13.8 V, 1.6 A", W / 2 - 22, H - EDGE - 5,
          1.0, pcbnew.F_SilkS)
-    text(board, "TX drive 15 V: remove shunt J9502 to switch all transmitters off", W / 2, H - EDGE - 7.5,
+    text(board, "TX drive 15 V: remove shunt J9502 to switch all transmitters off", W / 2 - 22, H - EDGE - 7.5,
          1.0, pcbnew.F_SilkS)
     text(board, "<- 12 V in", 16, ADC_Y - 6, 1.0, pcbnew.F_SilkS)
 
@@ -650,22 +718,22 @@ def netclasses():
         c.update(name=name, track_width=track, clearance=clear, via_diameter=via_d, via_drill=via_drill,
                  priority=len(pro["net_settings"]["classes"]))
         return c
-    base.update(track_width=0.2, clearance=0.15)
+    base.update(track_width=0.2, clearance=0.2)   # 0.2 keeps 0.6 mm vias 0.5 mm apart hole to hole (JLC)
     pro["net_settings"]["classes"] = [
         base,
         cls("HighCurrent", 1.0, 0.25, 0.8, 0.4),  # up to 1.6 A (3 A peak on SW_5V): 1 mm keeps the rise and loss low
         cls("Power", 0.5, 0.2, 0.8, 0.4),       # rails and regulator nodes
-        cls("Drive", 0.35, 0.3),                # 15 V gate-driver outputs to the elements
-        cls("Analog", 0.25, 0.25),              # receiver outputs to the ADCs
-        cls("Clock", 0.2, 0.2),                 # buffered clocks (QFN pads are 0.2 mm from the EP)
+        cls("Drive", 0.3, 0.2),                 # 15 V gate-driver outputs (lanes 0.2 mm; IPC-2221: 0.13 mm at 15 V)
+        cls("Analog", 0.25, 0.2),               # receiver outputs to the ADCs (lanes 0.2 mm)
+        cls("Clock", 0.25, 0.2),                # buffered clocks: about 61 ohm, matched to 74LVC2G34 (~25 ohm) + 33 R
     ]
     pro["net_settings"]["netclass_patterns"] = [
         {"netclass": "HighCurrent", "pattern": p} for p in
-        ("VIN", "+5V", "/Power/VIN_JACK", "/Power/VIN_PROT", "/Power/5V_REG", "/Power/SW_5V")] + [
+        ("VIN", "+5V", "/Power*/VIN_JACK", "/Power*/VIN_PROT", "/Power*/VIN_F", "/Power*/5V_REG", "/Power*/SW_5V")] + [
         # the other rails, regulator outputs and switch nodes; feedback, enable and NR nodes stay thin (Default)
         {"netclass": "Power", "pattern": p} for p in
-        ("+5VA", "-5VA", "+6V5", "-6V5", "+3V3", "+3V3A", "3V3_MIC", "VDRV", "/Power/*_REG", "/Power/SW_*",
-         "/Power/VIN65")] + [
+        ("+5VA", "-5VA", "+6V5", "-6V5", "+3V3", "+3V3A", "3V3_MIC", "VDRV", "/Power*/*_REG", "/Power*/SW_*",
+         "/Power*/VIN65")] + [
         {"netclass": "Drive", "pattern": "DRV*"},
         {"netclass": "Drive", "pattern": "/Transceivers/CH*/XD"},
         {"netclass": "Analog", "pattern": "RX*"},
@@ -718,15 +786,8 @@ def main():
 
     # ---- channel blocks. Channels are numbered down the columns (CH n: column (n-1)//8, row (n-1)%8), so
     # each column of 8 elements is driven by the two TX groups below it and read by the two ADCs above it:
-    # every DRV and RX run is a straight vertical line in its own column. On F.Cu each column has a DRV
-    # lane on its left (x - 9 .. - 5 mm from the element centre) and an RX lane on its right (+5 .. +9 mm),
-    # about 10 mm apart over the GND plane; the transducer pads (+-2.5 mm) sit between them.
-    # Back of each cell: the TX parts (R1 47R, D1 crossed diodes) in the pocket beside the XD pad, next to
-    # the DRV lane and far from any amplifier input; everything else (protection, OPA1678, filters, output
-    # resistor) around it, placed by connectivity with the transducer's pads as fixed anchors.
-    h = P / 2 - 0.2
-    ky, kx = 1.0 + SOLDER_KEEPOUT, 2.5 + 1.0 + SOLDER_KEEPOUT     # 2.0 mm transducer pads
-
+    # every DRV and RX run is a straight lane on the front copper of its own column (route.py). The cell is
+    # the hand-made CHANNEL template on the back (scripts/cell_design.py checks it with its routing).
     def cell(n):
         c, r = divmod(n - 1, 8)
         return X0 + c * P, Y0 + r * P
@@ -735,21 +796,9 @@ def main():
     parts1 = groups.get(1, [])
     ls1 = next(f for f in parts1 if f.GetReference().startswith("LS"))
     ls1.SetPosition(v(cx, cy))
-    smd1 = [f for f in parts1 if f is not ls1]
-    for f in smd1:
-        to_back(f)
-    fixed1 = [f for f in smd1 if local_ref(f.GetReference()) in CHANNEL_FIXED]
-    place_template(fixed1, cx, cy, CHANNEL_FIXED)
-    tp1 = [f for f in smd1 if f.GetReference().startswith("TP")]   # RX_OUT test pad: last, in the space left
-    rx1 = [f for f in smd1 if f not in fixed1 and f not in tp1]
-    rx_rects = [(cx - h, cy - h, 2 * h, h - ky), (cx - 5.4, cy + ky, h + 5.4, h - ky), (cx + kx, cy - ky, h - kx, 2 * ky)]
-    tx_clear = [(cx - h, cy - h, 4.2, 2 * h)]   # TX side clear
-    left = place_near(rx1, rx_rects, "channel RX", obstacles=[bbox_mm(f) for f in fixed1] + tx_clear,
-                      fixed=[ls1] + fixed1, pulls={r"RX\d": (cx + 7.0, cy)})
-    left += place_near(tp1, rx_rects, "channel RX test pad", obstacles=[bbox_mm(f) for f in smd1 if f not in tp1] + tx_clear,
-                       fixed=[ls1] + [f for f in smd1 if f not in tp1])
+    left = place_template([f for f in parts1 if f is not ls1], cx, cy, CHANNEL)
     if left:
-        raise SystemExit("channel block does not fit: the copy to 64 channels would be wrong")
+        raise SystemExit(f"channel parts missing from the template: {[f.GetReference() for f in left]}")
     insts = []
     for n in range(1, 65):
         x, y = cell(n)
@@ -777,9 +826,18 @@ def main():
     place_near([f for f in hdr if not f.GetReference().startswith("J")],
                (HDR_X, hdr_bottom + 0.3, 2 * HDR_W + HDR_GAP, 5.5), "header pulls", obstacles)
     group(board, "Headers", hdr)
-    cw = (2 * HDR_W + HDR_GAP) / 9
-    place_block(board, [(f"CLKB{j}", groups.get(130 + j, []), (HDR_X + (j - 1) * cw, hdr_bottom + 6.0))
-                        for j in range(1, 10)], (cw - 0.3, ADC_Y - hdr_bottom - 6.3), "clk_buf")
+    # Clock buffers (docs/routing_and_emi.md, decisions 1 and 2, user 2026-10-24): the ADC and mic buffers stay
+    # under the headers, each ADC buffer above the half of the ADC rows it feeds (BCLK/FSYNC A/B left, C/D
+    # right), the two mic buffers at the ends (CLKB9: mics 1-4 on the left side, CLKB10: mics 5-8 on the
+    # right, one output per mic pair); the four TX buffers (SCK and LATCH, A/B and C/D) sit in a band under the TX rows,
+    # centred under the 8 TX groups each one drives. So only the two FPGA lines TX_SCK/TX_LATCH (DRIVE 4,
+    # slow edges) make the 300 mm run; the buffered 1 ns edges stay within about 60 mm of their loads.
+    cw = (2 * HDR_W + HDR_GAP) / 6
+    clk_pos = {j: (HDR_X + k * cw + (cw - CLK_W) / 2, hdr_bottom + 6.0) for k, j in enumerate((9, 5, 7, 6, 8, 10))}
+    for j, xc in ((1, MARGIN + 2 * P), (3, MARGIN + 2 * P), (2, MARGIN + 6 * P), (4, MARGIN + 6 * P)):
+        clk_pos[j] = (xc - CLK_W - 0.5 if j in (1, 2) else xc + 0.5, CLK_BAND_Y)
+    place_block(board, [(f"CLKB{j}", groups.get(130 + j, []), clk_pos[j]) for j in range(1, 11)],
+                (CLK_W, CLK_H), "clk_buf")
     # ADC k reads CH 4k-3 .. 4k = column (k-1)//2; the odd one (rows 0-3) sits in the row next to the array
     template_blocks(board, [(f"ADC{k:02d}", groups.get(70 + k, []), adc_origin(k)) for k in range(1, 17)], ADC)
 
@@ -791,16 +849,20 @@ def main():
     sec["A"].remove(jack)
     jw, jhh = place_jack(jack, 0.0, 6 + HOLE_KEEP + 0.5)     # below the corner mounting hole
     jb = bbox_mm(jack)
-    place_near(sec["A"], [(EDGE, EDGE, HDR_X - EDGE - 0.5, ADC_Y - EDGE - 0.5),   # corner, plus the free left
-                          (EDGE, ADC_Y - 0.5, MARGIN - EDGE - 0.5, TOP + 0.4 * P - ADC_Y - 0.5)],  # margin to MIC1
-               "power A",
-               [(jb[0] - GAP, jb[1] - GAP, jb[2] + 2 * GAP, jb[3] + 2 * GAP)])
+    rest = place_template(sec["A"], 0.0, 0.0, POWER_A)                  # the input section's fixed layout
+    if rest:
+        place_near(rest, [(EDGE, ADC_Y - 0.5, MARGIN - EDGE - 0.5, TOP + 0.4 * P - ADC_Y - 0.5)], "power A",
+                   [(jb[0] - GAP, jb[1] - GAP, jb[2] + 2 * GAP, jb[3] + 2 * GAP)] + [bbox_mm(f) for f in sec["A"]
+                                                                                     if f not in rest])
     xr = HDR_X + 2 * HDR_W + HDR_GAP + 0.5
     wr = (W - EDGE - xr - 4.0) / 2           # +3V3A and +3V3 LDOs in separate halves, 4 mm apart (heat)
     place_near(sec["I"], (xr, EDGE, wr, ADC_Y - EDGE - 0.5), "power I (+3V3A)")
-    place_near(sec["F"], (xr + wr + 4.0, EDGE, wr, ADC_Y - EDGE - 0.5), "power F (+3V3)")
-    yt = ARRAY_END + 1
-    yp = yt + TX_H + 0.5
+    left = place_near(sec["F"], (xr + wr + 4.0, EDGE, wr, ADC_Y - EDGE - 0.5), "power F (+3V3)")
+    if left:                                 # the corner hole and C51 fill F's box: the rest goes in the gap
+        place_near(left, (xr + wr + 0.5, EDGE, 3.5, ADC_Y - EDGE - 0.5), "power F (+3V3), gap",
+                   [bbox_mm(f) for f in sec["I"] + sec["F"] if f not in left])
+    yt = ARRAY_END + TX_TOP
+    yp = CLK_BAND_Y + CLK_H + 1.0          # power row below the TX clock-buffer band
     split_analog_ldos(sec)
     # scope-ground test points spread over the board: between the ribbon headers, both array sides (in the
     # gap between mics 1 and 2; the mid-side holes sit between mics 2 and 3), right margin of the TX rows
@@ -821,7 +883,7 @@ def main():
             core = [f for f in sec[k] if local_ref(f.GetReference()) in POWER_CORES[k]]
             place_template(core, x, yp, POWER_CORES[k])
             place_near([f for f in sec[k] if f not in core], (x, yp, w, H - EDGE - yp), f"power {k}",
-                       obstacles=[bbox_mm(f) for f in core], fixed=core)
+                       obstacles=[bbox_mm(f) for f in core], fixed=core, weights=POWER_WEIGHTS.get(k))
         else:
             place_near(sec[k], (x, yp, w, H - EDGE - yp), f"power {k}")
         x += w + gap
@@ -836,8 +898,10 @@ def main():
     # TX group k drives CH 4k-3 .. 4k = column (k-1)//2; the odd one (rows 0-3) next to the array.
     # Drivers' DRV outputs pulled towards the array (top), the 595's serial inputs towards the bottom.
     template_blocks(board, [(f"TXG{k:02d}", groups.get(100 + k, []), txg_origin(k)) for k in range(1, 17)], TXG)
-    place_block(board, [(f"TXEN{j}", groups.get(120 + j, []), (EDGE, yt + (j - 1) * TX_H / 4)) for j in range(1, 5)],
-                (MARGIN - EDGE - 0.5, TX_H / 4 - 0.3), "en_buf")
+    # enable buffers beside the TX rows (two per row), clear of the bus channels under them
+    template_blocks(board, [(f"TXEN{j}", groups.get(120 + j, []),
+                             (EDGE, yt + ((j - 1) // 2) * (TXG_H + TX_CH) + ((j - 1) % 2) * TXG_H / 2))
+                            for j in range(1, 5)], TXEN)
 
     leftovers = [f.GetReference() for k, fs in groups.items() if k is None for f in fs]
     if leftovers:
@@ -846,6 +910,14 @@ def main():
     fiducials(board)
     silkscreen(board)
     place_labels(board)
+    # the TX power shunt is named in the front safety note: label it on the front, above its pins
+    j2 = next(f for f in board.GetFootprints() if f.GetReference() == "J9502")
+    ref = j2.Reference()
+    ref.SetLayer(pcbnew.F_SilkS)
+    ref.SetMirrored(False)
+    ref.SetVisible(True)
+    ref.SetTextAngleDegrees(0)
+    ref.SetPosition(v(pcbnew.ToMM(j2.GetPosition().x), bbox_mm(j2)[1] - 1.0))
     labels(board, groups)
     gnd_planes(board)
     fix_models(board)

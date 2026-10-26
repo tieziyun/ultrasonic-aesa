@@ -39,6 +39,7 @@ MAKER_URL = {  # LCSC number -> URL (or (URL, maker)); tried before LCSC's own c
                "Sunlord"),
     "C79272": ("https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/196/SWPA6045-Series.pdf",
                "Sunlord"),
+    "C42193": ("https://static.chipdip.ru/lib/080/DOC013080199.pdf", "Sunlord", "Sunlord_SWPA_series"),  # LCSC: viewer only
     "C2876368": TI.format("tlv320adc5140"), "C311983": TI.format("tps54302"), "C192421": TI.format("opa1678"),
     "C465729": TI.format("ucc27524"), "C87663": TI.format("tps65131"), "C28286": TI.format("tps7a47"),
     "C90082": TI.format("tps7a33"), "C485804": TI.format("lm2731"), "C485517": TI.format("tlv757p"),

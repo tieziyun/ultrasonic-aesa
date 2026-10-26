@@ -1,0 +1,30 @@
+* Mic PDM clock on the board: one 74LVC2G34 output -> long trace down one side of the array -> 4 mics
+* spread along it (the loads are NOT at the end, so a source terminator alone may leave a step in the
+* edge at the middle mics). Lengths from scripts/net_lengths.py: MIC_CLK_A/B 208-317 mm; the worst
+* case is modelled: 197 mm to the first mic, then 40 mm between mics (mics are 2 pitches apart).
+*   74LVC2G34: ~20 ohm output, 1 ns edges (as in clock_si.cir)
+*   Trace: 0.25 mm on JLC04161H-7628 outer layer: 61 ohm, 6 ps/mm
+*   SPH0641LU4H-1 clock input: about 5 pF + 1 pF pad (VIL 0.3 VDD = 0.99 V, VIH 0.7 VDD = 2.31 V;
+*   datasheet: edges <= 3 ns, duty 48-52 % above 2.4 MHz)
+* Steps: 0 = previous design: one output feeding all 4 mics of a side, 33 R; 1 = the same wiring with 47 R;
+* 2 = design: one buffer output per mic pair (worst pair: 277 mm to the first mic, the second 40 mm on,
+* where the line ends), 47 R.
+.param mode=0
+.step param mode list 0 1 2
+.param Rs={if(mode==0,33,47)}
+.param T0d={if(mode==2,1.66n,1.18n)} Tdm={if(mode==2,0.001n,0.24n)}
+Vdrv src 0 PULSE(0 3.3 20n 1n 1n 161.8n 325.5n 3)
+Ro src y 20
+Rser y t0 {Rs}
+T0 t0 0 m1 0 Z0=61 Td={T0d}
+Cm1 m1 0 6p
+T1 m1 0 m2 0 Z0=61 Td=0.24n
+Cm2 m2 0 6p
+* mode 2: the line ends at mic 2 (mics 3 and 4 are on another output): the rest shrinks to nothing
+T2 m2 0 m3 0 Z0=61 Td={Tdm}
+Cm3 m3 0 {if(mode==2,0.01p,6p)}
+T3 m3 0 m4 0 Z0=61 Td={if(mode==2,0.001n,0.24n)}
+Cm4 m4 0 {if(mode==2,0.01p,6p)}
+.tran 0 700n 0 5p
+.save V(m1) V(m2) V(m3) V(m4) V(y)
+.end

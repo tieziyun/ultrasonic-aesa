@@ -1,6 +1,6 @@
 # Design check
 
-Run 2026-10-24 15:40 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **19 pass, 0 warn, 0 fail.**
+Run 2026-10-26 09:40 by `scripts/check_design.py` on a fresh netlist of `kicad/aesa.kicad_sch`. **19 pass, 0 warn, 0 fail.**
 
 | # | Check | Result |
 |---|---|---|
@@ -32,7 +32,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 <a id="2"></a>
 ## 2. Part counts and references: PASS
 
-2123 parts, 95 distinct values.
+2130 parts, 96 distinct values.
 | Part | Count |
 |---|---|
 | OPA1678IDR | 64 |
@@ -41,7 +41,7 @@ kicad-cli ERC on the full hierarchy: 0 violations.
 | UCC27524DR | 32 |
 | 74HCT595D | 16 |
 | 74AHCT1G125 | 4 |
-| 74LVC2G34 | 9 |
+| 74LVC2G34 | 10 |
 | TLV320ADC5140 | 16 |
 | SPH0641LU4H-1 | 8 |
 | TPS54302DDCR | 1 |
@@ -56,24 +56,24 @@ Duplicate references: 0.
 <a id="3"></a>
 ## 3. Footprints exist and match the symbol pins: PASS
 
-31 distinct footprints, all checked for existence and pad numbers.
+32 distinct footprints, all checked for existence and pad numbers.
 
 <a id="4"></a>
 ## 4. LCSC numbers: PASS
 
-Parts with an LCSC number: 1969; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
+Parts with an LCSC number: 1976; consigned/hand-solder: 64; **TBD: 0** (0 distinct values); no field: 0.
 
 TBD values (count): 
 
 <a id="5"></a>
 ## 5. Datasheets in docs/datasheets/ for every part: PASS
 
-76 distinct parts, 76 with a datasheet PDF (scripts/datasheets.py, run by bom.py).
+78 distinct parts, 78 with a datasheet PDF (scripts/datasheets.py, run by bom.py).
 
 <a id="6"></a>
 ## 6. 3D model for every part: PASS
 
-2033 footprints with a model that resolves; pad-only footprints (test pads, solder jumpers, fiducials, holes) need none. Substitutes for models missing from KiCad's library: MODEL_SUBST in place.py; own parts: scripts/make_3d.py.
+2038 footprints with a model that resolves; pad-only footprints (test pads, solder jumpers, fiducials, holes) need none. Substitutes for models missing from KiCad's library: MODEL_SUBST in place.py; own parts: scripts/make_3d.py.
 
 <a id="7"></a>
 ## 7. TX chain, all 64 elements (header -> 595 -> UCC27524 -> DRVn -> channel): PASS
@@ -83,7 +83,7 @@ Traced 64 elements: header pin, shift-register SER and output, driver input/outp
 <a id="8"></a>
 ## 8. RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2: PASS
 
-Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input (n-1) mod 4 + 1), the 2k/1k divider, 100 nF coupling to INxP, INxM AC-grounded; SDOUT through 33 R to its J2 pin; SHDNZ, SCL, SDA of the group, BCLK/FSYNC of the group, address pins, and that no two ADCs share bus + address. Errors: 0.
+Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input 4k + 1 - n: common.adc_port), the 2k/1k divider, 100 nF coupling to INxP, INxM AC-grounded; SDOUT through 33 R to its J2 pin; SHDNZ, SCL, SDA of the group, BCLK/FSYNC of the group, address pins, and that no two ADCs share bus + address. Errors: 0.
 
 <a id="9"></a>
 ## 9. Clocks: buffered, <= 4 loads per output, traced to the right header pin: PASS
@@ -98,8 +98,10 @@ Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input (n-1)
 | ADC_FSYNC_B | 0 | ok |
 | ADC_FSYNC_C | 0 | ok |
 | ADC_FSYNC_D | 0 | ok |
-| MIC_CLK_A | 4 | ok |
-| MIC_CLK_B | 4 | ok |
+| MIC_CLK_A | 2 | ok |
+| MIC_CLK_B | 2 | ok |
+| MIC_CLK_C | 2 | ok |
+| MIC_CLK_D | 2 | ok |
 | TX_LATCH_A | 4 | ok |
 | TX_LATCH_B | 4 | ok |
 | TX_LATCH_C | 4 | ok |
@@ -174,7 +176,7 @@ Every OPA1678, TLV320ADC5140, 74HCT595, UCC27524, 74AHCT1G125, 74LVC2G34 and SPH
 <a id="13"></a>
 ## 13. Decoupling on every IC supply pin: PASS
 
-228 IC supply pins checked. Errors: 0.
+229 IC supply pins checked. Errors: 0.
 
 <a id="14"></a>
 ## 14. Capacitor voltage ratings vs rail voltage: PASS
@@ -188,6 +190,8 @@ Errors: 0.
 
 - C9501 100u 25V: + on VIN, - on GND: ok
 - C9535 47u 35V: + on VDRV, - on GND: ok
+- C9550 100u 25V: + on VIN, - on GND: ok
+- C9551 100u 25V: + on +5V, - on GND: ok
 - D9502 green: anode Net-(D9502-A), cathode GND
 - D9503 green: anode Net-(D9503-A), cathode GND
 - D9508 SS14: anode SW_VDRV, cathode VDRV_REG

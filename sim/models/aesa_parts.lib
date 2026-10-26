@@ -5,8 +5,10 @@
 
 * OPA1678 dual in SOIC-8: 1 OUTA, 2 -INA, 3 +INA, 4 V-, 5 +INB, 6 -INB, 7 OUTB, 8 V+
 .subckt OPA1678_DUAL 1 2 3 4 5 6 7 8
-XA 3 2 8 4 1 OPA167x
+* half B (stage 1 of the channel) listed first: same circuit, but LTspice's transient stalls on the
+* TX overload with the other order (2026-10-25)
 XB 5 6 8 4 7 OPA167x
+XA 3 2 8 4 1 OPA167x
 .ends
 
 * BAV99 series pair: pin 1 anode of D1, pin 2 cathode of D2, pin 3 = D1 cathode / D2 anode.

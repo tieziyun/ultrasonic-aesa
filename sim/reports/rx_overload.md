@@ -32,7 +32,7 @@ Voltage at the ADC input pin over time, one colour per strength. The grey band i
 | 1.2 V: 10× stronger (near object): amplifier back out of saturation, after the echo ends | 0.223 | ms | ≤ 1 | yes | the electronics recover; 0 = never saturated |
 | 1.2 V: 10× stronger (near object): transducer's own ringing below 50 mV, after the echo ends | 0.889 | ms | — | — | the transducer is a resonator; faded |
 | 1.2 V: 10× stronger (near object): the later weak echo at the ADC input | 0.0652 | V | 0.056 … 0.0839 | yes | expected about 0.070 V (10 mV × 22 × 0.31): no lasting effect |
-| 6 V: 50× stronger (very near): highest voltage at the ADC input | 1.24 | V | ≤ 1.41 | yes | inside the ADC's ±1.41 V full scale: the amplifier's ±4.2 V swing × 0.31 divider |
+| 6 V: 50× stronger (very near): highest voltage at the ADC input | 1.25 | V | ≤ 1.41 | yes | inside the ADC's ±1.41 V full scale: the amplifier's ±4.2 V swing × 0.31 divider |
 | 6 V: 50× stronger (very near): amplifier back out of saturation, after the echo ends | 0.448 | ms | ≤ 1 | yes | the electronics recover; 0 = never saturated |
 | 6 V: 50× stronger (very near): transducer's own ringing below 50 mV, after the echo ends | 1.13 | ms | — | — | the transducer is a resonator; still faintly ringing when the next echo arrives |
 | 6 V: 50× stronger (very near): the later weak echo at the ADC input | 0.0618 | V | 0.056 … 0.0839 | yes | expected about 0.070 V (10 mV × 22 × 0.31): no lasting effect |
@@ -45,4 +45,4 @@ Voltage at the ADC input pin over time, one colour per strength. The grey band i
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 22:24 with LTspice by `sim/run.py rx_overload`. Testbench: `sim/rx_overload.cir`.
+Run 2026-10-25 01:31 with LTspice by `sim/run.py rx_overload`. Testbench: `sim/rx_overload.cir`.

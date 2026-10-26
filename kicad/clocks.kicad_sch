@@ -5,13 +5,13 @@
 	(uuid "99900665-fd48-56d4-adc4-afa5f63f78bb")
 	(paper "A3")
 	(title_block
-		(title "Clock buffers: 9 x 74LVC2G34 at the FPGA headers")
+		(title "Clock buffers: 10 x 74LVC2G34")
 		(date "2026-10-24")
 		(rev "1")
 		(company "Hybrid 8x8 ultrasonic AESA")
 	)
 	(lib_symbols)
-	(text "Clock buffers. Each FPGA clock enters one or two clk_buf cells; every output drives at most 4 loads through 33 R."
+	(text "Clock buffers. Each FPGA clock enters one or two clk_buf cells; every output drives at most 4 loads through 47 R."
 		(exclude_from_sim no)
 		(at 38.10 30.48 0)
 		(effects
@@ -1216,6 +1216,139 @@
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
 					(page "12")
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 119.38) (xy 139.70 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9107942-66ee-5e79-880c-1247955301bc")
+	)
+	(global_label "MIC_CLK_IN"
+		(shape passive)
+		(at 139.70 119.38 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fa20c472-8925-5bd0-bcea-a21db49ad7c4")
+	)
+	(wire
+		(pts
+			(xy 167.64 119.38) (xy 170.18 119.38)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18b997d9-fe15-5ee1-b80c-a90eb00f05fd")
+	)
+	(global_label "MIC_CLK_C"
+		(shape passive)
+		(at 170.18 119.38 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "43dd6f8b-9e22-5719-82aa-ef8a833c09ab")
+	)
+	(wire
+		(pts
+			(xy 167.64 121.92) (xy 170.18 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6282a477-9bee-5ab0-a07e-118703179a1b")
+	)
+	(global_label "MIC_CLK_D"
+		(shape passive)
+		(at 170.18 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3ef90885-a907-5247-b19b-b606cc04382d")
+	)
+	(sheet
+		(at 142.24 116.84)
+		(size 25.40 7.62)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "0ff35b05-787e-5cd0-af9c-826d52f93654")
+		(property "Sheetname" "CLKB10"
+			(at 142.24 116.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(bold no)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "clk_buf.kicad_sch"
+			(at 142.24 125.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(pin "IN" input
+			(at 142.24 119.38 180)
+			(uuid "4b9aa20a-9b68-570f-a19b-d57379dbff14")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "OUT1" output
+			(at 167.64 119.38 0)
+			(uuid "69f90d77-d8a8-5703-9e02-7a806c6c6f12")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "OUT2" output
+			(at 167.64 121.92 0)
+			(uuid "3d24d58f-ad1e-5e4d-be67-3b4b73bcfe14")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "aesa"
+				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd/a66a9929-b3db-5b77-9fc6-8a8088c45b7b"
+					(page "13")
 				)
 			)
 		)

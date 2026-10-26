@@ -14,8 +14,8 @@ Uses: 3-D sonar imaging, gesture and hand tracking, Doppler motion sensing, and 
 |---|---|---|
 | 1 | top | **Block diagram**: FPGA → TX drive → transceivers → receive amplifiers → ADCs → FPGA, plus mics and power |
 | 2 | `headers` | The two 40-pin ribbon headers to the AXU3EGB, idle pulls and I²C pull-ups |
-| 3 | group | The 9 clock buffers and which clock each one feeds |
-| 4 | `clk_buf` ×9 | One clock fan-out buffer with 33 Ω series termination |
+| 3 | group | The 10 clock buffers and which clock each one feeds |
+| 4 | `clk_buf` ×10 | One clock fan-out buffer with 47 Ω series termination |
 | 5 | group | TX drive: 16 TX groups and 4 enable buffers |
 | 6 | `tx_group` ×16 | 74HCT595 shift register and two UCC27524 gate drivers: drives 4 elements |
 | 7 | `en_buf` ×4 | TX-enable buffer for 8 gate drivers |

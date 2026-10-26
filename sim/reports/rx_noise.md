@@ -39,4 +39,4 @@ Blue: noise at the ADC input pin. Orange: the same noise expressed as an echo vo
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 22:24 with LTspice by `sim/run.py rx_noise`. Testbench: `sim/rx_noise.cir`.
+Run 2026-10-25 01:31 with LTspice by `sim/run.py rx_noise`. Testbench: `sim/rx_noise.cir`.

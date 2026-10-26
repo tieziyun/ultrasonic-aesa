@@ -271,7 +271,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.15,
+        "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -328,7 +328,7 @@
       },
       {
         "bus_width": 12,
-        "clearance": 0.3,
+        "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -339,7 +339,7 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 1,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.35,
+        "track_width": 0.3,
         "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
@@ -347,7 +347,7 @@
       },
       {
         "bus_width": 12,
-        "clearance": 0.25,
+        "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
@@ -377,7 +377,7 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 1,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.2,
+        "track_width": 0.25,
         "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
@@ -400,19 +400,23 @@
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "/Power/VIN_JACK"
+        "pattern": "/Power*/VIN_JACK"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "/Power/VIN_PROT"
+        "pattern": "/Power*/VIN_PROT"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "/Power/5V_REG"
+        "pattern": "/Power*/VIN_F"
       },
       {
         "netclass": "HighCurrent",
-        "pattern": "/Power/SW_5V"
+        "pattern": "/Power*/5V_REG"
+      },
+      {
+        "netclass": "HighCurrent",
+        "pattern": "/Power*/SW_5V"
       },
       {
         "netclass": "Power",
@@ -448,15 +452,15 @@
       },
       {
         "netclass": "Power",
-        "pattern": "/Power/*_REG"
+        "pattern": "/Power*/*_REG"
       },
       {
         "netclass": "Power",
-        "pattern": "/Power/SW_*"
+        "pattern": "/Power*/SW_*"
       },
       {
         "netclass": "Power",
-        "pattern": "/Power/VIN65"
+        "pattern": "/Power*/VIN65"
       },
       {
         "netclass": "Drive",

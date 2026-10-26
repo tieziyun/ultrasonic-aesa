@@ -55,11 +55,16 @@ PICKS = {
     "SMD1812P200TF16": ("C20812", "2 A hold / 16 V 1812 polyfuse, half the price of the Littelfuse 1812L200/16DR"),
     "green": ("C12624", "KT-0603G. No green 0603 LED is a Basic part; the Basic red KT-0603R (C2286) would save "
                         "the $3 fee if the colour does not matter"),
+    "100u 25V": ("C294509", "Lelon VZH101M1HTR-0810, 100 uF 50 V 8x10 electrolytic: the damped VIN/+5V bulk "
+                            "(C9501 at the jack, C9550 at the power row, C9551 at the top LDOs); pinned 2026-10-26 "
+                            "after the parametric search stopped matching the can size"),
+    "47u 35V": ("C970679", "Lelon RVT1H470M0607, 47 uF 50 V 6.3x7.7 electrolytic, VDRV bulk (pinned 2026-10-26)"),
     "600R@100MHz 0603": ("C1002", "Sunlord GZ1608D601TF, JLCPCB Basic; filters the 3V3_MIC rail (mics draw ~10 mA)"),
     "10u Isat>=5A": ("C2044906", "Bourns SRN8040TA-100M, 10 uH (TI reference value), Isat 5 A = the TPS54302's "
                                  "typical current limit; same footprint as before"),
     "4.7u Isat>=2A": ("C78804", "Sunlord SWPA6045S4R7MT, 4.7 uH, Isat 5.5 A"),
     "10u Isat>=2A": ("C79272", "Sunlord SWPA6045S100MT, 10 uH, Isat 3.5 A"),
+    "1u Isat>=4A": ("C42193", "Sunlord SWPA4030S1R0NT, 1 uH, Isat 4.15 A: 12 V input filter (EMI, 2026-10-24)"),
     "12 V in (5.5x2.1)": ("C22434582", "CUI PJ-063AH (8 A); kept for the documented footprint"),
     "TX power (shunt)": ("C492401", "1x2 2.54 mm pin header (add a 2.54 mm jumper shunt)"),
     "EX_IO1 (AXU3EGB J15)": ("C19193815", "2x20 2.54 mm shrouded box header, 826 in stock"),

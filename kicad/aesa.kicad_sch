@@ -684,7 +684,7 @@
 		)
 		(uuid "f9948474-9b8e-548e-a5f2-4c1fb254bda7")
 	)
-	(text "9 x 74LVC2G34, 33 R"
+	(text "10 x 74LVC2G34, 47 R"
 		(exclude_from_sim no)
 		(at 160.02 114.30 0)
 		(effects
@@ -783,7 +783,7 @@
 		)
 		(uuid "e421952c-a389-5bca-b6ca-3d8dab07967e")
 	)
-	(text "Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, tx_group x16, en_buf x4, clk_buf x9, mic x8."
+	(text "Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, tx_group x16, en_buf x4, clk_buf x10, mic x8."
 		(exclude_from_sim no)
 		(at 25.40 273.05 0)
 		(effects
@@ -909,7 +909,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "13")
+					(page "14")
 				)
 			)
 		)
@@ -949,7 +949,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "34")
+					(page "35")
 				)
 			)
 		)
@@ -989,7 +989,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "99")
+					(page "100")
 				)
 			)
 		)
@@ -1029,7 +1029,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "116")
+					(page "117")
 				)
 			)
 		)
@@ -1069,7 +1069,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "125")
+					(page "126")
 				)
 			)
 		)
@@ -1109,7 +1109,7 @@
 		(instances
 			(project "aesa"
 				(path "/35d88121-1d5f-4a62-9009-788ea6bf93dd"
-					(page "126")
+					(page "127")
 				)
 			)
 		)

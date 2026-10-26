@@ -12,7 +12,7 @@ Three levels:
 
 It then rewrites every cell symbol's (instances ...) block so each instance has its own
 reference: <letters><sheet id><number:02d>. Sheet ids: CH n -> n (R101..R6409), ADC k -> 70+k (k = 1..16),
-TXG k -> 100+k, TXEN j -> 120+j, CLKB j -> 130+j, MIC m -> 140+m, power and power_analog 95 (their
+TXG k -> 100+k, TXEN j -> 120+j, CLKB j -> 130+j (j = 1..10), MIC m -> 140+m, power and power_analog 95 (their
 local references are unique across the two), headers 99.
 Run it after editing any sheet (it then exports docs/schematics/aesa_schematic.pdf; --no-pdf skips that):
 
@@ -23,7 +23,7 @@ import re
 import sys
 import uuid
 from pathlib import Path
-from common import DATE, REV, block_end
+from common import DATE, REV, block_end, tx_element
 
 KICAD = Path(__file__).resolve().parent.parent / "kicad"
 PROJECT = "aesa"
@@ -159,7 +159,9 @@ def cells():
         r, c = divmod(k - 1, 4)
         grp, idx = divmod(k - 1, 4)
         s = Sheet(f"ADC{k:02d}", "adc.kicad_sch", 70 + k, 50.8 + 88.9 * c, 50.8 + 45.72 * r, 25.4, 22.86)
-        s.pins = [(f"IN{j}", "input", "left", f"RX{4 * (k - 1) + j}") for j in range(1, 5)]
+        # IN1 is the rightmost input column on the board: each column's RX lanes leave their bundle innermost
+        # first, so the lowest row of the four goes to the farthest input (IN4) and nothing crosses
+        s.pins = [(f"IN{j}", "input", "left", f"RX{4 * (k - 1) + j}") for j in range(1, 5)]   # elements in order
         s.pins += [("BCLK", "input", "left", f"ADC_BCLK_{'ABCD'[grp]}"),
                    ("FSYNC", "input", "left", f"ADC_FSYNC_{'ABCD'[grp]}"),
                    ("A0", "input", "left", "+3V3" if idx & 1 else "GND"),
@@ -177,7 +179,9 @@ def cells():
                   ("SCK", "input", "left", f"TX_SCK_{abcd[(k - 1) // 4]}"),
                   ("LATCH", "input", "left", f"TX_LATCH_{abcd[(k - 1) // 4]}"),
                   ("EN", "input", "left", f"TX_EN{(k - 1) // 4 + 1}")]
-        s.pins += [(f"DRV{i}", "output", "right", f"DRV{4 * (k - 1) + i}") for i in range(1, 5)]
+        # TX group k drives elements 4(k-1)+1 .. 4k on DRV1..DRV4 (common.tx_element); on the board the even group
+        # of a column (rows 4-7) sits next to the array
+        s.pins += [(f"DRV{i}", "output", "right", f"DRV{tx_element(k, i)}") for i in range(1, 5)]
         tx.append(s)
     for j in range(1, 5):  # one TX-enable buffer per 4 groups (8 drivers, 16 EN pins)
         s = Sheet(f"TXEN{j}", "en_buf.kicad_sch", 120 + j, 50.8 + 91.44 * (j - 1), 195.58, 25.4, 5.08)
@@ -189,7 +193,7 @@ def cells():
               ("TX_LATCH", "TX_LATCH_A", "TX_LATCH_B"), ("TX_LATCH", "TX_LATCH_C", "TX_LATCH_D"),
               ("ADC_BCLK", "ADC_BCLK_A", "ADC_BCLK_B"), ("ADC_BCLK", "ADC_BCLK_C", "ADC_BCLK_D"),
               ("ADC_FSYNC", "ADC_FSYNC_A", "ADC_FSYNC_B"), ("ADC_FSYNC", "ADC_FSYNC_C", "ADC_FSYNC_D"),
-              ("MIC_CLK_IN", "MIC_CLK_A", "MIC_CLK_B")]
+              ("MIC_CLK_IN", "MIC_CLK_A", "MIC_CLK_B"), ("MIC_CLK_IN", "MIC_CLK_C", "MIC_CLK_D")]
     clk = []
     for j, (src, o1, o2) in enumerate(clocks, start=1):  # each output drives <= 4 loads
         r, c = divmod(j - 1, 4)
@@ -199,10 +203,10 @@ def cells():
     g["clocks.kicad_sch"] = clk
 
     mics = []
-    for m in range(1, 9):  # pairs share DATA (SEL high / low); MIC_CLK_A: mics 1-4, B: 5-8
+    for m in range(1, 9):  # pairs share DATA (SEL high / low) and a clock: MIC_CLK_A mics 1-2, B 3-4, C 5-6, D 7-8
         r, c = divmod(m - 1, 4)
         s = Sheet(f"MIC{m}", "mic.kicad_sch", 140 + m, 50.8 + 91.44 * c, 50.8 + 33.02 * r, 25.4, 7.62)
-        s.pins = [("CLK", "input", "left", "MIC_CLK_A" if m <= 4 else "MIC_CLK_B"),
+        s.pins = [("CLK", "input", "left", f"MIC_CLK_{'ABCD'[(m - 1) // 2]}"),
                   ("SEL", "input", "left", "3V3_MIC" if m % 2 else "GND"),
                   ("DATA", "output", "right", f"MIC_DATA{(m - 1) // 2}")]
         mics.append(s)
@@ -223,10 +227,10 @@ GROUP_INFO = {  # file: (sheet name, paper, title, note)
                        "own I2C address."),
     "mics.kicad_sch": ("MEMS mics", "A3", "MEMS microphones: 8 x SPH0641LU4H-1",
                        "MEMS mics. Mics 2k-1 and 2k share MIC_DATAk-1 (SEL high on the odd one). "
-                       "MIC_CLK_A feeds mics 1-4, MIC_CLK_B mics 5-8."),
-    "clocks.kicad_sch": ("Clock buffers", "A3", "Clock buffers: 9 x 74LVC2G34 at the FPGA headers",
+                       "One clock per mic pair: MIC_CLK_A mics 1-2, B 3-4, C 5-6, D 7-8."),
+    "clocks.kicad_sch": ("Clock buffers", "A3", "Clock buffers: 10 x 74LVC2G34",
                          "Clock buffers. Each FPGA clock enters one or two clk_buf cells; every output "
-                         "drives at most 4 loads through 33 R."),
+                         "drives at most 4 loads through 47 R."),
 }
 
 
@@ -290,7 +294,7 @@ def top_drawing():
     # Captions under the boxes
     caps = [("16 x 74HCT595 + 32 x UCC27524", 238.76, 71.12), ("4 x enable buffer", 238.76, 74.93),
             ("64 x: T/R diodes, CUSP-TR80,", 322.58, 73.66), ("limiter, x6 amp, 40 kHz band-pass", 322.58, 77.47),
-            ("16 x TLV320ADC5140, 192 kSPS", 238.76, 167.64), ("9 x 74LVC2G34, 33 R", 160.02, 114.3),
+            ("16 x TLV320ADC5140, 192 kSPS", 238.76, 167.64), ("10 x 74LVC2G34, 47 R", 160.02, 114.3),
             ("8 x SPH0641 PDM", 160.02, 215.9), ("J1 = AXU3EGB J15", 88.9, 96.52), ("(TX, mics)", 88.9, 100.33),
             ("J2 = AXU3EGB J16", 88.9, 106.68), ("(ADCs)", 88.9, 110.49)]
     for i, (s, x, y) in enumerate(caps):
@@ -300,7 +304,7 @@ def top_drawing():
     o.append(text("Power 2 (analog): +5V -> +-6V5 -> +-5VA (receivers), +3V3A (ADCs).", 132.08, 255.27, 1.6, "p3"))
     o.append(text("Every rail: test point, isolation jumper, LED (not on the analog LDOs).", 132.08, 236.22, 1.6, "p2"))
     o.append(text("Click a block to open it. Repeated parts are one sheet each: channel x64, adc x16, "
-                  "tx_group x16, en_buf x4, clk_buf x9, mic x8.", 25.4, 273.05, 1.6, "h1"))
+                  "tx_group x16, en_buf x4, clk_buf x10, mic x8.", 25.4, 273.05, 1.6, "h1"))
     return "".join(o)
 
 

@@ -8,17 +8,17 @@
 	(constraint clearance (min 1.0mm)))
 
 (rule "Switch nodes vs receive: 2 mm"
-	(condition "A.NetName == '/Power/SW_*' && B.NetClass == 'Analog'")
+	(condition "A.NetName == '/Power*/SW_*' && B.NetClass == 'Analog'")
 	(constraint clearance (min 2.0mm)))
 
-# clocks: tracks at least 2x their width from other signals (crosstalk); pads keep the class value
+# clocks: 1 mm pitch to other tracks (crosstalk about 4 % instead of 11 % at 0.6 mm; docs/routing_and_emi.md); pads keep the class value; GND beside a clock is a shield, not an aggressor; escapes at an IC's pins (inside its courtyard) are exempt, the rule is for parallel runs
 (rule "Clock tracks spaced from other tracks"
-	(condition "A.NetClass == 'Clock' && A.Type == 'Track' && B.Type == 'Track' && B.NetClass != 'Clock'")
-	(constraint clearance (min 0.4mm)))
+	(condition "A.NetClass == 'Clock' && A.Type == 'Track' && B.Type == 'Track' && B.NetClass != 'Clock' && B.NetName != 'GND' && !A.intersectsCourtyard('U*') && !B.intersectsCourtyard('U*')")
+	(constraint clearance (min 0.65mm)))
 
-# receive tracks spaced from digital tracks
+# receive tracks spaced from digital tracks (GND guards excepted)
 (rule "Receive tracks spaced from digital tracks"
-	(condition "A.NetClass == 'Analog' && A.Type == 'Track' && B.Type == 'Track' && (B.NetClass == 'Default' || B.NetClass == 'Clock')")
+	(condition "A.NetClass == 'Analog' && A.Type == 'Track' && B.Type == 'Track' && B.NetName != 'GND' && (B.NetClass == 'Default' || B.NetClass == 'Clock')")
 	(constraint clearance (min 0.5mm)))
 
 # ---- manufacturing: JLCPCB standard 4-layer capabilities ---------------------------------------------

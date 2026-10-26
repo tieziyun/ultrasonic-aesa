@@ -19,7 +19,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common import KICAD_3DMODELS, KICAD_CLI, KICAD_FOOTPRINTS  # noqa: E402
+from common import KICAD_3DMODELS, KICAD_CLI, KICAD_FOOTPRINTS, TXG_Q_FOR_PORT, adc_port, tx_port  # noqa: E402
 from pinmap import J1_MAP, J2_MAP  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
@@ -125,7 +125,7 @@ def check_erc(R):
 
 def check_counts(R, d):
     expect = {"OPA1678IDR": 64, "CUSP-TR80-15-2500-TH": 64, "BAV99": 128, "UCC27524DR": 32, "74HCT595D": 16,
-              "74AHCT1G125": 4, "74LVC2G34": 9, "TLV320ADC5140": 16, "SPH0641LU4H-1": 8, "TPS54302DDCR": 1,
+              "74AHCT1G125": 4, "74LVC2G34": 10, "TLV320ADC5140": 16, "SPH0641LU4H-1": 8, "TPS54302DDCR": 1,
               "TPS65131RGER": 1, "TPS7A4700RGWT": 2, "TPS7A3301RGWR": 1, "LM2731XMF": 1, "TLV75733PDBVR": 1}
     vals = Counter(c["value"] for c in d.comps.values())
     bad = [f"- {v}: {vals.get(v, 0)} (expected {n})" for v, n in expect.items() if vals.get(v, 0) != n]
@@ -233,18 +233,18 @@ def check_tx_chain(R, d):
     """Header pin -> 595 SER; 595 Q -> UCC IN; UCC OUT -> DRVn -> channel n."""
     errs = []
     hdr = {v: k for k, v in J1_MAP.items() if v}
-    q_pins = ["15", "1", "2", "3"]
+    q_pins = {"A": "15", "B": "1", "C": "2", "D": "3"}       # 595 output pins
     out_of_in = {"2": "7", "4": "5"}
     for n in range(1, 65):
-        g = (n - 1) // 4 + 1
+        g, i = tx_port(n)
         sr = f"U{100 + g}01"
         ser = d.base(d.net(sr, "14"))
         if ser != f"TX_SDI{g - 1}" or d.net("J9901", hdr[ser]) is None or d.base(d.net("J9901", hdr[ser])) != ser:
             errs.append(f"element {n}: 595 {sr} SER on {ser}, expected TX_SDI{g - 1} at J1 pin {hdr.get(f'TX_SDI{g - 1}')}")
-        qnet = d.net(sr, q_pins[(n - 1) % 4])
+        qnet = d.net(sr, q_pins[TXG_Q_FOR_PORT[i]])
         drv_in = [(r, p) for (r, p) in d.nets.get(qnet, []) if d.comps[r]["value"] == "UCC27524DR"]
         if len(drv_in) != 1 or drv_in[0][1] not in out_of_in:
-            errs.append(f"element {n}: {sr} Q{'ABCD'[(n - 1) % 4]} reaches {drv_in}")
+            errs.append(f"element {n}: {sr} Q{TXG_Q_FOR_PORT[i]} reaches {drv_in}")
             continue
         ucc, pin = drv_in[0]
         drv = d.net(ucc, out_of_in[pin])
@@ -257,10 +257,11 @@ def check_tx_chain(R, d):
 
 
 def check_rx_chain(R, d):
-    """Channel n -> RXn -> ADC k = ceil(n/4), input i = (n-1) mod 4 through 2k / 1k / 100 nF; ADC wiring to J2."""
+    """Channel n -> RXn -> ADC k, input i (common.adc_port) through 2k / 1k / 100 nF; ADC wiring to J2."""
     errs = []
     for n in range(1, 65):
-        k, i = (n - 1) // 4 + 1, (n - 1) % 4
+        k, j = adc_port(n)
+        i = j - 1
         sid, u = 70 + k, f"U{70 + k}01"
         rx = d.net(f"R{n}09", "2")
         rt, rb, cc, cm = f"R{sid}{i + 1:02d}", f"R{sid}{i + 5:02d}", f"C{sid}{i + 1:02d}", f"C{sid}{i + 5:02d}"
@@ -290,14 +291,14 @@ def check_rx_chain(R, d):
             errs.append(f"ADC{k} has the same I2C bus and address as ADC{seen[addr]}")
         seen[addr] = k
     R.add("RX chain (channel -> RXn -> divider -> ADC input) and ADC wiring to J2", not errs,
-          ["Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input (n-1) mod 4 + 1), the 2k/1k "
+          ["Checked: R_out of each channel into its ADC cell (ADC k = ceil(n/4), input 4k + 1 - n: common.adc_port), the 2k/1k "
            "divider, 100 nF coupling to INxP, INxM AC-grounded; SDOUT through 33 R to its J2 pin; SHDNZ, SCL, SDA of "
            "the group, BCLK/FSYNC of the group, address pins, and that no two ADCs share bus + address. "
            f"Errors: {len(errs)}."] + [f"- {e}" for e in errs[:20]])
 
 
 def trace_to_header(d, net, seen=None):
-    """Follow a clock net upstream through 33 R / 100 R series resistors and 74LVC2G34 gates."""
+    """Follow a clock net upstream through 47 R / 100 R series resistors and 74LVC2G34 gates."""
     seen = seen or set()
     if net in seen:
         return set()
@@ -307,7 +308,7 @@ def trace_to_header(d, net, seen=None):
         if r in ("J9901", "J9902"):
             found.add(f"{'J1' if r == 'J9901' else 'J2'}.{p}")
         c = d.comps[r]
-        if r.startswith("R") and c["value"].startswith("33 "):
+        if r.startswith("R") and c["value"].startswith(("33 ", "47 ")):  # series terminators
             found |= trace_to_header(d, d.other_end(r, net), seen)
         if c["value"] == "74LVC2G34" and p in ("6", "4"):
             found |= trace_to_header(d, d.net(r, "1" if p == "6" else "3"), seen)

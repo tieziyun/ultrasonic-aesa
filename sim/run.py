@@ -561,15 +561,15 @@ def clock_steps(name, labels, node):
 
 
 def clock_si():
-    rows, fig = clock_steps("clock_si", ["without series resistor", "with 33 Ω series resistor (design)"], "V(l4)")
+    rows, fig = clock_steps("clock_si", ["without series resistor", "with 47 Ω series resistor (design)"], "V(l4)")
     _, vmax, vmin, cr = rows[1]
-    checks = [Check("Overshoot at the farthest chip, with 33 Ω", vmax, "V", hi=3.6, why="parts rated 3.3 V + 0.5 V"),
-              Check("Undershoot at the farthest chip, with 33 Ω", vmin, "V", lo=-0.3, why="parts rated −0.5 V"),
+    checks = [Check("Overshoot at the farthest chip, with 47 Ω", vmax, "V", hi=3.6, why="parts rated 3.3 V + 0.5 V"),
+              Check("Undershoot at the farthest chip, with 47 Ω", vmin, "V", lo=-0.3, why="parts rated −0.5 V"),
               Check("Edges counted per clock (2 per period, 8 expected)", cr, "", 8, 8,
                     why="more would mean false clocking"),
               Check("Overshoot without the resistor (comparison)", rows[0][1], "V"),
               Check("Undershoot without the resistor (comparison)", rows[0][2], "V")]
-    answer = (f"Yes. With the 33 Ω resistor the clock reaches the farthest of the four chips with clean edges "
+    answer = (f"Yes. With the 47 Ω resistor the clock reaches the farthest of the four chips with clean edges "
               f"({vmax:.2f} V / {vmin:+.2f} V, one crossing per edge). Without it, the trace would ring to "
               f"{rows[0][1]:.1f} V / {rows[0][2]:.1f} V, outside the chips' ratings.")
     return checks, fig, answer
@@ -589,6 +589,55 @@ def clock_si_drive():
     answer = (f"DRIVE 4. At that setting the FPGA's output roughly matches the ribbon, so clocks arrive clean "
               f"({d4[1]:.2f} V / {d4[2]:+.2f} V). At DRIVE 8 they would overshoot to {d8[1]:.1f} V and dip to "
               f"{d8[2]:.2f} V, close to the buffer's −0.5 V limit.")
+    return checks, fig, answer
+
+
+def mic_clock_si():
+    """Mic clock edges at every mic for the old wiring and the one-output-per-pair design."""
+    run_ltspice(HERE / "mic_clock_si.cir")
+    d = read_raw(HERE / "mic_clock_si.raw")
+    t = d["time"]
+    labels = ["4 mics on one output, 33 Ω (previous)", "4 mics on one output, 47 Ω",
+              "one output per mic pair, 47 Ω (design)"]
+    vil, vih = 0.99, 2.31
+    fig, axs = plt.subplots(1, 3, figsize=(12, 4.2), sharey=True)
+    checks, worst = [], {}
+    for mode, ((i0, i1), lab, ax) in enumerate(zip(steps(t), labels, axs)):
+        design = mode == 2
+        for n in (("V(m1)", "V(m2)") if design else ("V(m1)", "V(m2)", "V(m3)", "V(m4)")):
+            ts, vs = t[i0:i1], d[n][i0:i1]
+            w = [(x, v) for x, v in zip(ts, vs) if 340e-9 < x < 385e-9]   # one rising edge
+            tl = next(x for x, v in w if v > vil)
+            th = next(x for x, v in w if v > vih)
+            cr, st = 0, None                                               # threshold crossings
+            for x, v in zip(ts, vs):
+                if x < 50e-9:
+                    continue
+                st = v > 1.65 if st is None else st
+                if (v > vih and not st) or (v < vil and st):
+                    st, cr = not st, cr + 1
+            mic = f"mic {n[3]}"
+            edge = (th - tl) * 1e9
+            worst[mode] = max(worst.get(mode, 0), edge)
+            checks.append(Check(f"{lab}: {mic}, edge time from 0.3 to 0.7 VDD", edge, "ns",
+                                hi=1.5 if design else None,
+                                why="datasheet: edges ≤ 3 ns (10–90 %), i.e. ≤ 1.5 ns between the thresholds"
+                                if design else ""))
+            if design:
+                checks += [Check(f"{lab}: {mic}, overshoot", max(vs), "V", hi=3.6, why="mic input rated 3.6 V"),
+                           Check(f"{lab}: {mic}, undershoot", min(vs), "V", lo=-0.3, why="mic input rated −0.3 V"),
+                           Check(f"{lab}: {mic}, threshold crossings (4 expected)", cr, "", 4, 4,
+                                 why="more would mean a false clock")]
+            ax.plot([x * 1e9 for x in ts], vs, lw=0.9, label=mic)
+        ax.axhspan(vil, vih, color=GREY, alpha=0.15, label="undecided zone (0.3–0.7 VDD)")
+        ax.set_title(lab, fontsize=9)
+        ax.set_xlim(340, 372)
+        finish(ax, "time (ns)", "clock voltage at the mic (V)" if mode == 0 else None, legend=mode == 0)
+    answer = (f"Only with one clock output per mic pair. With one output feeding all four mics of a side, the mics "
+              f"nearest the buffer see a staircase edge ({worst[0]:.1f} ns between the logic thresholds at 33 Ω, "
+              f"{worst[1]:.1f} ns at 47 Ω; the mic allows about 1.5 ns, i.e. 3 ns edges): the reflection from the "
+              f"far end arrives late. With one output per pair, 47 Ω, every mic sees a clean edge "
+              f"({worst[2]:.1f} ns at worst) with no overshoot.")
     return checks, fig, answer
 
 
@@ -704,7 +753,7 @@ SIMS = {
         why="A ringing clock can be counted twice (corrupting the TX pattern or the ADC data), and overshoot "
             "stresses the chip inputs.",
         setup="A 74LVC2G34 clock buffer drives a 60 Ω board trace with four chip inputs, 3 cm apart, at 20 MHz, "
-              "with and without the 33 Ω series resistor.",
+              "with and without the 47 Ω series resistor.",
         read="The clock voltage at the farthest chip. The dotted line is where the chips decide between 0 and 1; "
              "the red bands are outside their ratings."),
     "clock_si_drive": dict(
@@ -718,6 +767,17 @@ SIMS = {
               "three FPGA output strengths.",
         read="The clock voltage at our buffer's input for each drive strength. Same lines and bands as the board "
              "clock test."),
+    "mic_clock_si": dict(
+        fn=mic_clock_si, files=["mic_clock_si.cir"], part="Clocks",
+        title="Mic clock: does every mic get a clean edge?",
+        question="The mic clock runs 200-300 mm down the sides of the array. Does every mic see an edge within its "
+                 "3 ns limit, with no false clocks?",
+        why="The mics need fast clock edges (≤ 3 ns). A series resistor at the buffer only gives clean edges when "
+            "the loads sit together at the far end of the trace; mics spread along the trace can see a staircase.",
+        setup="A 74LVC2G34 output drives a 61 Ω (0.25 mm) board trace at 3.07 MHz: either all four mics of one "
+              "side, 40 mm apart, 200 mm from the buffer, or one mic pair at the end of a 280 mm trace.",
+        read="Each mic's clock voltage during one rising edge. The grey band is where the mic can't tell 0 from 1; "
+             "the edge must cross it in about 1.5 ns."),
     "clock_si_in": dict(
         fn=clock_si_in, files=["clock_si_in.cir"], part="Clocks",
         title="Clocks from the FPGA: fallback termination",

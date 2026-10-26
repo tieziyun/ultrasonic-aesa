@@ -151,7 +151,9 @@ def tx_rx_channel(drv_in, drv_out, tx_bit, xd, rx_out, v_pos, v_neg, gnd):
 
     # ---- Stage 1: non-inverting, gain 1 + 10k/2k = 6, DC gain 1 ----------------
     u = _opamp(tag="u_amp")
-    ua, ub, upwr = u.uA, u.uB, u.uC
+    # stage 1 on half B (pins 5-7), stage 2 on half A (pins 1-3): on the board the input pin 5 then faces
+    # the transducer and the output pin 1 the RX lane, and the edge-side supply pin has room for its capacitor
+    ua, ub, upwr = u.uB, u.uA, u.uC
     upwr["V+"] += v_pos
     upwr["V-"] += v_neg
     v_pos & C("100n", "c_vp", "16V X7R") & gnd
@@ -161,7 +163,7 @@ def tx_rx_channel(drv_in, drv_out, tx_bit, xd, rx_out, v_pos, v_neg, gnd):
     fb1 = Net("FB1")
     ua["+"] += lim
     ua["-"] += fb1
-    ua[1] += s1  # unit A output pin
+    ua[7] += s1  # unit B output pin
     s1 & R("10k", "r_f1") & fb1
     s1 & C("33p", "c_f1", "50V C0G") & fb1  # stage-1 roll-off near 480 kHz
     # 2 k + 100 nF to AGND: high-pass corner at about 800 Hz, removes offset and drift.
@@ -183,7 +185,7 @@ def tx_rx_channel(drv_in, drv_out, tx_bit, xd, rx_out, v_pos, v_neg, gnd):
     inv2 & R("16k", "r2") & out2                      # R2
     ub["-"] += inv2
     ub["+"] += gnd
-    ub[7] += out2  # unit B output pin
+    ub[1] += out2  # unit A output pin
 
     # Total mid-band gain about -24 (27.6 dB). A 1 m echo of about 120 mV gives
     # about 2.7 V peak at RX_OUT; the ADC cell's 2k/1k divider scales that to 0.81 V

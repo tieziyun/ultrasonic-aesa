@@ -7,7 +7,7 @@ sheet by scripts/gen_top.py, so there is exactly one sheet to change per block:
   adc.kicad_sch       x16  TLV320ADC5140, 4 channels, TDM slave, I2C, 33 R on SDOUT
   tx_group.kicad_sch  x16  one 74HCT595 + two UCC27524: drives 4 elements
   en_buf.kicad_sch    x4   one 74AHCT1G125: TX_EN_FPGA -> TX_ENn (one per 8 drivers)
-  clk_buf.kicad_sch   x9   one 74LVC2G34, 100 k pull-down on IN, 33 R per output (<= 4 loads)
+  clk_buf.kicad_sch   x10  one 74LVC2G34, 100 k pull-down on IN, 47 R per output (<= 4 loads)
   mic.kicad_sch       x8   one SPH0641LU4H-1 + bypass cap + 33 R on DATA
   headers.kicad_sch   x1   AXU3EGB J15/J16 headers, idle pulls (one-off)
 
@@ -504,12 +504,15 @@ def adc():
         s.part("Device:R", rb, 86.36, y + 3.81, "1k 1%", R0603)
         s.part("Device:C", cc, 104.14, y, "100n 16V X7R", C0603, rot=90)
         s.part("Device:C", cm, 132.08, y + 12.7, "100n 16V X7R", C0603)
-        s.hier(f"IN{i + 1}", f"{rt}.1", shape="input")
+        s.hier(f"IN{4 - i}", f"{rt}.1", shape="input")      # ports in element order: IN1 -> channel 4 (below)
         s.poly(f"{rt}.2", f"{rb}.1", f"{cc}.1")
         s.pwr("GND", f"{rb}.2", f"{cm}.2")
         s.lbl(f"INP{i + 1}", f"{cc}.2", f"U1.{6 + 2 * i}")
         s.lbl(f"INM{i + 1}", f"{cm}.1", f"U1.{7 + 2 * i}")
     s.note("Channel inputs: 2k + 1k divider, 100 nF AC coupling (single-ended, INxM AC-grounded)", 50.8, 68.58)
+    s.note("Ports IN1-IN4 are the block's four elements in order; IN1 feeds ADC channel 4 ... IN4 channel 1 (the "
+           "order the receive lanes reach the inputs on the board). TDM: channel c carries element 4k-4 + (5 - c).",
+           50.8, 73.66)
     # Control and audio interface
     s.glb("ADC_SHDNZ", "U1.14", shape="input")
     s.hier("A0", "U1.16", shape="input")
@@ -560,15 +563,18 @@ def tx_group():
     s.glb("TX_OE_N", "U1.13", shape="input")
     s.pwr("+5V", "U1.16")
     s.pwr("GND", "U1.8")
-    # QA..QD wired straight to the driver inputs (QA->U2 INA, QB->U2 INB, QC->U3 INA, QD->U3 INB)
-    for q, dst, xm in (("15", "U2.2", 139.7), ("1", "U2.4", 142.24), ("2", "U3.2", 142.24), ("3", "U3.4", 139.7)):
+    # QA..QD to the driver inputs in board order: on the board the 595's QB-QD face the drivers left to right and
+    # QA comes round the left end, so QA->U2 INB, QB->U2 INA, QC->U3 INB, QD->U3 INA run side by side without
+    # crossing. The outputs are labelled in element order, so DRV1..DRV4 = QA..QD = the group's elements 1..4
+    # (common.TXG_Q_FOR_PORT)
+    for q, dst, xm in (("15", "U2.4", 142.24), ("1", "U2.2", 139.7), ("2", "U3.4", 142.24), ("3", "U3.2", 139.7)):
         s.route(f"U1.{q}", dst, xm)
     s.nc("U1.4", "U1.5", "U1.6", "U1.7", "U1.9")
     for ref, y, a, b in (("U2", 76.2, 1, 2), ("U3", 129.54, 3, 4)):
         s.part("Driver_FET:UCC27524D", ref, 172.72, y, "UCC27524DR", "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm")
         s.hier("EN", f"{ref}.1", f"{ref}.8", shape="input")
-        s.hier(f"DRV{a}", f"{ref}.7", shape="output")
-        s.hier(f"DRV{b}", f"{ref}.5", shape="output")
+        s.hier(f"DRV{a}", f"{ref}.5", shape="output")      # OUTB: QA (U2) / QC (U3)
+        s.hier(f"DRV{b}", f"{ref}.7", shape="output")      # OUTA: QB (U2) / QD (U3)
         s.pwr("VDRV", f"{ref}.6")
         s.pwr("GND", f"{ref}.3")
     caps = [("C1", "100n 16V X7R", C0603, "+5V", 55.88, 101.6),
@@ -601,13 +607,13 @@ def en_buf():
 
 
 # =====================================================================================
-# Clock buffer: one input -> two 33 R series-terminated outputs, <= 4 loads each
+# Clock buffer: one input -> two 47 R series-terminated outputs, <= 4 loads each, clustered at the far end
 # =====================================================================================
 def clk_buf():
-    s = Sheet("clk_buf", "A4", "Clock buffer (x9): 74LVC2G34, 33 R outputs")
-    s.note("Clock fan-out: 74LVC2G34 at the header, both gates on IN, 33 R series termination per output",
+    s = Sheet("clk_buf", "A4", "Clock buffer (x10): 74LVC2G34, 47 R outputs")
+    s.note("Clock fan-out: 74LVC2G34, both gates on IN, 47 R series termination per output (with the ~20 R driver: matches the 61 ohm 0.25 mm clock traces)",
            25.4, 25.4)
-    s.note("Each output drives at most 4 loads (series termination works for a lumped load at the far end).",
+    s.note("Each output drives at most 4 loads, clustered at the far end of its trace (series termination needs that: sim/reports/mic_clock_si.md).",
            25.4, 30.48)
     s.note("100 k pull-down keeps the clock low while the FPGA is unconfigured.", 25.4, 35.56)
     fp = "Package_TO_SOT_SMD:SOT-363_SC-70-6"
@@ -618,7 +624,7 @@ def clk_buf():
     s.pwr("+3V3", "U1.5")
     s.pwr("GND", "U1.2")
     for ref, y, upin, port in (("R1", 76.2, "6", "OUT1"), ("R2", 101.6, "4", "OUT2")):
-        s.part("Device:R", ref, 157.48, y, "33 1%", R0603, rot=90)
+        s.part("Device:R", ref, 157.48, y, "47 1%", R0603, rot=90)
         s.wire(f"U1.{upin}", f"{ref}.1")
         s.hier(port, f"{ref}.2", shape="output")
     s.part("Device:R", "R3", 96.52, 116.84, "100k 1%", R0603)
@@ -686,28 +692,17 @@ def headers():
              ("R3", "TX_CLR_N", "GND", "595 cleared"),
              ("R4", "ADC_SHDNZ", "GND", "ADCs in hardware shutdown until the FPGA releases them"),
              ("R5", "ADC_SCL", "+3V3", "I2C pull-up"),
-             ("R11", "ADC_SDA1", "+3V3", "I2C pull-up, ADC group 1"),
-             ("R12", "ADC_SDA2", "+3V3", "I2C pull-up, ADC group 2"),
-             ("R13", "ADC_SDA3", "+3V3", "I2C pull-up, ADC group 3"),
-             ("R14", "ADC_SDA4", "+3V3", "I2C pull-up, ADC group 4")]
+             ("R6", "ADC_SDA1", "+3V3", "I2C pull-up, ADC group 1"),
+             ("R7", "ADC_SDA2", "+3V3", "I2C pull-up, ADC group 2"),
+             ("R8", "ADC_SDA3", "+3V3", "I2C pull-up, ADC group 3"),
+             ("R9", "ADC_SDA4", "+3V3", "I2C pull-up, ADC group 4")]
     s.note("Idle pulls (FPGA unconfigured), 10 k; I2C pull-ups 2.2 k (run the bus at 100 kHz). TX_SCK, TX_LATCH, "
            "ADC_BCLK, ADC_FSYNC and MIC_CLK_IN are pulled down in their clk_buf.", 30.48, 236.22)
-    # Ribbon end (sim/clock_si_in.cir, clock_si_drive.cir): with the FPGA at DRIVE 8 (~40 ohm)
-    # the unterminated 100-ohm ribbon rings to 3.7-4.0 V / -0.4..-0.7 V at the buffer input;
-    # DRIVE 4 (~80 ohm, near source match) gives 3.3 V / 0 V on every line with no parts.
-    # Fallback, not fitted: 100 R + 47 pF to GND per clock line (do not combine with DRIVE 4).
-    terms = ["TX_SCK", "TX_LATCH", "ADC_BCLK", "ADC_FSYNC", "MIC_CLK_IN"]
-    s.note("FPGA ribbon outputs: DRIVE 4, SLEW SLOW (near source-matched to the 100-ohm ribbon). "
-           "DNP fallback: RC end termination 100 R + 47 pF per clock, fit only with DRIVE 8.",
-           30.48, 176.53)
-    for k, net in enumerate(terms):
-        x = 50.8 + 40.64 * k
-        s.part("Device:R", f"R{6 + k}", x, 205.74, "100 1% DNP", R0603)
-        s.part("Device:C", f"C{1 + k}", x, 218.44, "47p 50V C0G DNP", C0603)
-        s.dnp += [f"R{6 + k}", f"C{1 + k}"]
-        s.glb(net, f"R{6 + k}.1", shape="input")
-        s.wire(f"R{6 + k}.2", f"C{1 + k}.1")
-        s.pwr("GND", f"C{1 + k}.2")
+    # Ribbon end (sim/clock_si_in.cir, clock_si_drive.cir): with the FPGA at DRIVE 4 (~80 ohm, near source match)
+    # every clock arrives at 3.3 V / 0 V with no parts; the RC end terminations once drawn here as a DNP fallback
+    # for DRIVE 8 were removed (user, 2026-10-26).
+    s.note("FPGA ribbon outputs: DRIVE 4, SLEW SLOW (near source-matched to the 100-ohm ribbon, "
+           "sim/reports/clock_si_drive.md): no termination parts needed.", 30.48, 176.53)
     for k, (ref, net, rail, _why) in enumerate(pulls):
         x = 50.8 + 40.64 * k
         s.part("Device:R", ref, x, 256.54, "2.2k 1%" if "ADC_S" in net and net != "ADC_SHDNZ" else "10k 1%", R0603)
@@ -812,18 +807,34 @@ def power():
         s.sym("GND", db)
         return rt
 
+    def snubber(rref, cref, node, x, ysn):
+        """Unfitted RC snubber on a switch node: wire from `node` (a point on its wire) to (x, ysn), then
+        R and C in a row to GND. Fitted only if a measurement shows ringing."""
+        ra, rb = h("R", rref, x, ysn, "4.7 1% DNP", R0603)
+        ca, cb = h("C", cref, x + 17.78, ysn, "470p 50V C0G DNP", C0603)  # apart: the long values stay readable
+        s.dnp += [rref, cref]
+        s.poly(node, (x, ysn), ra)
+        s.poly(rb, ca)
+        gx = x + 17.78 + 12.7                    # GND at the end of a stub, clear of the capacitor's value text
+        s.poly(cb, (gx, ysn))
+        s.sym("GND", (gx, ysn))
+
     def caps_to_gnd(*pairs):
         for kind, ref, x, y, val, fp in pairs:
             top, bot = v(kind, ref, x, y, val, fp)
             s.sym("GND", bot)
 
     # ---- A. 12 V input ---------------------------------------------------------------------
-    ox, oy = box("A", "A. 12 V INPUT: jack -> TPS26600 eFuse -> polyfuse -> VIN",
-                 "eFuse U8 (resettable, auto-retry): rated +-60 V (reverse polarity), on above 8.8 V, off above "
-                 "13.8 V (LM2731 input limit 14 V), current limit 1.6 A. F1 (2 A polyfuse) backs it up.",
-                 "UVLO/OVP divider 100k / 5.6k / 10k. ILIM 12 k/A -> 7.5k = 1.6 A. dVdT 22 nF: 5 V/ms soft start. "
-                 "IMON 72 uA/A into 15k = 1.08 V/A (TP IMON). FLT low = fault (TP FLT). MODE open = auto-retry, "
-                 "SHDN open = on.")
+    ox, oy = box("A", "1. 12 V INPUT: jack J9501 -> TPS26600 eFuse U9508 -> polyfuse F9501 -> VIN",
+                 "eFuse U9508 (resettable, auto-retry): rated +-60 V (reverse polarity), on above 8.8 V, off above "
+                 "13.8 V (LM2731 input limit 14 V), current limit 1.6 A. Polyfuse F9501 (2 A) backs it up. "
+                 "C9545 - L9505 - C9501 keep the switchers' ripple off the cable.",
+                 "UVLO/OVP divider R9522 / R9523 / R9524 (100k / 5.6k / 10k). ILIM R9525 7.5k = 1.6 A. dVdT C9543 "
+                 "22 nF: 5 V/ms soft start. IMON R9526 15k = 1.08 V/A (TP9514). FLT low = fault (TP9515). "
+                 "MODE open = auto-retry, SHDN open = on.",
+                 "RTN (pin 8, PowerPad) and the support parts sit on EFUSE_RTN, apart from GND: the chip's reverse-"
+                 "polarity block is between RTN and GND (tying them disables it). Board: an RTN copper island under "
+                 "U9508, clear of the GND planes.")
     ry = oy + 30.48
     ux = ox + 86.36                                                              # eFuse centre
     s.field_ov.append("J1=-7.62,-7.62,-7.62,-5.08")
@@ -840,19 +851,22 @@ def power():
     r22t, r22b = v("R", "R22", ux - 25.4, ry, "100k 1%", R0603)                   # UVLO/OVP divider, pins in line
     r23t, r23b = v("R", "R23", ux - 25.4, ry + 7.62, "5.6k 1%", R0603)            # with UVLO and OVP
     r24t, r24b = v("R", "R24", ux - 25.4, ry + 15.24, "10k 1%", R0603)
-    s.sym("GND", r24b)
+    s.lbl("EFUSE_RTN", r24b)                     # the eFuse's own reference (RTN), not system GND
     s.poly("J1.1", flag(ox + 22.86, ry), tp("TP13", ox + 30.48, ry, "VIN_JACK"), c44t, r22t, "U8.1")
     s.netname("VIN_JACK", (ux - 22.86, ry))
     s.poly(r23t, r22b, "U8.3")                                                   # UVLO
     s.poly(r24t, r23b, "U8.5")                                                   # OVP
     s.nc("U8.6", "U8.7")  # (pins 4 and 13 are no-connect pins of the symbol)
-    s.pwr("GND", "U8.9", "U8.8", "U8.17")
+    # RTN (pin 8) and the PowerPad are the eFuse's reference, kept apart from GND: the reverse-polarity block
+    # sits between RTN and GND inside the chip, and tying them disables it (TPS2660 datasheet 9.3.5.5)
+    s.pwr("GND", "U8.9")
+    s.lbl("EFUSE_RTN", "U8.8", "U8.17")
     # control pins on the right: each wire runs to its part, the lowest pin to the nearest column
     c43t, c43b = v("C", "C43", ux + 20.32, ry + 25.4, "22n 50V X7R", C0603)       # dVdT
     r25t, r25b = v("R", "R25", ux + 33.02, ry + 22.86, "7.5k 1%", R0603)          # ILIM
     r27t, r27b = v("R", "R27", ux + 45.72, ry + 5.08, "100k 1%", R0603)           # FLT pull-up to the input
     r26t, r26b = v("R", "R26", ux + 58.42, ry + 15.24, "15k 1%", R0603)           # IMON
-    s.sym("GND", c43b, r25b, r26b)
+    s.lbl("EFUSE_RTN", c43b, r25b, r26b)          # support parts to RTN (datasheet 9.3.5.5)
     s.poly("U8.12", c43t)
     s.poly("U8.11", r25t)
     s.poly("U8.14", tp("TP15", ux + 27.94, ry + 12.7, "FLT"), r27b)
@@ -861,16 +875,22 @@ def power():
     f1, f2 = h("F", "F1", ux + 73.66, ry, "SMD1812P200TF16", "Fuse:Fuse_1812_4532Metric")
     s.poly("U8.15", f1)
     s.netname("VIN_PROT", (ux + 60.96, ry))
-    caps_to_gnd(("CP", "C1", ux + 91.44, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
-                ("C", "C2", ux + 101.6, ry, "100n 50V X7R", C0603))
-    r1 = led("R1", "D2", ux + 111.76, ry, "10k 1%", "VIN")
-    s.poly(f2, "C1.1", "C2.1", r1, flag(ux + 121.92, ry), tp("TP1", ux + 132.08, ry, "VIN"), (ux + 144.78, ry))
-    s.sym("VIN", (ux + 144.78, ry))
+    # input filter: keeps the switchers' input ripple off the 12 V cable (C45 - L5 - C1, C1's ESR damps it)
+    caps_to_gnd(("C", "C45", ux + 91.44, ry, "10u 50V X7R 1210", C1210))
+    l5a, l5b = h("L", "L5", ux + 99.06, ry, "1u Isat>=4A", "Inductor_SMD:L_Sunlord_SWPA4030S")
+    s.poly(f2, "C45.1", l5a)
+    s.netname("VIN_F", (ux + 83.82, ry))
+    caps_to_gnd(("CP", "C1", ux + 114.3, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),
+                ("C", "C2", ux + 123.19, ry, "100n 50V X7R", C0603))
+    r1 = led("R1", "D2", ux + 130.81, ry, "10k 1%", "VIN")
+    s.poly(l5b, "C1.1", "C2.1", r1, flag(ux + 135.89, ry), tp("TP1", ux + 142.24, ry, "VIN"), (ux + 152.4, ry))
+    s.sym("VIN", (ux + 152.4, ry))
 
     # ---- B. +5V: TPS54302 buck --------------------------------------------------------------
-    ox, oy = box("B", "B. +5V: TPS54302 buck (TI reference design), 3 A",
-                 "Vout = 0.596 V x (1 + 75k/10k) = 5.07 V. EN UVLO about 7.3 V. Load about 1.6 A. "
-                 "SW_5V loop (C3, U1, L1) kept tight on the board.")
+    ox, oy = box("B", "2. +5V: TPS54302 buck U9501 (TI reference design), 3 A",
+                 "Vout = 0.596 V x (1 + 75k/10k) = 5.07 V (R9504 / R9505). EN UVLO about 7.3 V (R9502 / R9503). "
+                 "Load about 1.6 A. The switching loop C9503 - U9501 - L9501 is kept tight on the board. "
+                 "R9528 + C9546: switch-node snubber, DNP (fit only if the switch node rings).")
     ry = oy + 30.48
     s.field_ov.append("U1=-10.16,-10.16,-10.16,-7.62")
     s.part("Regulator_Switching:TPS54302", "U1", ox + 58.42, ry + 2.54, "TPS54302DDCR",
@@ -890,6 +910,7 @@ def power():
     s.poly("U1.6", (ox + 71.12, None), (None, ry - 7.62), c5t)
     s.poly(c5b, (None, ry + 2.54))
     l1a, l1b = h("L", "L1", ox + 81.28, ry + 2.54, "10u Isat>=5A", L8040)
+    snubber("R28", "C46", (ox + 80.01, ry + 2.54), ox + 80.01, ry - 12.7)            # SW_5V
     s.poly("U1.2", (ox + 76.2, ry + 2.54), l1a)                                 # SW
     s.netname("SW_5V", (ox + 74.93, ry + 2.54), 180)
     s.netname("BOOT_5V", (ox + 71.12, ry - 7.62), 180)
@@ -911,17 +932,19 @@ def power():
     s.sym("+5V", (ox + 210.82, yo))
 
     # ---- G. ground test points --------------------------------------------------------------------
-    ox, oy = box("G", "G. GROUND", "One GND net and plane (In1, In2). Scope-ground test points: TP9/TP10 "
-                 "at the power supply, TP16-TP19 spread over the board (ADC row, array sides, TX row). Power tree "
-                 "and bring-up checklist: Power 2.")
+    ox, oy = box("G", "GROUND TEST POINTS", "One GND net and plane (inner layers In1, In2). Scope-ground "
+                 "test points: TP9509 / TP9510 at the power supply, TP9516 - TP9519 spread over the board (ADC "
+                 "row, both array sides, TX row). Power tree and bring-up checklist: Power 2.")
     s.sym("GND", *(tp(f"TP{n}", ox + 7.62 + 15.24 * (k % 4), oy + 38.1 + 17.78 * (k // 4), "GND")
                    for k, n in enumerate((9, 10, 16, 17, 18, 19))), flag(ox + 53.34, oy + 55.88))
 
     # ---- C. +-6V5: TPS65131 ----------------------------------------------------------------------
-    ox, oy = box("C", "C. +-6V5: TPS65131RGER boost + inverter from +5V (feeds the analog LDOs only)",
+    ox, oy = box("C", "6. +-6V5: TPS65131RGER U9502, boost + inverter from +5V (feeds the analog LDOs only)",
                  "Drawn with the pin-identical TPS65130 symbol: order TPS65131RGER (2 A switches). "
-                 "PSP/PSN low: fixed-frequency PWM.",
-                 "+6V5 = 1.213 V x (1 + 562k/130k) = 6.46 V.   -6V5 = -1.213 V x 649k/121k = -6.51 V.")
+                 "PSP/PSN low: fixed-frequency PWM. R9529 + C9547 and R9530 + C9548: switch-node snubbers, DNP "
+                 "(fit only if a switch node rings).",
+                 "+6V5 = 1.213 V x (1 + 562k/130k) = 6.46 V (R9508 / R9509).   "
+                 "-6V5 = -1.213 V x 649k/121k = -6.51 V (R9511 / R9512).")
     cx, cy = ox + 76.2, oy + 50.8
     yi = cy - 27.94
     s.part("Regulator_Switching:TPS65130RGE", "U2", cx, cy, "TPS65131RGER",
@@ -942,37 +965,39 @@ def power():
     d4a, d4k = h("D", "D4", cx + 15.24, cy - 20.32, "SS14", SMA)
     s.poly((cx - 12.7, cy - 15.24), (None, cy - 20.32), d4a)
     s.netname("SW_P", (cx - 12.7, cy - 20.32))
+    snubber("R29", "C47", (cx + 2.54, cy - 20.32), cx + 2.54, cy - 30.48)            # SW_P
     s.pwr("+5V", "U2.5", "U2.8", "U2.10")                                         # INN, ENP, ENN
     s.pwr("GND", "U2.9", "U2.11")                                                 # PSP, PSN low
     s.nc("U2.7", "U2.12", "U2.20")
     s.tie("GND", "U2.19", "U2.25", "U2.2")
     # positive output, row cy-20.32
-    r8t, r8b = v("R", "R8", cx + 96.52, cy - 20.32, "562k 1%", R0603)
-    c14t, c14b = v("C", "C14", cx + 111.76, cy - 20.32, "6.8p 50V C0G", C0603)
-    r9t, r9b = v("R", "R9", cx + 96.52, cy - 12.7, "130k 1%", R0603)
+    r8t, r8b = v("R", "R8", cx + 96.52 + 15.24, cy - 20.32, "562k 1%", R0603)
+    c14t, c14b = v("C", "C14", cx + 111.76 + 15.24, cy - 20.32, "6.8p 50V C0G", C0603)
+    r9t, r9b = v("R", "R9", cx + 96.52 + 15.24, cy - 12.7, "130k 1%", R0603)
     s.field_ov += ["R8=2.54,-1.27,2.54,1.27", "R9=2.54,-1.27,2.54,1.27"]
     s.sym("GND", r9b)
-    caps_to_gnd(("C", "C15", cx + 124.46, cy - 20.32, "10u 25V X7R 1206", C1206),
-                ("C", "C16", cx + 134.62, cy - 20.32, "10u 25V X7R 1206", C1206))
-    j5a, j5b = jp("JP5", cx + 144.78, cy - 20.32, "+6V5")
+    caps_to_gnd(("C", "C15", cx + 124.46 + 15.24, cy - 20.32, "10u 25V X7R 1206", C1206),
+                ("C", "C16", cx + 134.62 + 15.24, cy - 20.32, "10u 25V X7R 1206", C1206))
+    j5a, j5b = jp("JP5", cx + 144.78 + 15.24, cy - 20.32, "+6V5")
     s.poly(d4k, (cx + 25.4, cy - 20.32), r8t, c14t, "C15.1", "C16.1", j5a)
     s.poly("U2.23", (cx + 25.4, None), (None, cy - 20.32))                        # VPOS sense
     s.netname("6V5_REG", (cx + 25.4, cy - 20.32))
-    s.netname("FBP", r8b, 180)
+    s.netname("FBP", (cx + 45.72, cy - 12.7))                                   # on its wire, off R8
     s.poly("U2.22", r8b)                                                          # FBP
     s.poly(c14b, r8b)
-    r10 = led("R10", "D5", cx + 162.56, cy - 20.32, "3.3k 1%", "+6V5")
-    s.poly(j5b, r10, tp("TP3", cx + 177.8, cy - 20.32, "+6V5"), flag(cx + 187.96, cy - 20.32), (cx + 198.12, cy - 20.32))
-    s.sym("+6V5", (cx + 198.12, cy - 20.32))
+    r10 = led("R10", "D5", cx + 157.48 + 15.24, cy - 20.32, "3.3k 1%", "+6V5")
+    s.poly(j5b, r10, tp("TP3", cx + 170.18 + 15.24, cy - 20.32, "+6V5"), flag(cx + 180.34 + 15.24, cy - 20.32), (cx + 187.96 + 15.24, cy - 20.32))
+    s.sym("+6V5", (cx + 187.96 + 15.24, cy - 20.32))
     # VREF, FBN divider (-6V5 -> FBN -> VREF), VNEG sense
     r12t, r12b = v("R", "R12", cx + 58.42, cy - 10.16, "121k 1%", R0603)
-    c18t, c18b = v("C", "C18", cx + 86.36, cy - 10.16, "220n 16V X7R", C0603)
-    s.field_ov += ["R12=2.54,-1.27,2.54,1.27", "R11=2.54,-1.27,2.54,1.27"]
+    c18t, c18b = v("C", "C18", cx + 91.44, cy - 10.16, "220n 16V X7R", C0603)
+    s.field_ov += ["R12=2.54,-1.27,2.54,1.27", "R11=2.54,-1.27,2.54,1.27",   # text right of the part, clear
+                   "C17=2.54,-1.27,2.54,1.27", "C18=2.54,-1.27,2.54,1.27"]   # of the divider beside it
     s.sym("GND", c18b)
     s.poly("U2.17", r12t, c18t)                                                   # VREF
     s.netname("VREF65", r12t, 180)
     r11t, r11b = v("R", "R11", cx + 58.42, cy - 2.54, "649k 1%", R0603)
-    c17t, c17b = v("C", "C17", cx + 73.66, cy - 2.54, "7.5p 50V C0G", C0603)
+    c17t, c17b = v("C", "C17", cx + 76.2, cy - 2.54, "7.5p 50V C0G", C0603)
     s.poly("U2.16", (cx + 55.88, None), (None, cy - 2.54), r12b, c17t)
     s.netname("FBN", (cx + 55.88, cy - 5.08), 180)          # FBN
     s.poly("U2.15", (cx + 50.8, None), (None, cy + 5.08))                        # VNEG sense
@@ -982,9 +1007,10 @@ def power():
     d6k, d6a = h("D", "D6", cx + 39.37, cy + 5.08, "SS14", SMA, k_left=True)
     s.poly("U2.13", l3t, d6k)
     s.netname("SW_N", l3t)
-    caps_to_gnd(("C", "C21", cx + 124.46, cy + 5.08, "10u 25V X7R 1206", C1206),
-                ("C", "C22", cx + 134.62, cy + 5.08, "10u 25V X7R 1206", C1206))
-    j6a, j6b = jp("JP6", cx + 144.78, cy + 5.08, "-6V5")
+    snubber("R30", "C48", (cx + 38.1, cy + 5.08), cx + 38.1, cy + 22.86)             # SW_N
+    caps_to_gnd(("C", "C21", cx + 124.46 + 15.24, cy + 5.08, "10u 25V X7R 1206", C1206),
+                ("C", "C22", cx + 134.62 + 15.24, cy + 5.08, "10u 25V X7R 1206", C1206))
+    j6a, j6b = jp("JP6", cx + 144.78 + 15.24, cy + 5.08, "-6V5")
     s.poly(d6a, (cx + 50.8, cy + 5.08), r11b, c17b, "C21.1", "C22.1", j6a)
     s.netname("-6V5_REG", "C22.1")
     c20t, c20b = v("C", "C20", cx + 25.4, cy + 7.62, "4.7n 50V C0G", C0603)     # CN
@@ -992,12 +1018,12 @@ def power():
     s.sym("GND", c20b, c19b)
     s.poly("U2.18", c20t)
     s.poly("U2.21", c19t)
-    r13 = led("R13", "D7", cx + 162.56, cy + 5.08, "3.3k 1%", "-6V5", negative=True)
-    s.poly(j6b, r13, tp("TP4", cx + 177.8, cy + 5.08, "-6V5"), flag(cx + 187.96, cy + 5.08), (cx + 198.12, cy + 5.08))
-    s.sym("-6V5", (cx + 198.12, cy + 5.08))
+    r13 = led("R13", "D7", cx + 157.48 + 15.24, cy + 5.08, "3.3k 1%", "-6V5", negative=True)
+    s.poly(j6b, r13, tp("TP4", cx + 170.18 + 15.24, cy + 5.08, "-6V5"), flag(cx + 180.34 + 15.24, cy + 5.08), (cx + 187.96 + 15.24, cy + 5.08))
+    s.sym("-6V5", (cx + 187.96 + 15.24, cy + 5.08))
 
     # ---- D. analog LDOs ------------------------------------------------------------------------
-    ox, oy = box("D", "D. +-5VA: TPS7A4700 / TPS7A3301 low-noise LDOs",
+    ox, oy = box("D", "7. +-5VA: low-noise LDOs TPS7A4700 U9503 / TPS7A3301 U9504",
                  "+5VA: ANY-OUT 1.4 + 3.2 + 0.4 = 5.0 V.  -5VA = -1.176 V x (1 + 715k/220k) = -5.00 V.",
                  "Load: 64 x OPA1678 (4 mA per channel), about 0.3 A on each rail. Analog rails: no LEDs.")
     cx, cy = ox + 40.64, oy + 40.64
@@ -1032,19 +1058,20 @@ def power():
     s.sym("-6V5", (ox + 5.08, ry))
     s.poly((ox + 5.08, ry), "C27.1", (cx - 15.24, ry), "U4.15")
     s.poly("U4.13", (cx - 15.24, None), (None, ry))                              # EN to IN
-    c28t, c28b = v("C", "C28", cx - 17.78, cy + 2.54, "1u 16V X7R", C0603)       # NR/SS
+    c28t, c28b = v("C", "C28", cx - 25.4, cy + 2.54, "1u 16V X7R", C0603)        # NR/SS
     s.sym("GND", c28b)
     s.poly("U4.14", c28t)
     s.netname("NR_M5VA", c28t)
     s.tie("GND", "U4.21", "U4.7")
-    s.field_ov += ["R14=2.54,-1.27,2.54,1.27", "R15=2.54,-1.27,2.54,1.27"]  # clear of the FB label
+    s.field_ov += ["R14=2.54,-1.27,2.54,1.27", "R15=2.54,-1.27,2.54,1.27",  # clear of the FB label
+                   "C29=2.54,-1.27,2.54,1.27"]
     r14t, r14b = v("R", "R14", cx + 20.32, ry, "715k 1%", R0603)
-    c29t, c29b = v("C", "C29", cx + 33.02, ry, "10n 50V C0G", C0603)
+    c29t, c29b = v("C", "C29", cx + 38.1, ry, "10n 50V C0G", C0603)
     r15t, r15b = v("R", "R15", cx + 20.32, cy + 7.62, "220k 1%", R0603)
     s.poly(r14b, r15t)
     s.sym("GND", r15b)
-    caps_to_gnd(("C", "C30", cx + 45.72, ry, "22u 16V X7R 1210", C1210))
-    j3a, j3b = jp("JP3", cx + 55.88, ry, "-5VA")
+    caps_to_gnd(("C", "C30", cx + 53.34, ry, "22u 16V X7R 1210", C1210))
+    j3a, j3b = jp("JP3", cx + 60.96, ry, "-5VA")
     s.poly("U4.1", r14t, c29t, "C30.1", j3a)
     s.poly("U4.3", r14b, c29b)                                                   # FB
     s.netname("FB_M5VA", r14b, 180)
@@ -1053,8 +1080,8 @@ def power():
     s.sym("-5VA", (cx + 106.68, ry))
 
     # ---- H. 3V3_MIC --------------------------------------------------------------------------------
-    ox, oy = box("H", "H. 3V3_MIC: mic supply", "Ferrite-filtered +3V3 for the 8 MEMS mics. "
-                 "Remove FB1 to isolate.")
+    ox, oy = box("H", "5. 3V3_MIC: mic supply", "Ferrite-filtered +3V3 for the 8 MEMS mics. "
+                 "Remove FB9501 to isolate.")
     ry = oy + 25.4
     fa, fb_ = h("FB", "FB1", ox + 15.24, ry, "600R@100MHz 0603", "Inductor_SMD:L_0603_1608Metric")
     caps_to_gnd(("C", "C38", ox + 33.02, ry, "10u 16V X5R", C0805))
@@ -1065,18 +1092,23 @@ def power():
     s.sym("3V3_MIC", (ox + 91.44, ry))
 
     # ---- E. VDRV ----------------------------------------------------------------------------------
-    ox, oy = box("E", "E. VDRV 15 V: LM2731X boost from VIN",
-                 "1.23 V x (1 + 150k/13k) = 15.4 V. Load, all 64 elements in CW at 40 kHz: about 0.24 A "
-                 "(sim/reports/tx_cw.md). Remove the J2 shunt to unpower every TX driver.")
+    ox, oy = box("E", "4. VDRV 15 V: LM2731X boost U9505 from VIN",
+                 "1.23 V x (1 + 150k/13k) = 15.4 V (R9517 / R9518). Load, all 64 elements in CW at 40 kHz: about "
+                 "0.24 A (sim/reports/tx_cw.md). Remove the J9502 shunt to unpower every TX driver. "
+                 "R9531 + C9549: switch-node snubber, DNP (fit only if the switch node rings). C9550 100 uF "
+                 "electrolytic: damped bulk on VIN at the power row, the far end of the 280 mm feed from the jack "
+                 "(its ESR damps the feed inductance against the ceramic input caps; keeps the switchers' ripple "
+                 "current local).")
     cx, cy = ox + 45.72, oy + 33.02
     ry = cy - 12.7
     s.field_ov.append("U5=7.62,10.16,7.62,12.7")
     s.part("Regulator_Switching:LM2731XMF", "U5", cx, cy, "LM2731XMF", "Package_TO_SOT_SMD:SOT-23-5")
-    caps_to_gnd(("C", "C31", ox + 12.7, ry, "10u 50V X7R 1210", C1210))
+    caps_to_gnd(("C", "C31", ox + 12.7, ry, "10u 50V X7R 1210", C1210),
+                ("CP", "C50", ox + 19.05, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"))   # damped VIN bulk
     r16t, r16b = v("R", "R16", cx - 20.32, ry, "51k 1%", R0603)
     l4a, l4b = h("L", "L4", cx, ry, "10u Isat>=2A", L6045)
     s.sym("VIN", (ox + 5.08, ry))
-    s.poly((ox + 5.08, ry), "C31.1", r16t, (cx - 12.7, ry), l4a)
+    s.poly((ox + 5.08, ry), "C31.1", "C50.1", r16t, (cx - 12.7, ry), l4a)
     s.poly((cx - 12.7, ry), (None, cy - 2.54), "U5.5")                           # VIN
     s.poly(r16b, (None, cy + 2.54), "U5.4")                                       # EN
     s.netname("EN_VDRV", (cx - 20.32, cy + 2.54))
@@ -1085,6 +1117,7 @@ def power():
     d8a, d8k = h("D", "D8", cx + 17.78, cy - 2.54, "SS14", SMA)
     s.poly("U5.1", d8a)
     s.netname("SW_VDRV", (cx + 10.16, cy - 2.54))
+    snubber("R31", "C49", (cx + 12.7, cy - 2.54), cx + 12.7, cy - 17.78)             # SW_VDRV
     r17t, r17b = v("R", "R17", cx + 27.94, cy - 2.54, "150k 1%", R0603)
     c32t, c32b = v("C", "C32", cx + 40.64, cy - 2.54, "180p 50V C0G", C0603)
     r18t, r18b = v("R", "R18", cx + 27.94, cy + 10.16, "13k 1%", R0603)
@@ -1105,15 +1138,18 @@ def power():
     s.sym("VDRV", (cx + 139.7, cy + 10.16))
 
     # ---- F. +3V3 -----------------------------------------------------------------------------------
-    ox, oy = box("F", "F. +3V3: TLV75733P LDO from +5V",
-                 "1 A, stable with ceramic caps. Load < 0.15 A: ADC IOVDD, clock buffers, logic, mics.")
+    ox, oy = box("F", "3. +3V3: TLV75733P LDO U9506 from +5V",
+                 "1 A, stable with ceramic caps. Load < 0.15 A: ADC IOVDD, clock buffers, logic, mics. "
+                 "C9551 100 uF electrolytic: damped bulk at the end of the 300 mm +5V run from the buck, for "
+                 "both top LDOs (U9506, U9507).")
     cx, cy = ox + 33.02, oy + 30.48
     ry = cy - 2.54
     s.field_ov.append("U6=-7.62,-10.16,-7.62,-7.62")
     s.part("Regulator_Linear:TLV75733PDBV", "U6", cx, cy, "TLV75733PDBVR", "Package_TO_SOT_SMD:SOT-23-5")
-    caps_to_gnd(("C", "C36", ox + 15.24, ry, "10u 16V X5R", C0805))
+    caps_to_gnd(("CP", "C51", ox + 10.16, ry, "100u 25V", "Capacitor_SMD:CP_Elec_8x10"),   # damped +5V bulk
+                ("C", "C36", ox + 17.78, ry, "10u 16V X5R", C0805))
     s.sym("+5V", (ox + 5.08, ry))
-    s.poly((ox + 5.08, ry), "C36.1", (cx - 10.16, ry), "U6.1")
+    s.poly((ox + 5.08, ry), "C51.1", "C36.1", (cx - 10.16, ry), "U6.1")
     s.poly("U6.3", (cx - 10.16, None), (None, ry))                               # EN to IN
     s.nc("U6.4")
     s.sym("GND", "U6.2")
@@ -1126,7 +1162,7 @@ def power():
     s.sym("+3V3", (cx + 91.44, ry))
 
     # ---- I. +3V3A ----------------------------------------------------------------------------------
-    ox, oy = box("I", "I. +3V3A: TPS7A4700 low-noise LDO from +5V",
+    ox, oy = box("I", "8. +3V3A: TPS7A4700 low-noise LDO U9507 from +5V",
                  "AVDD of the 16 ADCs (analog rail: no LED). ANY-OUT 1.4 + 1.6 + 0.2 + 0.1 = 3.3 V. Load about "
                  "0.45 A; 0.8 W in the LDO, thermal vias under the pad.")
     cx, cy = ox + 40.64, oy + 40.64
@@ -1155,18 +1191,19 @@ def power():
 
     # ---- N. power tree and bring-up --------------------------------------------------------------
     box("N", "POWER TREE, BRING-UP",
-        "Power 1: A input, B +5V, E VDRV, F +3V3, H 3V3_MIC, G ground. Power 2: C +-6V5, D +-5VA, I +3V3A.",
-        "12 V jack -> eFuse U8 -> F1 -> VIN.",
-        "VIN -> U1 buck -> +5V.  VIN -> U5 boost -> VDRV.",
-        "+5V -> U2 -> +-6V5 -> U3 / U4 -> +-5VA (receivers).",
-        "+5V -> U7 -> +3V3A (ADC AVDD).",
-        "+5V -> U6 -> +3V3 -> FB1 -> 3V3_MIC.",
-        "First power-up: J2 shunt off, bench supply 12 V limited to 0.3 A. Expect at the test points:",
+        "Power 1: sections 1-5 (input, +5V, +3V3, VDRV, 3V3_MIC) and the ground test points. "
+        "Power 2: sections 6-8 (+-6V5, +-5VA, +3V3A).",
+        "1. 12 V jack J9501 -> eFuse U9508 -> F9501 -> VIN.",
+        "2. VIN -> buck U9501 -> +5V.   4. VIN -> boost U9505 -> VDRV.",
+        "3. +5V -> LDO U9506 -> +3V3 -> 5. FB9501 -> 3V3_MIC.",
+        "6. +5V -> U9502 -> +-6V5 -> 7. LDOs U9503 / U9504 -> +-5VA (receivers).",
+        "8. +5V -> LDO U9507 -> +3V3A (ADC AVDD).",
+        "First power-up: J9502 shunt off, bench supply 12 V limited to 0.3 A. Expect at the test points:",
         "VIN 12 V, +5V 5.07 V, +3V3 3.30 V, 3V3_MIC 3.3 V,",
         "+6V5 6.46 V, -6V5 -6.51 V, +5VA 5.00 V,",
         "-5VA -5.00 V, +3V3A 3.30 V.",
-        "IMON 1.08 V per A in. FLT high (low = eFuse fault).",
-        "Then fit J2: VDRV 15.4 V.",
+        "IMON (TP9514) 1.08 V per A in. FLT (TP9515) high (low = eFuse fault).",
+        "Then fit the J9502 shunt: VDRV 15.4 V.",
         "A wrong rail: cut its jumper, measure the regulator side (*_REG) and the load side apart.")
     for sh in sheets.values():
         sh.build()

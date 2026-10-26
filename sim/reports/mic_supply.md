@@ -38,4 +38,4 @@ How much of the noise on +3V3 reaches the microphones, versus frequency. 0 dB = 
 - Gate driver, clock buffers and the FPGA outputs: simple behavioural models (values in each netlist header).
 - The channel circuit is exported from `kicad/channel.kicad_sch` at the start of every run.
 
-Run 2026-10-23 22:25 with LTspice by `sim/run.py mic_supply`. Testbench: `sim/mic_supply.cir`.
+Run 2026-10-25 01:51 with LTspice by `sim/run.py mic_supply`. Testbench: `sim/mic_supply.cir`.
