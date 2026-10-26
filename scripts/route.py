@@ -764,7 +764,7 @@ def stage_trunks(board):
 
 
 # ---- stage: power sections ------------------------------------------------------------------------------
-POWER_ROUTED = {"A", "C"}                # sections with hand-made routing (block_routes); the rest: stage_oneoff
+POWER_ROUTED = {"A", "B", "C"}                # sections with hand-made routing (block_routes); the rest: stage_oneoff
 RTN_ISLAND = (3.4, 27.4, 15.8, 38.0)     # the eFuse's RTN copper (back), around U8 and its RTN-side parts
 
 
@@ -796,6 +796,13 @@ def stage_power(board):
     for net, x, y in vc:
         add_via(board, net, x, y, *GND_VIA)
     out.append(f"section C (+-6V5): {len(tc)} tracks, {len(vc)} vias")
+    from block_routes import power_buck5v
+    tb, vb = power_buck5v(power_section_fps(board, "B"))
+    for net, layer, w, pts in tb:
+        add_track(board, net, pts, w, pcbnew.F_Cu if layer == "F" else pcbnew.B_Cu)
+    for net, x, y in vb:
+        add_via(board, net, x, y, *GND_VIA)
+    out.append(f"section B (+5V buck): {len(tb)} tracks, {len(vb)} vias")
     rtn = next(p.GetNetname() for f in fps if f.GetReference() == "U9508" for p in f.Pads() if p.GetNumber() == "8")
     z = supply_zone(board, rtn, pcbnew.B_Cu, *RTN_ISLAND, priority=2)
     z.SetZoneName("EFUSE_RTN island")

@@ -431,4 +431,71 @@ def power_pm6v5(fps):
     return t, v
 
 
+def power_buck5v(fps):
+    """TPS54302 +5V buck (place.py POWER_CORES["B"]), routed by hand after the datasheet's layout guidelines
+    (7.4.1). Coordinates are drawn for U1 at (176.86, 301.2) on the back and move with the template (u()).
+    - Input: C4 (100 nF) and C3 (10 uF) stacked over VIN (pin 3), one 0.8 mm run; their GND pads share two vias,
+      the GND pin (1) has its own: the loop closes through the plane 0.2 mm below.
+    - SW: 0.6 mm neck out of pin 2, 1 mm into L1; the boot cap's SW end and the snubber (DNP) reach L1's switch
+      pad on the back copper (no switching current on the front or under the IC).
+    - Output: a 1.6 mm bar from L1 across C6 and C7, 1 mm up to JP1; the FB divider gets its own sense line from
+      JP1's regulator side (Kelvin), and the FB node stays under 3 mm, right of the IC, away from SW.
+    - EN divider beside it; R2's VIN end is left to the supply routing (VIN is an inter-block net).
+    - +5V: JP1 - TP2 - R6 on one line, D3's GND a via."""
+    P = Pads(fps)
+    cx, cy = xy(P.p[("U1", "1")].GetParentFootprint().GetPosition())
+    if abs(P.at("U1", 1)[0] - cx + 1.14) > 0.05:
+        raise ValueError("power_buck5v: U1 orientation differs from the template")
+
+    def u(x, y):
+        return (round(x - 176.86 + cx, 3), round(y - 301.2 + cy, 3))
+
+    def run(net, w, *pts):
+        t.append((net, "B", w, [u(*q) for q in pts]))
+    t, v = [], []
+    n = lambda ref, pad: P.net(ref, pad)
+    VIN, SW, BOOT, FB, EN, OUT, P5 = (n("U1", 3), n("U1", 2), n("U1", 6), n("U1", 4), n("U1", 5), n("L1", 2),
+                                      n("JP1", 2))
+    # input loop
+    run(VIN, 0.8, (175.6, 300.25), (175.6, 296.0))
+    run("GND", 0.6, (177.67, 298.6), (178.38, 297.9), (178.38, 296.0))
+    gnd = [(178.85, 298.95), (178.4, 294.0), (175.2, 302.95)]
+    run("GND", 0.6, (178.38, 297.9), (178.85, 298.95))
+    run("GND", 0.6, (178.38, 296.0), (178.38, 294.6), (178.4, 294.0))
+    run("GND", 0.4, (175.72, 302.15), (175.2, 302.95))
+    # switch node, boot cap, snubber
+    run(SW, 0.6, (175.72, 301.2), (174.4, 301.2))
+    run(SW, 1.0, (174.4, 301.2), (173.4, 301.2))
+    run(SW, 0.5, (174.0, 303.9), (176.42, 303.9))
+    run(BOOT, 0.3, (177.99, 302.15), (177.98, 303.9))
+    run(SW, 0.3, (172.07, 306.13), (172.07, 304.4))
+    run(n("R28", 2), SIG, (173.72, 306.6), (175.42, 306.6))
+    run("GND", GNDW, (176.97, 306.6), (178.0, 306.6))
+    gnd.append((178.0, 306.6))
+    # output
+    run(OUT, 1.6, (167.03, 300.8), (163.4, 300.8))
+    run(OUT, 1.0, (166.3, 298.2), (166.3, 293.15))
+    for x, y, gy in ((163.76, 296.73, 295.4), (163.76, 304.88, 306.2)):
+        run("GND", 0.6, (x, y), (x, gy))
+        gnd.append((x, gy))
+    # FB: Kelvin sense from JP1's regulator side to R4 / C8; the FB node right of the IC
+    run(OUT, 0.25, (166.3, 292.65), (166.3, 291.4), (166.7, 291.0), (180.7, 291.0), (181.1, 291.4), (181.1, 296.78))
+    run(OUT, 0.25, (180.2, 296.78), (182.0, 296.78))
+    run(FB, SIG, (177.99, 300.25), (179.4, 300.25), (179.77, 299.88), (180.2, 299.88), (180.2, 298.42), (182.0, 298.42))
+    run("GND", GNDW, (180.2, 301.52), (181.3, 301.52))
+    gnd.append((181.3, 301.52))
+    # EN divider
+    run(EN, SIG, (177.99, 301.2), (179.2, 301.2), (179.2, 304.4), (179.62, 304.82), (180.2, 304.82), (182.0, 303.18))
+    run("GND", GNDW, (182.0, 304.82), (182.0, 305.9))
+    gnd.append((182.0, 305.9))
+    # +5V indicator line, LED GND via
+    run(P5, 0.5, (167.6, 292.9), (172.07, 292.9))
+    run(n("R6", 2), SIG, (173.72, 292.9), (175.11, 292.9))
+    run("GND", GNDW, (176.69, 292.9), (177.9, 292.9))
+    gnd.append((177.9, 292.9))
+    for g in gnd:
+        v.append(("GND",) + u(*g))
+    return t, v
+
+
 BLOCK_ROUTES = {"CLKB": clock_buffer, "TXEN": enable_buffer, "MIC": mic, "TXG": tx_group, "ADC": adc}

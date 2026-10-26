@@ -415,7 +415,15 @@ POWER_CORES = {"E": {"U5": (12.0, 8.0, 0), "L4": (5.0, 8.95, 0), "D8": (11.0, 13
                # the isolation jumper JP1 above them, C3 at VIN (pin 3); the FB divider, boot cap and enable
                # divider are placed first at their pins (POWER_WEIGHTS), on the far side of the IC from L1
                "B": {"U1": (14.51, 10.9, 0), "L1": (7.51, 11.0, 180), "C6": (1.41, 7.9, 90), "C7": (1.41, 13.1, 270),
-                     "C3": (14.1, 6.3, 90), "JP1": (4.6, 2.6, 0)}}
+                     # input caps stacked over VIN (pin 3): 100 nF nearest, 10 uF above it
+                     "C4": (14.55, 8.3, 0), "C3": (14.55, 5.7, 0),
+                     # boot cap under the IC (BOOT pin 6 to the switch node), snubber (DNP) under L1's switch pad
+                     "C5": (14.85, 13.6, 180), "R28": (10.55, 16.3, 0), "C46": (13.85, 16.3, 0),
+                     # FB divider (with its feed-forward cap) and EN divider in a column right of the IC
+                     "R4": (17.85, 7.3, 270), "C8": (19.65, 7.3, 270), "R5": (17.85, 10.4, 270),
+                     "R2": (17.85, 13.7, 270), "R3": (19.65, 13.7, 270),
+                     # jumper, test point, LED resistor and LED on one +5V line along the top
+                     "JP1": (4.6, 2.6, 0), "TP2": (7.55, 2.6, 0), "R6": (10.55, 2.6, 0), "D3": (13.55, 2.6, 180)}}
 # A = TPS26600 eFuse (datasheet 12.1: the ILIM, dVdT, IMON, MODE, UVLO and OVP parts close to their pins, the
 # 100 nF IN bypass tight to IN and GND)
 # A = 12 V input (TPS26600 eFuse, datasheet 12.1 / Figure 71), in the left margin under the jack, absolute board
@@ -713,10 +721,12 @@ def netclasses():
     pro = json.loads(PRO.read_text(encoding="utf-8"))
     base = pro["net_settings"]["classes"][0]
 
+    order = ["HighCurrent", "Power", "Drive", "Analog", "Clock"]
+
     def cls(name, track, clear, via_d=0.6, via_drill=0.3):
         c = dict(base)
         c.update(name=name, track_width=track, clearance=clear, via_diameter=via_d, via_drill=via_drill,
-                 priority=len(pro["net_settings"]["classes"]))
+                 priority=order.index(name) + 1)        # fixed, so the project file is the same on every run
         return c
     base.update(track_width=0.2, clearance=0.2)   # 0.2 keeps 0.6 mm vias 0.5 mm apart hole to hole (JLC)
     pro["net_settings"]["classes"] = [
